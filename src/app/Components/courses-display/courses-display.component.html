@@ -1,0 +1,101 @@
+<div class="container flex gap-3 justify-content-between  ">
+    <div class="filter surface-50 shadow-4  p-5">
+        <div class="head mb-5 ">
+            <i class="pi pi-filter"></i> Filters
+        </div>
+        <div class="fcont flex flex-column gap-5">
+            <div class="pricefilter">
+                <div class="flex align-items-center justify-content-between mb-2 text-lg font-bold text-500  ">
+                    Price
+                    <span *ngIf="price" class="cursor-pointer text-sm font-normal  " (click)="clearFilter('price')">
+                        <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear filter
+                    </span>
+                </div>
+                <p-selectButton [options]="priceOption" [(ngModel)]="price" optionLabel="name"
+                    optionValue="value"></p-selectButton>
+            </div>
+            <div class="language">
+                <div class="flex align-items-center justify-content-between mb-2 text-lg font-bold text-500  ">
+                    Language
+                    <span *ngIf="lang" class=" cursor-pointer text-sm font-normal  " (click)="clearFilter('lang')">
+                        <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear filter
+                    </span>
+                </div>
+                <p-selectButton [options]="language" [(ngModel)]="lang" optionLabel="name"
+                    optionValue="value"></p-selectButton>
+            </div>
+            <div class="level">
+                <div class="flex align-items-center justify-content-between  mb-2 text-lg font-bold text-500  ">
+                    Level
+                    <span *ngIf="level" class=" cursor-pointer text-sm font-normal  " (click)="clearFilter('level')">
+                        <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear filter
+                    </span>
+                </div>
+                <div class="flex flex-column gap-1 ">
+                    <div class="flex align-items-center gap-1 ">
+                        <p-radioButton name="level" value="all" [(ngModel)]="level" inputId="level0"></p-radioButton>
+                        <label for="level0" class="ml-2">All levels</label>
+                    </div>
+                    <div class="flex align-items-center gap-1 ">
+                        <p-radioButton name="level" value="Beginner" [(ngModel)]="level"
+                            inputId="level1"></p-radioButton>
+                        <label for="level1" class="ml-2">Beginner</label>
+                    </div>
+
+                    <div class="flex align-items-center gap-1 ">
+                        <p-radioButton name="level" value="Intermediate" [(ngModel)]="level"
+                            inputId="level2"></p-radioButton>
+                        <label for="level2" class="ml-2">Intermediate</label>
+                    </div>
+
+                    <div class="flex align-items-center gap-1 ">
+                        <p-radioButton name="level" value="Advanced" [(ngModel)]="level"
+                            inputId="level3"></p-radioButton>
+                        <label for="level3" class="ml-2">Advanced</label>
+                    </div>
+                </div>
+            </div>
+            <span *ngIf="level && price && lang" class=" cursor-pointer text-sm font-normal  "
+                (click)="clearFilter('')">
+                <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear All Filters
+            </span>
+        </div>
+    </div>
+    <div class="coursescont " style="width: 75%;">
+        <p-dataView #dv [value]="courses" [rows]="5" [paginator]="true">
+            <ng-template let-courses pTemplate="list">
+                <div class="grid grid-nogutter  ">
+                    <div routerLink="/course" class="col-12 hover:bg-green-50" *ngFor="let item of courses; let first = first">
+                        <div class=" hover:border-green-500 hover:border-top-2 cursor-pointer flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+                            [ngClass]="{ 'border-top-1 surface-border': !first }">
+                            <div class="imgcont w-2">
+                                <img [src]="item.coursePoster.url" [alt]="item.title" class="w-full border-round " />
+                            </div>
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-1">
+                                    <div class="text-lg font-bold text-900 font-bold">{{ item.title }}</div>
+                                    <div class="subtitle text-sm text-900 "> Master Angular and build awesome, reactive
+                                        web apps
+                                        with the
+                                        successor of Angular.js </div>
+                                    <div class="text-sm ">
+                                        Instructor - {{item.educator.edname}}
+                                    </div>
+                                    <div class="lec text-sm flex gap-2    ">
+                                        <span class="lecture">123 lecutres</span> |
+                                        <span class="lecture">{{item.level}}</span> |
+                                        <span class="lecture">{{item.language}}</span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="text-xl font-semibold">{{ '$' + item.price }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </div>
+</div>

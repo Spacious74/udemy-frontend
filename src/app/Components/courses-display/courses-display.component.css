@@ -1,0 +1,18 @@
+.head {
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: "General Sans";
+  margin-bottom: 1rem;
+}
+.container {
+  position: relative;
+  box-sizing: border-box;
+}
+.filter {
+  width: 25%;
+  height: 90vh;
+}
+.coursescont {
+  height: 90vh;
+  overflow-y: scroll;
+}

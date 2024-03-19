@@ -1,0 +1,33 @@
+.footer {
+  background: linear-gradient(135deg, #1a251a 50%, #3f553f);
+}
+.link {
+  text-decoration: none;
+  color: #8cdf7c;
+}
+.link:hover {
+  text-decoration: underline;
+}
+.name {
+  text-shadow: 0px 0px 3px #ffffff;
+  letter-spacing: 1px;
+}
+.topbtn {
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 200px;
+  position: absolute;
+  bottom: 6%;
+  right: 5%;
+  text-decoration: none;
+}
+
+.container {
+  width: 90%;
+}
+.heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: "General Sans";
+}

@@ -1,0 +1,46 @@
+<nav class="nav-container">
+    <div class="navbar flex justify-content-between justify-content-between align-items-center m-auto ">
+
+        <div class="left w-9 flex align-items-center gap-2">
+            <span routerLink="/"  class=" cursor-pointer logo w-2">
+                Skill Up.
+            </span>
+            <div class="select p-fluid w-3">
+                <p-cascadeSelect [(ngModel)]="selectedCity" [options]="categories" optionLabel="name"
+                    optionGroupLabel="cname" [optionGroupChildren]="['subCateogry']" placeholder="Categories"
+                    class="w-full p-inputtext-sm"></p-cascadeSelect>
+            </div>
+            <div class="p-input-icon-left p-fluid w-6">
+                <i class="pi pi-search"></i>
+                <input type="text" class="p-inputtext-sm" placeholder="Search for courses..." pInputText
+                    [(ngModel)]="searchText" />
+            </div>
+        </div>
+
+        <div class="right w-5 flex justify-content-end align-items-center gap-4">
+            <ul class="links list-none flex align-items-center gap-4 ">
+                <li class="cursor-pointer hover:text-green-700 flex align-items-center gap-1 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 16 16">
+                        <path fill="currentColor"
+                            d="M11.5 2A2.5 2.5 0 0 1 14 4.5v2.1a5.465 5.465 0 0 0-1-.393V6H3v5.5A1.5 1.5 0 0 0 4.5 13h1.707c.099.349.23.683.393 1H4.5A2.5 2.5 0 0 1 2 11.5v-7A2.5 2.5 0 0 1 4.5 2zm0 1h-7A1.5 1.5 0 0 0 3 4.5V5h10v-.5A1.5 1.5 0 0 0 11.5 3m0 13a4.5 4.5 0 1 0 0-9a4.5 4.5 0 0 0 0 9m-.74-6.545a.45.45 0 0 1 .26.079l2.296 1.506a.499.499 0 0 1 .229.426a.535.535 0 0 1-.091.3a.46.46 0 0 1-.13.128l-2.296 1.567a.545.545 0 0 1-.13.063a.453.453 0 0 1-.323-.018a.57.57 0 0 1-.158-.111a.504.504 0 0 1-.145-.357V9.962a.51.51 0 0 1 .3-.466a.435.435 0 0 1 .189-.042" />
+                    </svg>
+                    My Playlist
+                </li>
+                <li routerLink="/cart" class="cursor-pointer hover:text-green-700  flex align-items-center gap-1 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M2.5 4.25a.75.75 0 0 1 .75-.75h.558c.95 0 1.52.639 1.845 1.233c.217.396.374.855.497 1.271A1.29 1.29 0 0 1 6.25 6h12.498c.83 0 1.43.794 1.202 1.593l-1.828 6.409a2.75 2.75 0 0 1-2.644 1.996H9.53a2.75 2.75 0 0 1-2.652-2.022l-.76-2.772l-1.26-4.248l-.001-.008c-.156-.567-.302-1.098-.52-1.494C4.128 5.069 3.96 5 3.809 5H3.25a.75.75 0 0 1-.75-.75m5.073 6.59l.751 2.739c.15.542.643.919 1.206.919h5.948a1.25 1.25 0 0 0 1.202-.907L18.417 7.5H6.585l.974 3.287zM11 19a2 2 0 1 1-4 0a2 2 0 0 1 4 0m-1.5 0a.5.5 0 1 0-1 0a.5.5 0 0 0 1 0m8.5 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0m-1.5 0a.5.5 0 1 0-1 0a.5.5 0 0 0 1 0" />
+                    </svg>
+                    Cart
+                </li>
+            </ul>
+            <div class="btn-container flex align-items-center gap-2 ">
+                <p-button routerLink="/login" severity="secondary" size="small" class="cursor-pointer" label="Login"
+                    icon="pi pi-sign-in" [outlined]="true"></p-button>
+                <p-button routerLink="/signup" severity="secondary" size="small" class="cursor-pointer" label="Signup"
+                    icon="pi pi-user"></p-button>
+            </div>
+        </div>
+
+    </div>
+</nav>
