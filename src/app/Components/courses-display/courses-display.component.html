@@ -3,10 +3,36 @@
         <div class="head mb-5 ">
             <i class="pi pi-filter"></i> Filters
         </div>
-        <div class="fcont flex flex-column gap-5">
+        <div class="fcont flex flex-column gap-4">
+            <span *ngIf="level && price && lang && sort" class="cursor-pointer text-sm font-normal  "
+                (click)="clearFilter('')">
+                <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear All Filters
+            </span>
+            <div class="sort">
+                <div class="flex align-items-center justify-content-between mb-2 text-lg font-bold text-500  ">
+                    <span class="flex align-items-center">
+                        Sort
+                    </span>
+                    <span *ngIf="sort" class="cursor-pointer text-sm font-normal  " (click)="clearFilter('sort')">
+                        <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear filter
+                    </span>
+                </div>
+                <div class="flex flex-column gap-1 ">
+                    <div class="flex align-items-center gap-1 ">
+                        <p-radioButton name="sort" value="lth" [(ngModel)]="sort" inputId="lth"></p-radioButton>
+                        <label for="lth" class="ml-2">Price Low to High</label>
+                    </div>
+                    <div class="flex align-items-center gap-1 ">
+                        <p-radioButton name="sort" value="htl" [(ngModel)]="sort" inputId="htl"></p-radioButton>
+                        <label for="htl" class="ml-2">Price High to Low</label>
+                    </div>
+                </div>
+            </div>
             <div class="pricefilter">
                 <div class="flex align-items-center justify-content-between mb-2 text-lg font-bold text-500  ">
-                    Price
+                    <span class="flex align-items-center">
+                        Price
+                    </span>
                     <span *ngIf="price" class="cursor-pointer text-sm font-normal  " (click)="clearFilter('price')">
                         <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear filter
                     </span>
@@ -55,17 +81,15 @@
                     </div>
                 </div>
             </div>
-            <span *ngIf="level && price && lang" class=" cursor-pointer text-sm font-normal  "
-                (click)="clearFilter('')">
-                <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear All Filters
-            </span>
+
         </div>
     </div>
     <div class="coursescont " style="width: 75%;">
         <p-dataView #dv [value]="courses" [rows]="5" [paginator]="true">
             <ng-template let-courses pTemplate="list">
                 <div class="grid grid-nogutter  ">
-                    <div routerLink="/course" class="col-12 hover:bg-green-50" *ngFor="let item of courses; let first = first">
+                    <div routerLink="/course" class="col-12 hover:bg-green-50"
+                        *ngFor="let item of courses; let first = first">
                         <div class=" hover:border-green-500 hover:border-top-2 cursor-pointer flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
                             [ngClass]="{ 'border-top-1 surface-border': !first }">
                             <div class="imgcont w-2">

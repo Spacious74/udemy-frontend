@@ -9,37 +9,51 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-courses-display',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule, SelectButtonModule, RadioButtonModule, DataViewModule ],
+  imports: [
+    RouterLink,
+    CommonModule,
+    FormsModule,
+    SelectButtonModule,
+    RadioButtonModule,
+    DataViewModule,
+  ],
   templateUrl: './courses-display.component.html',
   styleUrl: './courses-display.component.css',
 })
 export class CoursesDisplayComponent {
-
-  public courses : any[] = data;
+  public courses: any[] = data;
   price!: string;
   lang!: string;
-  level! : string;
-  clearFilter(type : string){
-    switch(type){
-      case 'price' : 
+  level!: string;
+  sort!: string;
+  clearFilter(type: string) {
+    switch (type) {
+      case 'sort':
+        this.sort = '';
+        return;
+      case 'price':
         this.price = '';
         return;
-      case 'lang' :
+      case 'lang':
         this.lang = '';
         return;
-      case 'level' :
+      case 'level':
         this.level = '';
         return;
-      default : 
-        this.price = ''; this.level = ''; this.lang=''; return;
+      default:
+        this.price = '';
+        this.level = '';
+        this.lang = '';
+        this.sort = '';
+        return;
     }
   }
   priceOption: any[] = [
-    { name: 'Paid', value: "paid" },
-    { name: 'Free', value: "free" },
+    { name: 'Paid', value: 'paid' },
+    { name: 'Free', value: 'free' },
   ];
   language: any[] = [
-    { name: 'Hindi', value: "Hindi" },
-    { name: 'English', value: "English" },
+    { name: 'Hindi', value: 'Hindi' },
+    { name: 'English', value: 'English' },
   ];
 }

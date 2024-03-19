@@ -1,0 +1,33 @@
+.head {
+  background-size: 30px 30px;
+  background-image: radial-gradient(circle, #2e3f2e 1px, #1a251a 1px);
+}
+.text {
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-family: "General Sans";
+  color: #c0d8c0;
+  letter-spacing: 1px;
+}
+.card {
+  position: relative;
+}
+.play {
+  position: absolute;
+  background-color: #1a251aa9;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 62%;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  .play {
+    opacity: 1;
+  }
+  .title {
+    text-decoration: underline;
+    color: #449E75;
+  }
+}

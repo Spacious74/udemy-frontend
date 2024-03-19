@@ -5,6 +5,7 @@ import { SignupComponent } from './Components/signup/signup.component';
 import { CourseDetailComponent } from './Components/course-detail/course-detail.component';
 import { CoursesDisplayComponent } from './Components/courses-display/courses-display.component';
 import { CartComponent } from './Components/cart/cart.component';
+import { PlaylistComponent } from './Components/playlist/playlist.component';
 
 export const routes: Routes = [
   {
@@ -37,4 +38,9 @@ export const routes: Routes = [
     component: CartComponent,
     title: 'Cart',
   },
+  {
+    path : 'playlist',
+    component : PlaylistComponent,
+    title : "My Learning"
+  }
 ];

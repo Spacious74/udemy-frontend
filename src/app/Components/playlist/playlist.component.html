@@ -1,1 +1,35 @@
-<p>playlist works!</p>
+<div class="container">
+    <div class="head py-6 ">
+        <div class="text m-auto" style="width: 75%;">
+            My Learning
+        </div>
+    </div>
+    <div class="info  m-auto mt-6 mb-3 pb-2 border-bottom-1 border-300 text-lg font-bold" style="width: 75%;">
+        6 courses
+    </div>
+    <div class=" m-auto courses pb-6 flex flex-wrap gap-4 " style="width: 75%;">
+        <ng-container *ngFor="let item of course">
+            <div class="card border-1 overflow-hidden hover:border-green-400 cursor-pointer border-400 border-round-lg hover:shadow-3 "
+                style="width: 22%;">
+                <div class="imgcont" style="width: 100%;">
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="poster" class="w-full">
+                </div>
+                <div class="play text-0 flex justify-content-center align-items-center ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" viewBox="0 0 16 16">
+                        <path fill="currentColor"
+                            d="M10.5 8a.5.5 0 0 1-.254.435L7.62 9.924A.75.75 0 0 1 6.5 9.27V6.729a.75.75 0 0 1 1.12-.652l2.626 1.488A.5.5 0 0 1 10.5 8M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2M3 8a5 5 0 1 1 10 0A5 5 0 0 1 3 8" />
+                    </svg>
+                </div>
+                <div class="p-2 flex flex-column gap-2  ">
+                    <div class="title font-bold ">
+                        {{item.title}}
+                    </div>
+                    <div class="ins">
+                        {{item.educator.edname}}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
