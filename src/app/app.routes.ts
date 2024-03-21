@@ -6,6 +6,7 @@ import { CourseDetailComponent } from './Components/course-detail/course-detail.
 import { CoursesDisplayComponent } from './Components/courses-display/courses-display.component';
 import { CartComponent } from './Components/cart/cart.component';
 import { PlaylistComponent } from './Components/playlist/playlist.component';
+import { VideoPlayerComponent } from './Components/video-player/video-player.component';
 
 export const routes: Routes = [
   {
@@ -42,5 +43,10 @@ export const routes: Routes = [
     path : 'playlist',
     component : PlaylistComponent,
     title : "My Learning"
+  },
+  {
+    path : 'player',
+    component : VideoPlayerComponent,
+    title : 'Continue learning...'
   }
 ];

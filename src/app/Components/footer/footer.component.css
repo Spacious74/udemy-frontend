@@ -31,3 +31,10 @@
   font-weight: 700;
   font-family: "General Sans";
 }
+
+@media screen and (max-width: 768px) {
+  .textsec {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

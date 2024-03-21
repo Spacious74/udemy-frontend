@@ -1,0 +1,150 @@
+<div class="container w-11 m-auto">
+    <div class="heading my-3 ">
+        Give us feedback
+    </div>
+    <div class="feedback mb-5 p-fluid flex gap-2 ">
+        <input class="min-w-9" pInputText type="text" placeholder="Write your review..." [(ngModel)]="reviewText" />
+        <p-button class="w-4" label="Submit review"></p-button>
+    </div>
+    <div class="heading my-3  ">
+        Student feedback
+    </div>
+    <div class="ratingsect mb-5  flex align-items-center gap-3 justify-content-between  w-full">
+        <div class="rate flex flex-column align-items-center gap-2 " style="width: 20%;">
+            <div class="rnum">
+                {{ overallRating }}
+            </div>
+            <div class="stars" style="color : #daa520;">
+                <ng-container *ngFor="let st of renderStar(overallRating)">
+                    <ng-container *ngIf="st == 1">
+                        <i class="fa fa-star"></i>
+                    </ng-container>
+                    <ng-container *ngIf="st != 1">
+                        <i class="fa fa-star-half-stroke"></i>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngFor="let st of renderEmpty(overallRating)">
+                    <i class="fa-regular fa-star"></i>
+                </ng-container>
+            </div>
+            <div class="text">
+                Course rating
+            </div>
+        </div>
+        <div class="progress flex flex-column gap-2" style="width: 85%;">
+            <div class="prostar flex align-items-center gap-2 ">
+                <div class="progressback surface-300 " style="height: 10px;">
+                    <div class="progress bg-green-600 " style="height: 10px;"
+                        [style]="{width : getRatePercentage(5)+'%'}">
+                    </div>
+                </div>
+                <div class="stars flex align-items-center gap-1   " style="color: #daa520;width: 22%;">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+                <div class="perc">
+                    {{getRatePercentage(5)}}%
+                </div>
+            </div>
+            <div class="prostar  flex align-items-center gap-2    ">
+                <div class="progressback surface-300 ">
+                    <div class="progress bg-green-600 " style="height: 10px;"
+                        [style]="{width : getRatePercentage(4)+'%'}">
+                    </div>
+                </div>
+                <div class="stars flex align-items-center gap-1" style="color: #daa520;width : 22%;">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <div class="perc">
+                    {{getRatePercentage(4)}}%
+                </div>
+            </div>
+            <div class="prostar flex align-items-center gap-2    ">
+                <div class="progressback surface-300 ">
+                    <div class="progress bg-green-600 " style="height: 10px;"
+                        [style]="{width : getRatePercentage(3)+'%'}">
+                    </div>
+                </div>
+                <div class="stars flex align-items-center gap-1" style="color: #daa520;width : 22%;">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <div class="perc">
+                    {{getRatePercentage(3)}}%
+                </div>
+            </div>
+            <div class="prostar  flex align-items-center gap-2    ">
+                <div class="progressback surface-300 ">
+                    <div class="progress bg-green-600 " style="height: 10px;"
+                        [style]="{width : getRatePercentage(2)+'%'}">
+                    </div>
+                </div>
+                <div class="stars flex align-items-center gap-1" style="color: #daa520;width : 22%;">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <div class="perc">
+                    {{getRatePercentage(2)}}%
+                </div>
+            </div>
+            <div class="prostar flex align-items-center gap-2    ">
+                <div class="progressback surface-300 ">
+                    <div class="progress bg-green-600 " style="height: 10px;"
+                        [style]="{width : getRatePercentage(1)+'%'}">
+                    </div>
+                </div>
+                <div class="stars flex align-items-center gap-1" style="color: #daa520;width : 22%;">
+                    <i class="fa fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <div class="perc">
+                    {{getRatePercentage(1)}}%
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="heading my-3 ">
+        Reviews
+    </div>
+    <div class="reviews">
+        <ng-container *ngFor="let item of reviews">
+            <div class="rev flex align-items-start gap-3 border-bottom-1 pt-2 pb-3 border-300  ">
+                <div class="avtr flex align-items-center justify-content-center  surface-700 text-0 ">
+                    {{item.username.slice(0,1)}}
+                </div>
+                <div class="namerate flex flex-column gap-1 ">
+                    <div class="name text-lg font-bold ">
+                        {{item.username}}
+                    </div>
+                    <div class="rate text-sm flex align-items-center" style="color: #daa520;">
+                        <ng-container *ngFor="let st of renderStar(item.rating)">
+                            <i class="fa fa-star"></i>
+                        </ng-container>
+                        <ng-container *ngFor="let st of renderEmpty(item.rating)">
+                            <i class="fa-regular fa-star"></i>
+                        </ng-container>
+                    </div>
+                    <div class="desc">
+                        {{item.desc}}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

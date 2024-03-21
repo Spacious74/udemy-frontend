@@ -1,7 +1,8 @@
 <div class="homepage-container relative">
-    <div class="topsect imgcont relative" id="top">
+    <div class="topsect relative" id="top">
         <img src="../../../assets/images/carousel3.jpg" alt="carousel poster" class="img w-full ">
-        <div class=" w-4 info absolute border-round-lg p-4 shadow-3 ">
+        <div class="info absolute surface-0
+          border-round-lg p-4 shadow-3 ">
             <div class="head m-0 p-0 text-3xl mb-3 font-bold ">Learning comes to you</div>
             <div class="para">Attain a world of knowledge — at home or on the go. Trusted by millions of learners around
                 the world.</div>
@@ -65,9 +66,9 @@
         <div class="categories-cont flex gap-4 pb-7 align-items-center justify-content-between ">
             <ng-container *ngFor="let cat of categories">
                 <div
-                    class="categ bg-green-50 border-1 border-300 shadow-2 border-round-lg pb-3 hover:border-green-400 text-center   ">
-                    <div class="cate-img">
-                        <img class="w-11" [src]="cat.url" [alt]="cat.name">
+                    class="categ border-1 border-300 shadow-2 border-round-lg pb-3 hover:border-green-400 flex flex-column justify-content-center align-items-center            ">
+                    <div class="cate-img w-7">
+                        <img class="w-full" [src]="cat.url" [alt]="cat.name">
                     </div>
                     {{cat.name}}
                 </div>

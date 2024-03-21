@@ -1,11 +1,11 @@
 .topsect {
   scroll-margin: 80px;
 }
-.imgcont .info {
+.info {
   top: 50%;
   left: 25%;
+  width: 33%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
 }
 .info .head {
   font-family: "General Sans";

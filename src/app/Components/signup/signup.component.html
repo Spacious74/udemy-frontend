@@ -1,11 +1,11 @@
 <div class="formcontainer flex flex-column justify-content-center align-items-center">
-    <div class="backbtn mx-auto">
+    <div class="backbtn mx-auto mb-4 ">
         <span routerLink="/"
-            class=" surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
+            class="surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
             <i class="pi pi-arrow-left" style="font-size: 0.8rem"></i> Back to home
         </span>
     </div>
-    <form #signupForm="ngForm" class=" mb-5 surface-0 form w-5 border-1 border-300 shadow-1 p-4 border-round-lg ">
+    <form #signupForm="ngForm" class="m-3 surface-0 form min-w-5  border-1 border-300 shadow-1 p-4 border-round-lg ">
         <div class="mb-4 font-bold " style="font-family: 'General Sans';">Create your Skill Up account</div>
         <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
             <label for="username">Full name</label>
@@ -27,11 +27,17 @@
         <div class="flex gap-3">
             <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
                 <label for="password">Password</label>
-                <p-password required ngModel name="password" class="p-inputtext-sm" [toggleMask]="true"></p-password>
+                <p-password required ngModel #password="ngModel" name="password" class="p-inputtext-sm"
+                    [toggleMask]="true"></p-password>
             </div>
             <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
                 <label for="password">Confirm password</label>
-                <p-password required ngModel name="cpassword" class="p-inputtext-sm" [toggleMask]="true"></p-password>
+                <p-password required ngModel #cpassword="ngModel" name="cpassword" class="p-inputtext-sm"
+                    [class]="(password.value != cpassword.value && cpassword.touched) ? 'ng-invalid ng-dirty' : ''"
+                    [toggleMask]="true"></p-password>
+                <div *ngIf="(password.value != cpassword.value && cpassword.touched)" class="text-xs text-red-400 ">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 0.8rem;"></i> Password is not matching...
+                </div>
             </div>
         </div>
         <p-button [disabled]="signupForm.invalid" (onClick)="formSubmission(signupForm)" size="small" class="p-fluid"

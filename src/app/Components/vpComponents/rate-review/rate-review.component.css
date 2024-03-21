@@ -1,0 +1,28 @@
+.heading {
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: "General Sans";
+  margin-bottom: 20px;
+}
+.progressback {
+  background-color: #cacaca;
+  width: 70%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progressback .progress {
+  background-color: #363d47;
+  display: block;
+}
+.rnum {
+  font-size: 4rem;
+  font-weight: 600;
+  font-family: "General Sans";
+  color: #d19601;
+  line-height: 1;
+}
+.avtr {
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+}

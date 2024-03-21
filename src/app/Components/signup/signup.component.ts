@@ -21,6 +21,6 @@ import { CommonModule } from '@angular/common';
 })
 export class SignupComponent {
   formSubmission(signupForm : NgForm){
-    
+    console.log(signupForm);
   }
 }
