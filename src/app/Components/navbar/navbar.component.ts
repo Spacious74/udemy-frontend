@@ -4,18 +4,34 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../Services/auth.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FormsModule, CascadeSelectModule, InputTextModule, ButtonModule, RouterLink],
+  imports: [
+    FormsModule,
+    CascadeSelectModule,
+    InputTextModule,
+    ButtonModule,
+    RouterLink,
+    CommonModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
-  public categories : any[] = [];
+  public categories: any[] = [];
   public selectedCity: string = '';
-  public searchText : string = '';
+  public searchText: string = '';
+  public userLoggedIn: boolean;
+  constructor(private authService: AuthService) {}
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.userLoggedIn = true;
+    } else {
+      this.userLoggedIn = false;
+    }
     this.categories = [
       {
         cname: 'Development',

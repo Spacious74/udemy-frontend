@@ -2,7 +2,15 @@
   height: 90vh;
   background-size: 50px 50px;
   background-image: radial-gradient(circle, #a1a1a1 1px, #00000000 1px);
+  position: relative;
 }
 .backbtn {
   width: 90%;
+}
+
+.form {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

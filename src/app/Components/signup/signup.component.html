@@ -1,5 +1,6 @@
 <div class="formcontainer flex flex-column justify-content-center align-items-center">
-    <div class="backbtn mx-auto mb-4 ">
+    <p-toast position="bottom-right" key="br"></p-toast>
+    <div class="backbtn mx-auto ">
         <span routerLink="/"
             class="surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
             <i class="pi pi-arrow-left" style="font-size: 0.8rem"></i> Back to home
@@ -32,7 +33,8 @@
             </div>
             <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
                 <label for="password">Confirm password</label>
-                <p-password required ngModel #cpassword="ngModel" name="cpassword" class="p-inputtext-sm"
+                <p-password [feedback]="false" required ngModel #cpassword="ngModel" name="cpassword"
+                    class="p-inputtext-sm"
                     [class]="(password.value != cpassword.value && cpassword.touched) ? 'ng-invalid ng-dirty' : ''"
                     [toggleMask]="true"></p-password>
                 <div *ngIf="(password.value != cpassword.value && cpassword.touched)" class="text-xs text-red-400 ">
@@ -40,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <p-button [disabled]="signupForm.invalid" (onClick)="formSubmission(signupForm)" size="small" class="p-fluid"
+        <p-button [disabled]="signupForm.invalid"  [loading]="loading" (onClick)="formSubmission(signupForm)" size="small" class="p-fluid"
             label="Create my account"></p-button>
     </form>
 </div>

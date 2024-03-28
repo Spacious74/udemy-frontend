@@ -2,7 +2,7 @@
     <div class="navbar flex justify-content-between justify-content-between align-items-center m-auto ">
 
         <div class="left w-9 flex align-items-center gap-2">
-            <span routerLink="/"  class=" cursor-pointer logo w-2">
+            <span routerLink="/" class=" cursor-pointer logo w-2">
                 Skill Up.
             </span>
             <div class="select p-fluid w-3">
@@ -34,12 +34,20 @@
                     Cart
                 </li>
             </ul>
-            <div class="btn-container flex align-items-center gap-2 ">
-                <p-button routerLink="/login" severity="secondary" size="small" class="cursor-pointer" label="Login"
-                    icon="pi pi-sign-in" [outlined]="true"></p-button>
-                <p-button routerLink="/signup" severity="secondary" size="small" class="cursor-pointer" label="Signup"
-                    icon="pi pi-user"></p-button>
-            </div>
+            <ng-container *ngIf="!userLoggedIn else elseBlock">
+                <div class="btn-container flex align-items-center gap-2 ">
+                    <p-button routerLink="/login" severity="secondary" size="small" class="cursor-pointer" label="Login"
+                        icon="pi pi-sign-in" [outlined]="true"></p-button>
+                    <p-button routerLink="/signup" severity="secondary" size="small" class="cursor-pointer"
+                        label="Signup" icon="pi pi-user"></p-button>
+                </div>
+            </ng-container>
+            <ng-template #elseBlock>
+                <svg class="cursor-pointer" style="color : #464343;" xmlns="http://www.w3.org/2000/svg" width="2.3rem" height="2.3rem" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M17 13.5a1.5 1.5 0 0 0-1.5-1.5h-7A1.5 1.5 0 0 0 7 13.5v.5c0 1.971 1.86 4 5 4c3.14 0 5-2.029 5-4zm-2.25-5.25a2.75 2.75 0 1 0-5.5 0a2.75 2.75 0 0 0 5.5 0M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-1.5 0a8.5 8.5 0 1 0-17 0a8.5 8.5 0 0 0 17 0" />
+                </svg>
+            </ng-template>
         </div>
 
     </div>

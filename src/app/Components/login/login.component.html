@@ -1,11 +1,12 @@
-<div class="formcontainer flex flex-column justify-content-center align-items-center">
-    <div class="backbtn mx-auto">
+<div class="formcontainer pt-5">
+    <p-toast position="bottom-right" key="br"></p-toast>
+    <div class="backbtn mx-auto ">
         <span routerLink="/"
             class=" surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
             <i class="pi pi-arrow-left" style="font-size: 0.8rem"></i> Back to home
         </span>
     </div>
-    <form #loginForm="ngForm" class=" mb-5 surface-0 form w-4 border-1 border-300 shadow-1 p-4 border-round-lg ">
+    <form #loginForm="ngForm" class="surface-0 form w-4 border-1 border-300 shadow-1 p-4 border-round-lg ">
         <div class="mb-4 font-bold " style="font-family: 'General Sans';">Login to your Skill Up account</div>
         <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
             <label for="username">Email</label>
@@ -19,7 +20,7 @@
             <label for="password">Password</label>
             <p-password required ngModel name="password" [feedback]="false" [toggleMask]="true"></p-password>
         </div>
-        <p-button [disabled]="loginForm.invalid" (onClick)="formSubmission(loginForm)" size="small" class="p-fluid"
-            label="Login"></p-button>
+        <p-button [disabled]="loginForm.invalid" [loading]="loading" (onClick)="formSubmission(loginForm)" size="small"
+            class="p-fluid" label="Login"></p-button>
     </form>
 </div>
