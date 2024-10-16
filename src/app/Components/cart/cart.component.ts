@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { CartService } from '../../Services/cart.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -8,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   public course : any[] = [
     {
       title: 'JavaScript Essentials',
@@ -56,5 +57,14 @@ export class CartComponent {
       },
     },
   ];
+  public cartItemsLength: number = 0;
 
+  constructor(private cartService : CartService){}
+
+  ngOnInit(): void {
+    this.cartService.getCart().subscribe((res)=>{
+      // console.log(res);
+      this.course = res.cart.cartItems;
+    })
+  }
 }

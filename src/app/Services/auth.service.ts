@@ -1,26 +1,44 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router, NavigationStart } from '@angular/router';
+import { basePath } from '../baseSettings/basePath';
+import { AppObject } from '../baseSettings/AppObject';
+import { Observable } from 'rxjs';
+import { AuthResponse } from '../models/AuthResponse';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private signupUrl: string = 'http://localhost:4000/skillup/api/v1/user/register';
-  private loginUrl: string = 'http://localhost:4000/skillup/api/v1/user/login';
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId : Object) {}
-  public username: string = '';
-  public email: string = '';
-  register(userData: any) {
-    return this.http.post<any>(this.signupUrl, userData, { withCredentials: true });
+  
+  public previousUrl : string | null = null;
+  constructor(private http: HttpClient, private router : Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        // Store the previous URL before navigation
+        this.previousUrl = this.router.url;
+      }
+    });
   }
-  login(userData : any){
-    return this.http.post<any>(this.loginUrl, userData, { withCredentials: true });
+
+  register(userData: any): Observable<AuthResponse> {
+    let url = basePath + 'user/register';
+    return this.http.post<AuthResponse>(url, userData);
   }
-  isLoggedIn() {
-    if (isPlatformBrowser(this.platformId)) {
-      return document.cookie.includes('mytoken');
-    }else{
-      return false;
-    }
+
+  login(userData : any): Observable<AuthResponse> {
+    let url = basePath + 'user/login';
+    return this.http.post<AuthResponse>(url, userData);
+  }
+
+  getUserData(token):Observable<AuthResponse>{
+    let url = basePath + 'user/getUserLogonData';
+    const headers = AppObject.prepareGetJsonHeader();
+    console.log("Header = ",headers);
+    return this.http.get<AuthResponse>(url, {headers});
+  }
+
+  getPreviousUrl(): string | null {
+    return this.previousUrl;
   }
 }

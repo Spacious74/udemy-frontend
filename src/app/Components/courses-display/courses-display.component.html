@@ -1,4 +1,4 @@
-<div class="container flex gap-3 justify-content-between  ">
+<div class="container flex gap-2 justify-content-between  ">
     <div class="filter surface-50 shadow-4  p-5">
         <div class="head mb-5 ">
             <i class="pi pi-filter"></i> Filters
@@ -18,12 +18,14 @@
                     </span>
                 </div>
                 <div class="flex flex-column gap-1 ">
-                    <div class="flex align-items-center gap-1 ">
-                        <p-radioButton name="sort" value="lth" [(ngModel)]="sort" inputId="lth"></p-radioButton>
+                    <div class="flex align-items-center gap-1   ">
+                        <p-radioButton name="sort" value="lth" (click)="fetchData()" [(ngModel)]="sort"
+                            inputId="lth"></p-radioButton>
                         <label for="lth" class="ml-2">Price Low to High</label>
                     </div>
-                    <div class="flex align-items-center gap-1 ">
-                        <p-radioButton name="sort" value="htl" [(ngModel)]="sort" inputId="htl"></p-radioButton>
+                    <div class="flex align-items-center gap-1  ">
+                        <p-radioButton name="sort" value="htl" (click)="fetchData()" [(ngModel)]="sort"
+                            inputId="htl"></p-radioButton>
                         <label for="htl" class="ml-2">Price High to Low</label>
                     </div>
                 </div>
@@ -47,7 +49,7 @@
                         <i class="pi pi-filter-slash text-primary " style="font-size: 0.8rem;"></i> Clear filter
                     </span>
                 </div>
-                <p-selectButton [options]="language" [(ngModel)]="lang" optionLabel="name"
+                <p-selectButton [options]="language" (click)="fetchData()" [(ngModel)]="lang" optionLabel="name"
                     optionValue="value"></p-selectButton>
             </div>
             <div class="level">
@@ -84,13 +86,25 @@
 
         </div>
     </div>
-    <div class="coursescont " style="width: 75%;">
-        <p-dataView #dv [value]="courses" [rows]="5" [paginator]="true">
+    <div class="coursescont "  style="width: 75%;">
+        <div *ngIf="category || searchText" class="back">
+            <p-button label="Back to all results" (onClick)="backToResults()" [text]="true" icon="pi pi-arrow-left" size="small" [rounded]="true" ></p-button>
+        </div>
+        <div class="status">
+            Showing "{{totalRecords}}" results <span *ngIf="category || searchText">for</span>
+            <ng-container *ngIf="category">
+                {{category}}
+            </ng-container>
+            <ng-container *ngIf="searchText">
+                {{searchText}}
+            </ng-container>
+        </div>
+        <p-dataView #dv *ngIf="!error" [value]="courses">
             <ng-template let-courses pTemplate="list">
                 <div class="grid grid-nogutter  ">
-                    <div routerLink="/course" class="col-12 hover:bg-green-50"
+                    <div (click)="navigateToCourseDetails(item._id)" class="col-12 hover:bg-green-50"
                         *ngFor="let item of courses; let first = first">
-                        <div class=" hover:border-green-500 hover:border-top-2 cursor-pointer flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+                        <div class=" hover:border-green-500 hover:border-top-3 cursor-pointer flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
                             [ngClass]="{ 'border-top-1 surface-border': !first }">
                             <div class="imgcont w-2">
                                 <img [src]="item.coursePoster.url" [alt]="item.title" class="w-full border-round " />
@@ -121,5 +135,10 @@
                 </div>
             </ng-template>
         </p-dataView>
+        <ng-container *ngIf="error">
+            <div>Courses not found in database.</div>
+        </ng-container>
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords"
+            [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}"></p-paginator>
     </div>
 </div>

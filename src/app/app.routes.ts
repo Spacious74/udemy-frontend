@@ -7,6 +7,7 @@ import { CoursesDisplayComponent } from './Components/courses-display/courses-di
 import { CartComponent } from './Components/cart/cart.component';
 import { PlaylistComponent } from './Components/playlist/playlist.component';
 import { VideoPlayerComponent } from './Components/video-player/video-player.component';
+import { UserProfileComponent } from './Components/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -25,12 +26,17 @@ export const routes: Routes = [
     title: 'Create account',
   },
   {
-    path: 'course',
+    path: 'course/:courseId',
     component: CourseDetailComponent,
     title: 'Course Details',
   },
   {
-    path: 'courses',
+    path : 'courses',
+    component : CoursesDisplayComponent,
+    title : "Courses for you"
+  },
+  {
+    path: 'courses/:category',
     component: CoursesDisplayComponent,
     title: 'Courses for you',
   },
@@ -48,5 +54,10 @@ export const routes: Routes = [
     path : 'player',
     component : VideoPlayerComponent,
     title : 'Continue learning...'
-  }
+  },
+  {
+    path : 'user-profile',
+    component : UserProfileComponent,
+    title : 'User Profile'
+  },
 ];

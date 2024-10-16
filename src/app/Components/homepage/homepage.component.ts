@@ -10,22 +10,20 @@ import { articles } from '../../data/article';
 import { TooltipModule } from 'primeng/tooltip';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
+import { AppObject } from '../../baseSettings/AppObject';
+import { AuthService } from '../../Services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
+import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [
-    CardModule,
-    FormsModule,
-    ButtonModule,
-    CommonModule,
-    CurrencyPipe,
-    CarouselModule,
-    BadgeModule,
-    TooltipModule,
-    RouterLink,
-    FooterComponent
+    CardModule, FormsModule, ButtonModule, CommonModule, CurrencyPipe, CarouselModule, BadgeModule, 
+    TooltipModule, RouterLink, FooterComponent, ToastModule
   ],
+  providers : [ToastMessageService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })
@@ -33,7 +31,26 @@ export class HomepageComponent implements OnInit {
   data: any[] = [];
   categories: any[] = [];
   articles : any[] = [];
+  public userDetails : any = AppObject.AuthToken;
+
+  constructor(
+    private authService : AuthService,
+    private cookieService : CookieService,
+    private toastMsgService : ToastMessageService,
+  ){}
+
   ngOnInit(): void {
+    let token = this.cookieService.get('skillUpToken')
+    if(token){
+      AppObject.AuthToken = token;
+      this.authService.getUserData(token).subscribe((res)=>{
+        AppObject.userData = res.data;
+        this.userDetails = res.data;
+      }, 
+      (error)=>{
+        this.toastMsgService.showError("Error", error.error.message);
+      })
+    }
     this.data = data;
     this.categories = [
       {
@@ -57,6 +74,7 @@ export class HomepageComponent implements OnInit {
         url: '../../../assets/images/design-thinking.png',
       },
     ];
-    this.articles = articles
+    this.articles = articles;
   }
+  
 }

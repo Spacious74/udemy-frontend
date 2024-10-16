@@ -1,48 +1,51 @@
+<p-toast ></p-toast>
 <div class="formcontainer flex flex-column justify-content-center align-items-center">
-    <p-toast position="bottom-right" key="br"></p-toast>
     <div class="backbtn mx-auto ">
         <span routerLink="/"
             class="surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
             <i class="pi pi-arrow-left" style="font-size: 0.8rem"></i> Back to home
         </span>
     </div>
-    <form #signupForm="ngForm" class="m-3 surface-0 form min-w-5  border-1 border-300 shadow-1 p-4 border-round-lg ">
+    <form #userForm="ngForm"  class="m-3 surface-0 form min-w-5  border-1 border-300 shadow-1 p-4 border-round-lg ">
         <div class="mb-4 font-bold " style="font-family: 'General Sans';">Create your Skill Up account</div>
         <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
-            <label for="username">Full name</label>
-            <input required type="text" #username="ngModel" name="username"
-                [class.border-red-300]="username.invalid && username.touched" class="p-inputtext-sm" pInputText
-                ngModel />
-            <div *ngIf="username.invalid && username.touched" class="text-xs text-red-400 ">
-                <i class="pi pi-exclamation-triangle" style="font-size: 0.8rem;"></i> Username is required
-            </div>
+            <label for="username">Full name
+                <span class="text-xs text-red-500" *ngIf="username.invalid && username.touched">
+                    (Full name is required.)
+                </span>
+            </label>
+            <input required type="text" name="username" class="p-inputtext-sm" pInputText
+            [(ngModel)]="formData.username"  #username="ngModel" />
         </div>
         <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
-            <label for="username">Email</label>
-            <input required type="email" #email="ngModel" name="email"
-                [class.border-red-300]="email.invalid && email.touched" class="p-inputtext-sm" pInputText ngModel />
-            <div *ngIf="email.invalid && email.touched" class="text-xs text-red-400 ">
-                <i class="pi pi-exclamation-triangle" style="font-size: 0.8rem;"></i> Email is required
-            </div>
+            <label for="email">Email
+                <span class="text-xs text-red-500" *ngIf="email.invalid && email.touched">
+                    (Email is required.)
+                </span>
+            </label>
+            <input required type="email" name="email" class="p-inputtext-sm" pInputText
+            [(ngModel)]="formData.email" #email="ngModel"  />
+           
         </div>
         <div class="flex gap-3">
             <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
                 <label for="password">Password</label>
-                <p-password required ngModel #password="ngModel" name="password" class="p-inputtext-sm"
-                    [toggleMask]="true"></p-password>
+                <p-password required name="password"  #password="ngModel"  [(ngModel)]="formData.password" 
+                class="p-inputtext-sm" [toggleMask]="true"></p-password>
+                <div class="text-xs text-red-500" *ngIf="password.invalid && password.touched">
+                    Password is required.
+                </div>
             </div>
             <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
                 <label for="password">Confirm password</label>
-                <p-password [feedback]="false" required ngModel #cpassword="ngModel" name="cpassword"
-                    class="p-inputtext-sm"
-                    [class]="(password.value != cpassword.value && cpassword.touched) ? 'ng-invalid ng-dirty' : ''"
-                    [toggleMask]="true"></p-password>
-                <div *ngIf="(password.value != cpassword.value && cpassword.touched)" class="text-xs text-red-400 ">
-                    <i class="pi pi-exclamation-triangle" style="font-size: 0.8rem;"></i> Password is not matching...
+                <p-password [feedback]="false" required [(ngModel)]="formData.confirmPassword" name="cpassword"
+                class="p-inputtext-sm" [toggleMask]="true" #confirmPassword="ngModel" ></p-password>
+                <div class="text-xs text-red-500" *ngIf="confirmPassword.invalid && confirmPassword.touched">
+                    Please confirm your password again!
                 </div>
             </div>
         </div>
-        <p-button [disabled]="signupForm.invalid"  [loading]="loading" (onClick)="formSubmission(signupForm)" size="small" class="p-fluid"
-            label="Create my account"></p-button>
+        <p-button [disabled]="userForm.invalid" [loading]="loading" (onClick)="formSubmission()" 
+        size="small" class="p-fluid" label="Create my account"></p-button>
     </form>
 </div>

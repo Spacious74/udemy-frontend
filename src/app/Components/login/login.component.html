@@ -1,5 +1,5 @@
+<p-toast></p-toast>
 <div class="formcontainer pt-5">
-    <p-toast position="bottom-right" key="br"></p-toast>
     <div class="backbtn mx-auto ">
         <span routerLink="/"
             class=" surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
@@ -9,12 +9,13 @@
     <form #loginForm="ngForm" class="surface-0 form w-4 border-1 border-300 shadow-1 p-4 border-round-lg ">
         <div class="mb-4 font-bold " style="font-family: 'General Sans';">Login to your Skill Up account</div>
         <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
-            <label for="username">Email</label>
+            <label for="username">Email
+                <span *ngIf="email.invalid && email.touched" class="text-xs text-red-400 ">
+                    (Email is required!)
+                </span>
+            </label>
             <input required type="email" #email="ngModel" name="email"
                 [class.border-red-300]="email.invalid && email.touched" pInputText ngModel />
-            <div *ngIf="email.invalid && email.touched" class="text-xs text-red-400 ">
-                <i class="pi pi-exclamation-triangle" style="font-size: 0.8rem;"></i> Email is required
-            </div>
         </div>
         <div class="input-field p-fluid mb-4 flex flex-column gap-2">
             <label for="password">Password</label>

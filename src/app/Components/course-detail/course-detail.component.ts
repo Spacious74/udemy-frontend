@@ -1,21 +1,52 @@
-import { Component, HostListener, ElementRef } from '@angular/core';
+import { Component, HostListener, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { courseContent } from '../../data/courseContent';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
 import { ButtonModule } from 'primeng/button';
+import { CourseService } from '../../Services/course.service';
+import { ActivatedRoute } from '@angular/router';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CartService } from '../../Services/cart.service';
+import { AuthService } from '../../Services/auth.service';
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent],
+  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, CurrencyPipe, DatePipe],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
-export class CourseDetailComponent {
+export class CourseDetailComponent implements OnInit{
+  public selectedCourse: any;
+  public reviewsArr : any[];
   courseContent: any[] = courseContent;
   public showCard: boolean = false;
-  constructor(private elRef: ElementRef) {}
 
+  constructor(
+    private elRef: ElementRef,
+    private courseService: CourseService,
+    private activatedRoute: ActivatedRoute,
+    private cartService : CartService,
+    private authService : AuthService
+  ) {}
+
+  public courseId : any;
+  ngOnInit() : void {
+    this.courseId = this.activatedRoute.snapshot.params['courseId'];
+    this.courseService.getCourseById(this.courseId).subscribe((res)=>{
+      this.selectedCourse = res.course;
+      // this.reviewsArr = res.reviews.reviewArr;
+    });
+  }
+
+  getStars(num :number){
+    return new Array(num).fill(1);
+  }
+  getRemainingStars(num : number){
+    return new Array(5-num).fill(1);
+  }
+  
+  
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: any) {
     if (
@@ -30,5 +61,8 @@ export class CourseDetailComponent {
 
   getScrollYHeight(): number {
     return this.elRef.nativeElement.ownerDocument.documentElement.scrollHeight;
+  }
+  addToCart(){
+    // console.log(localStorage.getItem('userId'));
   }
 }

@@ -3,18 +3,14 @@
         <div class="container mx-auto flex align-items-center justify-content-between ">
             <div class="details w-7 flex flex-column gap-3">
                 <div class="title text-0 ">
-                    React - The Complete Guide 2024 (incl. React Router & Redux)
+                    {{selectedCourse?.title}}
                 </div>
                 <div class="subtitle">
-                    Dive in and learn React.js from scratch! Learn React, Hooks, Redux, React Router, Next.js, Best
-                    Practices and way more!
+                    {{selectedCourse?.description}}
                 </div>
                 <div class="price  text-xl text-0 font-bold ">
-                    ₹ 440 <s>₹ 1099</s> <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem"
-                        viewBox="0 0 100 100">
-                        <path fill="currentColor"
-                            d="M81.465 66.127c-.022-.038-.052-.069-.076-.105l.002-.001l-26.904-46.599l-.014.008a2.08 2.08 0 0 0-.929-.801l.038-.022l-11.01-6.357v.044a2.082 2.082 0 0 0-1.846-.107l-.012-.021l-.206.119c-.004.003-.009.003-.013.006c-.004.002-.007.006-.012.008L19.3 24.529a2.078 2.078 0 0 0-1.037 1.764l-.007-.004v12.714l.021-.012c-.047.427.03.872.261 1.273c.014.024.032.042.047.065l26.816 46.446c.026.055.044.112.075.166a2.085 2.085 0 0 0 2.772.801l.005.008l32.465-18.743l-.014-.025a2.092 2.092 0 0 0 .761-2.855M36.366 29.361a3.865 3.865 0 1 1 1.415-5.279a3.864 3.864 0 0 1-1.415 5.279" />
-                    </svg>
+                    {{(selectedCourse?.price)*83.28 | currency : "INR"}} <s>₹ 4,000</s>&nbsp;
+                    <img class="icon" src="https://img.icons8.com/ios/20/ffffff/price-tag--v1.png" alt="price-tag" />
                     <span class="text-green-400 "> 60% Discount</span>
                 </div>
                 <div class="ratingStudents text-sm flex align-items-center gap-3 ">
@@ -31,52 +27,46 @@
                         </span> (21,941 ratings)
                     </div>
                     <div class="students flex align-items-center gap-2 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 16 16">
-                            <path fill="currentColor"
-                                d="M3 3a2 2 0 1 1 4 0a2 2 0 0 1-4 0m6.779 1.584l.042.032a2 2 0 1 0-.042-.032M6.268 6A2 2 0 1 1 9.73 7.998A2 2 0 0 1 6.268 6M2.5 6h2.67a3.013 3.013 0 0 0 .594 3H5.5a2.501 2.501 0 0 0-2.355 1.658a3.733 3.733 0 0 1-.933-.543C1.46 9.51 1 8.616 1 7.5A1.5 1.5 0 0 1 2.5 6m8 3c1.085 0 2.009.691 2.355 1.658c.34-.139.654-.32.933-.543C14.54 9.51 15 8.616 15 7.5A1.5 1.5 0 0 0 13.5 6h-2.67c.11.313.17.65.17 1a2.99 2.99 0 0 1-.764 2zm1.387 1.928c.073.176.113.37.113.572c0 1.116-.459 2.01-1.212 2.615C10.047 14.71 9.053 15 8 15c-1.053 0-2.047-.29-2.788-.885C4.46 13.51 4 12.616 4 11.5A1.496 1.496 0 0 1 5.5 10h5a1.5 1.5 0 0 1 1.387.928" />
-                        </svg> 1,24,567 students
+                        <img class="icon" src="https://img.icons8.com/ios/20/ffffff/groups.png" alt="groups" />
+                        {{selectedCourse?.totalStudentsPurchased}} students
                     </div>
                 </div>
                 <div class="instructor text-sm ">
-                    Created by Josefin Sans
+                    Created by {{selectedCourse?.educator.edname}}
                 </div>
                 <div class="langUpdate  text-sm flex align-items-center gap-3">
                     <div class="lastupdated">
-                        Last updated : 12.3.2024
+                        Last updated : {{selectedCourse?.updatedAt | date:"dd-MMM-yyyy"}}
                     </div>
                     <div class="language flex align-items-center gap-2 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2c0 .68.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.987 7.987 0 0 1 5.08 16m2.95-8H5.08a7.987 7.987 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2c0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2c0 .68-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2c0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z" />
-                        </svg> English
+                        <img class="icon" src="https://img.icons8.com/ios/20/ffffff/language.png"
+                            alt="language" />{{selectedCourse?.language}}
                     </div>
                 </div>
             </div>
             <div class="imgcont w-4 ">
                 <img src="https://images.unsplash.com/photo-1563819886509-b1a8665118ad?q=80&w=1453&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="course poster" class="w-full border-1 border-green-300 border-round-lg" />
-                <div class="btncont mt-2 p-fluid flex gap-2 ">
+                <div class="btncont mt-2 p-fluid flex gap-2 cursor-pointer">
                     <p-button class="w-full" label="Buy now"></p-button>
-                    <p-button icon="pi pi-cart-plus" class="w-full" label="Add to cart" [outlined]="true"></p-button>
+                    <p-button (click)="addToCart()" icon="pi pi-cart-plus" class="w-full" label="Add to cart" [outlined]="true"></p-button>
                 </div>
             </div>
         </div>
     </div>
-    <div *ngIf="showCard" class="courseCard overflow-hidden border-round-lg shadow-4 pb-2 w-3 surface-0 ">
+    <div *ngIf="showCard"
+        class="courseCard overflow-hidden border-round-lg shadow-4 pb-2 w-3 surface-0 ">
         <div class="imgcont w-full">
             <img src="https://images.unsplash.com/photo-1563819886509-b1a8665118ad?q=80&w=1453&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="course-detail picture" class="w-full border-1 border-green-300 border-round-lg">
         </div>
         <div class="p-3">
-            <div class="">
-                React - The Complete Guide 2024 (incl. React Router & Redux)
+            <div class="text-lg">
+                {{selectedCourse?.title}}
             </div>
             <div class="pricetext-600 text-lg py-3 font-bold ">
-                ₹ 440 <s>₹ 1099</s> <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem"
-                    viewBox="0 0 100 100">
-                    <path fill="currentColor"
-                        d="M81.465 66.127c-.022-.038-.052-.069-.076-.105l.002-.001l-26.904-46.599l-.014.008a2.08 2.08 0 0 0-.929-.801l.038-.022l-11.01-6.357v.044a2.082 2.082 0 0 0-1.846-.107l-.012-.021l-.206.119c-.004.003-.009.003-.013.006c-.004.002-.007.006-.012.008L19.3 24.529a2.078 2.078 0 0 0-1.037 1.764l-.007-.004v12.714l.021-.012c-.047.427.03.872.261 1.273c.014.024.032.042.047.065l26.816 46.446c.026.055.044.112.075.166a2.085 2.085 0 0 0 2.772.801l.005.008l32.465-18.743l-.014-.025a2.092 2.092 0 0 0 .761-2.855M36.366 29.361a3.865 3.865 0 1 1 1.415-5.279a3.864 3.864 0 0 1-1.415 5.279" />
-                </svg>
+                {{(selectedCourse?.price)*83.28 | currency : "INR"}} <s>₹ 4099 </s>
+                <img class="icon" src="https://img.icons8.com/ios/20/price-tag--v1.png" alt="price-tag" />
                 <span class="text-green-400 "> 60% Discount</span>
             </div>
             <div class="btncont mt-2 p-fluid flex flex-column gap-2 ">
@@ -92,29 +82,18 @@
             </div>
             <div class="flex flex-wrap align-items-center gap-3 justify-content-between  w-7 ">
                 <span class="flex align-items-center gap-1 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem" viewBox="0 0 256 256">
-                        <path fill="currentColor"
-                            d="M208 40H48a24 24 0 0 0-24 24v112a24 24 0 0 0 24 24h160a24 24 0 0 0 24-24V64a24 24 0 0 0-24-24m8 136a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8V64a8 8 0 0 1 8-8h160a8 8 0 0 1 8 8Zm-48 48a8 8 0 0 1-8 8H96a8 8 0 0 1 0-16h64a8 8 0 0 1 8 8m-3.56-110.66l-48-32A8 8 0 0 0 104 88v64a8 8 0 0 0 12.44 6.66l48-32a8 8 0 0 0 0-13.32M120 137.05V103l25.58 17Z" />
-                    </svg> 143 lectures
+                    <img class="icon" src="https://img.icons8.com/ios/20/laptop-play-video--v1.png"
+                        alt="laptop-play-video--v1" /> 143 lectures
                 </span>
                 <span class="flex align-items-center gap-1 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem" viewBox="0 0 48 48">
-                        <path fill="currentColor" fill-rule="evenodd"
-                            d="M12 7a1 1 0 0 1 1-1h22a1 1 0 0 1 1 1v1h5a1 1 0 0 1 1 1v6a5 5 0 0 1-5 5h-1.683c-1.541 4.36-5.53 7.564-10.317 7.959V34h7a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H16a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h7v-6.041c-4.786-.395-8.776-3.599-10.317-7.959H11a5 5 0 0 1-5-5V9a1 1 0 0 1 1-1h5zm22 9V8H14v8c0 5.523 4.477 10 10 10s10-4.477 10-10m2-6v8h1a3 3 0 0 0 3-3v-5zM8 10h4v8h-1a3 3 0 0 1-3-3zm9 26v4h14v-4z"
-                            clip-rule="evenodd" />
-                    </svg> Certificate of completion
+                    <img class="icon" src="https://img.icons8.com/ios/20/certificate--v1.png" alt="certificate--v1" />
+                    Certificate of completion
                 </span>
                 <span class="flex align-items-center gap-1 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M5.615 20q-.666 0-1.14-.475Q4 19.051 4 18.385V5.615q0-.666.475-1.14Q4.949 4 5.615 4h4.7q-.136-.765.367-1.383Q11.185 2 12.01 2t1.328.617q.502.618.347 1.383h4.7q.666 0 1.14.475q.475.474.475 1.14v12.77q0 .666-.475 1.14q-.474.475-1.14.475zm0-1h12.77q.23 0 .423-.192q.192-.193.192-.423V5.615q0-.23-.192-.423Q18.615 5 18.385 5H5.615q-.23 0-.423.192Q5 5.385 5 5.615v12.77q0 .23.192.423q.193.192.423.192M8 16.27h5q.213 0 .356-.145q.144-.144.144-.356q0-.213-.144-.356q-.144-.144-.356-.144H8q-.213 0-.356.144t-.144.357q0 .213.144.356q.143.143.356.143M8 12.5h8q.213 0 .356-.144q.144-.144.144-.357t-.144-.356Q16.213 11.5 16 11.5H8q-.213 0-.356.144q-.144.144-.144.357t.144.356q.144.143.356.143m0-3.77h8q.213 0 .356-.143t.144-.357q0-.213-.144-.356T16 7.731H8q-.213 0-.356.144q-.144.144-.144.356q0 .213.144.357q.143.143.356.143m4-4.289q.325 0 .538-.212t.212-.538q0-.325-.213-.537T12 2.942q-.325 0-.537.213t-.213.537q0 .325.213.538t.537.212M5 19V5z" />
-                    </svg> Assignments
+                    <img src="https://img.icons8.com/ios-glyphs/20/task.png" alt="task" /> Assignments
                 </span>
                 <span class="flex align-items-center gap-1 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem" viewBox="0 0 20 20">
-                        <path fill="currentColor"
-                            d="m14.878.282l.348 1.071a2.205 2.205 0 0 0 1.399 1.397l1.071.348l.021.006a.423.423 0 0 1 0 .798l-1.071.348a2.208 2.208 0 0 0-1.399 1.397l-.348 1.07a.423.423 0 0 1-.798 0l-.349-1.07a2.23 2.23 0 0 0-.532-.867a2.224 2.224 0 0 0-.866-.536l-1.071-.348a.423.423 0 0 1 0-.798l1.071-.348a2.208 2.208 0 0 0 1.377-1.397l.348-1.07a.423.423 0 0 1 .799 0m4.905 7.931l-.766-.248a1.577 1.577 0 0 1-.998-.999l-.25-.764a.302.302 0 0 0-.57 0l-.248.764a1.576 1.576 0 0 1-.984.999l-.765.248a.303.303 0 0 0 0 .57l.765.249a1.578 1.578 0 0 1 1 1.002l.248.764a.302.302 0 0 0 .57 0l.249-.764a1.576 1.576 0 0 1 .999-.999l.765-.248a.303.303 0 0 0 0-.57zM11.43 2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-5.692a.477.477 0 0 0-.125-.181a.636.636 0 0 0-.22-.14L15 9.77V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4.088a1.417 1.417 0 0 1 .863-.846zm1.424 4.147A.499.499 0 0 0 12.5 6h-5l-.09.008A.5.5 0 0 0 7.5 7h5l.09-.008a.5.5 0 0 0 .264-.845m-.264 4.345a.5.5 0 0 0-.09-.992h-5l-.09.008a.5.5 0 0 0 .09.992h5zm0 3.5A.5.5 0 0 0 12.5 13h-5l-.09.008A.5.5 0 0 0 7.5 14h5z" />
-                    </svg> Projects
+                    <img class="icon" src="https://img.icons8.com/ios/20/project.png" alt="project" /> Projects
                 </span>
             </div>
         </div>
@@ -155,11 +134,9 @@
                             </ng-template>
                             <ng-container *ngFor="let cont of item.content; index as i">
                                 <p class="flex align-items-center gap-2 px-2 ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem"
-                                        viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                            d="M10.856 8.155A1.25 1.25 0 0 0 9 9.248v5.504a1.25 1.25 0 0 0 1.856 1.093l5.757-3.189a.75.75 0 0 0 0-1.312zM12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2M3.5 12a8.5 8.5 0 1 1 17 0a8.5 8.5 0 0 1-17 0" />
-                                    </svg> {{cont}}
+                                    <img class="icon"
+                                        src="https://img.icons8.com/fluency-systems-regular/20/8E949D/circled-play--v1.png"
+                                        alt="circled-play" /> {{cont}}
                                 </p>
                             </ng-container>
                         </p-accordionTab>
@@ -171,117 +148,48 @@
             <div class="head">Rating & reviews</div>
             <div class="raterev flex align-items-center gap-7 py-4 mb-4 border-bottom-2 w-7 border-300     ">
                 <span class="flex align-items-center gap-1 text-lg font-bold">
-                    <svg style="color : #ffbb00" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem"
-                        viewBox="0 0 48 48">
-                        <path fill="currentColor"
-                            d="M21.803 6.085c.899-1.82 3.495-1.82 4.394 0l4.852 9.832l10.85 1.577c2.01.292 2.813 2.762 1.358 4.179l-7.85 7.653l1.853 10.807c.343 2-1.758 3.527-3.555 2.582L24 37.613l-9.705 5.102c-1.797.945-3.898-.581-3.555-2.583l1.854-10.806l-7.851-7.653c-1.455-1.417-.652-3.887 1.357-4.179l10.85-1.577z" />
-                    </svg> 4.7 course rating
+                    <img class="icon" src="https://img.icons8.com/fluency-systems-filled/25/FFC811/star.png"
+                        alt="star" />4.7 course rating
                 </span>
                 <span class="flex align-items-center gap-1 text-lg font-bold">
-                    <svg style="color: #10B981;" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem"
-                        viewBox="0 0 20 20">
-                        <path fill="currentColor"
-                            d="M8.75 3.75a2.75 2.75 0 1 0-5.5 0a2.75 2.75 0 0 0 5.5 0m-4.5 0a1.75 1.75 0 1 1 3.5 0a1.75 1.75 0 0 1-3.5 0M2.5 7.5h4.183c-.164.31-.286.646-.358 1H2.5A.5.5 0 0 0 2 9v.5c0 1.26 1.099 2.614 3.096 2.93c-.322.22-.59.513-.781.854C2.205 12.713 1 11.087 1 9.5V9a1.5 1.5 0 0 1 1.5-1.5m5.379 0c.504-.61 1.267-1 2.121-1a2.744 2.744 0 0 1 2.646 2a2.753 2.753 0 0 1-3.893 3.202A2.75 2.75 0 0 1 7.88 7.5m.54 1a1.75 1.75 0 1 0 3.164 1.5a1.75 1.75 0 0 0-3.165-1.5m7.266 4.784a2.513 2.513 0 0 0-.781-.853C16.9 12.114 18 10.759 18 9.5V9a.5.5 0 0 0-.5-.5h-3.825a3.726 3.726 0 0 0-.357-1H17.5A1.5 1.5 0 0 1 19 9v.5c0 1.587-1.206 3.212-3.315 3.784m-1.198.087A1.493 1.493 0 0 0 13.5 13h-7A1.496 1.496 0 0 0 5 14.5v.5c0 1.971 1.86 4 5 4c3.14 0 5-2.029 5-4v-.5c0-.45-.198-.854-.513-1.13M6 14.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v.5c0 1.438-1.432 3-4 3s-4-1.562-4-3zM14 1a2.75 2.75 0 1 1 0 5.5A2.75 2.75 0 0 1 14 1m0 1a1.75 1.75 0 1 0 0 3.5A1.75 1.75 0 0 0 14 2" />
-                    </svg> 1,234 ratings
+                    <img class="icon" src="https://img.icons8.com/ios/25/groups.png" alt="groups" /> {{reviewsArr?.length}} ratings
                 </span>
             </div>
-            <div class="reviewsCont w-7 flex flex-column gap-6 ">
-                <div class="rateCard">
-                    <div class="header flex align-items-center gap-3 mb-2 ">
-                        <div class="imgCont w-1">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww"
-                                alt="" class="w-full border-1 profileImg ">
-                        </div>
-                        <div class="namestar flex flex-column align-items-start ">
-                            <div class="name font-bold text-xl          ">John John</div>
-                            <div style="color :#ffbb00;" class="stars flex gap-1 align-items-center">
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
+            <!-- <div class="reviewsCont w-7 flex flex-column gap-6 ">
+                <ng-container *ngFor="let item of reviewsArr">
+                    <div class="rateCard">
+                        <div class="header flex align-items-center gap-3 mb-2 ">
+                            <div class="imgCont w-1">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww"
+                                    alt="" class="w-full border-1 profileImg ">
+                            </div>
+                            <div class="namestar flex flex-column align-items-start ">
+                                <div class="name font-bold text-xl"> {{item.username}} </div>
+                                <div style="color :#ffbb00;" class="stars flex gap-1 align-items-center">
+                                    <ng-container *ngFor="let star of getStars(item.rating)">
+                                        <img  src="https://img.icons8.com/metro/16/ffbb00/filled-star.png" alt="filled-star"/>
+                                    </ng-container>
+                                    <ng-container *ngFor="let star of getRemainingStars(item.rating)">
+                                        <img  src="https://img.icons8.com/metro/16/ffbb00/star.png" alt="star"/>
+                                    </ng-container>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta provident odio unde non saepe
-                        itaque dolores eveniet est ipsam totam.
-                    </div>
-                </div>
-                <div class="rateCard">
-                    <div class="header flex align-items-center gap-3 mb-2 ">
-                        <div class="imgCont w-1">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww"
-                                alt="" class="w-full border-1 profileImg ">
-                        </div>
-                        <div class="namestar flex flex-column align-items-start ">
-                            <div class="name font-bold text-xl          ">John John</div>
-                            <div style="color :#ffbb00;" class="stars flex gap-1 align-items-center">
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                            </div>
+                        <div class="desc">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta provident odio unde non
+                            saepe
+                            itaque dolores eveniet est ipsam totam.
                         </div>
                     </div>
-                    <div class="desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta provident odio unde non saepe
-                        itaque dolores eveniet est ipsam totam.
-                    </div>
-                </div>
-                <div class="rateCard">
-                    <div class="header flex align-items-center gap-3 mb-2 ">
-                        <div class="imgCont w-1">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww"
-                                alt="" class="w-full border-1 profileImg ">
-                        </div>
-                        <div class="namestar flex flex-column align-items-start ">
-                            <div class="name font-bold text-xl          ">John John</div>
-                            <div style="color :#ffbb00;" class="stars flex gap-1 align-items-center">
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta provident odio unde non saepe
-                        itaque dolores eveniet est ipsam totam.
-                    </div>
-                </div>
-                <div class="rateCard">
-                    <div class="header flex align-items-center gap-3 mb-2 ">
-                        <div class="imgCont w-1">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww"
-                                alt="" class="w-full border-1 profileImg ">
-                        </div>
-                        <div class="namestar flex flex-column align-items-start ">
-                            <div class="name font-bold text-xl          ">John John</div>
-                            <div style="color :#ffbb00;" class="stars flex gap-1 align-items-center">
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                                <i class="pi pi-star-fill" style="font-size: 0.8rem;"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta provident odio unde non saepe
-                        itaque dolores eveniet est ipsam totam.
-                    </div>
-                </div>
-            </div>
+                </ng-container>
+            </div> -->
         </div>
         <div class="section py-4">
             <div class="head">
                 Instructor
             </div>
             <div class="insInfo">
-                <div class="inshead mb-3 flex gap-3 align-items-center">
+                <div class="inshead mb-3 flex gap-4 align-items-center">
                     <div class="imgcont">
                         <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt="" class="w-full teacherImg " style="border-radius: 400px;">
@@ -290,19 +198,15 @@
                         <div class="name text-xl text-green-500 font-bold">Nirmal Joshi</div>
                         <div>Founder CEO,Corporate Trainer,Programming Aficionado</div>
                         <div class=" mt-3 stcr flex flex-column gap-2">
-                            <div class="students flex align-items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem"
-                                    viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M14.754 10c.966 0 1.75.784 1.75 1.75V15H16.5v.25a.75.75 0 0 1-1.5 0V13h.004v-1.25a.25.25 0 0 0-.25-.25H9.252a.25.25 0 0 0-.25.25V15H9v.25a.75.75 0 0 1-1.5 0V13h.002v-1.25c0-.966.783-1.75 1.75-1.75zm5.746 1.75v3.5a.75.75 0 0 0 1.5 0v-3.5A1.75 1.75 0 0 0 20.25 10h-3.375c.343.415.567.932.618 1.5h2.757a.25.25 0 0 1 .25.25M2 15.25a.75.75 0 0 0 1.5 0v-3.5a.25.25 0 0 1 .25-.25h2.763a2.738 2.738 0 0 1 .618-1.5H3.75A1.75 1.75 0 0 0 2 11.75zM12 3a3 3 0 1 1 0 6a3 3 0 0 1 0-6m0 1.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3m6.5-.5a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5m0 1.5a1 1 0 1 0 0 2a1 1 0 0 0 0-2M5.5 4a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5m0 1.5a1 1 0 1 0 0 2a1 1 0 0 0 0-2M2.75 17a.75.75 0 0 0-.75.75v.5A3.75 3.75 0 0 0 5.75 22h12.5A3.75 3.75 0 0 0 22 18.25v-.5a.75.75 0 0 0-.75-.75zm3 3.5a2.25 2.25 0 0 1-2.236-2h16.972a2.25 2.25 0 0 1-2.236 2z" />
-                                </svg> 12,345 students.
+                            <div class="students flex align-items-center gap-2">
+                                <img class="icon" src="https://img.icons8.com/ios/22/tall-person.png"
+                                    alt="tall-person" />
+                                12,345 students.
                             </div>
-                            <div class="courses flex align-items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem"
-                                    viewBox="0 0 16 16">
-                                    <path fill="currentColor"
-                                        d="M9.09 10.499A.5.5 0 0 0 9 9.507H6l-.09.008a.5.5 0 0 0 .09.992h3zM9.5 7a.5.5 0 0 1-.41.492L9 7.5H6a.5.5 0 0 1-.09-.992L6 6.5h3a.5.5 0 0 1 .5.5m-.41-2.515A.5.5 0 0 0 9 3.493H6l-.09.008a.5.5 0 0 0 .09.992h3zM4.713 1C3.767 1 3 1.768 3 2.714v8.572C3 12.233 3.767 13 4.713 13h5.574c.946 0 1.713-.768 1.713-1.714V2.714C12 1.768 11.233 1 10.287 1zm0 1h5.574c.393 0 .713.32.713.714v8.572c0 .395-.32.714-.713.714H4.713A.714.714 0 0 1 4 11.286V2.714C4 2.32 4.32 2 4.713 2M14 6a1 1 0 0 0-1-1v6a3 3 0 0 1-3 3H5a1 1 0 0 0 1 1h4.21A3.79 3.79 0 0 0 14 11.21z" />
-                                </svg> 8 courses.
+                            <div class="courses flex align-items-center gap-2">
+                                <img class="icon" src="https://img.icons8.com/ios/22/knowledge-sharing.png"
+                                    alt="knowledge-sharing" />
+                                8 courses.
                             </div>
                         </div>
                     </div>
