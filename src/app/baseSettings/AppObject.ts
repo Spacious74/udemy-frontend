@@ -28,6 +28,7 @@ export class AppObject {
         return headers;
     }
 
+  
     public static prepareGetJsonHeader(
         includeAuthToken: boolean = true
     ): HttpHeaders {

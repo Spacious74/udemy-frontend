@@ -1,4 +1,4 @@
-<p-toast position="bottom-right" key="br"></p-toast>
+<p-toast ></p-toast>
 <nav class="nav-container">
     <div class="navbar flex justify-content-between justify-content-between align-items-center m-auto ">
 
@@ -9,7 +9,8 @@
 
             <!--  SELECT CATEGORY -->
             <div class="select p-fluid w-3">
-                <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" class="p-inputtext-sm" optionLabel="name" [showClear]="true" placeholder="Categories" (onChange)="display($event)" ></p-dropdown>
+                <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" class="p-inputtext-sm" 
+                optionLabel="name" [showClear]="true" placeholder="Categories" (onChange)="display($event)" ></p-dropdown>
             </div>
             <!-- SEARCH TEXT -->
             <div class="p-input-icon-left p-fluid w-6">
@@ -45,8 +46,13 @@
             </ng-container>
             <!-- ELSE BLOCK -->
             <ng-template #elseBlock>
-                <div class="flex align-items-center justify-content-center " (click)="op.toggle($event)">
-                    <svg class="cursor-pointer" style="color : #464343;" xmlns="http://www.w3.org/2000/svg"
+                <div class="flex align-items-center  cursor-pointer justify-content-center " (click)="op.toggle($event)">
+
+                    <img *ngIf="userDetails?.profileImage != ''" [src]="userDetails?.profileImage"
+                    class="previewImg border-circle border-1 border-green-500 mr-4 w-2rem h-2rem" alt="profile-img" >
+
+                    <svg *ngIf="userDetails?.profileImage == ''"
+                    class="cursor-pointer" style="color : #464343;" xmlns="http://www.w3.org/2000/svg"
                         width="2.3rem" height="2.3rem" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M17 13.5a1.5 1.5 0 0 0-1.5-1.5h-7A1.5 1.5 0 0 0 7 13.5v.5c0 1.971 1.86 4 5 4c3.14 0 5-2.029 5-4zm-2.25-5.25a2.75 2.75 0 1 0-5.5 0a2.75 2.75 0 0 0 5.5 0M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-1.5 0a8.5 8.5 0 1 0-17 0a8.5 8.5 0 0 0 17 0" />

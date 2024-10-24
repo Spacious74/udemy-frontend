@@ -1,3 +1,6 @@
 .head{
     font-family: 'General Sans';
 }
+.previewImg{
+    object-fit: cover;
+}

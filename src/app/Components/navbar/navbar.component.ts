@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { AppObject } from '../../baseSettings/AppObject';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
+import { UserList } from '../../models/UserList';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -29,7 +30,7 @@ export class NavbarComponent implements OnInit {
   public searchText: string = '';
   public selectedCategory: string;
   public userLoggedIn: boolean = false;
-
+  public userDetails : UserList;
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
@@ -56,6 +57,7 @@ export class NavbarComponent implements OnInit {
       AppObject.AuthToken = token;
       this.authService.getUserData(token).subscribe((res) => {
         AppObject.userData = res.data;
+        this.userDetails = res.data;
         this.userLoggedIn = true;
       },
       (error) => {

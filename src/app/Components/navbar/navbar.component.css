@@ -9,6 +9,9 @@
   backdrop-filter: blur(15px);
   outline: solid 1px #d3dad3;
 }
+.previewImg{
+  object-fit: cover;
+}
 .navbar {
   width: 90%;
 }
