@@ -7,6 +7,7 @@ import { AppObject } from './baseSettings/AppObject';
 import { AuthService } from './Services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from './baseSettings/services/toastMessage.service';
+import { UserService } from './state/user.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -21,14 +22,16 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private toastMsgService: ToastMessageService,
+    private storage : UserService
   ) { }
   ngOnInit(): void {
-    let token = this.cookieService.get('skillUpToken')
-    if (!this.userDetails && token) {
+    let token = this.cookieService.get('skillUpToken');
+    if (token) {
       AppObject.AuthToken = token;
       this.authService.getUserData(token).subscribe((res) => {
         AppObject.userData = res.data;
         this.userDetails = res.data;
+        this.storage.setUser(res.data);
       },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);

@@ -10,6 +10,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { AppObject } from '../../baseSettings/AppObject';
 import { CookieService } from 'ngx-cookie-service';
+import { UserService } from '../../state/user.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private cookieService : CookieService,
-    private toastMsgService : ToastMessageService
+    private toastMsgService : ToastMessageService,
+    private storage : UserService
   ) {}
 
   formSubmission(form: NgForm) {
@@ -40,10 +42,11 @@ export class LoginComponent {
         if(this.cookieService.get('skillUpToken')){
           this.cookieService.delete('skillUpToken');
         }
-        this.cookieService.set('skillUpToken', res.token, 65);
+        this.cookieService.set('skillUpToken', res.token, 1);
         AppObject.userData = res.data; AppObject.AuthToken = res.token;
+        this.storage.setUser(res.data);
         this.loading = false;
-        this.toastMsgService.showSuccess("Success", "User Loginned Successfully")
+        this.toastMsgService.showSuccess("Success", "User Logined Successfully")
         if (this.authService.getPreviousUrl()) {
           this.router.navigateByUrl(this.authService.getPreviousUrl()).then(()=>{
             window.location.reload();

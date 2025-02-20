@@ -1,9 +1,10 @@
 export class UserList {
+    _id : string;
     username: string;
     headline?: string;
     email: string;
     password: string;
-    role: 'student' | 'instructor' | 'admin';
+    role: 'student' | 'teacher' | 'admin';
     profileImage: string;
     bio: string;
     coursesCreated: string[];  // Assuming these are ObjectIds, use string for simplicity

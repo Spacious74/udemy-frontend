@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CommonModule } from '@angular/common';
-import { data } from '../../data/course';
 import { DataViewModule } from 'primeng/dataview';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CourseService } from '../../Services/course.service';
@@ -12,33 +11,26 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-courses-display',
   standalone: true,
-  imports: [
-    RouterLink,
-    CommonModule,
-    FormsModule,
-    SelectButtonModule,
-    RadioButtonModule,
-    DataViewModule,
-    PaginatorModule,
-    ButtonModule
-  ],
+  imports: [ RouterLink, CommonModule, FormsModule, SelectButtonModule, RadioButtonModule, DataViewModule, 
+    PaginatorModule, ButtonModule ],
   templateUrl: './courses-display.component.html',
   styleUrl: './courses-display.component.css',
 })
 export class CoursesDisplayComponent implements OnInit, OnDestroy {
   public courses: any[];
-  price!: string;
-  lang!: string;
-  level!: string;
-  sort: string = '';
+  public price!: string;
+  public lang!: string;
+  public level!: string;
+  public sort: string = '';
   public category : string = "";
   public searchText : string = "";
   public error : string = "";
 
-  first: number = 0;
-  page: number = 0;
-  rows: number = 10;
-  totalRecords: number;
+  public first: number = 0;
+  public page: number = 0;
+  public rows: number = 10;
+  public totalRecords: number;
+  
   priceOption: any[] = [
     { name: 'Paid', value: 'paid' },
     { name: 'Free', value: 'free' },
@@ -77,10 +69,15 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
     this.paramsObs.unsubscribe();
   }
   fetchData() {
-    this.courseService.fetchCourses(this.page, this.sort, this.lang, this.category, this.searchText).subscribe((res) => {
+    // this.courses = data;
+    // this.totalRecords = data.length;
+    this.courseService.fetchCourses(this.page, this.sort, this.lang, 
+    this.category, this.searchText).subscribe((res) => {
+
       this.courses = res.filteredResults;
       this.totalRecords = res.totalCourses;
       this.error= "";
+      
     }, (err)=>{
       if(err){
         this.error = err.message;

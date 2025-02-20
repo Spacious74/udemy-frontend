@@ -10,9 +10,9 @@
 }
 .filter {
   width: 25%;
-  height: 90vh;
+  height: calc(100vh - 60px);
 }
 .coursescont {
-  height: 90vh;
+  height: calc(100vh - 60px);
   overflow-y: scroll;
 }

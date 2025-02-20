@@ -75,3 +75,8 @@
 .imgPlaceHolder{
   background: linear-gradient(135deg, #30c272, #3055b9);
 }
+.ed-head{
+  font-family: "General Sans";
+  margin: 5px 0;
+  letter-spacing: 1px;
+}

@@ -1,0 +1,99 @@
+<div class="surface-0 w-full flex justify-content-center">
+    <div class="w-10 mt-5">
+        <p-stepper [linear]="true" >
+            <p-stepperPanel header="Course Detail">
+                <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+                    <div class="step-form-container">
+                        <form class="border-1 p-5 radius14 border-300 boxShadow">
+                            <!-- {{ userDetails.username }} -->
+                            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                <label class="text-900 font-semibold mb-1" for="courseTitle">Title of the course</label>
+                                <input pInputText type="text" name="courseTitle"
+                                    placeholder="Machine Learning for beginners using python..."
+                                    [(ngModel)]="formData.title" />
+                            </div>
+
+                            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                <label class="text-900 font-semibold mb-1" for="subTitle">Subtitle of the course</label>
+                                <input pInputText type="text" name="subTitle"
+                                    placeholder="Master ML and build awesome applications for future and become job ready..."
+                                    [(ngModel)]="formData.subTitle" />
+                            </div>
+
+                            <div class="flex gap-3">
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                    <label class="text-900 font-semibold mb-1" for="price">Set Course Price</label>
+                                    <p-inputNumber [(ngModel)]="formData.price" inputId="currency-india" mode="currency" 
+                                    currency="INR" [min]="200" locale="en-IN" [minFractionDigits]="2" name="price" />
+                                </div>
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                    <label class="text-900 font-semibold mb-1" for="category">Course Category</label>
+                                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name"
+                                    autoWidth="false" [style]="{ width: '200px' }"
+                                        [showClear]="true" placeholder="Select course category..." name="category" />
+                                </div>
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                    <label class="text-900 font-semibold mb-1" for="language">Course Language</label>
+                                    <p-dropdown [options]="languages" [(ngModel)]="selectedLanguage" optionLabel="name"
+                                    autoWidth="false" [style]="{ width: '200px' }"
+                                        [showClear]="true" placeholder="Select a Language..." name="language" />
+                                </div>
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                    <label class="text-900 font-semibold mb-1" for="language">Level of Course</label>
+                                    <p-dropdown [options]="levels" [(ngModel)]="selectedLevel" optionLabel="name"
+                                    autoWidth="false" [style]="{ width: '200px' }"
+                                    [showClear]="true" placeholder="Select level of course..." name="level" />
+                                </div>
+                            </div>
+
+
+                            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                <label class="text-900 font-semibold mb-1" for="subTitle">Course Description</label>
+                                <textarea rows="5" cols="30" [(ngModel)]="formData.description" pInputTextarea
+                                name="description" ></textarea>
+                            </div>
+
+                           
+                            <div class="flex gap-3 align-items-center mt-3">
+                                <button pButton  type="submit" [disabled]="loading"
+                                [label]="loading? 'Saving your record...' : 'Save'"
+                                [icon]="loading ? 'pi pi-spin pi-spinner' :  'pi pi-save'"
+                                (click)="saveCourseDetails(nextCallback)" ></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </ng-template>
+            </p-stepperPanel>
+
+            <p-stepperPanel header="Course Poster" >
+                <ng-template pTemplate="content"  let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                    let-index="index">
+                    <div class="flex flex-column h-12rem">
+                        <div
+                            class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+                            Content II
+                        </div>
+                    </div>
+                    <div class="flex pt-4 justify-content-between">
+                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                            (onClick)="nextCallback.emit()" />
+                    </div>
+                </ng-template>
+            </p-stepperPanel>
+            <p-stepperPanel header="Course Videos">
+                <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+                    <div class="flex flex-column h-12rem">
+                        <div
+                            class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+                            Content III
+                        </div>
+                    </div>
+                    <div class="flex pt-4 justify-content-start">
+                        <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                    </div>
+                </ng-template>
+            </p-stepperPanel>
+        </p-stepper>
+    </div>
+</div>

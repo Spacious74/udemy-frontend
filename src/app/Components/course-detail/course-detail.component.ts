@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { CartService } from '../../Services/cart.service';
 import { AuthService } from '../../Services/auth.service';
+import { courseData } from '../../data/course';
 @Component({
   selector: 'app-course-detail',
   standalone: true,
@@ -37,6 +38,7 @@ export class CourseDetailComponent implements OnInit{
       this.selectedCourse = res.course;
       // this.reviewsArr = res.reviews.reviewArr;
     });
+    this.selectedCourse = courseData.find((course) => course._id == this.courseId);
   }
 
   getStars(num :number){
@@ -45,7 +47,6 @@ export class CourseDetailComponent implements OnInit{
   getRemainingStars(num : number){
     return new Array(5-num).fill(1);
   }
-  
   
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: any) {

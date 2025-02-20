@@ -35,7 +35,7 @@ export class SignupComponent {
     private toastmsgService : ToastMessageService,
   ) {}
   
-  formSubmission() {
+  formSubmission(form: NgForm) {
 
     this.loading = true;
 
@@ -62,8 +62,8 @@ export class SignupComponent {
       },
       (error) => {
         console.log(error)
-        this.errorFlag = true;
         this.loading = false;
+        this.errorFlag = true;
         this.toastmsgService.showError("Error", error.error.message);
       }
     );

@@ -1,51 +1,47 @@
 <p-toast ></p-toast>
-<div class="formcontainer flex flex-column justify-content-center align-items-center">
-    <div class="backbtn mx-auto ">
-        <span routerLink="/"
-            class="surface-0 flex-1 gap-3 align-items-center cursor-pointer px-3 py-2 border-round-lg hover:text-green-400 border-1 border-0 hover:border-300 text-sm text-400 ">
-            <i class="pi pi-arrow-left" style="font-size: 0.8rem"></i> Back to home
-        </span>
+<div class="container flex justify-content-between align-items-center w-9 m-auto"
+     style="height: calc(100vh - 5rem);">
+    
+    <div class="right w-5">
+        <form class="form border-1 p-5 radius14 border-300 boxShadow" #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)" >
+            <div class="text-xl font-bold mb-5">Create your new account</div>
+            
+            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                <label for="username">Full name</label>
+                <input pInputText type="text" name="username" placeholder="Enter your full name..."
+                    [(ngModel)]="formData.username" />
+            </div>
+            
+            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                <label for="email">Email</label>
+                <input pInputText type="text" name="email" placeholder="Enter your email..."
+                    [(ngModel)]="formData.email" />
+            </div>
+            
+            <div class="flex gap-3">
+                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                    <label for="password">Password</label>
+                    <p-password [(ngModel)]="formData.password" toggleMask
+                        name="password" [feedback]="false"></p-password>
+                </div>
+                
+                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                    <label for="reEnterPassword">Confirm Password</label>
+                    <p-password [(ngModel)]="formData.confirmPassword" toggleMask
+                        name="reEnterPassword" [feedback]="false"></p-password>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 align-items-center mt-3">
+                <button pButton label="Signup" icon="pi pi-sign-in" type="submit" ></button>
+                <small>
+                    Already have an account ? <a class="text-primary" routerLink="/login">Login</a>
+                </small>
+            </div>
+        </form>
     </div>
-    <form #userForm="ngForm"  class="m-3 surface-0 form min-w-5  border-1 border-300 shadow-1 p-4 border-round-lg ">
-        <div class="mb-4 font-bold " style="font-family: 'General Sans';">Create your Skill Up account</div>
-        <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
-            <label for="username">Full name
-                <span class="text-xs text-red-500" *ngIf="username.invalid && username.touched">
-                    (Full name is required.)
-                </span>
-            </label>
-            <input required type="text" name="username" class="p-inputtext-sm" pInputText
-            [(ngModel)]="formData.username"  #username="ngModel" />
-        </div>
-        <div class="input-field p-fluid mb-3 flex flex-column gap-2 ">
-            <label for="email">Email
-                <span class="text-xs text-red-500" *ngIf="email.invalid && email.touched">
-                    (Email is required.)
-                </span>
-            </label>
-            <input required type="email" name="email" class="p-inputtext-sm" pInputText
-            [(ngModel)]="formData.email" #email="ngModel"  />
-           
-        </div>
-        <div class="flex gap-3">
-            <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
-                <label for="password">Password</label>
-                <p-password required name="password"  #password="ngModel"  [(ngModel)]="formData.password" 
-                class="p-inputtext-sm" [toggleMask]="true"></p-password>
-                <div class="text-xs text-red-500" *ngIf="password.invalid && password.touched">
-                    Password is required.
-                </div>
-            </div>
-            <div class="input-field w-6 p-fluid mb-4 flex flex-column gap-2">
-                <label for="password">Confirm password</label>
-                <p-password [feedback]="false" required [(ngModel)]="formData.confirmPassword" name="cpassword"
-                class="p-inputtext-sm" [toggleMask]="true" #confirmPassword="ngModel" ></p-password>
-                <div class="text-xs text-red-500" *ngIf="confirmPassword.invalid && confirmPassword.touched">
-                    Please confirm your password again!
-                </div>
-            </div>
-        </div>
-        <p-button [disabled]="userForm.invalid" [loading]="loading" (onClick)="formSubmission()" 
-        size="small" class="p-fluid" label="Create my account"></p-button>
-    </form>
+    
+    <div class="left w-5">
+        <img src="../../../assets/images/form.png" alt="signup_illustration" width="100%" />
+    </div>
 </div>
