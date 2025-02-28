@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
       },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
-        
       })
     }
   }

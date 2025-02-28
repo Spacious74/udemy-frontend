@@ -1,1 +1,24 @@
-<p>drafted-course works!</p>
+<div class="flex gap-2 flex-wrap">
+    @if (totalCourses < 1) {
+        <div class="p-5 ">Drafted courses not found. Create one!</div>
+    }
+    @else {
+        <div class="flex flex-wrap gap-2 w-full p-3">
+            
+            <ng-container *ngFor="let item of draftedCourseList">
+                <div class="p-3 surface-0 shadow-1 flex flex-column w-3 border-1 border-round">
+                    <img [src]='item.coursePoster.url' [alt]="item.coursePoster.public_id"
+                    class="w-full h-10rem courseImage" />
+                    <div class="flex flex-column gap-2">
+                        <div class="text-l font-semibold">{{item.title}}</div>
+                        <div class="text-sm">₹ {{item.price}}</div>
+                    </div>
+                    <div class="flex gap-3 mt-2">
+                        <p-button label="Edit Course" icon="pi pi-pencil" (onClick)="navigateToEditCourse(item._id)" />
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+    }
+</div>

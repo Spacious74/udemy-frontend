@@ -72,8 +72,8 @@ export const routes: Routes = [
       { path : '', redirectTo : 'dashboard', pathMatch : 'full'},
       { path : 'dashboard', component : TeacherDashboardComponent},
       {path : 'my-courses', component : TeacherCoursePageComponent},
-      {path : 'create-course', component : CreateCourseComponent},
       {path : 'drafted-courses', component : DraftedCourseComponent},
     ]
   },
+  {path : 'create-course/:courseId', component : CreateCourseComponent},
 ];

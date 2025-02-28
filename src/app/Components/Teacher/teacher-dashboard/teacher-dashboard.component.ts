@@ -75,6 +75,7 @@ export class TeacherDashboardComponent {
   }
 
   navigateToPage() {
-    this.router.navigate(['/educator/create-course']);
+    let url="/create-course/"+null;
+    this.router.navigate([url]);
   }
 }

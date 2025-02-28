@@ -61,6 +61,7 @@ export class HomepageComponent implements OnInit {
 
     this.storage.user$.subscribe((res)=>{
       this.userDetails = res;
+      this.userId = res._id;
     },
     (error) => {
       console.log(error);

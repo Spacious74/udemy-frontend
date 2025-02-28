@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { CourseDetailDto } from '../../../models/Course/CourseDetailDto';
@@ -12,27 +12,42 @@ import { UserList } from '../../../models/UserList';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { DraftedCourseService } from '../../../Services/draftedCourse.service';
 import { DraftCourse } from '../../../models/Course/DraftCourse';
+import { FileUpload, FileUploadModule } from 'primeng/fileupload';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { AddVideoComponent } from '../add-video/add-video.component';
+import { AppObject } from '../../../baseSettings/AppObject';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../../Services/auth.service';
 
 @Component({
   selector: 'app-create-course',
   standalone: true,
   imports: [
-    StepperModule, ButtonModule, FormsModule, InputTextModule, InputTextareaModule, 
-    DropdownModule, InputNumberModule
+    StepperModule, ButtonModule, FormsModule, InputTextModule, InputTextareaModule,
+    DropdownModule, InputNumberModule, FileUploadModule, CommonModule, ToastModule, AddVideoComponent
   ],
-  providers : [ToastMessageService],
+  providers: [ToastMessageService],
   templateUrl: './create-course.component.html',
-  styles: ``
+  styleUrl: './create-course.css'
 })
-export class CreateCourseComponent implements OnInit{
+export class CreateCourseComponent implements OnInit {
 
   public formData: CourseDetailDto = new CourseDetailDto();
-  public userDetails : UserList;
-  public draftedCourseId : string;
-  public draftedCourseDetails : DraftCourse;
+  public userDetails: UserList;
+  public draftedCourseId: string;
+  public courseId: string;
+  public userId: string;
+  public draftedCourseDetails: DraftCourse;
 
-  public errorFlag : boolean = false;
+  public imagePreview: string | ArrayBuffer | null = null;
+  public uploading: boolean = false;
+  public deleting: boolean = false;
+
+  public errorFlag: boolean = false;
   public loading: boolean = false;
+  public editMode: boolean = false;
 
   public selectedCategory: any;
   public categories: any[] = [
@@ -58,17 +73,72 @@ export class CreateCourseComponent implements OnInit{
     { name: 'Advanced' },
   ]
 
-  constructor(private draftedCourseService: DraftedCourseService, private storage : UserService,
-    private toastmsgService : ToastMessageService
+  constructor(
+    private draftedCourseService: DraftedCourseService,
+    private storage: UserService,
+    private activatedRoute: ActivatedRoute,
+    private cookieService: CookieService,
+    private authService: AuthService,
+    private toastmsgService: ToastMessageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.storage.user$.subscribe((res)=>{
-      this.userDetails = res;
-    },
-    (error) => {
-      console.log(error);
-    });
+    let token = this.cookieService.get('skillUpToken');
+    if (token) {
+      AppObject.AuthToken = token;
+      this.authService.getUserData(token).subscribe((res) => {
+        AppObject.userData = res.data;
+        this.userDetails = res.data;
+        this.userId = res.data._id;
+        this.courseId = this.activatedRoute.snapshot.params['courseId'];
+        if (this.courseId != 'null') {
+          this.fetchCourseByEdAndCourseId();
+          this.editMode = true;
+        }
+      },
+        (error) => {
+          this.toastmsgService.showError("Error", error.error.message);
+        })
+    } else {
+      this.router.navigate(['/login']);
+    }
+
+  }
+
+
+  initializeCourseDetails() {
+    this.formData = {
+      title: this.draftedCourseDetails.title,
+      subTitle: this.draftedCourseDetails.subTitle,
+      description: this.draftedCourseDetails.description,
+      category: this.draftedCourseDetails.category,
+      subCategory: this.draftedCourseDetails.subCategory,
+      price: this.draftedCourseDetails.price,
+      language: this.draftedCourseDetails.language,
+      level: this.draftedCourseDetails.level,
+      educator: {
+        edId: this.draftedCourseDetails.educator.edId,
+        edname: this.draftedCourseDetails.educator.edname
+      }
+    };
+    this.selectedCategory = { name: this.draftedCourseDetails.category };
+    this.selectedLevel = { name: this.draftedCourseDetails.level };
+    this.selectedLanguage = { name: this.draftedCourseDetails.language };
+  }
+
+  fetchCourseByEdAndCourseId() {
+    this.draftedCourseService.getCourseByCourseAndEducatorId(this.courseId, this.userId)
+      .subscribe((res) => {
+        if (res.success) {
+          this.draftedCourseDetails = res.data;
+          this.initializeCourseDetails();
+        }
+      }, (err) => {
+        this.toastmsgService.showError("Error", err.error.message);
+        this.errorFlag = true;
+        this.loading = false;
+      })
   }
 
   saveCourseDetails(nextCallback: any) {
@@ -77,20 +147,42 @@ export class CreateCourseComponent implements OnInit{
     this.formData.level = this.selectedLevel.name;
     this.formData.language = this.selectedLanguage.name;
     this.formData.educator = {
-      edId : this.userDetails._id,
-      edname : this.userDetails.username
+      edId: this.userDetails._id,
+      edname: this.userDetails.username
+    }
+    if (this.editMode) {
+      this.updateCourseDetails(); return;
     }
     this.draftedCourseService.createCourse(this.formData).subscribe((res) => {
       if (res.success) {
         nextCallback.emit();
         this.draftedCourseId = res.data._id;
         this.draftedCourseDetails = res.data;
-        this.loading = false;
-        this.errorFlag = false;
         this.toastmsgService.showSuccess("Success", "Course details uploaded successfully!");
+        this.loading = false; this.errorFlag = false;
       }
       else {
-        this.errorFlag = true ;
+        this.errorFlag = true;
+        this.toastmsgService.showError("Error", "Some internal error occured!");
+        this.loading = false;
+      }
+    }, (err) => {
+      this.errorFlag = true;
+      this.toastmsgService.showError("Error", err.error.message);
+      this.loading = false;
+    })
+  }
+
+  updateCourseDetails() {
+    this.draftedCourseService.updateCourse(this.draftedCourseDetails._id, this.formData).subscribe((res) => {
+      if (res.success) {
+        this.draftedCourseDetails = res.data;
+        this.fetchCourseByEdAndCourseId();
+        this.toastmsgService.showSuccess("Success", "Course details updated successfully!");
+        this.loading = false; this.errorFlag = false;
+      }
+      else {
+        this.errorFlag = true;
         this.toastmsgService.showError("Error", "Some internal error occured!");
         this.loading = false;
       }
@@ -102,6 +194,61 @@ export class CreateCourseComponent implements OnInit{
   }
 
 
-  
+  uploadFile(event: any, nextCallback: any) {
+    this.uploading = true;
+    const file = event.files[0];
+    const uploadData = new FormData();
+    uploadData.append('file', file);
+    this.draftedCourseService.uploadThumbnail(uploadData, this.draftedCourseDetails._id).subscribe((res) => {
+      this.uploading = false;
+      this.imagePreview = null;
+      this.draftedCourseDetails = { ...this.draftedCourseDetails, coursePoster: res.data.coursePoster };
+      // Ensure fileUpload is defined before clearing
+      if (this.fileUpload) {
+        this.fileUpload.clear();
+      }
+      this.toastmsgService.showSuccess("Success", "Course thumbnail updated successfully.");
+      if (!this.editMode) nextCallback.emit();
+    },
+      (error) => {
+        this.loading = false;
+        this.uploading = false;
+        this.toastmsgService.showError("Error", error.error.message);
+      })
+  }
+
+  deleteFile() {
+    this.deleting = true;
+    this.draftedCourseService.deleteThumbnail(this.courseId).subscribe((res) => {
+      this.deleting = false;
+      this.draftedCourseDetails = { ...this.draftedCourseDetails, coursePoster: res.data.coursePoster };
+      if (this.fileUpload) {
+        this.fileUpload.clear();
+      }
+      this.toastmsgService.showSuccess("Success", "Thumbnail deleted successfully.");
+    },
+      (error) => {
+        this.loading = false;
+        this.toastmsgService.showError("Error", error.error.message);
+      })
+  }
+
+  onImageSelect(event: any): void {
+    const file = event.files[0]; // Get the first file selected
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result; // Store the image as data URL
+      };
+      reader.readAsDataURL(file); // Read file as data URL to show the preview
+    }
+  }
+
+  @ViewChild('fileUpload') fileUpload: FileUpload;
+  clearFileSelection(): void {
+    this.fileUpload.clear(); // Clear selected files
+    this.imagePreview = null;
+  }
+
 
 }

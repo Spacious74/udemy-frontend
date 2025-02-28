@@ -1,5 +1,5 @@
 <p-toast ></p-toast>
-<nav class="nav-container">
+<nav class="nav-container" [ngClass]="{ 'navbar-default': !isScrolled, 'navbar-scrolled': isScrolled }">
     <div class="navbar flex justify-content-between justify-content-between align-items-center m-auto ">
 
         <div class="left w-9 flex align-items-center gap-2">
