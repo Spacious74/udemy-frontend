@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { CourseDetailDto } from '../models/Course/CourseDetailDto';
 import { AuthResponse } from '../models/AuthResponse';
 import { ApiResponse } from '../models/ApiResponse';
-import { CourseList } from '../models/Course/CourseList';
 import { DraftCourse } from '../models/Course/DraftCourse';
 import { AppObject } from '../baseSettings/AppObject';
 
