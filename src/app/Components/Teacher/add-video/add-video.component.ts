@@ -15,7 +15,9 @@ import { FieldsetModule } from 'primeng/fieldset';
 @Component({
   selector: 'app-add-video',
   standalone: true,
-  imports: [ToastModule, CommonModule, ButtonModule, DialogModule, InputTextModule, FormsModule, FieldsetModule],
+  imports: [ToastModule, CommonModule, ButtonModule, DialogModule, InputTextModule, FormsModule, FieldsetModule,
+
+  ],
   templateUrl: './add-video.component.html',
   styles: ``
 })
@@ -31,6 +33,7 @@ export class AddVideoComponent implements OnInit {
   public sectionId: string;
   public videoId: string;
   public loading: boolean = false;
+  public updateVideoMode: boolean = false;
 
   public showSection: boolean = false;
   public showVideo: boolean = false;
@@ -61,7 +64,7 @@ export class AddVideoComponent implements OnInit {
         multiple: false,  //restrict upload to a single file
         folder: "SkillUp_Videos", //upload files to the specified folders
         clientAllowedFormats: ['mp4', 'mov', 'avi'], //restrict uploading to image files only
-        theme: "green", //change to a purple theme
+        maxDuration: 3900
       },
       (error: any, result: any) => {
         if (!error && result && result.event === "success") {
@@ -70,7 +73,13 @@ export class AddVideoComponent implements OnInit {
             public_id: pId,
             url: result.info.url,
           }
-          this.uploadVideoFile(data);
+          if (this.updateVideoMode) {
+            this.updateVideoFile(data)
+          }else { 
+            this.uploadVideoFile(data); 
+          }
+        } else {
+          this.toastmsgService.showError("Error", error.message);
         }
       }
     );
@@ -91,8 +100,8 @@ export class AddVideoComponent implements OnInit {
     this.showSection = !this.showSection;
   }
 
-  toggleVideo(event?: Event, sectionId?: string, videoTitle?: string, videoId?: string) {
-    if (event) event.stopPropagation();
+  toggleVideo(event : Event, sectionId?: string, videoTitle?: string, videoId?: string) {
+    event.stopPropagation();
     if (sectionId) this.sectionId = sectionId;
     if (videoId) {
       this.videoTitle = videoTitle;
@@ -102,6 +111,13 @@ export class AddVideoComponent implements OnInit {
   }
 
   openWidget(sectionId: string, videoId: string) {
+    this.sectionId = sectionId;
+    this.videoId = videoId;
+    this.myWidget.open();
+  }
+
+  openWidgetForUpdate(sectionId: string, videoId: string) {
+    this.updateVideoMode = true;
     this.sectionId = sectionId;
     this.videoId = videoId;
     this.myWidget.open();
@@ -221,13 +237,13 @@ export class AddVideoComponent implements OnInit {
     })
   }
 
-  uploadVideoFile(data : any) {
-    this.addVideoService.updateVideoFile(this.courseId, this.sectionId, this.videoId, data).subscribe((res)=>{
-      if(res.success){
+  uploadVideoFile(data: any) {
+    this.addVideoService.addVideoFile(this.courseId, this.sectionId, this.videoId, data).subscribe((res) => {
+      if (res.success) {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
         this.toastmsgService.showSuccess("Success", "Video uploaded successfully!");
-      }else{
+      } else {
         this.toastmsgService.showError("Error", res.message);
       }
     }, (err) => {
@@ -236,9 +252,23 @@ export class AddVideoComponent implements OnInit {
     })
   }
 
-  deleteVideoTitle(event: Event, sectionId: string, videoId: string) {
-    event.stopPropagation();
-    if (!confirm("Are you sure you want to delete this video")) return;
+  updateVideoFile(data: any) {
+    this.addVideoService.updateVideoFile(this.courseId, this.sectionId, this.videoId, data).subscribe((res) => {
+      if (res.success) {
+        this.sectionList = res.data;
+        this.totalSection = res.data.length;
+        this.toastmsgService.showSuccess("Success", "Video file updated successfully!");
+      } else {
+        this.toastmsgService.showError("Error", res.message);
+      }
+    }, (err) => {
+      this.toastmsgService.showError("Error", err.error.message);
+      this.loading = false;
+    })
+  }
+
+  deleteVideo(sectionId: string, videoId: string) {
+    if (!confirm("Are you sure you want to delete this video lecture ?")) return;
     this.addVideoService.deleteVideo(this.courseId, sectionId, videoId).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;
@@ -251,7 +281,5 @@ export class AddVideoComponent implements OnInit {
       this.loading = false;
     })
   }
-
-
 
 }

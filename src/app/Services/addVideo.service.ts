@@ -38,6 +38,11 @@ export class AddVideoService {
         return this.http.post<ApiResponse<SectionList[]>>(url, {videoTitle});
     }
 
+    addVideoFile(courseId : string, sectionId:string, videoId:string, videoInfo:any){
+        let url = this.base_url + `addVideoFile?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
+        return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo);
+    }
+
     updateVideoFile(courseId : string, sectionId:string, videoId:string, videoInfo:any){
         let url = this.base_url + `updateVideoFile?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
         return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo);

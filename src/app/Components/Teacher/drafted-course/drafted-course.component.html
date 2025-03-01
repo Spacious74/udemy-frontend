@@ -6,9 +6,9 @@
         <div class="flex flex-wrap gap-2 w-full p-3">
             
             <ng-container *ngFor="let item of draftedCourseList">
-                <div class="p-3 surface-0 shadow-1 flex flex-column w-3 border-1 border-round">
+                <div class="p-3 surface-0 shadow-1 flex flex-column w-3 border-1 radius14">
                     <img [src]='item.coursePoster.url' [alt]="item.coursePoster.public_id"
-                    class="w-full h-10rem courseImage" />
+                    class="w-full h-10rem courseImage mb-3 border-round" />
                     <div class="flex flex-column gap-2">
                         <div class="text-l font-semibold">{{item.title}}</div>
                         <div class="text-sm">₹ {{item.price}}</div>

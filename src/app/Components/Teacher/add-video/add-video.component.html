@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="flex align-items-center gap-4">
                                     <span class="font-normal">{{item.videos.length}} Lectures</span>
-                                    <span class="text-btn flex align-items-center gap-1" (click)="toggleVideo($event, item._id)" >
+                                    <span class="text-btn flex align-items-center gap-1" (click)="toggleVideo($event,item._id)" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v12m-6-6h12"/></svg>
                                         Add Video
                                     </span>
@@ -46,14 +46,27 @@
                         <div class="flex flex-column gap-2 m-0">
                             @for (vid of item.videos; track vid._id; let idx = $index) {
                                 <div class="vid-tab p-2 radius12 flex align-items-center justify-content-between w-full"> 
-                                    <span class="name flex align-items-center gap-2">
+                                    <div class="name flex align-items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M15.414 10.941c.781.462.781 1.656 0 2.118l-4.72 2.787C9.934 16.294 9 15.71 9 14.786V9.214c0-.924.934-1.507 1.694-1.059z"/></g></svg>
                                         Lecture {{idx+1}}.&nbsp; {{vid.name}}
-                                    </span>
+                                        <div class="flex gap-2 align-items-center">
+                                            <span class="icon-btn text-200" (click)="toggleVideo($event,item._id, vid.name, vid._id)"  >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0z"/><path fill="currentColor" d="m5 16l-1 4l4-1L18 9l-3-3z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 6l3 3m-5 11h8"/></g></svg>
+                                            </span>
+                                            <span class="icon-btn text-200" (click)="deleteVideo(item._id, vid._id)" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M8.106 2.553A1 1 0 0 1 9 2h6a1 1 0 0 1 .894.553L17.618 6H20a1 1 0 1 1 0 2h-1v11a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V8H4a1 1 0 0 1 0-2h2.382zM14.382 4l1 2H8.618l1-2zM11 11a1 1 0 1 0-2 0v6a1 1 0 1 0 2 0zm4 0a1 1 0 1 0-2 0v6a1 1 0 1 0 2 0z" clip-rule="evenodd"/></svg>
+                                            </span>
+                                        </div>
+                                    </div>
                                     @if (!vid.public_id) {
-                                        <p-button label="Upload Video" icon="pi pi-upload" [outlined]="true" (onClick)="openWidget(item._id, vid._id)"  />
+                                        <p-button label="Upload Video" icon="pi pi-upload" [outlined]="true"
+                                        (onClick)="openWidget(item._id, vid._id)" size="small" />
                                     }@else {
-                                        <p-button label="Play" icon="pi pi-play" size="small"  />
+                                        <div class="flex gap-2">
+                                            <p-button label="Update Video File" icon="pi pi-file" [outlined]="true" size="small"
+                                            (onClick)="openWidgetForUpdate(item._id, vid._id)" severity="help" />
+                                            <p-button label="Play" icon="pi pi-play" size="small" />
+                                        </div>
                                     }
                                 </div>
                             }
@@ -86,7 +99,7 @@
         [(ngModel)]="videoTitle" />
     </div>
     <div class="flex justify-content-end gap-2">
-        <p-button icon="pi pi-times" label="Cancel" severity="secondary" (onClick)="toggleVideo()" />
+        <p-button icon="pi pi-times" label="Cancel" severity="secondary" (onClick)="toggleVideo($event)" />
         <p-button icon="pi pi-save" label="Save" (onClick)="addVideo($event)"  />
     </div>
 </p-dialog>
