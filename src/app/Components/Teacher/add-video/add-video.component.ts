@@ -37,9 +37,12 @@ export class AddVideoComponent implements OnInit {
 
   public showSection: boolean = false;
   public showVideo: boolean = false;
+  public playVideo : boolean = false;
 
   public cloudName = "drrczbcx7";
   public uploadPreset = "emnakpuq";
+  public videoUrl = "";
+  public videoHeader = "";
   public myWidget: any;
 
   public totalSection: number;
@@ -108,6 +111,15 @@ export class AddVideoComponent implements OnInit {
       this.videoId = videoId;
     }
     this.showVideo = !this.showVideo;
+  }
+
+  togglePlayVideo(videoUrl: string, videoHeader:string,) {
+    this.videoUrl = null;
+    setTimeout(() => {
+      this.videoUrl = videoUrl;
+    });
+    this.videoHeader = videoHeader
+    this.playVideo = !this.playVideo;
   }
 
   openWidget(sectionId: string, videoId: string) {

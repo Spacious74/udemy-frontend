@@ -14,7 +14,7 @@
                         <div class="text-sm">₹ {{item.price}}</div>
                     </div>
                     <div class="flex gap-3 mt-2">
-                        <p-button label="Edit Course" icon="pi pi-pencil" (onClick)="navigateToEditCourse(item._id)" />
+                        <p-button label="Edit Course" icon="pi pi-pencil" (onClick)="navigateToEditCourse(item?._id)" />
                     </div>
                 </div>
             </ng-container>
