@@ -4,29 +4,38 @@ import { courseContent } from '../../data/courseContent';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
 import { ButtonModule } from 'primeng/button';
-import { CourseService } from '../../Services/course.service';
 import { ActivatedRoute } from '@angular/router';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CourseService } from '../../Services/course.service';
+import { courseData } from '../../data/course';
+import { DatePipe } from '@angular/common';
 import { CartService } from '../../Services/cart.service';
 import { AuthService } from '../../Services/auth.service';
-import { courseData } from '../../data/course';
+import { DraftedCourseService } from '../../Services/draftedCourse.service';
+import { DraftCourse } from '../../models/Course/DraftCourse';
+import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
+import { SectionList } from '../../models/Course/SectionList';
+import { AddVideoService } from '../../Services/addVideo.service';
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, CurrencyPipe, DatePipe],
+  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
-export class CourseDetailComponent implements OnInit{
-  public selectedCourse: any;
+export class CourseDetailComponent implements OnInit {
+
+  public selectedCourse: DraftCourse;
   public reviewsArr : any[];
-  courseContent: any[] = courseContent;
+  public sectionList : SectionList[];
+  public courseContent: any[] = courseContent;
   public showCard: boolean = false;
 
   constructor(
     private elRef: ElementRef,
-    private courseService: CourseService,
+    private draftedCourseService : DraftedCourseService,
     private activatedRoute: ActivatedRoute,
+    private toastMsgService : ToastMessageService,
+    private addVideoService : AddVideoService,
     private cartService : CartService,
     private authService : AuthService
   ) {}
@@ -34,11 +43,8 @@ export class CourseDetailComponent implements OnInit{
   public courseId : any;
   ngOnInit() : void {
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
-    this.courseService.getCourseById(this.courseId).subscribe((res)=>{
-      this.selectedCourse = res.course;
-      // this.reviewsArr = res.reviews.reviewArr;
-    });
-    this.selectedCourse = courseData.find((course) => course._id == this.courseId);
+    this.fetchCourseDetails();
+    this.fetchSectionList();
   }
 
   getStars(num :number){
@@ -60,9 +66,29 @@ export class CourseDetailComponent implements OnInit{
     }
   }
 
+  fetchCourseDetails(){
+    this.draftedCourseService.getCourseDetailsById(this.courseId).subscribe((res)=>{
+      this.selectedCourse = res.course;
+      this.reviewsArr = res.reviews.reviewArr;
+    },
+    (error) => {
+      this.toastMsgService.showError("Error", error.error.message);
+    });
+  }
+
+  fetchSectionList() {
+    this.addVideoService.getAllVideoSections(this.courseId).subscribe((res) => {
+      this.sectionList = res.data;
+    }, (err) => {
+      this.toastMsgService.showError("Error", err.error.message);
+    })
+  }
+
+
   getScrollYHeight(): number {
     return this.elRef.nativeElement.ownerDocument.documentElement.scrollHeight;
   }
+
   addToCart(){
     // console.log(localStorage.getItem('userId'));
   }

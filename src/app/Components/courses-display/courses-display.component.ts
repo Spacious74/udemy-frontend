@@ -8,29 +8,33 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CourseService } from '../../Services/course.service';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
+import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
+import { DraftedCourseService } from '../../Services/draftedCourse.service';
+
 @Component({
   selector: 'app-courses-display',
   standalone: true,
-  imports: [ RouterLink, CommonModule, FormsModule, SelectButtonModule, RadioButtonModule, DataViewModule, 
-    PaginatorModule, ButtonModule ],
+  imports: [CommonModule, FormsModule, SelectButtonModule, RadioButtonModule, DataViewModule,
+    PaginatorModule, ButtonModule],
   templateUrl: './courses-display.component.html',
   styleUrl: './courses-display.component.css',
 })
 export class CoursesDisplayComponent implements OnInit, OnDestroy {
+  
   public courses: any[];
   public price!: string;
   public lang!: string;
   public level!: string;
   public sort: string = '';
-  public category : string = "";
-  public searchText : string = "";
-  public error : string = "";
+  public category: string = "";
+  public searchText: string = "";
+  public error: string = "";
 
   public first: number = 0;
   public page: number = 0;
   public rows: number = 10;
-  public totalRecords: number;
-  
+  public totalRecords: number = 0;
+
   priceOption: any[] = [
     { name: 'Paid', value: 'paid' },
     { name: 'Free', value: 'free' },
@@ -42,24 +46,26 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
 
   constructor(
     private courseService: CourseService,
-    private router : Router,
-    private activatedRoute : ActivatedRoute
-  ) {}
-  public paramsObs : any;
+    private draftedCourseService : DraftedCourseService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private toastMsgService : ToastMessageService
+  ) { }
+  public paramsObs: any;
   ngOnInit() {
     // this.category = this.activatedRoute.snapshot.params['category'];
-    this.paramsObs = this.activatedRoute.params.subscribe((data)=>{
+    this.paramsObs = this.activatedRoute.params.subscribe((data) => {
       this.category = data['category']
-      if(this.category){
+      if (this.category) {
         this.fetchData();
-      }else{
+      } else {
         this.fetchData();
       }
     });
     this.activatedRoute.queryParams.subscribe(params => {
       this.searchText = params['q'];
       if (this.searchText) {
-        if(this.searchText){
+        if (this.searchText) {
           this.fetchData();
         }
       }
@@ -69,23 +75,25 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
     this.paramsObs.unsubscribe();
   }
   fetchData() {
-    // this.courses = data;
-    // this.totalRecords = data.length;
-    this.courseService.fetchCourses(this.page, this.sort, this.lang, 
-    this.category, this.searchText).subscribe((res) => {
-
-      this.courses = res.filteredResults;
-      this.totalRecords = res.totalCourses;
-      this.error= "";
-      
-    }, (err)=>{
-      if(err){
-        this.error = err.message;
-      }
-    });
+    this.draftedCourseService.getAllCourses(this.page, this.sort, this.lang,
+      this.category, this.searchText).subscribe((res) => {
+        if (res.success) {
+          this.courses = res.data;
+          this.totalRecords = res.totalCourses;
+          this.error = "";
+        }else{
+          this.error = "Unable to fetch data from server!";
+          this.toastMsgService.showError("Error", "Unable to fetch data from server!");
+        }
+      }, (err) => {
+        if (err) {
+          this.error = err.message;
+          this.toastMsgService.showError("Error", err.message);
+        }
+      });
   }
-  backToResults(){
-    this.lang = ""; this.category=""; this.searchText="";
+  backToResults() {
+    this.lang = ""; this.category = ""; this.searchText = "";
     this.fetchData();
   }
   onPageChange(event: PaginatorState) {
@@ -123,8 +131,8 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToCourseDetails(courseId : any){
-    let url="/course/"+courseId;
+  navigateToCourseDetails(courseId: any) {
+    let url = "/course/" + courseId;
     this.router.navigate([url]);
   }
 }

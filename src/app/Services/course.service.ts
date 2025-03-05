@@ -5,12 +5,13 @@ import { CourseDetailDto } from '../models/Course/CourseDetailDto';
 import { AuthResponse } from '../models/AuthResponse';
 interface response {
   totalCourses: number;
-  filteredResults: any[];
+  data: any[];
+  success : boolean;
 }
 interface courseDetailsResponse {
-  
   message: string;
   course: Object;
+  success : boolean;
   reviews: {
     courseId: any;
     reviewArr: [{
@@ -51,12 +52,10 @@ export class CourseService {
     return this.http.get<response>(url);
   }
 
-  getCourseById(id: any): Observable<courseDetailsResponse> {
-    let url = this.base_url + id;
+  getCourseById(courseId : string): Observable<courseDetailsResponse> {
+    let url = this.base_url + `getCourseById?courseId=${courseId}`;
     return this.http.get<courseDetailsResponse>(url);
   } 
-
-  
 
   getDrafterCourse(courseId : string, educatorId:string):Observable<courseDetailsResponse>{
     let url = this.base_url + `getDraftedCourse?courseId=${courseId}&educatorId=${educatorId}`;

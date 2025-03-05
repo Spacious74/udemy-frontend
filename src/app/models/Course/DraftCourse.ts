@@ -18,4 +18,7 @@ export interface DraftCourse {
     },
     totalStudentsPurchased : number,
     courseModuleId : string,
+    isReleased : boolean,
+    updatedAt : Date,
+    createdAt : Date
 }
