@@ -12,14 +12,20 @@ import {
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { cartReducer } from './store/reducers/cart.reducer';
+import { userInfoReducer } from './store/reducers/user.reducer';
+import { UserInfoEffects } from './store/effects/user.effects';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideAnimations(),
     provideHttpClient(withFetch()),
-    provideStore(),
-    provideEffects(),
+    provideStore({
+      cart : cartReducer,
+      userInfo : userInfoReducer
+    }),
+    provideEffects(UserInfoEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ],
 };

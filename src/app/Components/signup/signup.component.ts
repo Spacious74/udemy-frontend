@@ -11,6 +11,9 @@ import { User } from '../../models/User';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { CookieService } from 'ngx-cookie-service';
 import { AppObject } from '../../baseSettings/AppObject';
+import { Store } from '@ngrx/store';
+import { UserList } from '../../models/UserList';
+import { userInfoActions } from '../../store/actions/userInfo.action';
 
 @Component({
   selector: 'app-signup',
@@ -33,6 +36,7 @@ export class SignupComponent {
     private cookieService : CookieService,
     private router : Router,
     private toastmsgService : ToastMessageService,
+    private store : Store<{userInfo : UserList}>
   ) {}
   
   formSubmission(form: NgForm) {
@@ -54,7 +58,9 @@ export class SignupComponent {
           this.cookieService.delete('skillUpToken');
         }
         this.cookieService.set('skillUpToken', res.token, 65);
-        AppObject.userData = res.data; AppObject.AuthToken = res.token;
+        
+        this.store.dispatch(userInfoActions.loadUserSuccess({payload : res.data}));
+        
         this.loading = false; this.errorFlag = false;
         this.toastmsgService.showSuccess("Success", "User registered successfully.");
         this.formData = new User();

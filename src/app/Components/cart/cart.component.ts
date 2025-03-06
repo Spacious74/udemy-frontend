@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CartService } from '../../Services/cart.service';
+import { Store } from '@ngrx/store';
+import { Cart } from '../../models/Cart';
+import { Observable } from 'rxjs';
+import { removeFromCartAction } from '../../store/actions/cart.action';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -10,61 +14,42 @@ import { CartService } from '../../Services/cart.service';
   styleUrl: './cart.component.css'
 })
 export class CartComponent implements OnInit {
-  public course : any[] = [
-    {
-      title: 'JavaScript Essentials',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Beginner',
-      price: 49.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e631', // Example educator ID
-        edname: 'Sophia Johnson',
-      },
-      coursePoster: {
-        public_id: '234dfg567', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'Python Programming for Beginners',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Beginner',
-      price: 54.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e632', // Example educator ID
-        edname: 'Michael Johnson',
-      },
-      coursePoster: {
-        public_id: '890vbn123', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'Java Programming Masterclass',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Intermediate',
-      price: 69.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e633', // Example educator ID
-        edname: 'Oliver Johnson',
-      },
-      coursePoster: {
-        public_id: '567ghj890', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-  ];
-  public cartItemsLength: number = 0;
 
-  constructor(private cartService : CartService){}
+  public cartData$ : Observable<Cart[]>
+  public course : any[];
+  public cartItemsLength: number = 0;
+  public cartData : Cart[];
+
+  constructor(
+    private cartService : CartService,
+    private store : Store<{cart : Cart[]}>
+  ){
+    this.cartData$ = this.store.select("cart");
+  }
 
   ngOnInit(): void {
+    this.cartData$.subscribe((res)=>{
+      this.cartItemsLength = res.length;
+    });
+    this.loadCartFromLocalStorage();
+  }
+  
+  fetchCartData(){
     this.cartService.getCart().subscribe((res)=>{
       // console.log(res);
-      this.course = res.cart.cartItems;
     })
   }
+
+  loadCartFromLocalStorage(){
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    this.cartData = cart;
+  }
+
+  removeFromCart(courseId:string){
+    let payloadData = {
+      courseId: courseId,
+    }
+    this.store.dispatch(removeFromCartAction({payload : payloadData}))
+  }
+
 }

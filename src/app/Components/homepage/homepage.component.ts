@@ -7,7 +7,7 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
 import { CarouselModule } from 'primeng/carousel';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { articles } from '../../data/article';
 import { Router, RouterLink } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
@@ -17,11 +17,14 @@ import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { courseData } from '../../data/course';
 import { UserService } from '../../state/user.service';
+import { UserList } from '../../models/UserList';
+import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [
-    CardModule, FormsModule, ButtonModule, CommonModule, CurrencyPipe, CarouselModule, BadgeModule, 
+    CardModule, FormsModule, ButtonModule, CommonModule, CarouselModule, BadgeModule, 
     TooltipModule, RouterLink, FooterComponent, ToastModule, DialogModule
   ],
   providers : [ToastMessageService],
@@ -29,43 +32,28 @@ import { UserService } from '../../state/user.service';
   styleUrl: './homepage.component.css',
 })
 export class HomepageComponent implements OnInit {
+
   public data: any[] = [];
   public categories: any[] = [];
   public articles : any[] = [];
   public showPopUp : boolean = false;
-  public userDetails : any = AppObject.AuthToken;
+  public userDetails : UserList;
   public userId : string;
   public userRole : string = 'student';
 
   constructor(
     private authService : AuthService,
-    private cookieService : CookieService,
     private routerService : Router,
     private toastMsgService : ToastMessageService,
-    private storage : UserService
+    private store : Store<{userInfo : UserList}>
   ){}
 
   ngOnInit(): void {
-    // let token = this.cookieService.get('skillUpToken')
-    // if(token){
-    //   AppObject.AuthToken = token;
-    //   this.authService.getUserData(token).subscribe((res)=>{
-    //     AppObject.userData = res.data;
-    //     this.userDetails = res.data; this.userId = res.data._id;
-    //     this.userRole = res.data.role;
-    //   }, 
-    //   (error)=>{
-    //     this.toastMsgService.showError("Error", error.error.message);
-    //   })
-    // }
 
-    this.storage.user$.subscribe((res)=>{
+    this.store.select('userInfo').subscribe((res)=>{
       this.userDetails = res;
-      this.userId = res._id;
-    },
-    (error) => {
-      console.log(error);
-    });
+      this.userRole = res.role;
+    })
 
     this.data = courseData.slice(0,13);
     this.categories = [

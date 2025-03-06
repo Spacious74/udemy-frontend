@@ -18,12 +18,14 @@ import { DialogModule } from 'primeng/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserService } from '../../state/user.service';
+import { BadgeModule } from 'primeng/badge';
+import { Cart } from '../../models/Cart';
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     FormsModule, DropdownModule, InputTextModule, ButtonModule, RouterLink, RouterLinkActive, CommonModule,
-    OverlayPanelModule, TooltipModule, ToastModule, DialogModule
+    OverlayPanelModule, TooltipModule, ToastModule, DialogModule, BadgeModule
   ],
   providers: [MessageService, ToastMessageService],
   templateUrl: './navbar.component.html',
@@ -39,6 +41,7 @@ export class NavbarComponent implements OnInit {
   public showPopUp : boolean = false;
   public userId : string;
   public userRole : string;
+  public cartLength : number=0;
 
   constructor(
     private authService: AuthService,
@@ -46,12 +49,14 @@ export class NavbarComponent implements OnInit {
     private toastMsgService: ToastMessageService,
     private router: Router,
     private msg: MessageService,
-    private storage : UserService
+    private store : Store<{cart : Cart[], userInfo : UserList}>
   ) { }
 
   ngOnInit(): void {
-
     this.initializeUser();
+    this.store.select("cart").subscribe((res)=>{
+      this.cartLength = res.length;
+    })
     this.categories = [
       { name: 'Development' },
       { name: 'Business' },
@@ -59,7 +64,6 @@ export class NavbarComponent implements OnInit {
       { name: 'Design' },
       { name: 'Programming Languages' },
     ];
-
   }
 
   public isScrolled = false;
@@ -70,23 +74,16 @@ export class NavbarComponent implements OnInit {
   }
 
   initializeUser(){
-    let token = this.cookieService.get('skillUpToken')
-    if (token) {
-      AppObject.AuthToken = token;
-      this.authService.getUserData(token).subscribe((res) => {
-        AppObject.userData = res.data;
-        this.userDetails = res.data;
-        this.userId = res.data._id;
-        this.userRole = res.data.role;
-        this.userLoggedIn = true;
-      },
-      (error) => {
-        this.toastMsgService.showError("Error", error.error.message);
-        this.userLoggedIn = false;
-      })
-    }else{
+    this.store.select("userInfo").subscribe((res)=>{
+      this.userDetails = res;
+      this.userId = res._id;
+      this.userRole = res.role;
+      this.userLoggedIn = true;
+    },
+    (error) => {
+      this.toastMsgService.showError("Error", error.error.message);
       this.userLoggedIn = false;
-    }
+    })
   }
 
 

@@ -16,11 +16,16 @@ interface cartResponse  {
   providedIn: 'root'
 })
 export class CartService {
-  private base_url: string = 'http://localhost:4000/skillup/api/v1/';
+  private base_url: string = 'http://localhost:4000/skillup/api/v1/cart/';
   constructor(private http: HttpClient) { }
 
   getCart() : Observable<cartResponse>{
-    let url = this.base_url + 'cart/get/' + localStorage.getItem("userId");
+    let url = this.base_url + 'get/' + localStorage.getItem("userId");
     return this.http.get<cartResponse>(url,  { withCredentials: true });
+  }
+
+  addToCart(userId:string, courseId : string){
+    let url = this.base_url + `addToCart?userId=${userId}&courseId=${courseId}`;
+    return this.http.post<cartResponse>(url, null);
   }
 }

@@ -8,6 +8,9 @@ import { AuthService } from './Services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from './baseSettings/services/toastMessage.service';
 import { UserService } from './state/user.service';
+import { UserList } from './models/UserList';
+import { Store } from '@ngrx/store';
+import { userInfoActions } from './store/actions/userInfo.action';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,26 +20,21 @@ import { UserService } from './state/user.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
+
   public userDetails: any = null;
+
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
     private toastMsgService: ToastMessageService,
-    private storage : UserService
+    private storage : UserService,
+    private store : Store<{userInfo : UserList}>
   ) { }
+
   ngOnInit(): void {
-    let token = this.cookieService.get('skillUpToken');
-    if (token) {
-      AppObject.AuthToken = token;
-      this.authService.getUserData(token).subscribe((res) => {
-        AppObject.userData = res.data;
-        this.userDetails = res.data;
-        this.storage.setUser(res.data);
-      },
-      (error) => {
-        this.toastMsgService.showError("Error", error.error.message);
-      })
-    }
+
+    this.store.dispatch(userInfoActions.loadUser())
+
   }
 
 }

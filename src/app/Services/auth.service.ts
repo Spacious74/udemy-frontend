@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, PLATFORM_ID, Inject} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationStart } from '@angular/router';
@@ -7,13 +7,14 @@ import { AppObject } from '../baseSettings/AppObject';
 import { Observable } from 'rxjs';
 import { AuthResponse } from '../models/AuthResponse';
 import { UserDto } from '../models/UserDto';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   
   public previousUrl : string | null = null;
-  constructor(private http: HttpClient, private router : Router) {
+  constructor(private http: HttpClient, private router : Router, private cookieService : CookieService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         // Store the previous URL before navigation
@@ -32,9 +33,12 @@ export class AuthService {
     return this.http.post<AuthResponse>(url, userData);
   }
 
-  getUserData(token):Observable<AuthResponse>{
+  getUserData(sendedtoken? : string):Observable<AuthResponse>{
     let url = basePath + 'user/getUserLogonData';
-    const headers = AppObject.prepareGetJsonHeader();
+    var headers = new HttpHeaders({'credentials': 'include'});
+    headers = headers.append('content-type', 'application/json');
+    const token = this.cookieService.get("skillUpToken");
+    headers = headers.append('AUTH_TOKEN', token);
     return this.http.get<AuthResponse>(url, {headers});
   }
 

@@ -5,9 +5,9 @@ export interface DraftCourse {
     description: string;
     category: string;
     subCategory: string;
-    price: Number;
-    language: String;
-    level: String;
+    price: number;
+    language: string;
+    level: string;
     educator: {
         edId: string,
         edname: string,

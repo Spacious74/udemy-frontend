@@ -15,45 +15,48 @@ import { DraftCourse } from '../../models/Course/DraftCourse';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { SectionList } from '../../models/Course/SectionList';
 import { AddVideoService } from '../../Services/addVideo.service';
+import { Cart } from '../../models/Cart';
+import { Store } from '@ngrx/store';
+import { addToCartAction } from '../../store/actions/cart.action';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe],
+  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, ToastModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
 export class CourseDetailComponent implements OnInit {
 
   public selectedCourse: DraftCourse;
-  public reviewsArr : any[];
-  public sectionList : SectionList[];
+  public reviewsArr: any[];
+  public sectionList: SectionList[];
   public courseContent: any[] = courseContent;
   public showCard: boolean = false;
 
   constructor(
     private elRef: ElementRef,
-    private draftedCourseService : DraftedCourseService,
+    private draftedCourseService: DraftedCourseService,
     private activatedRoute: ActivatedRoute,
-    private toastMsgService : ToastMessageService,
-    private addVideoService : AddVideoService,
-    private cartService : CartService,
-    private authService : AuthService
-  ) {}
+    private toastMsgService: ToastMessageService,
+    private addVideoService: AddVideoService,
+    private store : Store
+  ) { }
 
-  public courseId : any;
-  ngOnInit() : void {
+  public courseId: any;
+  ngOnInit(): void {
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
     this.fetchCourseDetails();
     this.fetchSectionList();
   }
 
-  getStars(num :number){
+  getStars(num: number) {
     return new Array(num).fill(1);
   }
-  getRemainingStars(num : number){
-    return new Array(5-num).fill(1);
+  getRemainingStars(num: number) {
+    return new Array(5 - num).fill(1);
   }
-  
+
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: any) {
     if (
@@ -66,14 +69,14 @@ export class CourseDetailComponent implements OnInit {
     }
   }
 
-  fetchCourseDetails(){
-    this.draftedCourseService.getCourseDetailsById(this.courseId).subscribe((res)=>{
+  fetchCourseDetails() {
+    this.draftedCourseService.getCourseDetailsById(this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
       this.reviewsArr = res.reviews.reviewArr;
     },
-    (error) => {
-      this.toastMsgService.showError("Error", error.error.message);
-    });
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      });
   }
 
   fetchSectionList() {
@@ -89,7 +92,21 @@ export class CourseDetailComponent implements OnInit {
     return this.elRef.nativeElement.ownerDocument.documentElement.scrollHeight;
   }
 
-  addToCart(){
-    // console.log(localStorage.getItem('userId'));
+  addToCart() {
+    let payloadData: Cart = {
+      courseId: this.selectedCourse._id,
+      coursePoster:this.selectedCourse.coursePoster,
+      courseName: this.selectedCourse.title,
+      coursePrice: this.selectedCourse.price,
+      educatorName : this.selectedCourse.educator.edname,
+      level : this.selectedCourse.level,
+      language : this.selectedCourse.language,
+      subTitle : this.selectedCourse.subTitle
+    }
+
+    // this.store.dispatch({type : "Add to Cart", payload : payloadData}); // we can pass manually like this
+    this.store.dispatch(addToCartAction({payload : payloadData})); // Here we are creating action in seperate file
+    this.toastMsgService.showInfo("Success", "Item added to cart.")
+
   }
 }

@@ -39,32 +39,32 @@ export class UserList {
     }[];
     bookmarkedCourses: string[];
 
-    constructor() {
-        this.username = '';
-        this.headline = '';
-        this.email = '';
-        this.password = '';
-        this.role = 'student';
-        this.profileImage = '';
-        this.bio = '';
-        this.coursesCreated = [];
-        this.coursesEnrolled = [];
-        this.wishlist = [];
-        this.progress = [];
-        this.socialLinks = {
-            linkedin: '',
-            portfolio: '',
-            github: ''
-        };
-        this.isActive = true;
-        this.lastLogin = undefined;
-        this.notifications = [];
-        this.resetPasswordToken = undefined;
-        this.resetPasswordExpires = undefined;
-        this.isInstructor = false;
-        this.earnings = 0;
-        this.payoutMethod = '';
-        this.certifications = [];
-        this.bookmarkedCourses = [];
-    }
+    // constructor() {
+    //     this.username = '';
+    //     this.headline = '';
+    //     this.email = '';
+    //     this.password = '';
+    //     this.role = 'student';
+    //     this.profileImage = '';
+    //     this.bio = '';
+    //     this.coursesCreated = [];
+    //     this.coursesEnrolled = [];
+    //     this.wishlist = [];
+    //     this.progress = [];
+    //     this.socialLinks = {
+    //         linkedin: '',
+    //         portfolio: '',
+    //         github: ''
+    //     };
+    //     this.isActive = true;
+    //     this.lastLogin = undefined;
+    //     this.notifications = [];
+    //     this.resetPasswordToken = undefined;
+    //     this.resetPasswordExpires = undefined;
+    //     this.isInstructor = false;
+    //     this.earnings = 0;
+    //     this.payoutMethod = '';
+    //     this.certifications = [];
+    //     this.bookmarkedCourses = [];
+    // }
 }
