@@ -10,7 +10,9 @@ interface cartResponse  {
     cartItems: [],
     createdAt: Date,
     updatedAt: Date,
-  }
+  },
+  message : string,
+  success : boolean
 }
 @Injectable({
   providedIn: 'root'
@@ -24,8 +26,14 @@ export class CartService {
     return this.http.get<cartResponse>(url,  { withCredentials: true });
   }
 
-  addToCart(userId:string, courseId : string){
+  addToCart(userId:string, courseId : string): Observable<cartResponse>{
     let url = this.base_url + `addToCart?userId=${userId}&courseId=${courseId}`;
     return this.http.post<cartResponse>(url, null);
   }
+
+  removeFromCart(userId:string, courseId : string): Observable<cartResponse>{
+    let url = this.base_url + `removeFromCart?userId=${userId}&courseId=${courseId}`;
+    return this.http.post<cartResponse>(url, null);
+  }
+
 }

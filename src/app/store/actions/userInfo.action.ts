@@ -5,7 +5,7 @@ export const userInfoActions = createActionGroup({
     source : 'User Info API',
     events : {
         'load user' : emptyProps(),
-        'load user success' : props<{payload : UserList}>(),
+        'load user success' : props<{payload : UserList | null}>(),
         'load user failure' : emptyProps()
     }
 })

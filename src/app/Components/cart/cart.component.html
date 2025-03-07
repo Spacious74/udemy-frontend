@@ -8,7 +8,7 @@
             {{cartItemsLength}} courses in cart
         </div>
         <div class="cart flex flex-column gap-3 ">
-            @for (item of cartData$ | async ; track $index) {
+            @for (item of cartData ; track $index) {
                 <div class="course flex gap-3 align-items-center justify-content-center border-top-1 border-400 pt-3 ">
                     <div class="imgcont" style="width: 15%;">
                         <img [src]="item.coursePoster.url" [alt]="item.courseName" class="w-full">

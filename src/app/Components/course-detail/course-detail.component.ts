@@ -5,11 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute } from '@angular/router';
-import { CourseService } from '../../Services/course.service';
-import { courseData } from '../../data/course';
 import { DatePipe } from '@angular/common';
-import { CartService } from '../../Services/cart.service';
-import { AuthService } from '../../Services/auth.service';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
 import { DraftCourse } from '../../models/Course/DraftCourse';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
@@ -19,6 +15,10 @@ import { Cart } from '../../models/Cart';
 import { Store } from '@ngrx/store';
 import { addToCartAction } from '../../store/actions/cart.action';
 import { ToastModule } from 'primeng/toast';
+import { CookieService } from 'ngx-cookie-service';
+import { CartService } from '../../Services/cart.service';
+import { UserList } from '../../models/UserList';
+
 @Component({
   selector: 'app-course-detail',
   standalone: true,
@@ -33,6 +33,8 @@ export class CourseDetailComponent implements OnInit {
   public sectionList: SectionList[];
   public courseContent: any[] = courseContent;
   public showCard: boolean = false;
+  public userDetails : UserList;
+  public existInCart : boolean = false;
 
   constructor(
     private elRef: ElementRef,
@@ -40,7 +42,9 @@ export class CourseDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
     private addVideoService: AddVideoService,
-    private store : Store
+    private store: Store<{userInfo : UserList}>,
+    private cookieService: CookieService,
+    private cartService : CartService
   ) { }
 
   public courseId: any;
@@ -48,6 +52,11 @@ export class CourseDetailComponent implements OnInit {
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
     this.fetchCourseDetails();
     this.fetchSectionList();
+    this.store.select("userInfo").subscribe((res)=>{
+      this.userDetails = res;
+    });
+
+    this.loadCartDataFromStorage();
   }
 
   getStars(num: number) {
@@ -66,6 +75,16 @@ export class CourseDetailComponent implements OnInit {
       this.showCard = true;
     } else {
       this.showCard = false;
+    }
+  }
+
+  loadCartDataFromStorage(){
+    if (typeof window !== 'undefined') {
+      let cart = JSON.parse(localStorage?.getItem("cart") || '[]');
+      const exists = cart.some((cartItem : Cart)=>cartItem.courseId == this.selectedCourse._id);
+      if(exists){
+        this.existInCart = true;
+      }
     }
   }
 
@@ -93,20 +112,36 @@ export class CourseDetailComponent implements OnInit {
   }
 
   addToCart() {
+
     let payloadData: Cart = {
       courseId: this.selectedCourse._id,
-      coursePoster:this.selectedCourse.coursePoster,
+      coursePoster: this.selectedCourse.coursePoster,
       courseName: this.selectedCourse.title,
       coursePrice: this.selectedCourse.price,
-      educatorName : this.selectedCourse.educator.edname,
-      level : this.selectedCourse.level,
-      language : this.selectedCourse.language,
-      subTitle : this.selectedCourse.subTitle
+      educatorName: this.selectedCourse.educator.edname,
+      level: this.selectedCourse.level,
+      language: this.selectedCourse.language,
+      subTitle: this.selectedCourse.subTitle
+    }
+  
+    this.store.dispatch(addToCartAction({ payload: payloadData })); // Here we are creating action in seperate file
+    let token = this.cookieService.get("skillUpToken");
+    let cart = JSON.parse(localStorage.getItem("cart") || '[]');
+    const exists = cart.some((cartItem : Cart)=>cartItem.courseId == this.selectedCourse._id);
+    if(!exists){
+      cart.push(payloadData);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      if (token) {
+        this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res)=>{
+          this.toastMsgService.showSuccess("Success", res.message);
+        },(err) => {
+          this.toastMsgService.showError("Error", err.error.message);
+        })
+      }
+      this.existInCart = true; 
     }
 
-    // this.store.dispatch({type : "Add to Cart", payload : payloadData}); // we can pass manually like this
-    this.store.dispatch(addToCartAction({payload : payloadData})); // Here we are creating action in seperate file
-    this.toastMsgService.showInfo("Success", "Item added to cart.")
-
   }
+
+
 }

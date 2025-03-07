@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 import { UserService } from '../../state/user.service';
 import { BadgeModule } from 'primeng/badge';
 import { Cart } from '../../models/Cart';
+import { userInfoActions } from '../../store/actions/userInfo.action';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -75,17 +76,18 @@ export class NavbarComponent implements OnInit {
 
   initializeUser(){
     this.store.select("userInfo").subscribe((res)=>{
-      this.userDetails = res;
-      this.userId = res._id;
-      this.userRole = res.role;
-      this.userLoggedIn = true;
+      if(res){
+        this.userDetails = res;
+        this.userId = res?._id;
+        this.userRole = res?.role;
+        this.userLoggedIn = true;
+      }
     },
     (error) => {
       this.toastMsgService.showError("Error", error.error.message);
       this.userLoggedIn = false;
     })
   }
-
 
   display(event: any) {
     if (!event.value?.name) {
@@ -104,24 +106,14 @@ export class NavbarComponent implements OnInit {
 
   navigateToCart() {
     this.router.navigate(['/cart']); return;
-    if (AppObject.userData) {
-      this.router.navigate(['/cart']);
-    } else {
-      this.msg.add({
-        key: 'br',
-        severity: 'error',
-        summary: 'Please Login to get cart.',
-        detail: 'Login helps to you to keep store your products',
-      })
-      this.router.navigateByUrl(this.router.url);
-    }
-    
   }
 
   logout() {
     this.cookieService.delete('skillUpToken');
     window.location.reload();
     this.router.navigate(['/']);
+    this.userLoggedIn = false;
+    this.store.dispatch(userInfoActions.loadUserSuccess({payload : null}));
   }
 
   togglePopup(){

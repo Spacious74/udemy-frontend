@@ -52,7 +52,7 @@ export class HomepageComponent implements OnInit {
 
     this.store.select('userInfo').subscribe((res)=>{
       this.userDetails = res;
-      this.userRole = res.role;
+      this.userRole = res?.role;
     })
 
     this.data = courseData.slice(0,13);

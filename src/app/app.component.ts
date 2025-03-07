@@ -24,17 +24,15 @@ export class AppComponent implements OnInit {
   public userDetails: any = null;
 
   constructor(
-    private authService: AuthService,
     private cookieService: CookieService,
-    private toastMsgService: ToastMessageService,
-    private storage : UserService,
     private store : Store<{userInfo : UserList}>
   ) { }
 
   ngOnInit(): void {
-
-    this.store.dispatch(userInfoActions.loadUser())
-
+    let token = this.cookieService.get("skillUpToken");
+    if(token){
+      this.store.dispatch(userInfoActions.loadUser());
+    }
   }
 
 }
