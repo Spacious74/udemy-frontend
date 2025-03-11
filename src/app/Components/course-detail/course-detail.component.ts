@@ -35,6 +35,7 @@ export class CourseDetailComponent implements OnInit {
   public showCard: boolean = false;
   public userDetails : UserList;
   public existInCart : boolean = false;
+  public token : string = null;
 
   constructor(
     private elRef: ElementRef,
@@ -49,6 +50,8 @@ export class CourseDetailComponent implements OnInit {
 
   public courseId: any;
   ngOnInit(): void {
+    
+    this.token = this.cookieService.get("skillUpToken");
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
     this.fetchCourseDetails();
     this.fetchSectionList();
@@ -56,7 +59,12 @@ export class CourseDetailComponent implements OnInit {
       this.userDetails = res;
     });
 
-    this.loadCartDataFromStorage();
+    if(this.token){
+
+    }else{
+      this.loadCartDataFromStorage();
+    }
+
   }
 
   getStars(num: number) {
@@ -106,7 +114,6 @@ export class CourseDetailComponent implements OnInit {
     })
   }
 
-
   getScrollYHeight(): number {
     return this.elRef.nativeElement.ownerDocument.documentElement.scrollHeight;
   }
@@ -125,20 +132,21 @@ export class CourseDetailComponent implements OnInit {
     }
   
     this.store.dispatch(addToCartAction({ payload: payloadData })); // Here we are creating action in seperate file
-    let token = this.cookieService.get("skillUpToken");
-    let cart = JSON.parse(localStorage.getItem("cart") || '[]');
-    const exists = cart.some((cartItem : Cart)=>cartItem.courseId == this.selectedCourse._id);
-    if(!exists){
-      cart.push(payloadData);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      if (token) {
-        this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res)=>{
-          this.toastMsgService.showSuccess("Success", res.message);
-        },(err) => {
-          this.toastMsgService.showError("Error", err.error.message);
-        })
+
+    if(this.token){
+      this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res)=>{
+        this.toastMsgService.showSuccess("Success", res.message);
+      },(err) => {
+        this.toastMsgService.showError("Error", err.error.message);
+      })
+    }else{
+      let cart = JSON.parse(localStorage.getItem("cart") || '[]');
+      const exists = cart.some((cartItem : Cart)=>cartItem.courseId == this.selectedCourse._id);
+      if(!exists){
+        cart.push(payloadData);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.existInCart = true; 
       }
-      this.existInCart = true; 
     }
 
   }

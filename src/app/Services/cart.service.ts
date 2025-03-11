@@ -21,8 +21,8 @@ export class CartService {
   private base_url: string = 'http://localhost:4000/skillup/api/v1/cart/';
   constructor(private http: HttpClient) { }
 
-  getCart() : Observable<cartResponse>{
-    let url = this.base_url + 'get/' + localStorage.getItem("userId");
+  getCart(userId :string) : Observable<cartResponse>{
+    let url = this.base_url + 'getCart?userId=' + userId;
     return this.http.get<cartResponse>(url,  { withCredentials: true });
   }
 

@@ -24,6 +24,7 @@ export class CartComponent implements OnInit {
   public cartItemsLength: number = 0;
   public cartData : Cart[];
   public userDetails : UserList;
+  public token : string = null;
 
   constructor(
     private cartService : CartService,
@@ -35,18 +36,29 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.token = this.cookieService.get("skillUpToken");
     this.cartData$.subscribe((res)=>{
       this.cartItemsLength = res.length;
     });
-    this.loadCartFromLocalStorage();
+
     this.store.select("userInfo").subscribe((res)=>{
       this.userDetails = res;
-    })
+    });
+
+    if(this.token){
+      this.fetchCartData();
+    }else{
+      this.loadCartFromLocalStorage();
+    }
+
   }
   
   fetchCartData(){
-    this.cartService.getCart().subscribe((res)=>{
-      // console.log(res);
+    this.cartService.getCart(this.userDetails._id).subscribe((res)=>{
+      this.cartData = res.cart.cartItems;
+    },(err)=>{
+      this.toastMsgService.showError("Error", "Some internal error occured.");
     })
   }
 
@@ -60,16 +72,18 @@ export class CartComponent implements OnInit {
     let payloadData = {courseId: courseId};
     this.store.dispatch(removeFromCartAction({payload : payloadData}));
 
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]'); 
-    cart = cart.filter((item: any) => item.courseId !== courseId);
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    this.cartData = JSON.parse(localStorage.getItem('cart') || '[]');
-    let token = this.cookieService.get("skillUpToken");
-    if(token){
+    if(this.token){
       this.cartService.removeFromCart(this.userDetails._id, courseId).subscribe((res)=>{
-        this.toastMsgService.showSuccess("Success", "Item removed from cart");
+        if(res.success){
+          this.toastMsgService.showSuccess("Success", "Item removed from cart.");
+        }
+      },(err)=>{
+        this.toastMsgService.showError("Error", err.message);
       })
+    }else{
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]'); 
+      cart = cart.filter((item: any) => item.courseId !== courseId);
+      localStorage.setItem('cart', JSON.stringify(cart));
     }
 
   }
