@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-drafted-course',
@@ -31,24 +32,26 @@ export class DraftedCourseComponent {
 
   constructor(
     private darftedCourseService: DraftedCourseService,
-    private storage: UserService,
+    private store : Store<{userInfo : UserList}>,
     private router: Router,
     private toastMsgService: ToastMessageService,
     private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
-    this.storage.user$.subscribe((res) => {
+
+    this.store.select('userInfo').subscribe((res)=>{
       this.userDetails = res;
-      this.fetchCourseList(res?._id);
+      this.fetchCourseList();
     },
-      (error) => {
-        console.log(error);
-      });
+    (error) => {
+      this.toastMsgService.showError("Error", error.error.message);
+    })
+
   }
 
-  fetchCourseList(userId: string) {
-    this.darftedCourseService.getAllDraftedCourseById(userId).subscribe((res) => {
+  fetchCourseList() {
+    this.darftedCourseService.getAllDraftedCourseById(this.userDetails._id).subscribe((res) => {
       this.draftedCourseList = res.data;
       this.totalCourses = res.data.length;
     },
@@ -65,7 +68,7 @@ export class DraftedCourseComponent {
   releaseCourse(courseId:string) {
     this.darftedCourseService.releaseCourse(courseId).subscribe((res)=>{
       if(res.success){
-        this.fetchCourseList(this.userDetails._id);
+        this.fetchCourseList();
         this.toastMsgService.showSuccess("Success", res.data);
       }else{
         this.toastMsgService.showError("Error", "Something went wrong. Please try again later");
@@ -79,9 +82,8 @@ export class DraftedCourseComponent {
   confirm1(event: Event, courseId:string) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Once the course is released, you will still be able to edit it. Do you want to proceed with the release?',
+      message: 'Once you release this course, it will become publicly visible to all students on the platform.<p>You can still edit the course content and track its performance and analytics from your "My Courses" dashboard.</p>',
       header: 'Confirmation',
-      icon: 'pi pi-info-circle',
       acceptIcon: "none",
       rejectIcon: "none",
       acceptLabel : "Release",
@@ -89,9 +91,6 @@ export class DraftedCourseComponent {
       rejectButtonStyleClass: "p-button-text",
       accept: () => {
         this.releaseCourse(courseId);
-      },
-      reject: () => {
-        this.toastMsgService.showInfo("Info", "You have cancelled the action");
       }
     });
   }

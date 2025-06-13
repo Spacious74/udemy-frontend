@@ -9,8 +9,9 @@
   box-sizing: border-box;
 }
 .filter {
-  width: 25%;
+  width: 22%;
   height: calc(100vh - 60px);
+  border-right: solid 1px #cfcfcf;
 }
 .coursescont {
   height: calc(100vh - 60px);

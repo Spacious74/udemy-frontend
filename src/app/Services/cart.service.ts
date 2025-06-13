@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-interface cartResponse  {
-  cartItemsLength: number,
-  isEmpty: boolean,
-  cart: {
-    _id: 'string',
-    userId: 'string',
-    cartItems: [],
-    createdAt: Date,
-    updatedAt: Date,
-  },
-  message : string,
-  success : boolean
+import { CookieService } from 'ngx-cookie-service';
+import { Cart } from '../models/Cart';
+interface cartResponse {
+  cartItemsLength: number;
+  cart: Cart;
+  message: string;
+  success: boolean;
 }
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private base_url: string = 'http://localhost:4000/skillup/api/v1/cart/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService : CookieService) { }
 
-  getCart(userId :string) : Observable<cartResponse>{
+  getCart(userId: string): Observable<cartResponse> {
+
     let url = this.base_url + 'getCart?userId=' + userId;
-    return this.http.get<cartResponse>(url,  { withCredentials: true });
+
+    var headers = new HttpHeaders({ 'credentials': 'include' });
+    headers = headers.append('content-type', 'application/json');
+    const token = this.cookieService.get("skillUpToken");
+    headers = headers.append('AUTH_TOKEN', token);
+
+    return this.http.get<cartResponse>(url, {headers, withCredentials: true });
+
   }
 
-  addToCart(userId:string, courseId : string): Observable<cartResponse>{
+  addToCart(userId: string, courseId: string): Observable<cartResponse> {
     let url = this.base_url + `addToCart?userId=${userId}&courseId=${courseId}`;
     return this.http.post<cartResponse>(url, null);
   }
 
-  removeFromCart(userId:string, courseId : string): Observable<cartResponse>{
+  removeFromCart(userId: string, courseId: string): Observable<cartResponse> {
     let url = this.base_url + `removeFromCart?userId=${userId}&courseId=${courseId}`;
     return this.http.post<cartResponse>(url, null);
   }

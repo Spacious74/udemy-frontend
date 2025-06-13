@@ -1,16 +1,20 @@
-.formcontainer {
-  height: 90vh;
-  background-size: 50px 50px;
-  background-image: radial-gradient(circle, #a1a1a1 1px, #00000000 1px);
-  position: relative;
+.login-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: calc(100vh - 5rem);
+  width: 70%;
+  margin: auto;
 }
+
 .backbtn {
   width: 90%;
 }
+.right form{
+  background-color: #fff;
+}
 
-.form {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+@media only screen and (max-width: 600px) {
+  
 }

@@ -7,7 +7,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { UserService } from '../../../state/user.service';
 import { UserList } from '../../../models/UserList';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { DraftedCourseService } from '../../../Services/draftedCourse.service';
@@ -17,9 +16,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { AddVideoComponent } from '../add-video/add-video.component';
-import { AppObject } from '../../../baseSettings/AppObject';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../../Services/auth.service';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-create-course',
@@ -56,7 +55,7 @@ export class CreateCourseComponent implements OnInit {
     { name: 'IT & Software' },
     { name: 'Design' },
     { name: 'Programming Languages' },
-  ];;
+  ];
   public selectedLanguage: any;
   public languages = [
     { name: 'English', },
@@ -75,37 +74,30 @@ export class CreateCourseComponent implements OnInit {
 
   constructor(
     private draftedCourseService: DraftedCourseService,
-    private storage: UserService,
     private activatedRoute: ActivatedRoute,
-    private cookieService: CookieService,
-    private authService: AuthService,
     private toastmsgService: ToastMessageService,
-    private router: Router
+    private store: Store<{ userInfo: UserList }>
   ) { }
 
   ngOnInit(): void {
-    let token = this.cookieService.get('skillUpToken');
-    if (token) {
-      AppObject.AuthToken = token;
-      this.authService.getUserData(token).subscribe((res) => {
-        AppObject.userData = res.data;
-        this.userDetails = res.data;
-        this.userId = res.data._id;
-        this.courseId = this.activatedRoute.snapshot.params['courseId'];
-        if (this.courseId != 'null') {
-          this.fetchCourseByEdAndCourseId();
-          this.editMode = true;
-        }
-      },
-        (error) => {
-          this.toastmsgService.showError("Error", error.error.message);
-        })
-    } else {
-      this.router.navigate(['/login']);
-    }
+
+    this.store.select('userInfo').subscribe((res) => {
+      this.userDetails = res;
+      this.courseId = this.activatedRoute.snapshot.params['courseId'];
+      if (
+        this.courseId !== 'null' &&
+        this.userDetails &&
+        this.userDetails._id
+      ) {
+        this.fetchCourseByEdAndCourseId();
+        this.editMode = true;
+      }
+    },
+      (error) => {
+        this.toastmsgService.showError("Error", error.error.message);
+      })
 
   }
-
 
   initializeCourseDetails() {
     this.formData = {
@@ -128,8 +120,7 @@ export class CreateCourseComponent implements OnInit {
   }
 
   fetchCourseByEdAndCourseId() {
-    this.draftedCourseService.getCourseByCourseAndEducatorId(this.courseId, this.userId)
-      .subscribe((res) => {
+    this.draftedCourseService.getCourseByCourseAndEducatorId(this.courseId, this.userDetails._id).subscribe((res) => {
         if (res.success) {
           this.draftedCourseDetails = res.data;
           this.initializeCourseDetails();
@@ -156,7 +147,11 @@ export class CreateCourseComponent implements OnInit {
     this.draftedCourseService.createCourse(this.formData).subscribe((res) => {
       if (res.success) {
         nextCallback.emit();
-        this.draftedCourseId = res.data._id;
+        this.courseId = res.data._id;
+        if (!this.editMode) {
+          this.fetchCourseByEdAndCourseId();
+          this.editMode = true;
+        }
         this.draftedCourseDetails = res.data;
         this.toastmsgService.showSuccess("Success", "Course details uploaded successfully!");
         this.loading = false; this.errorFlag = false;
@@ -195,6 +190,18 @@ export class CreateCourseComponent implements OnInit {
 
 
   uploadFile(event: any, nextCallback: any) {
+    if (!event?.files?.length) {
+      this.uploading = false;
+      this.toastmsgService.showError("Error", "No file selected for upload.");
+      return;
+    }
+
+    // Guard against undefined draftedCourseDetails or _id
+    if (!this.draftedCourseDetails?._id) {
+      this.uploading = false;
+      this.toastmsgService.showError("Error", "Course details not loaded. Please try again.");
+      return;
+    }
     this.uploading = true;
     const file = event.files[0];
     const uploadData = new FormData();
@@ -213,7 +220,7 @@ export class CreateCourseComponent implements OnInit {
       (error) => {
         this.loading = false;
         this.uploading = false;
-        this.toastmsgService.showError("Error", error.error.message);
+        this.toastmsgService.showError("Error", error.error?.message);
       })
   }
 

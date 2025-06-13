@@ -3,14 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { AppObject } from './baseSettings/AppObject';
-import { AuthService } from './Services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from './baseSettings/services/toastMessage.service';
-import { UserService } from './state/user.service';
 import { UserList } from './models/UserList';
 import { Store } from '@ngrx/store';
 import { userInfoActions } from './store/actions/userInfo.action';
+
 @Component({
   selector: 'app-root',
   standalone: true,

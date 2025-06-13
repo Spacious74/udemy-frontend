@@ -87,6 +87,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
         }
       }, (err) => {
         if (err) {
+          this.totalRecords = 0;
           this.error = err.message;
           this.toastMsgService.showError("Error", err.message);
         }

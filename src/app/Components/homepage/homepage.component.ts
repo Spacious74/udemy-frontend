@@ -86,7 +86,7 @@ export class HomepageComponent implements OnInit {
   }
   
   updateUserRole(){
-    this.authService.updateUser({userId: this.userId, role : "teacher"}).subscribe((res)=>{
+    this.authService.updateUser({userId: this.userDetails._id, role : "teacher"}).subscribe((res)=>{
       if(res.success){
         this.toastMsgService.showSuccess("Success", "User role updated successfully");
         this.routerService.navigate(['/educator']);

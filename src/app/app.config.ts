@@ -12,7 +12,6 @@ import {
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { cartReducer } from './store/reducers/cart.reducer';
 import { userInfoReducer } from './store/reducers/user.reducer';
 import { UserInfoEffects } from './store/effects/user.effects';
 export const appConfig: ApplicationConfig = {
@@ -22,7 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withFetch()),
     provideStore({
-      cart : cartReducer,
       userInfo : userInfoReducer
     }),
     provideEffects(UserInfoEffects),

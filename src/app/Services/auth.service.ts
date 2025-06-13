@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, PLATFORM_ID, Inject} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationStart } from '@angular/router';
 import { basePath } from '../baseSettings/basePath';
 import { AppObject } from '../baseSettings/AppObject';
@@ -48,7 +47,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(url, body);
   }
 
-  uploadUserProfile(formData):Observable<AuthResponse>{
+  uploadUserProfile(formData : any):Observable<AuthResponse>{
     let url = basePath + 'user/upload';
     const headers = AppObject.preparePostFormHeader();
     return this.http.post<AuthResponse>(url, formData, {headers});

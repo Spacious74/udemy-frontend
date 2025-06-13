@@ -1,29 +1,36 @@
 <div class="flex gap-2 flex-wrap">
-    @if (totalCourses < 1) {
-        <div class="p-5 ">Drafted courses not found. Create one!</div>
-    }
-    @else {
-        <div class="flex flex-wrap gap-2 w-full p-3">
-            
-            <ng-container *ngFor="let item of draftedCourseList">
-                <div *ngIf="!item.isReleased" class="p-3 surface-0 shadow-1 flex gap-3 w-full border-1 radius14">
-                    <img [src]='item.coursePoster.url' [alt]="item.coursePoster.public_id"
-                    class="w-4 h-12rem courseImage border-round" />
-                    <div class="flex flex-column">
-                        <div class="flex flex-column gap-2">
-                            <div class="text-l font-semibold">{{item.title}}</div>
-                            <div class="text-sm">₹ {{item.price}}</div>
-                        </div>
-                        <div class="flex gap-3 mt-2">
-                            <p-button label="Edit Course" icon="pi pi-pencil" (onClick)="navigateToEditCourse(item?._id)" />
-                            <p-button label="Release Course" icon="fa-solid fa-rocket" severity="help" (onClick)="confirm1($event, item?._id)" />
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
+    @if (totalCourses < 1) { <div class="p-5 ">Drafted courses not found. Create one!</div>
+}
+@else {
+<div class="flex flex-wrap gap-2 w-full p-3">
 
+    <ng-container *ngFor="let item of draftedCourseList">
+        <div *ngIf="!item.isReleased" class="p-3 surface-0 shadow-1 flex gap-3 w-full border-1 radius14">
+            <img [src]='item.coursePoster.url' [alt]="item.coursePoster.public_id"
+                class="w-3 h-10rem courseImage border-round border-1" />
+            <div class="flex flex-column gap-1">
+                <div class="flex flex-column gap-2">
+                    <div class="text-xl font-semibold">{{item.title}}</div>
+                    <div class="subtitle text-900 "> {{ item.subTitle }} </div>
+                    <div class="lec text-sm flex gap-2">
+                        <span class="lecture">123 lecutres</span> |
+                        <span class="lecture">{{item.level}}</span> |
+                        <span class="lecture">{{item.language}}</span>
+                    </div>
+                    <div class="font-bold">₹ {{item.price}}</div>
+                </div>
+
+                <div class="flex gap-3 mt-2">
+                    <p-button label="Edit Course" icon="pi pi-pencil" (onClick)="navigateToEditCourse(item?._id)" />
+                    <p-button label="Release Course" icon="fa-solid fa-rocket" severity="help"
+                        (onClick)="confirm1($event, item?._id)" />
+                </div>
+            </div>
         </div>
-    }
+    </ng-container>
+
+</div>
+}
 </div>
 
 <p-confirmDialog [style]="{ width: '600px' }" />

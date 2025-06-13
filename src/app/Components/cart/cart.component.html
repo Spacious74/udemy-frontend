@@ -11,18 +11,12 @@
             @for (item of cartData ; track $index) {
                 <div class="course flex gap-3 align-items-center justify-content-center border-top-1 border-400 pt-3 ">
                     <div class="imgcont" style="width: 15%;">
-                        <img [src]="item.coursePoster.url" [alt]="item.courseName" class="w-full">
+                        <img [src]="item.coursePoster" [alt]="item.courseName" class="w-full">
                     </div>
                     <div class="flex flex-column align-items-center sm:align-items-start gap-1">
                         <div class="text-lg font-bold text-900 font-bold">{{ item.courseName }}</div>
-                        <div class="subtitle text-sm text-900 "> {{item.subTitle}} </div>
                         <div class="text-sm ">
                             Instructor - {{item.educatorName}}
-                        </div>
-                        <div class="lec text-sm flex gap-2    ">
-                            <span class="lecture">123 lecutres</span> |
-                            <span class="lecture">{{item.level}}</span> |
-                            <span class="lecture">{{item.language}}</span>
                         </div>
                     </div>
                     <div class="pr-2 w-2 flex align-items-end gap-4 flex-column justify-content-between">

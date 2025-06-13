@@ -13,7 +13,6 @@ import { SectionList } from '../../models/Course/SectionList';
 import { AddVideoService } from '../../Services/addVideo.service';
 import { Cart } from '../../models/Cart';
 import { Store } from '@ngrx/store';
-import { addToCartAction } from '../../store/actions/cart.action';
 import { ToastModule } from 'primeng/toast';
 import { CookieService } from 'ngx-cookie-service';
 import { CartService } from '../../Services/cart.service';
@@ -59,11 +58,6 @@ export class CourseDetailComponent implements OnInit {
       this.userDetails = res;
     });
 
-    if(this.token){
-
-    }else{
-      this.loadCartDataFromStorage();
-    }
 
   }
 
@@ -87,19 +81,13 @@ export class CourseDetailComponent implements OnInit {
   }
 
   loadCartDataFromStorage(){
-    if (typeof window !== 'undefined') {
-      let cart = JSON.parse(localStorage?.getItem("cart") || '[]');
-      const exists = cart.some((cartItem : Cart)=>cartItem.courseId == this.selectedCourse._id);
-      if(exists){
-        this.existInCart = true;
-      }
-    }
+    
   }
 
   fetchCourseDetails() {
     this.draftedCourseService.getCourseDetailsById(this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
-      this.reviewsArr = res.reviews.reviewArr;
+      this.reviewsArr = res.reviews?.reviewArr;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
@@ -119,37 +107,18 @@ export class CourseDetailComponent implements OnInit {
   }
 
   addToCart() {
-
-    let payloadData: Cart = {
-      courseId: this.selectedCourse._id,
-      coursePoster: this.selectedCourse.coursePoster,
-      courseName: this.selectedCourse.title,
-      coursePrice: this.selectedCourse.price,
-      educatorName: this.selectedCourse.educator.edname,
-      level: this.selectedCourse.level,
-      language: this.selectedCourse.language,
-      subTitle: this.selectedCourse.subTitle
+    if(!this.token){
+      this.toastMsgService.showError("Error", "Please login to add course to cart.");
+      return;
     }
-  
-    this.store.dispatch(addToCartAction({ payload: payloadData })); // Here we are creating action in seperate file
-
-    if(this.token){
-      this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res)=>{
+    this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res) => {
+      if (res.success) {
         this.toastMsgService.showSuccess("Success", res.message);
-      },(err) => {
-        this.toastMsgService.showError("Error", err.error.message);
-      })
-    }else{
-      let cart = JSON.parse(localStorage.getItem("cart") || '[]');
-      const exists = cart.some((cartItem : Cart)=>cartItem.courseId == this.selectedCourse._id);
-      if(!exists){
-        cart.push(payloadData);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        this.existInCart = true; 
+        this.existInCart = true;
       }
-    }
+    }, (err) => {
+      this.toastMsgService.showError("Error", err.error.message);
+    });
 
   }
-
-
 }

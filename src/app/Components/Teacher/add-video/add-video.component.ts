@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
-import { OrderListModule } from 'primeng/orderlist';
-import { DraftedCourseService } from '../../../Services/draftedCourse.service';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { AddVideoService } from '../../../Services/addVideo.service';
 import { SectionList } from '../../../models/Course/SectionList';
@@ -15,11 +13,10 @@ import { FieldsetModule } from 'primeng/fieldset';
 @Component({
   selector: 'app-add-video',
   standalone: true,
-  imports: [ToastModule, CommonModule, ButtonModule, DialogModule, InputTextModule, FormsModule, FieldsetModule,
-
-  ],
+  imports: [ ToastModule, CommonModule, ButtonModule, DialogModule, 
+  InputTextModule, FormsModule, FieldsetModule ],
   templateUrl: './add-video.component.html',
-  styles: ``
+  styleUrl: './add-video.css'
 })
 export class AddVideoComponent implements OnInit {
 
@@ -200,6 +197,7 @@ export class AddVideoComponent implements OnInit {
       if (res.success) {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
+        this.sectionId = undefined;
         this.loading = false;
         this.toastmsgService.showSuccess("Success", "Section deleted successfully!");
       }
@@ -222,6 +220,7 @@ export class AddVideoComponent implements OnInit {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
         this.videoTitle = undefined;
+
         this.toastmsgService.showSuccess("Success", "Video title saved successfully!");
         this.showVideo = !this.showVideo;
       }
@@ -269,6 +268,7 @@ export class AddVideoComponent implements OnInit {
       if (res.success) {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
+        this.videoId = undefined;
         this.toastmsgService.showSuccess("Success", "Video file updated successfully!");
       } else {
         this.toastmsgService.showError("Error", res.message);
@@ -285,6 +285,7 @@ export class AddVideoComponent implements OnInit {
       if (res.success) {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
+        this.videoId = undefined;
         this.toastmsgService.showSuccess("Success", "Video deleted successfully!");
       }
       this.loading = false;
