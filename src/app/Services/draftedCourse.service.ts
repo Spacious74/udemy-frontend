@@ -59,6 +59,11 @@ export class DraftedCourseService {
         return this.http.get<ApiResponse<DraftCourse[]>>(url);
     }
 
+    getReleasedCourses(educatorId: any): Observable<ApiResponse<DraftCourse[]>> {
+        let url = this.base_url + `released?educatorId=${educatorId}`;
+        return this.http.get<ApiResponse<DraftCourse[]>>(url);
+    }
+
     createCourse(data: CourseDetailDto): Observable<ApiResponse<DraftCourse>> {
         let url = this.base_url + 'create';
         return this.http.post<ApiResponse<DraftCourse>>(url, data);
@@ -70,13 +75,19 @@ export class DraftedCourseService {
     }
 
     uploadThumbnail(formData: any, courseId: string): Observable<AuthResponse> {
-        let url = this.base_url + '/upload-thumbnail?courseId=' + courseId;
+        let url = this.base_url + 'upload-thumbnail?courseId=' + courseId;
         const headers = AppObject.preparePostFormHeader();
         return this.http.post<AuthResponse>(url, formData, { headers });
     }
 
     deleteThumbnail(courseId: string): Observable<AuthResponse> {
-        let url = this.base_url + '/remove-thumbnail?courseId=' + courseId;
+        let url = this.base_url + 'remove-thumbnail?courseId=' + courseId;
+        const headers = AppObject.preparePostFormHeader();
+        return this.http.delete<AuthResponse>(url, { headers });
+    }
+
+    deleteCourse(courseId: string): Observable<AuthResponse> {
+        let url = this.base_url + 'delete-course?courseId=' + courseId;
         const headers = AppObject.preparePostFormHeader();
         return this.http.delete<AuthResponse>(url, { headers });
     }

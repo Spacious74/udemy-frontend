@@ -1,36 +1,36 @@
-<div class="flex gap-2 flex-wrap">
-    @if (totalCourses < 1) { <div class="p-5 ">Drafted courses not found. Create one!</div>
-}
-@else {
-<div class="flex flex-wrap gap-2 w-full p-3">
+<div style="background-color: #f8f8f8; height: 100%;" class="p-3" >
 
-    <ng-container *ngFor="let item of draftedCourseList">
-        <div *ngIf="!item.isReleased" class="p-3 surface-0 shadow-1 flex gap-3 w-full border-1 radius14">
-            <img [src]='item.coursePoster.url' [alt]="item.coursePoster.public_id"
-                class="w-3 h-10rem courseImage border-round border-1" />
-            <div class="flex flex-column gap-1">
-                <div class="flex flex-column gap-2">
-                    <div class="text-xl font-semibold">{{item.title}}</div>
-                    <div class="subtitle text-900 "> {{ item.subTitle }} </div>
-                    <div class="lec text-sm flex gap-2">
-                        <span class="lecture">123 lecutres</span> |
-                        <span class="lecture">{{item.level}}</span> |
-                        <span class="lecture">{{item.language}}</span>
+    <p-button label="Create New Course" icon="pi pi-plus" [rounded]="true" (onClick)="navigateToCreateCourse()"/>
+    
+    @if (totalCourses < 1) {
+        <div class="p-5">Drafted courses not found. Create one!</div>
+    }
+    @else {
+        <div class="flex flex-wrap gap-3 mt-3">
+            <div class="courseCard border-round-xl border-1 border-200"
+                *ngFor="let item of draftedCourseList; let first = first">
+                <div class="flex flex-column p-2 gap-1">
+                    <div class="imgcont w-full">
+                        <img [src]="item.coursePoster.url" [alt]="item.coursePoster.public_id"
+                            class="w-full h-10rem border-round border-1 border-100" style="object-fit: cover;" />
                     </div>
-                    <div class="font-bold">₹ {{item.price}}</div>
-                </div>
-
-                <div class="flex gap-3 mt-2">
-                    <p-button label="Edit Course" icon="pi pi-pencil" (onClick)="navigateToEditCourse(item?._id)" />
-                    <p-button label="Release Course" icon="fa-solid fa-rocket" severity="help"
-                        (onClick)="confirm1($event, item?._id)" />
+                    <div class="flex flex-column w-full gap-2 p-1">
+                        <div class="text-lg font-bold text-900 font-bold">{{ item.title }}</div>
+                        <div class="text-sm">{{item.totalLectures}} lecutres | {{item.level}} | {{item.language}}</div>
+                        <div class="text-xl font-semibold">₹ {{item.price}}</div>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <p-button icon="pi pi-pencil" (onClick)="navigateToEditCourse(item?._id)" />
+                            <p-button icon="pi pi-trash" [outlined]="true" severity="danger" 
+                            (onClick)="deleteConfirmation($event, item?._id)" />
+                            <p-button label="Release Course" icon="fa-solid fa-rocket" severity="help"
+                                (onClick)="confirm1($event, item?._id)" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </ng-container>
-
-</div>
-}
+    }
+   
 </div>
 
 <p-confirmDialog [style]="{ width: '600px' }" />

@@ -8,8 +8,13 @@ export interface DraftCourse {
     price: number;
     language: string;
     level: string;
+    totalLectures : number,
     educator: {
-        edId: string,
+        edId: {
+            _id : string,
+            username: string,
+            profileImage : string
+        },
         edname: string,
     };
     coursePoster : {

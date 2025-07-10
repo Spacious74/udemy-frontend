@@ -110,7 +110,7 @@ export class CreateCourseComponent implements OnInit {
       language: this.draftedCourseDetails.language,
       level: this.draftedCourseDetails.level,
       educator: {
-        edId: this.draftedCourseDetails.educator.edId,
+        edId: this.draftedCourseDetails.educator.edId._id,
         edname: this.draftedCourseDetails.educator.edname
       }
     };
@@ -153,7 +153,7 @@ export class CreateCourseComponent implements OnInit {
           this.editMode = true;
         }
         this.draftedCourseDetails = res.data;
-        this.toastmsgService.showSuccess("Success", "Course details uploaded successfully!");
+        this.toastmsgService.showSuccess("Success", "Course details uploaded successfully! You can check the course in 'Drafted Course'  section of your dashboard.");
         this.loading = false; this.errorFlag = false;
       }
       else {

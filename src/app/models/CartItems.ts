@@ -5,6 +5,9 @@ export interface CartItem {
   courseName: string;
   coursePrice: number;
   educatorName: string;
+  lectures: Number;
+  language: string;
+  level: string;
 }
 
 interface CoursePoster {

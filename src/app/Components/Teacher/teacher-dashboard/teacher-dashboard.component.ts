@@ -14,7 +14,7 @@ import { ChartModule } from 'primeng/chart';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
-  imports: [ToastModule, RouterOutlet, RouterLink, ButtonModule, AvatarModule, ChartModule],
+  imports: [ToastModule, ButtonModule, AvatarModule, ChartModule],
   templateUrl: './teacher-dashboard.component.html',
   styles: ``
 })

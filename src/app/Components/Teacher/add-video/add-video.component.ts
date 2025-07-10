@@ -220,7 +220,8 @@ export class AddVideoComponent implements OnInit {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
         this.videoTitle = undefined;
-
+        this.videoId = undefined;
+        this.sectionId = undefined;
         this.toastmsgService.showSuccess("Success", "Video title saved successfully!");
         this.showVideo = !this.showVideo;
       }
@@ -238,6 +239,7 @@ export class AddVideoComponent implements OnInit {
         this.totalSection = res.data.length;
         this.videoTitle = undefined;
         this.videoId = undefined;
+        this.sectionId = undefined;
         this.toastmsgService.showSuccess("Success", "Video title updated successfully!");
         this.showVideo = !this.showVideo;
       }
@@ -286,6 +288,7 @@ export class AddVideoComponent implements OnInit {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
         this.videoId = undefined;
+        this.sectionId = undefined;
         this.toastmsgService.showSuccess("Success", "Video deleted successfully!");
       }
       this.loading = false;

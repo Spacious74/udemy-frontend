@@ -1,0 +1,10 @@
+.courseCard {
+    width: 26%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.courseCard:hover {
+    background: #fff;
+    box-shadow: 4px 4px 0px #cfd3cf;
+}

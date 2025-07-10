@@ -19,11 +19,7 @@ import { ToastMessageService } from '../../../baseSettings/services/toastMessage
   imports: [CommonModule, FormsModule, SelectButtonModule, RadioButtonModule, DataViewModule,
     PaginatorModule, ButtonModule],
   templateUrl: './teacher-course-page.component.html',
-  styles: `
-  .courseCard{
-    background: #f9f9f9;
-  }
-  `
+  styleUrl: './teacher-course.css'
   
 })
 export class TeacherCoursePageComponent {
@@ -53,7 +49,7 @@ export class TeacherCoursePageComponent {
   }
 
   fetchData() {
-    this.draftedCourseService.getAllDraftedCourseById(this.userDetails._id).subscribe((res) => {
+    this.draftedCourseService.getReleasedCourses(this.userDetails._id).subscribe((res) => {
       this.courses = res.data;
       this.error = "";
     }, (err) => {

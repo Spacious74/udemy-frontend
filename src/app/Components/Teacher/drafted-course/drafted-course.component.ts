@@ -19,9 +19,15 @@ import { Store } from '@ngrx/store';
   providers: [ToastMessageService, ConfirmationService],
   templateUrl: './drafted-course.component.html',
   styles: `
-  .courseImage {
-    object-fit: cover;
-  }
+    .courseCard {
+      width: 26%;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: #fff;
+    }
+    .courseCard:hover {
+      box-shadow: 4px 4px 0px #cfd3cf;
+    }
   `
 })
 export class DraftedCourseComponent {
@@ -32,7 +38,7 @@ export class DraftedCourseComponent {
 
   constructor(
     private darftedCourseService: DraftedCourseService,
-    private store : Store<{userInfo : UserList}>,
+    private store: Store<{ userInfo: UserList }>,
     private router: Router,
     private toastMsgService: ToastMessageService,
     private confirmationService: ConfirmationService
@@ -40,19 +46,19 @@ export class DraftedCourseComponent {
 
   ngOnInit(): void {
 
-    this.store.select('userInfo').subscribe((res)=>{
+    this.store.select('userInfo').subscribe((res) => {
       this.userDetails = res;
       this.fetchCourseList();
     },
-    (error) => {
-      this.toastMsgService.showError("Error", error.error.message);
-    })
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      })
 
   }
 
   fetchCourseList() {
     this.darftedCourseService.getAllDraftedCourseById(this.userDetails._id).subscribe((res) => {
-      this.draftedCourseList = res.data;
+      this.draftedCourseList = res.data.filter((course) => course.isReleased === false);
       this.totalCourses = res.data.length;
     },
       (error) => {
@@ -65,32 +71,69 @@ export class DraftedCourseComponent {
     this.router.navigate([url]);
   }
 
-  releaseCourse(courseId:string) {
-    this.darftedCourseService.releaseCourse(courseId).subscribe((res)=>{
-      if(res.success){
+  navigateToCreateCourse() {
+    let url = "/create-course/" + null;
+    this.router.navigate([url]);
+  }
+
+  releaseCourse(courseId: string) {
+    this.darftedCourseService.releaseCourse(courseId).subscribe((res) => {
+      if (res.success) {
         this.fetchCourseList();
         this.toastMsgService.showSuccess("Success", res.data);
-      }else{
+      } else {
         this.toastMsgService.showError("Error", "Something went wrong. Please try again later");
       }
     },
-    (error) => {
-      this.toastMsgService.showError("Error", error.error.message);
-    });
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      });
   }
 
-  confirm1(event: Event, courseId:string) {
+  deleteCourse(courseId: string) {
+    this.darftedCourseService.deleteCourse(courseId).subscribe((res) => {
+      if (res.success) {
+        this.fetchCourseList();
+        this.toastMsgService.showSuccess("Success", res.message);
+      } else {
+        this.toastMsgService.showError("Error", "Something went wrong. Please try again later");
+      }
+    },
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      });
+  }
+
+
+  confirm1(event: Event, courseId: string) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Once you release this course, it will become publicly visible to all students on the platform.<p>You can still edit the course content and track its performance and analytics from your "My Courses" dashboard.</p>',
       header: 'Confirmation',
       acceptIcon: "none",
       rejectIcon: "none",
-      acceptLabel : "Release",
-      rejectLabel : "Discard",
+      acceptLabel: "Release",
+      rejectLabel: "Discard",
       rejectButtonStyleClass: "p-button-text",
       accept: () => {
         this.releaseCourse(courseId);
+      }
+    });
+  }
+
+  deleteConfirmation(event: Event, courseId: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete this course? <p>Once deleted, students will no longer have access to it.</p> <p>This course and all its content will be permanently removed.</p>',
+      header: 'Confirmation',
+      acceptIcon: "none",
+      rejectIcon: "none",
+      acceptLabel: "Delete",
+      rejectLabel: "Discard",
+      acceptButtonStyleClass: 'p-button-danger',   // Confirm button ka color
+      rejectButtonStyleClass: "p-button-text p-button-secondary",
+      accept: () => {
+        this.deleteCourse(courseId);
       }
     });
   }

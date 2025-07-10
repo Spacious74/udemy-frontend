@@ -55,9 +55,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUser();
-    this.store.select("cart").subscribe((res)=>{
-      this.cartLength = res.length;
-    })
     this.categories = [
       { name: 'Development' },
       { name: 'Business' },
