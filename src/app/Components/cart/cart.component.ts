@@ -1,3 +1,4 @@
+declare var Razorpay: any;
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
@@ -11,6 +12,8 @@ import { ToastMessageService } from '../../baseSettings/services/toastMessage.se
 import { CartItem } from '../../models/CartItems';
 import { DividerModule } from 'primeng/divider';
 import { Router } from '@angular/router';
+import { PaymentService } from '../../Services/payment.service';
+import { appEnv } from '../../../config/environment';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -34,6 +37,7 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private cookieService: CookieService,
     private store: Store<{ userInfo: UserList, cart: Cart[] }>,
+    private paymentService: PaymentService,
     private toastMsgService: ToastMessageService,
     private router: Router
   ) { }
@@ -48,7 +52,7 @@ export class CartComponent implements OnInit {
   }
 
   navigateToHome() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/courses'])
   }
 
   calculateTotalPrice() {
@@ -100,5 +104,69 @@ export class CartComponent implements OnInit {
       this.toastMsgService.showError("Error", err.error.message);
     });
   }
+
+  checkOut() {
+    if (!this.token) {
+      this.toastMsgService.showError("Error", "Please Login to continue checkout.");
+      return;
+    }
+
+    let courseIds = this.cartData.map((dt) => dt.courseId);
+    let orderData = {
+      courseIds,
+      amount: this.discountedPrice
+    }
+
+    this.paymentService.cartCheckout(orderData).subscribe((res) => {
+      if (res.success) {
+        this.openRazorpayCheckout(res.orderId, res.amount, courseIds);
+        this.toastMsgService.showSuccess("Success", "Order created successfully.");
+      } else {
+        this.toastMsgService.showInfo("Info", "Something went wrong, please try again later.");
+      }
+    }, (err) => {
+      this.toastMsgService.showError("Error", err.error.message);
+    })
+
+  }
+
+  openRazorpayCheckout(orderId: String, amount: number, courseIds: string[]) {
+    const options = {
+      key: appEnv.razorpayKey,
+      amount: amount * 100,
+      currency: 'INR',
+      name: 'Skill Up.',
+      description: 'Course Purchase',
+      order_id: orderId,
+      handler: (res: any) => {
+        let data = {
+          razorpay_payment_id: res.razorpay_payment_id,
+          razorpay_order_id: res.razorpay_order_id,
+          razorpay_signature: res.razorpay_signature,
+          userId: this.userDetails._id,
+          courseIds: courseIds
+        }
+        this.paymentService.cartPaymentVerify(data).subscribe((res) => {
+          if (res.success) {
+            this.toastMsgService.showSuccess("Success", "Payment successful. Cart Courses added to your Learning.");
+
+          }
+        }, (err) => {
+          this.toastMsgService.showError("Error", err.error.message);
+
+        })
+      },
+      prefill: {
+        name: this.userDetails.username,
+        email: this.userDetails.email,
+      },
+      theme: { color: '#1A241B' }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  }
+
+
+
 
 }

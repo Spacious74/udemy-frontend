@@ -1,3 +1,4 @@
+declare var Razorpay: any;
 import { Component, HostListener, ElementRef, OnInit } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { courseContent } from '../../data/courseContent';
@@ -17,6 +18,10 @@ import { ToastModule } from 'primeng/toast';
 import { CookieService } from 'ngx-cookie-service';
 import { CartService } from '../../Services/cart.service';
 import { UserList } from '../../models/UserList';
+import { PaymentService } from '../../Services/payment.service';
+import { appEnv } from '../../../config/environment';
+import { AuthService } from '../../Services/auth.service';
+
 
 @Component({
   selector: 'app-course-detail',
@@ -35,29 +40,43 @@ export class CourseDetailComponent implements OnInit {
   public userDetails: UserList;
   public existInCart: boolean = false;
   public token: string = null;
-  public loading : boolean = false;
+  public loading: boolean = false;
 
   constructor(
     private elRef: ElementRef,
     private draftedCourseService: DraftedCourseService,
+    private paymentService: PaymentService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
     private addVideoService: AddVideoService,
     private store: Store<{ userInfo: UserList }>,
     private cookieService: CookieService,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) { }
 
   public courseId: any;
+  public isEnrolled: boolean = false;
   ngOnInit(): void {
-
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
     this.token = this.cookieService.get("skillUpToken");
+
     this.fetchCourseDetails();
     this.fetchSectionList();
+
+    this.authService.getUserCoursesEnrolled().subscribe((res) => {
+      if (res.success) {
+        this.isEnrolled = res.data.some((dt: any) => dt._id == this.courseId);
+      } else {
+        this.toastMsgService.showError("Error", "Something went wrong.");
+      }
+    }, (err) => {
+      this.toastMsgService.showError("Error", "Failed to fetch user details.");
+    })
+
     this.store.select("userInfo").subscribe((res) => {
       this.userDetails = res;
-      if (this.token) this.fetchUserCartData();
+      if (this.token) this.fetchUserCartData()
       else this.loadCartDataFromStorage();
     }, (err) => {
       this.toastMsgService.showError("Error", "Failed to fetch user details.");
@@ -85,12 +104,14 @@ export class CourseDetailComponent implements OnInit {
   }
 
   loadCartDataFromStorage() {
-    const courses = JSON.parse(localStorage.getItem("cartCourses")) || [];
-    let courseExist = courses.find(course => course.courseId === this.courseId);
-    if (courseExist) {
-      this.existInCart = true;
-    } else {
-      this.toastMsgService.showInfo("Info", "Course not found in local storage.");
+    if (typeof window !== 'undefined' && localStorage) {
+      const courses = JSON.parse(localStorage.getItem("cartCourses") || '[]');
+      let courseExist = courses.find(course => course.courseId === this.courseId);
+      if (courseExist) {
+        this.existInCart = true;
+      } else {
+        this.toastMsgService.showInfo("Info", "Course not found in local storage.");
+      }
     }
   }
 
@@ -187,5 +208,67 @@ export class CourseDetailComponent implements OnInit {
     });
   }
 
+  checkOutHandler() {
+    
+    let orderData = {
+      courseId: this.selectedCourse._id,
+      amount: this.selectedCourse.price
+    }
+
+    this.paymentService.singleCheckout(orderData).subscribe((res) => {
+      if (res.success) {
+        this.openRazorpayCheckout(res.orderId, res.amount);
+        this.toastMsgService.showSuccess("Success", "Order created successfully.");
+      } else {
+        this.toastMsgService.showInfo("Info", "Something went wrong, please try again later.");
+      }
+      this.loading = false;
+    }, (err) => {
+      this.toastMsgService.showError("Error", err.error.message);
+      this.loading = false;
+    });
+
+  }
+
+  openRazorpayCheckout(orderId: String, amount: number) {
+    const options = {
+      key: appEnv.razorpayKey,
+      amount: amount * 100,
+      currency: 'INR',
+      name: 'Skill Up.',
+      description: 'Course Purchase',
+      order_id: orderId,
+      handler: this.paymentDone.bind(this),
+      prefill: {
+        name: this.userDetails.username,
+        email: this.userDetails.email,
+      },
+      theme: { color: '#1A241B' }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  }
+
+  paymentDone(response: any) {
+
+    let data = {
+      razorpay_payment_id: response.razorpay_payment_id,
+      razorpay_order_id: response.razorpay_order_id,
+      razorpay_signature: response.razorpay_signature,
+      userId: this.userDetails._id,
+      courseId: this.selectedCourse._id
+    }
+
+    this.paymentService.singlePaymentVerify(data).subscribe((res) => {
+      if (res.success) {
+        this.toastMsgService.showSuccess("Success", "Payment successful. Course added to your Learning.");
+        this.isEnrolled = true;
+        this.loading = false;
+      }
+    }, (err) => {
+      this.toastMsgService.showError("Error", err.error.message);
+      this.loading = false;
+    })
+  }
 
 }

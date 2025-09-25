@@ -8,8 +8,8 @@
         <div class="text-600">Login to see the items you added previously</div>
         <p-divider align="center" type="solid" styleClass="w-20rem">
             <b>or</b>
-        </p-divider>`
-        <p-button label="Continue Learning" (onClick)="navigateToHome()" class="mt-1"></p-button>
+        </p-divider>
+        <p-button label="Browse Courses" (onClick)="navigateToHome()" class="mt-1"></p-button>
     </div>
     }@else {
 
@@ -81,7 +81,8 @@
                 </div>
             </div>
 
-            <p-button class="w-full" label="Checkout" iconPos="right" icon="pi pi-arrow-right"></p-button>
+            <p-button class="w-full" label="Checkout" iconPos="right" icon="pi pi-arrow-right"
+            (onClick)="checkOut()" ></p-button>
         </div>
 
     </div>

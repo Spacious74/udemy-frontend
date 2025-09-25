@@ -2,6 +2,7 @@
   background-size: 30px 30px;
   background-image: radial-gradient(circle, #2e3f2e 1px, #1a251a 1px);
 }
+
 .text {
   font-size: 1.8rem;
   font-weight: 600;
@@ -9,25 +10,35 @@
   color: #c0d8c0;
   letter-spacing: 1px;
 }
+
 .card {
   position: relative;
 }
+
 .play {
   position: absolute;
-  background-color: #1a251aa9;
-  width: 100%;
-  top: 0;
-  left: 0;
-  height: 62%;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   opacity: 0;
-  transition: all 0.3s ease;
+  pointer-events: none;
 }
-.card:hover {
-  .play {
-    opacity: 1;
-  }
-  .title {
-    text-decoration: underline;
-    color: #449E75;
-  }
+
+.imgcont{
+  position: relative;
+}
+.card:hover .play{
+  opacity: 1;
+}
+.imgcont::after {
+  content: "";
+  position: absolute;
+  background: #0e0f0e86;
+  inset: 0;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.card:hover .imgcont::after{
+  opacity: 1;
 }

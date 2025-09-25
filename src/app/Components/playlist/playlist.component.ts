@@ -1,104 +1,44 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { UserList } from '../../models/UserList';
+import { Store } from '@ngrx/store';
+import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
+import { CourseList } from '../../models/Course/CourseList';
+import { DraftCourse } from '../../models/Course/DraftCourse';
+import { AuthService } from '../../Services/auth.service';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-playlist',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ToastModule],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
 export class PlaylistComponent {
-  public course: any[] = [
-    {
-      title: 'JavaScript Essentials',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Beginner',
-      price: 49.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e631', // Example educator ID
-        edname: 'Sophia Johnson',
-      },
-      coursePoster: {
-        public_id: '234dfg567', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'JavaScript Essentials',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Beginner',
-      price: 49.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e631', // Example educator ID
-        edname: 'Sophia Johnson',
-      },
-      coursePoster: {
-        public_id: '234dfg567', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'Python Programming for Beginners',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Beginner',
-      price: 54.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e632', // Example educator ID
-        edname: 'Michael Johnson',
-      },
-      coursePoster: {
-        public_id: '890vbn123', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'Java Programming Masterclass',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Intermediate',
-      price: 69.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e633', // Example educator ID
-        edname: 'Oliver Johnson',
-      },
-      coursePoster: {
-        public_id: '567ghj890', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'Java Programming Masterclass',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Intermediate',
-      price: 69.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e633', // Example educator ID
-        edname: 'Oliver Johnson',
-      },
-      coursePoster: {
-        public_id: '567ghj890', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-    {
-      title: 'Java Programming Masterclass',
-      category: 'Programming Languages',
-      language: 'English',
-      level: 'Intermediate',
-      price: 69.99,
-      educator: {
-        edId: '60f6f00ab88ccf001c26e633', // Example educator ID
-        edname: 'Oliver Johnson',
-      },
-      coursePoster: {
-        public_id: '567ghj890', // Example public ID
-        url: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D',
-      },
-    },
-  ];
+
+  public userDetails: UserList;
+  public courseEnrolled : DraftCourse[];
+
+  constructor(
+    private store: Store<{ userInfo: UserList }>,
+    private authService : AuthService,
+    private toastMsgService : ToastMessageService
+  ) { }
+
+  ngOnInit(): void {
+
+    this.authService.getUserCoursesEnrolled().subscribe((res)=>{
+      if(res.success){
+        this.courseEnrolled = res.data;
+      }else{
+        this.toastMsgService.showError("Error", "Something went wrong.");
+      }
+    }, (err) => {
+      // console.log(err);
+      this.toastMsgService.showError("Error", "Failed to fetch user details.");
+    })
+
+  }
+ 
 }

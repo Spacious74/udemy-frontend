@@ -1,3 +1,5 @@
+import { DraftCourse } from "./Course/DraftCourse";
+
 export class UserList {
     _id : string;
     username: string;
@@ -8,7 +10,7 @@ export class UserList {
     profileImage: string;
     bio: string;
     coursesCreated: string[];  // Assuming these are ObjectIds, use string for simplicity
-    coursesEnrolled: string[];
+    coursesEnrolled: DraftCourse[];
     wishlist: string[];
     progress: {
         courseId: string;
@@ -39,32 +41,5 @@ export class UserList {
     }[];
     bookmarkedCourses: string[];
 
-    // constructor() {
-    //     this.username = '';
-    //     this.headline = '';
-    //     this.email = '';
-    //     this.password = '';
-    //     this.role = 'student';
-    //     this.profileImage = '';
-    //     this.bio = '';
-    //     this.coursesCreated = [];
-    //     this.coursesEnrolled = [];
-    //     this.wishlist = [];
-    //     this.progress = [];
-    //     this.socialLinks = {
-    //         linkedin: '',
-    //         portfolio: '',
-    //         github: ''
-    //     };
-    //     this.isActive = true;
-    //     this.lastLogin = undefined;
-    //     this.notifications = [];
-    //     this.resetPasswordToken = undefined;
-    //     this.resetPasswordExpires = undefined;
-    //     this.isInstructor = false;
-    //     this.earnings = 0;
-    //     this.payoutMethod = '';
-    //     this.certifications = [];
-    //     this.bookmarkedCourses = [];
-    // }
+
 }
