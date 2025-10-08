@@ -33,8 +33,8 @@ import { AuthService } from '../../Services/auth.service';
 export class CourseDetailComponent implements OnInit {
 
   public selectedCourse: DraftCourse;
-  public reviewsArr: any[];
   public sectionList: SectionList[];
+  public reviewsArr: any[];
   public courseContent: any[] = courseContent;
   public showCard: boolean = false;
   public userDetails: UserList;
@@ -48,7 +48,6 @@ export class CourseDetailComponent implements OnInit {
     private paymentService: PaymentService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
-    private addVideoService: AddVideoService,
     private store: Store<{ userInfo: UserList }>,
     private cookieService: CookieService,
     private cartService: CartService,
@@ -61,8 +60,7 @@ export class CourseDetailComponent implements OnInit {
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
     this.token = this.cookieService.get("skillUpToken");
 
-    this.fetchCourseDetails();
-    this.fetchSectionList();
+    this.fetchCourseAndPlaylist();
 
     this.authService.getUserCoursesEnrolled().subscribe((res) => {
       if (res.success) {
@@ -161,23 +159,15 @@ export class CourseDetailComponent implements OnInit {
     })
   }
 
-  fetchCourseDetails() {
-    this.draftedCourseService.getCourseDetailsById(this.courseId).subscribe((res) => {
+  fetchCourseAndPlaylist(){
+    this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res)=>{
       this.selectedCourse = res.course;
-      if (this.token) this.fetchUserCartData()
-      this.reviewsArr = res.reviews?.reviewArr;
+      if (this.token) this.fetchUserCartData();
+      this.sectionList = res.modules;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
-      });
-  }
-
-  fetchSectionList() {
-    this.addVideoService.getAllVideoSections(this.courseId).subscribe((res) => {
-      this.sectionList = res.data;
-    }, (err) => {
-      this.toastMsgService.showError("Error", err.error.message);
-    })
+      })
   }
 
   getScrollYHeight(): number {
@@ -194,7 +184,6 @@ export class CourseDetailComponent implements OnInit {
 
     this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res) => {
       if (res.success) {
-        this.fetchCourseDetails();
         this.toastMsgService.showSuccess("Success", res.message);
         this.existInCart = true;
         this.loading = false;

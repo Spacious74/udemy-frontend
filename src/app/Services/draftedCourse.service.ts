@@ -6,6 +6,7 @@ import { AuthResponse } from '../models/AuthResponse';
 import { ApiResponse } from '../models/ApiResponse';
 import { DraftCourse } from '../models/Course/DraftCourse';
 import { AppObject } from '../baseSettings/AppObject';
+import { SectionList } from '../models/Course/SectionList';
 interface response {
     totalCourses: number;
     data: any[];
@@ -26,6 +27,14 @@ interface courseDetailsResponse {
         }];
     };
 }
+
+interface courseAndPlaylistRes {
+    message: string;
+    success: boolean;
+    course: DraftCourse;
+    modules : SectionList[];
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -47,6 +56,11 @@ export class DraftedCourseService {
     getCourseDetailsById(courseId: string): Observable<courseDetailsResponse> {
         let url = this.base_url + `getCourseDetailsById?courseId=${courseId}`;
         return this.http.get<courseDetailsResponse>(url);
+    }
+
+    getCourseAndPlaylist(courseId: string): Observable<courseAndPlaylistRes> {
+        let url = this.base_url + `getCourseAndPlaylist?courseId=${courseId}`;
+        return this.http.get<courseAndPlaylistRes>(url);
     }
 
     getCourseByCourseAndEducatorId(courseId: string, educatorId: string): Observable<ApiResponse<DraftCourse>> {

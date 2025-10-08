@@ -1,4 +1,4 @@
-export interface DraftCourse {
+export class DraftCourse {
     _id:string;
     title: string;
     subTitle: string;
@@ -8,7 +8,7 @@ export interface DraftCourse {
     price: number;
     language: string;
     level: string;
-    totalLectures : number,
+    totalLectures : number;
     educator: {
         edId: {
             _id : string,
@@ -20,10 +20,10 @@ export interface DraftCourse {
     coursePoster : {
         public_id :string,
         url : string
-    },
-    totalStudentsPurchased : number,
-    courseModuleId : string,
-    isReleased : boolean,
-    updatedAt : Date,
-    createdAt : Date
+    };
+    totalStudentsPurchased : number;
+    courseModuleId : string;
+    isReleased : boolean;
+    updatedAt : Date;
+    createdAt : Date;
 }

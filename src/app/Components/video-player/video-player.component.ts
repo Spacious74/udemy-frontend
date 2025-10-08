@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { TabViewModule } from 'primeng/tabview';
 import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -10,33 +10,53 @@ import { CertificateComponent } from '../vpComponents/certificate/certificate.co
 
 import { CommonModule } from '@angular/common';
 import { playlist } from '../../data/playlist';
+import { DraftedCourseService } from '../../Services/draftedCourse.service';
+import { ActivatedRoute } from '@angular/router';
+import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../Services/auth.service';
+import { DraftCourse } from '../../models/Course/DraftCourse';
+import { SectionList } from '../../models/Course/SectionList';
 
 @Component({
   selector: 'app-video-player',
   standalone: true,
   imports: [
-    CommonModule,
-    AccordionModule,
-    CheckboxModule,
-    TabViewModule,
-    OverviewComponent,
-    QueAnsComponent,
-    RateReviewComponent,
-    CertificateComponent,
+    CommonModule, AccordionModule, CheckboxModule, TabViewModule, OverviewComponent, QueAnsComponent, RateReviewComponent, 
+    CertificateComponent, CheckboxModule
   ],
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.css',
 })
 export class VideoPlayerComponent implements OnInit {
-  playlist: any[] = [];
+
+  public selectedCourse: DraftCourse;
+  public sectionList: SectionList[];
+  public playlist: any[] = [];
+  public courseId: any;
+
+  constructor(
+    private elRef: ElementRef,
+    private draftedCourseService: DraftedCourseService,
+    private activatedRoute: ActivatedRoute,
+    private toastMsgService: ToastMessageService,
+    private cookieService: CookieService,
+    private authService: AuthService
+  ) { }
+
   ngOnInit(): void {
-    this.playlist = playlist;
+    this.courseId = this.activatedRoute.snapshot.params['courseId'];
+    this.fetchCourseAndPlaylist();
   }
-  getVideoNumber(sectionIndex: number, videoIndex: number): number {
-    let count = 1;
-    for (let i = 0; i < sectionIndex; i++) {
-      count += this.playlist[i].videos.length;
-    }
-    return count + videoIndex;
+
+  fetchCourseAndPlaylist(){
+    this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res)=>{
+      this.selectedCourse = res.course;
+      this.sectionList = res.modules;
+    },
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      })
   }
+
 }

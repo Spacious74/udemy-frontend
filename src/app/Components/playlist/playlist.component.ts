@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserList } from '../../models/UserList';
 import { Store } from '@ngrx/store';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
@@ -22,6 +22,7 @@ export class PlaylistComponent {
 
   constructor(
     private store: Store<{ userInfo: UserList }>,
+    private router : Router,
     private authService : AuthService,
     private toastMsgService : ToastMessageService
   ) { }
@@ -39,6 +40,11 @@ export class PlaylistComponent {
       this.toastMsgService.showError("Error", "Failed to fetch user details.");
     })
 
+  }
+
+  navigateToCoursePlayer(courseId: any) {
+    let url = "/player/" + courseId;
+    this.router.navigate([url]);
   }
  
 }

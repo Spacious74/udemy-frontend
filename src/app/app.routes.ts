@@ -55,7 +55,7 @@ export const routes: Routes = [
     title : "My Learning"
   },
   {
-    path : 'player',
+    path : 'player/:courseId',
     component : VideoPlayerComponent,
     title : 'Continue learning...'
   },

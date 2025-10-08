@@ -19,3 +19,12 @@
 ::-webkit-scrollbar-thumb{
   background-color: #696969;
 }
+.video_text_section{
+  padding: 10px;
+  border-radius: 8px;
+}
+.video_text_section:hover{
+  background-color: #e5eeeb;
+  cursor: pointer;
+  color: #000000;
+}

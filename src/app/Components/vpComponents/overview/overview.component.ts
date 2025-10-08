@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { DraftCourse } from '../../../models/Course/DraftCourse';
 
 @Component({
   selector: 'app-overview',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent {
-
+  @Input() course : DraftCourse;
 }

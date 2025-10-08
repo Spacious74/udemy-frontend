@@ -1,5 +1,5 @@
 <div class="container flex ">
-    <div class="videoPlayer" style="width: 75%;">
+    <div class="videoPlayer" style="width: 70%;">
         <div class="video border-round-lg overflow-hidden flex align-items-center justify-content-center focus:outline-none"
             style="width: 100%;">
             <video height="420" class="w-full" src="../../../assets/videos/Angular Tutorial - 2 - Getting Started.mp4"
@@ -13,7 +13,7 @@
                     </ng-template>
 
                     <!-- OVERVIEW COMPONENT -->
-                    <app-overview></app-overview>
+                    <app-overview [course]="selectedCourse"></app-overview>
 
                 </p-tabPanel>
                 <p-tabPanel>
@@ -47,30 +47,29 @@
             </p-tabView>
         </div>
     </div>
-    <div class="playlistcontainer surface-0" style="width: 24%;">
+    <div class="playlistcontainer surface-0" style="width: 29%;">
         <div class="mb-1 header font-bold p-3 surface-0 border-bottom-1 border-300">
             Course content
         </div>
         <div class="playlist">
-            <p-accordion>
-                <ng-container *ngFor="let item of playlist; let sectionIndex = index">
+            <ng-container *ngFor="let item of sectionList; index as idx">
+                <p-accordion *ngIf="item.videos.length > 0" size="small" [activeIndex]="[0]">
                     <p-accordionTab>
                         <ng-template pTemplate="header">
-                            <span class="font-bold flex align-items-center justify-content-between w-full ">
-                                <span>{{item.sectionName}} </span>
-                                <span class="text-sm font-normal">{{item.videos.length}} lectures </span>
+                            <span class="flex flex-column w-full">
+                                <div class="text ">{{item.sectionName}}</div>
+                                <div class="text-sm text-600 font-normal "> {{item.videos.length}} lectures</div>
                             </span>
                         </ng-template>
-                        <ng-container *ngFor="let vid of item.videos; let videoIndex = index">
-                            <div style="padding: 0.75rem;"
-                                class="vid w-full flex align-items-center gap-3 hover:bg-green-100 cursor-pointer ">
-                                <p-checkbox [binary]="true" inputId="binary"></p-checkbox>
-                                <span> {{ getVideoNumber(sectionIndex, videoIndex) }}. {{vid.name}} </span>
+                        <ng-container *ngFor="let cont of item.videos; index as vidIdx">
+                            <div class="video_text_section flex align-items-start gap-2">
+                                <p-checkbox [binary]="true" inputId="binary" />
+                                <p class="video_text m-0 text-sm">{{vidIdx+1 + '. ' + cont.name}}</p>
                             </div>
                         </ng-container>
                     </p-accordionTab>
-                </ng-container>
-            </p-accordion>
+                </p-accordion>
+            </ng-container>
         </div>
     </div>
 </div>

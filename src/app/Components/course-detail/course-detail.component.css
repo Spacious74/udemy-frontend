@@ -14,6 +14,8 @@
 }
 .price {
   letter-spacing: 2px;
+  color: #ffffff;
+  font-size: 1.6rem;
 }
 .head {
   font-size: 1.3rem;
