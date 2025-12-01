@@ -1,5 +1,5 @@
 declare var Razorpay: any;
-import { Component, HostListener, ElementRef, OnInit } from '@angular/core';
+import { Component, HostListener, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { courseContent } from '../../data/courseContent';
 import { CommonModule } from '@angular/common';
@@ -21,6 +21,7 @@ import { UserList } from '../../models/UserList';
 import { PaymentService } from '../../Services/payment.service';
 import { appEnv } from '../../../config/environment';
 import { AuthService } from '../../Services/auth.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { AuthService } from '../../Services/auth.service';
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
-export class CourseDetailComponent implements OnInit {
+export class CourseDetailComponent implements OnInit, OnDestroy {
 
   public selectedCourse: DraftCourse;
   public sectionList: SectionList[];
@@ -56,30 +57,41 @@ export class CourseDetailComponent implements OnInit {
 
   public courseId: any;
   public isEnrolled: boolean = false;
+  private subscriptions : Subscription = new Subscription();
   ngOnInit(): void {
-    this.courseId = this.activatedRoute.snapshot.params['courseId'];
+
     this.token = this.cookieService.get("skillUpToken");
 
-    this.fetchCourseAndPlaylist();
-
-    this.authService.getUserCoursesEnrolled().subscribe((res) => {
-      if (res.success) {
-        this.isEnrolled = res.data.some((dt: any) => dt._id == this.courseId);
-      } else {
-        this.toastMsgService.showError("Error", "Something went wrong.");
-      }
-    }, (err) => {
-      this.toastMsgService.showError("Error", "Failed to fetch user details.");
+    this.activatedRoute.paramMap.subscribe((res)=>{
+      this.courseId = res.get('courseId');
+      this.fetchCourseAndPlaylist();
     })
 
-    this.store.select("userInfo").subscribe((res) => {
-      this.userDetails = res;
-      if (this.token) this.fetchUserCartData()
-      else this.loadCartDataFromStorage();
-    }, (err) => {
-      this.toastMsgService.showError("Error", "Failed to fetch user details.");
-    });
+    if(this.token){
+      this.authService.getUserCoursesEnrolled().subscribe((res) => {
+        if (res.success) {
+          this.isEnrolled = res.data.some((dt: any) => dt._id == this.courseId);
+        } else {
+          this.toastMsgService.showError("Error", "Something went wrong.");
+        }
+      }, (err) => {
+        this.toastMsgService.showError("Error", "Failed to fetch user details.");
+      })
+      let userSub = this.store.select("userInfo").subscribe((res) => {
+        this.userDetails = res;
+        this.fetchUserCartData()
+      }, (err) => {
+        this.toastMsgService.showError("Error", "Failed to fetch user details.");
+      });
+      this.subscriptions.add(userSub);
+    }else{
+      this.loadCartDataFromStorage();
+    }
 
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.unsubscribe();
   }
 
   getStars(num: number) {

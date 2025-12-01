@@ -18,7 +18,7 @@
         <div class="m-auto courses pb-6 flex flex-wrap gap-4 " style="width: 75%;">
             <ng-container *ngFor="let item of courseEnrolled">
                 <div (click)="navigateToCoursePlayer(item._id)" class="card cursor-pointer" style="width: 28%;">
-                    <div class="imgcont" style="width: 100%;">
+                    <div class="imgcont mb-1" style="width: 100%;">
                         <img [src]="item.coursePoster.url" alt="poster" class="w-full border-round-lg" style="object-fit: cover;">
                     </div>
                     <div class="play text-0 flex justify-content-center align-items-center ">

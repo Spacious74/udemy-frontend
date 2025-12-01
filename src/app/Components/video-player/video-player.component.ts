@@ -17,13 +17,19 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../Services/auth.service';
 import { DraftCourse } from '../../models/Course/DraftCourse';
 import { SectionList } from '../../models/Course/SectionList';
+import { UserProgress } from '../../models/UserProgress';
+import { UserProgressService } from '../../Services/userProgress.service';
+import { Store } from '@ngrx/store';
+import { UserList } from '../../models/UserList';
+import { FormsModule } from '@angular/forms';
+import { VideoList } from '../../models/Course/VideoList';
 
 @Component({
   selector: 'app-video-player',
   standalone: true,
   imports: [
-    CommonModule, AccordionModule, CheckboxModule, TabViewModule, OverviewComponent, QueAnsComponent, RateReviewComponent, 
-    CertificateComponent, CheckboxModule
+    CommonModule, AccordionModule, CheckboxModule, TabViewModule, OverviewComponent, QueAnsComponent, RateReviewComponent,
+    CertificateComponent, FormsModule
   ],
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.css',
@@ -34,29 +40,39 @@ export class VideoPlayerComponent implements OnInit {
   public sectionList: SectionList[];
   public playlist: any[] = [];
   public courseId: any;
+  public userId: string;
+  public videoObj: VideoList;
+  public currentUrl : string  = ""; 
 
   constructor(
-    private elRef: ElementRef,
-    private draftedCourseService: DraftedCourseService,
+    private userProgressService: UserProgressService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
-    private cookieService: CookieService,
-    private authService: AuthService
+    private store: Store<{ userInfo: UserList }>
   ) { }
 
   ngOnInit(): void {
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
-    this.fetchCourseAndPlaylist();
+    this.store.select("userInfo").subscribe((res) => {
+      this.userId = res._id;
+      this.fetchCourseAndPlaylist();
+    })
   }
 
-  fetchCourseAndPlaylist(){
-    this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res)=>{
+  setCurrentUrl(url:string){
+    this.currentUrl = url;
+  }
+
+  fetchCourseAndPlaylist() {
+    this.userProgressService.getUserProgress(this.userId, this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
-      this.sectionList = res.modules;
+      this.sectionList = res.playlist.sectionArr;
+      this.currentUrl = res.playlist.lastWatchedVideo;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
       })
   }
+
 
 }

@@ -1,10 +1,11 @@
 <div class="container flex ">
     <div class="videoPlayer" style="width: 70%;">
+        
         <div class="video border-round-lg overflow-hidden flex align-items-center justify-content-center focus:outline-none"
-            style="width: 100%;">
-            <video height="420" class="w-full" src="../../../assets/videos/Angular Tutorial - 2 - Getting Started.mp4"
-                controls></video>
+        style="width: 100%;">
+            <video height="420" class="w-full" [src]="currentUrl" controls></video>
         </div>
+
         <div class="rest px-4">
             <p-tabView [activeIndex]="0">
                 <p-tabPanel>
@@ -16,7 +17,7 @@
                     <app-overview [course]="selectedCourse"></app-overview>
 
                 </p-tabPanel>
-                <p-tabPanel>
+                <p-tabPanel  [disabled]="true">
                     <ng-template pTemplate="header">
                         <span class="flex gap-2 align-items-center ">
                             <i class="pi pi-question-circle"></i> Q&A</span>
@@ -26,7 +27,7 @@
                     <app-que-ans></app-que-ans>
 
                 </p-tabPanel>
-                <p-tabPanel>
+                <p-tabPanel  [disabled]="true">
                     <ng-template pTemplate="header">
                         <span class="flex gap-2 align-items-center "> <i class="pi pi-star"></i> Rate & Reviews</span>
                     </ng-template>
@@ -46,25 +47,24 @@
                 </p-tabPanel>
             </p-tabView>
         </div>
+
     </div>
     <div class="playlistcontainer surface-0" style="width: 29%;">
-        <div class="mb-1 header font-bold p-3 surface-0 border-bottom-1 border-300">
-            Course content
-        </div>
+        <div class="mb-1 header font-bold p-3 surface-0 border-bottom-1 border-300">Course content</div>
         <div class="playlist">
             <ng-container *ngFor="let item of sectionList; index as idx">
                 <p-accordion *ngIf="item.videos.length > 0" size="small" [activeIndex]="[0]">
-                    <p-accordionTab>
+                    <p-accordionTab >
                         <ng-template pTemplate="header">
                             <span class="flex flex-column w-full">
-                                <div class="text ">{{item.sectionName}}</div>
-                                <div class="text-sm text-600 font-normal "> {{item.videos.length}} lectures</div>
+                                <div class="text ">{{item.sectionName}} ({{item.videos.length}} lectures) </div>
+                                <!-- <div class="text-sm text-600 font-normal "> </div> -->
                             </span>
                         </ng-template>
                         <ng-container *ngFor="let cont of item.videos; index as vidIdx">
-                            <div class="video_text_section flex align-items-start gap-2">
-                                <p-checkbox [binary]="true" inputId="binary" />
-                                <p class="video_text m-0 text-sm">{{vidIdx+1 + '. ' + cont.name}}</p>
+                            <div class="video_text_section flex align-items-start gap-2" (click)="setCurrentUrl(cont.url)" >
+                                <p-checkbox [binary]="true" inputId="binary" [(ngModel)]="cont.completed"  />
+                                <p class="video_text m-0 text">{{vidIdx+1 + '. ' + cont.name}}</p>
                             </div>
                         </ng-container>
                     </p-accordionTab>
