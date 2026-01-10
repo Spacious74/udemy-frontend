@@ -4,9 +4,16 @@ export interface UserProgress {
   _id?: string;  // optional if returned from MongoDB
   userId: string;  // ObjectId as string reference
   courseId: string;  // ObjectId as string reference
-  lastWatchedVideo?: string;  // optional ObjectId
 
-  sectionArr: SectionList[];
+  currentWatchingVideo: {
+    videoId: string,
+    videoTitle: string,
+    videoUrl: string,
+    videoPublic_Id: string,
+    globalVideoIdx: Number
+  };
+
+  videosCompleted: String[];
 
   startedAt?: Date;
   lastUpdated?: Date;

@@ -32,7 +32,7 @@ interface courseAndPlaylistRes {
     message: string;
     success: boolean;
     course: DraftCourse;
-    modules : SectionList[];
+    sectionArr : SectionList[];
 }
 
 @Injectable({

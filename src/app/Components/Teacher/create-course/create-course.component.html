@@ -1,11 +1,12 @@
 <p-toast></p-toast>
 <div class="surface-0 w-full flex justify-content-center">
     <div class="w-10 mt-5">
-        <p-stepper [linear]="!editMode">
+        <p-stepper [linear]="!editMode" >
             <p-stepperPanel header="Course Detail">
                 <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
                     <div class="step-form-container">
                         <form class="border-1 p-5 radius14 border-300 boxShadow">
+                            
                             <!-- {{ userDetails.username }} -->
                             <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                                 <label class="text-900 font-semibold mb-1" for="courseTitle">Title of the course</label>

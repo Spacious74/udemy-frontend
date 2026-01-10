@@ -22,9 +22,11 @@
 .video_text_section{
   padding: 10px;
   border-radius: 8px;
+  border: solid 1px #fff;
 }
-.video_text_section:hover{
+.video_text_section:hover, .active{
   background-color: #e5eeeb;
+  border: solid 1px #8be2a5;
   cursor: pointer;
   color: #000000;
 }

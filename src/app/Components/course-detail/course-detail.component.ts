@@ -175,7 +175,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res)=>{
       this.selectedCourse = res.course;
       if (this.token) this.fetchUserCartData();
-      this.sectionList = res.modules;
+      this.sectionList = res.sectionArr;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);

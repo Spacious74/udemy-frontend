@@ -106,6 +106,9 @@ export class AddVideoComponent implements OnInit {
     if (videoId) {
       this.videoTitle = videoTitle;
       this.videoId = videoId;
+    }else{
+      this.videoTitle = undefined;
+      this.videoId = undefined;
     }
     this.showVideo = !this.showVideo;
   }

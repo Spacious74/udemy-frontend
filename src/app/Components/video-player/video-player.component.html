@@ -62,7 +62,8 @@
                             </span>
                         </ng-template>
                         <ng-container *ngFor="let cont of item.videos; index as vidIdx">
-                            <div class="video_text_section flex align-items-start gap-2" (click)="setCurrentUrl(cont.url)" >
+                            <div class="video_text_section flex align-items-start gap-2" 
+                            (click)="setCurrentUrl(cont.url)" [ngClass]="{ 'active': currentUrl==cont.url }" >
                                 <p-checkbox [binary]="true" inputId="binary" [(ngModel)]="cont.completed"  />
                                 <p class="video_text m-0 text">{{vidIdx+1 + '. ' + cont.name}}</p>
                             </div>

@@ -9,15 +9,11 @@ import { RateReviewComponent } from '../vpComponents/rate-review/rate-review.com
 import { CertificateComponent } from '../vpComponents/certificate/certificate.component';
 
 import { CommonModule } from '@angular/common';
-import { playlist } from '../../data/playlist';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
-import { CookieService } from 'ngx-cookie-service';
-import { AuthService } from '../../Services/auth.service';
 import { DraftCourse } from '../../models/Course/DraftCourse';
 import { SectionList } from '../../models/Course/SectionList';
-import { UserProgress } from '../../models/UserProgress';
 import { UserProgressService } from '../../Services/userProgress.service';
 import { Store } from '@ngrx/store';
 import { UserList } from '../../models/UserList';
@@ -38,14 +34,15 @@ export class VideoPlayerComponent implements OnInit {
 
   public selectedCourse: DraftCourse;
   public sectionList: SectionList[];
-  public playlist: any[] = [];
+  public videosCompleted : String[];
   public courseId: any;
   public userId: string;
-  public videoObj: VideoList;
-  public currentUrl : string  = ""; 
+  public currentWatchingVideo : any;
+  public currentUrl : string = '';
 
   constructor(
     private userProgressService: UserProgressService,
+    private draftedCourseService : DraftedCourseService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
     private store: Store<{ userInfo: UserList }>
@@ -54,8 +51,9 @@ export class VideoPlayerComponent implements OnInit {
   ngOnInit(): void {
     this.courseId = this.activatedRoute.snapshot.params['courseId'];
     this.store.select("userInfo").subscribe((res) => {
-      this.userId = res._id;
+      this.userId = res?._id;
       this.fetchCourseAndPlaylist();
+      this.fetchUserProgress();
     })
   }
 
@@ -64,14 +62,24 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   fetchCourseAndPlaylist() {
-    this.userProgressService.getUserProgress(this.userId, this.courseId).subscribe((res) => {
+    this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
-      this.sectionList = res.playlist.sectionArr;
-      this.currentUrl = res.playlist.lastWatchedVideo;
+      this.sectionList = res.sectionArr;
     },
-      (error) => {
-        this.toastMsgService.showError("Error", error.error.message);
-      })
+    (error) => {
+      this.toastMsgService.showError("Error", error.error.message);
+    })
+  }
+
+  fetchUserProgress(){
+    this.userProgressService.getUserProgress(this.userId, this.courseId).subscribe((res)=>{
+      this.videosCompleted = res.videosProgress.videosCompleted;
+      this.currentWatchingVideo = res.videosProgress.currentWatchingVideo;
+      this.currentUrl = res.videosProgress.currentWatchingVideo.videoUrl;
+    },
+    (error) => {
+      this.toastMsgService.showError("Error", error.error.message);
+    })
   }
 
 

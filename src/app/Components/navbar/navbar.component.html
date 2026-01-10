@@ -32,12 +32,12 @@
                 </li> 
                 <li *ngIf="userLoggedIn" routerLinkActive="text-green-700 font-semibold" routerLink="/playlist" class="cursor-pointer hover:text-green-700 flex align-items-center gap-1 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><circle cx="12" cy="12" r="10"/><path d="M15.453 12.395c-.151.627-.867 1.07-2.3 1.955c-1.383.856-2.075 1.285-2.633 1.113a1.4 1.4 0 0 1-.61-.393c-.41-.45-.41-1.324-.41-3.07s0-2.62.41-3.07c.17-.186.38-.321.61-.392c.558-.173 1.25.256 2.634 1.112c1.432.886 2.148 1.329 2.3 1.955a1.7 1.7 0 0 1 0 .79"/></g></svg>
-                    My Playlist
+                    My Courses
                 </li>
                 <li routerLinkActive="text-green-700 font-semibold" routerLink="/cart" class="cursor-pointer hover:text-green-700  flex align-items-center gap-1 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" color="currentColor"><path d="m8 16l8.72-.727c2.729-.227 3.341-.823 3.643-3.544L21 6M6 6h16"/><circle cx="6" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M8 20h7M2 2h.966c.945 0 1.768.625 1.997 1.515L7.94 15.076a1.96 1.96 0 0 1-.35 1.686L6.631 18"/></g></svg>
                     Cart
-                    <p-badge [value]="cartLength" />
+                    <!-- <p-badge [value]="cartLength" /> -->
 
                 </li>
             </ul>
