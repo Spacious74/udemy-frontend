@@ -1,5 +1,28 @@
 .video {
   background-color: #333333;
+  position: relative;
+}
+.vid-btn{
+  cursor: pointer;
+  position: absolute;
+  display: none;
+  z-index: 10;
+  padding: 8px 2px;
+  border: solid 1px #2cc592;
+  border-radius: 8px;
+  background-color: #096848;
+  color: #fff;
+}
+.next{
+  right: 0;
+  margin-right: 5px;
+}
+.prev{
+  left: 0;
+  margin-left: 5px;
+}
+.video:hover > .vid-btn{
+  display: flex; justify-content: center; align-items: center;
 }
 .container {
   position: relative;
@@ -23,10 +46,10 @@
   padding: 10px;
   border-radius: 8px;
   border: solid 1px #fff;
+  color : #000;
 }
 .video_text_section:hover, .active{
   background-color: #e5eeeb;
   border: solid 1px #8be2a5;
   cursor: pointer;
-  color: #000000;
 }
