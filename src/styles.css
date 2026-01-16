@@ -194,6 +194,9 @@ body {
 
 .p-accordion .p-accordion-header .p-accordion-header-link {
   padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
 .p-accordion .p-accordion-content{

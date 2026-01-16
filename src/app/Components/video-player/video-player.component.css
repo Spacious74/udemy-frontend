@@ -24,26 +24,38 @@
 .video:hover > .vid-btn{
   display: flex; justify-content: center; align-items: center;
 }
+.video_title{
+  padding: 12px;
+  font-size: 18px;
+  background-color: #dcece7;
+}
+.video_and_title{
+  overflow: hidden;
+  border-radius: 12px;
+}
 .container {
   position: relative;
 }
+
 .playlistcontainer {
   height: 90vh;
   overflow: auto;
   position: fixed;
-  right: 0.2%;
+  right: 20px;
+  border-radius: 12px;
 }
 .playlistcontainer .header {
   position: sticky;
   top: 0;
   z-index: 5;
+  background-color: #dcece7;
 }
 
 ::-webkit-scrollbar-thumb{
   background-color: #696969;
 }
 .video_text_section{
-  padding: 10px;
+  padding: 8px;
   border-radius: 8px;
   border: solid 1px #fff;
   color : #000;
@@ -52,4 +64,11 @@
   background-color: #e5eeeb;
   border: solid 1px #8be2a5;
   cursor: pointer;
+}
+
+.video_text_section svg{
+  color : #10B981
+}
+.video_text{
+  width: 95%;
 }

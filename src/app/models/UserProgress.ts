@@ -4,7 +4,7 @@ export interface CurrentWatchingVideo {
   videoTitle: string,
   videoUrl: string,
   videoPublic_Id: string,
-  globalVideoIdx: Number
+  globalVideoIdx: number
 }
 export interface UserProgress {
   _id?: string;  // optional if returned from MongoDB
@@ -13,7 +13,8 @@ export interface UserProgress {
 
   currentWatchingVideo: CurrentWatchingVideo
 
-  videosCompleted: String[];
+  videosCompleted: string[];
+  courseCompletionStatus : boolean,
 
   startedAt?: Date;
   lastUpdated?: Date;

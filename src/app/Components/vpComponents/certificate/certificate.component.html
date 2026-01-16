@@ -3,9 +3,13 @@
         Certificate
     </div>
     <div class="textbtn mb-4">
-        <div class="text mb-1 ">
+        <div *ngIf="!completionStatus" class="text mb-1 ">
             Get your Skill Up certificate after completion of this course.
         </div>
-        <p-button label="Download certificate" [disabled]="true" ></p-button>
+        <div *ngIf="completionStatus" class="text mb-1 ">
+            Congratulation, you have won a certificate of completion of this course.
+        </div>
+        <p-button label="Download certificate" icon="pi pi-download"
+        [disabled]="!completionStatus" (onClick)="notifyParent()" [loading]="loading" ></p-button>
     </div>
 </div>
