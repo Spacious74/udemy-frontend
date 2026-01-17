@@ -57,17 +57,28 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   public courseId: any;
   public isEnrolled: boolean = false;
-  private subscriptions : Subscription = new Subscription();
+  private subscriptions: Subscription = new Subscription();
+
   ngOnInit(): void {
 
     this.token = this.cookieService.get("skillUpToken");
 
-    this.activatedRoute.paramMap.subscribe((res)=>{
-      this.courseId = res.get('courseId');
-      this.fetchCourseAndPlaylist();
-    })
+    // Initial load (page refresh case)
+    this.courseId = this.activatedRoute.snapshot.paramMap.get('courseId');
+    console.log(this.courseId);
+    if (this.courseId) this.fetchCourseAndPlaylist();
 
-    if(this.token){
+    // Route change (same component navigation)
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const newCourseId = params.get('courseId');
+      if (newCourseId && newCourseId !== this.courseId) {
+        this.courseId = newCourseId;
+        this.fetchCourseAndPlaylist();
+      }
+    });
+
+
+    if (this.token) {
       this.authService.getUserCoursesEnrolled().subscribe((res) => {
         if (res.success) {
           this.isEnrolled = res.data.some((dt: any) => dt._id == this.courseId);
@@ -84,16 +95,17 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         this.toastMsgService.showError("Error", "Failed to fetch user details.");
       });
       this.subscriptions.add(userSub);
-    }else{
+    } else {
       this.loadCartDataFromStorage();
     }
 
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
+  // these both methods rendering stars according to the rating
   getStars(num: number) {
     return new Array(num).fill(1);
   }
@@ -101,6 +113,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     return new Array(5 - num).fill(1);
   }
 
+  // this method is showing my div card according to the scroll height
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: any) {
     if (
@@ -159,7 +172,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   fetchUserCartData() {
-    this.cartService.getCart(this.userDetails._id).subscribe((res) => {
+    this.cartService.getCart(this.userDetails?._id).subscribe((res) => {
       if (res.success) {
         const cart: Cart = res.cart;
         this.existInCart = cart.cartItems.some((course) => course.courseId === this.selectedCourse._id);
@@ -171,8 +184,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  fetchCourseAndPlaylist(){
-    this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res)=>{
+  fetchCourseAndPlaylist() {
+    this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
       if (this.token) this.fetchUserCartData();
       this.sectionList = res.sectionArr;
@@ -182,18 +195,22 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       })
   }
 
+  // this method is tracking for y scrolling height beacuse I'm showing a div according to the scroll height
   getScrollYHeight(): number {
     return this.elRef.nativeElement.ownerDocument.documentElement.scrollHeight;
   }
 
+  // this method add course to card according to the login state of user
   addToCart() {
 
     this.loading = true;
+    // if not logged in i.e. no token is present then add to local storage
     if (!this.token) {
       this.addProductToLocalStorage();
       return;
     }
 
+    // if logged in then add to the db
     this.cartService.addToCart(this.userDetails._id, this.selectedCourse._id).subscribe((res) => {
       if (res.success) {
         this.toastMsgService.showSuccess("Success", res.message);
@@ -209,8 +226,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  // payment initializer method on click of a button
   checkOutHandler() {
-    
+
     let orderData = {
       courseId: this.selectedCourse._id,
       amount: this.selectedCourse.price
@@ -231,6 +249,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   }
 
+  // opens razorpay checkout popup
   openRazorpayCheckout(orderId: String, amount: number) {
     const options = {
       key: appEnv.razorpayKey,
@@ -250,6 +269,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     rzp.open();
   }
 
+  // After payment successfull
   paymentDone(response: any) {
 
     let data = {
