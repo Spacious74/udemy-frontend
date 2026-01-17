@@ -1,0 +1,60 @@
+<div class="order-nav p-3 flex justify-content-center align-items-center">
+    <div class="flex justify-content-between align-items-center inner-nav">
+        <div class="logo">Skill Up.</div>
+        <div class="textsm cancel-txt cursor-pointer" (click)="onCancel()">Cancel</div>
+    </div>
+</div>
+<div class="order-cont">
+    <div class="order-detail-cont">
+        <div class="head">Order Details</div>
+        <ng-container *ngFor="let item of cartData">
+            <div class="item-card mb-2 flex gap-3 align-items-center justify-content-between">
+                <div class="flex gap-3 align-items-center">
+
+                    <img [src]="item.coursePoster.url" [alt]="item.courseName" class="item-img">
+
+                    <div class="flex flex-column align-items-center sm:align-items-start gap-2 ">
+                        <div class="text-900">{{ item.courseName }}</div>
+                        <div class="text-sm ">Instructor - {{item.educatorName}}</div>
+                    </div>
+
+                </div>
+                <div class="w-2 flex justify-content-end">
+                    <span class="text-lg font-semibold pr-3">{{ '₹ ' + item.coursePrice }}</span>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="order-price-cont p-fluid">
+        <div class="px-4">
+            <div class="head">Order Summary</div>
+            <div class="flex flex-column gap-2 text-800 mb-4">
+
+                <div class="flex justify-content-between align-items-center">
+                    <span class="">Total Courses</span>
+                    <span class="text-green">{{cartItemsLength}}</span>
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                    <span class="">Total Price</span>
+                    <span class="">₹ {{totalCartPrice}}</span>
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                    <span class="">Discount</span>
+                    <span class="">{{discountPercentage}}%</span>
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                    <span class="">Discounted Price</span>
+                    <span class="text-green"> - ₹{{totalCartPrice-discountedPrice}}</span>
+                </div>
+
+                <div class="my-2" style="background-color: #e0e0e0; display: block; height: 1px; width: 100%;"></div>
+                <div class="flex justify-content-between align-items-center">
+                    <span class="font-semibold text-lg">Final Price</span>
+                    <span class="font-semibold text-lg">₹ {{discountedPrice}}</span>
+                </div>
+            </div>
+            <p-button class="w-full" label="Make Payment" (onClick)="checkOutHandler()" ></p-button>
+        </div>
+
+    </div>
+</div>

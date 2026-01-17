@@ -40,11 +40,11 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.cookieService.get('skillUpToken')) {
-      this.router.navigate(['/']).then(() => {
-        window.location.reload();
-      });
-    }
+    // if (this.cookieService.get('skillUpToken')) {
+    //   this.router.navigate(['/']).then(() => {
+    //     window.location.reload();
+    //   });
+    // }
   }
 
   formSubmission(form: NgForm) {

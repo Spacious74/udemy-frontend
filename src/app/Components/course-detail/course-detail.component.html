@@ -1,7 +1,8 @@
 <p-toast></p-toast>
 <div class="detail-container relative ">
     <div class="course-header py-7 ">
-        <div class="container mx-auto flex align-items-center justify-content-between ">
+        <div class="container mx-auto flex align-items-center justify-content-left ">
+
             <div class="details w-7 flex flex-column gap-3">
                 <div class="title text-0 ">
                     {{selectedCourse?.title}}
@@ -54,37 +55,22 @@
                 </div>
 
             </div>
-            <div class="imgcont w-4 p-fluid">
-                <img [src]="selectedCourse?.coursePoster.url" alt="course poster"
-                    class="w-full h-12rem border-1 border-green-300 border-round-lg mb-2" style="object-fit: cover;" />
-                <div *ngIf="!isEnrolled" class="btncont p-fluid flex gap-2 cursor-pointer">
-                    <p-button class="w-full" label="Buy now" (onClick)="checkOutHandler()"></p-button>
 
-                    <p-button *ngIf="!existInCart" (click)="addToCart()" class="w-full"
-                        [icon]="loading ?'pi pi-spin pi-spinner' : 'pi pi-cart-plus'"
-                        [label]="loading ? 'Loading...' : 'Add to cart'" [outlined]="true"></p-button>
-
-                    <p-button *ngIf="existInCart" class="w-full" icon="pi pi-check" label="In Cart"
-                        [outlined]="true"></p-button>
-                </div>
-                <p-button *ngIf="isEnrolled" class="w-full" icon="pi pi-check" label="Go to Learning"></p-button>
-            </div>
         </div>
     </div>
-    <div *ngIf="showCard" class="courseCard overflow-hidden border-round-lg shadow-4 pb-2 w-3 surface-0 ">
-        <div class="imgcont w-full">
+    <div class="courseCard overflow-hidden w-3 surface-0">
+        <div class="imgcont p-3 w-full">
             <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture"
-                class="w-full h-12rem border-1 border-green-300 border-round-lg" style="object-fit: cover;" />
+                class="w-full h-12rem border-round-lg" style="object-fit: cover;" />
         </div>
         <div class="p-3 p-fluid">
-            <div class="text-lg">
-                {{selectedCourse?.title}}
-            </div>
+            <div class="text-lg font-bold">{{selectedCourse?.title}}</div>
+            <div class="instructor text-sm mt-2">Instructor : {{selectedCourse?.educator?.edname}}</div>
             <div class="pricetext-600 text-lg py-3 font-bold ">
                 ₹ {{selectedCourse?.price}}
             </div>
             <div *ngIf="!isEnrolled" class="btncont mt-2 p-fluid flex gap-2 cursor-pointer">
-                <p-button class="w-full" label="Buy now" (onClick)="checkOutHandler()"></p-button>
+                <p-button class="w-full" label="Buy now" (onClick)="goToOrderSummaryPage()"></p-button>
 
                 <p-button *ngIf="!existInCart" (click)="addToCart()" class="w-full"
                     [icon]="loading ?'pi pi-spin pi-spinner' : 'pi pi-cart-plus'"

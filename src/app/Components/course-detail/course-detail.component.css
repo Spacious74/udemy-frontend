@@ -103,4 +103,6 @@
   position: fixed;
   top: 15%;
   right: 12.5%;
+  border-radius: 16px;
+  border: solid 1px #000;
 }

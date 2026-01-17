@@ -36,7 +36,7 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private cookieService: CookieService,
-    private store: Store<{ userInfo: UserList, cart: Cart[] }>,
+    private store: Store<{ userInfo: UserList}>,
     private paymentService: PaymentService,
     private toastMsgService: ToastMessageService,
     private router: Router
@@ -167,6 +167,16 @@ export class CartComponent implements OnInit {
   }
 
 
-
+  goToOrderSummaryPage() {
+    this.router.navigate(
+      ['/order-summary'],
+      {
+        queryParams: {
+          courseId: null,
+          isCart: true,
+        }
+      }
+    )
+  }
 
 }

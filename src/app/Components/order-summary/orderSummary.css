@@ -1,0 +1,49 @@
+.order-nav {
+    border-bottom: solid 1px #e2e2e2;
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+.inner-nav{
+    width: 90%;
+}
+.logo {
+    font-size: 1.4rem;
+    font-weight: bolder;
+    font-family: "General Sans";
+}
+.cancel-txt{
+    color: #10B981;
+    font-weight: 600;
+}
+
+.order-cont{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+.order-detail-cont{
+    width: 60%;
+}
+.order-price-cont{
+    width: 33%;
+
+}
+.item-card{
+    border: solid 1px #bdd6ce;
+    background-color: #e8f5f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.item-img{
+    width: 150px;
+    /* height: 100%; */
+    object-fit: cover;
+}
+.head {
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: "General Sans";
+  margin-bottom: 1rem;
+}

@@ -1,17 +1,16 @@
 declare var Razorpay: any;
-import { Component, HostListener, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { courseContent } from '../../data/courseContent';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
 import { ButtonModule } from 'primeng/button';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
 import { DraftCourse } from '../../models/Course/DraftCourse';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { SectionList } from '../../models/Course/SectionList';
-import { AddVideoService } from '../../Services/addVideo.service';
 import { Cart } from '../../models/Cart';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
@@ -21,7 +20,7 @@ import { UserList } from '../../models/UserList';
 import { PaymentService } from '../../Services/payment.service';
 import { appEnv } from '../../../config/environment';
 import { AuthService } from '../../Services/auth.service';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 
 
 @Component({
@@ -37,20 +36,19 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   public sectionList: SectionList[];
   public reviewsArr: any[];
   public courseContent: any[] = courseContent;
-  public showCard: boolean = false;
   public userDetails: UserList;
   public existInCart: boolean = false;
   public token: string = null;
   public loading: boolean = false;
 
   constructor(
-    private elRef: ElementRef,
     private draftedCourseService: DraftedCourseService,
     private paymentService: PaymentService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
     private store: Store<{ userInfo: UserList }>,
     private cookieService: CookieService,
+    private router: Router,
     private cartService: CartService,
     private authService: AuthService
   ) { }
@@ -63,38 +61,38 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
     this.token = this.cookieService.get("skillUpToken");
 
-    // Initial load (page refresh case)
     this.courseId = this.activatedRoute.snapshot.paramMap.get('courseId');
-    console.log(this.courseId);
     if (this.courseId) this.fetchCourseAndPlaylist();
 
-    // Route change (same component navigation)
-    this.activatedRoute.paramMap.subscribe((params) => {
-      const newCourseId = params.get('courseId');
-      if (newCourseId && newCourseId !== this.courseId) {
-        this.courseId = newCourseId;
+    const routeSub = this.activatedRoute.paramMap.subscribe(params => {
+      const newId = params.get('courseId');
+      if (newId && newId !== this.courseId) {
+        this.courseId = newId;
         this.fetchCourseAndPlaylist();
       }
     });
 
+    this.subscriptions.add(routeSub);
 
     if (this.token) {
+
       this.authService.getUserCoursesEnrolled().subscribe((res) => {
         if (res.success) {
           this.isEnrolled = res.data.some((dt: any) => dt._id == this.courseId);
-        } else {
-          this.toastMsgService.showError("Error", "Something went wrong.");
         }
       }, (err) => {
         this.toastMsgService.showError("Error", "Failed to fetch user details.");
       })
-      let userSub = this.store.select("userInfo").subscribe((res) => {
+
+      let userSub = this.store.select("userInfo").pipe(
+        filter(user => !!user && !!user._id)
+      ).subscribe((res) => {
         this.userDetails = res;
-        this.fetchUserCartData()
-      }, (err) => {
-        this.toastMsgService.showError("Error", "Failed to fetch user details.");
+        this.fetchUserCartData();
       });
+
       this.subscriptions.add(userSub);
+
     } else {
       this.loadCartDataFromStorage();
     }
@@ -111,19 +109,6 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
   getRemainingStars(num: number) {
     return new Array(5 - num).fill(1);
-  }
-
-  // this method is showing my div card according to the scroll height
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll(event: any) {
-    if (
-      window.scrollY > 200 &&
-      window.scrollY < this.getScrollYHeight() - 900
-    ) {
-      this.showCard = true;
-    } else {
-      this.showCard = false;
-    }
   }
 
   loadCartDataFromStorage() {
@@ -175,7 +160,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.cartService.getCart(this.userDetails?._id).subscribe((res) => {
       if (res.success) {
         const cart: Cart = res.cart;
-        this.existInCart = cart.cartItems.some((course) => course.courseId === this.selectedCourse._id);
+        this.existInCart = cart.cartItems.some((course) => course.courseId == this.courseId);
       } else {
         this.toastMsgService.showInfo("Info", res.message);
       }
@@ -187,17 +172,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   fetchCourseAndPlaylist() {
     this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
-      if (this.token) this.fetchUserCartData();
       this.sectionList = res.sectionArr;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
       })
-  }
-
-  // this method is tracking for y scrolling height beacuse I'm showing a div according to the scroll height
-  getScrollYHeight(): number {
-    return this.elRef.nativeElement.ownerDocument.documentElement.scrollHeight;
   }
 
   // this method add course to card according to the login state of user
@@ -290,6 +269,18 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       this.toastMsgService.showError("Error", err.error.message);
       this.loading = false;
     })
+  }
+
+  goToOrderSummaryPage() {
+    this.router.navigate(
+      ['/order-summary'],
+      {
+        queryParams: {
+          courseId: this.courseId,
+          isCart: false,
+        }
+      }
+    )
   }
 
 }
