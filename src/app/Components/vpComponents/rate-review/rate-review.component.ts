@@ -1,20 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ButtonModule } from 'primeng/button';
+import { RatingModule } from 'primeng/rating';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { RateAndReviewService, Reviews } from '../../../Services/rateAndReview.service';
+import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
+import { Store } from '@ngrx/store';
+import { UserList } from '../../../models/UserList';
 @Component({
   selector: 'app-rate-review',
   standalone: true,
-  imports: [CommonModule, ProgressBarModule, ButtonModule, FormsModule, InputTextModule],
+  imports: [CommonModule, ProgressBarModule, ButtonModule, FormsModule, InputTextModule, RatingModule, InputTextareaModule],
   templateUrl: './rate-review.component.html',
   styleUrl: './rate-review.component.css',
 })
-export class RateReviewComponent implements OnInit {
-  public reviewText: string;
-  public overallRating: number;
+export class RateReviewComponent {
+
+  @Input() courseId: string = null;
+  @Input() userId: string = null;
+  @Input() username : string = null;
+  public overallRating: number = 4.3;
   public overEmpty: number;
+  public myReview : Reviews | null;
+  public updateMode : boolean = false;
   public reviews: any[] = [
     {
       username: 'Steve rogers',
@@ -62,11 +73,77 @@ export class RateReviewComponent implements OnInit {
       desc: 'This is a good course for all level candidates',
     },
   ];
-  calculateOverallRating() {
-    let rating = this.reviews.reduce((s, c) => s + c.rating, 0);
-    let ans = rating / this.reviews.length;
-    return Number(ans.toFixed(1));
+
+  public reviewsArr: Reviews[] = [];
+  public reviewData: Reviews = new Reviews();
+
+  constructor(
+    private rateReviewService: RateAndReviewService,
+    private toastMsgService: ToastMessageService,
+    private store: Store<{ userInfo: UserList }>
+  ) { }
+
+  // ngOnInit(): void {
+  //   this.getReviews();
+  // }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['courseId']) {
+      this.getReviews();
+    }
   }
+
+  getReviews() {
+    this.rateReviewService.getReviews(this.userId, this.courseId).subscribe((res) => {
+      this.reviewsArr = res.reviews;
+      this.myReview = res.userReview;
+      if(res.userReview != null) this.updateMode = true;
+      this.overallRating = res.overallRating;
+    },
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      })
+  }
+
+  submitReview(){
+    this.reviewData.userId = this.userId;
+    this.reviewData.username = this.username;
+    // this.reviewData = new Reviews();
+    // console.log(this.reviewData); 
+    if(this.updateMode) this.updateReview()
+    else this.addReview();
+  }
+
+  addReview() {
+    this.rateReviewService.postReview(this.reviewData, this.courseId).subscribe((res) => {
+      this.reviewsArr = res.reviews;
+      this.overallRating = res.overallRating;
+    },
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      })
+  }
+
+  updateReview() {
+    this.rateReviewService.updateReview(this.courseId, this.userId, this.reviewData).subscribe((res) => {
+      this.reviewsArr = res.reviews;
+      this.overallRating = res.overallRating;
+    },
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      })
+  }
+
+  deleteReview() {
+    this.rateReviewService.deleteReview(this.courseId, this.userId).subscribe((res) => {
+      this.reviewsArr = res.reviews;
+      this.overallRating = res.overallRating;
+    },
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+      })
+  }
+
+
   renderStar(st: number) {
     let num = parseInt(st.toString());
     let arr = [];
@@ -91,7 +168,5 @@ export class RateReviewComponent implements OnInit {
     let percent: number = Number((arr.length * 100) / this.reviews.length);
     return parseInt(percent.toString());
   }
-  ngOnInit(): void {
-    this.overallRating = this.calculateOverallRating();
-  }
+
 }

@@ -45,6 +45,7 @@ export class VideoPlayerComponent implements OnInit {
   public videosCompleted: String[];
   public courseId: any;
   public userId: string;
+  public username : string;
   public currentWatchingVideo: CurrentWatchingVideo;
   public currentVideoId: string = '';
   public currentUrl: string = '';
@@ -76,6 +77,7 @@ export class VideoPlayerComponent implements OnInit {
       take(1),
       switchMap((user) => {
         this.userId = user._id;
+        this.username = user.username;
 
         // 1️⃣ First API call
         return this.fetchCourseAndPlaylist();
