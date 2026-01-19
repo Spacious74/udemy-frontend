@@ -23,7 +23,7 @@ import { userInfoActions } from '../../store/actions/userInfo.action';
   ],
   providers: [ToastMessageService],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css',
+  styleUrl: '../login/login.component.css',
 })
 export class SignupComponent {
 

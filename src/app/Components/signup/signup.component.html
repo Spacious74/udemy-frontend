@@ -1,10 +1,19 @@
 <p-toast></p-toast>
-<div class="container flex justify-content-between align-items-center w-9 m-auto" style="height: calc(100vh - 5rem);">
+<div class="order-nav p-3 flex justify-content-center align-items-center">
+    <div class="inner-nav">
+        <div class="logo">Skill Up.</div>
+    </div>
+</div>
+<div class="login-container">
 
-    <div class="right w-5">
-        <form class="form border-1 p-5 radius14 border-300 boxShadow" #registerForm="ngForm"
-            (ngSubmit)="formSubmission(registerForm)">
-            <div class="text-xl font-bold mb-5">Create your new account</div>
+    <div class="left">
+        <form #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)">
+
+            <div class="svg-icon flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 2.458A10 10 0 0 0 12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10a10 10 0 0 0-.458-3"/><path d="M15 10a3 3 0 1 1-6 0a3 3 0 0 1 6 0m-9.5 9.5l.56-.98A5 5 0 0 1 10.402 16h3.196a5 5 0 0 1 4.341 2.52l.56.98m.475-17.479c.006-.028.046-.028.052 0a3.79 3.79 0 0 0 2.953 2.953c.028.006.028.046 0 .052a3.79 3.79 0 0 0-2.953 2.953c-.006.028-.046.028-.052 0a3.79 3.79 0 0 0-2.953-2.953c-.028-.006-.028-.046 0-.052a3.79 3.79 0 0 0 2.953-2.953"/></g></svg>
+            </div>
+
+            <div class="text-xl font-bold text-center mb-5">Create your new account</div>
 
             <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                 <label for="username">Full name</label>
@@ -18,7 +27,7 @@
                     [(ngModel)]="formData.email" />
             </div>
 
-            <div class="flex gap-3">
+            <div class="flex flex-column ">
                 <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                     <label for="password">Password</label>
                     <p-password [(ngModel)]="formData.password" toggleMask name="password"
@@ -32,16 +41,20 @@
                 </div>
             </div>
 
-            <div class="flex gap-3 align-items-center mt-3">
+            <div class="flex flex-column gap-3 p-fluid align-items-center mt-2">
                 <button pButton label="Signup" icon="pi pi-sign-in" type="submit"></button>
-                <small>
+                <div class="text-sm">
                     Already have an account ? <a class="text-primary" routerLink="/login">Login</a>
-                </small>
+                </div>
             </div>
         </form>
     </div>
 
-    <div class="left w-5">
-        <img src="../../../assets/images/form.png" alt="signup_illustration" width="100%" />
+    <div class="right">
+        <div class="right-txt mb-5">
+            <div class="text-xl font-bold mb-2 text-center ">Hey, Let's get started!</div>
+            <div class="text-lg">Sign up to explore courses and start learning today....</div>
+        </div>
+        <img src="../../../assets/images/signup.png" alt="signup_illustration" />
     </div>
 </div>

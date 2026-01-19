@@ -79,7 +79,7 @@
                 <p-button *ngIf="existInCart" class="w-full" icon="pi pi-check" label="In Cart"
                     [outlined]="true"></p-button>
             </div>
-            <p-button *ngIf="isEnrolled" class="w-full" icon="pi pi-check" label="Go to Learning"></p-button>
+            <p-button *ngIf="isEnrolled" class="w-full" icon="pi pi-check" label="Go to Learning" (onClick)="navigateToPlayer()" ></p-button>
         </div>
     </div>
     <div class="container mx-auto mb-8 ">

@@ -118,18 +118,18 @@ export class OrderSummaryComponent implements OnInit {
   checkOutHandler() {
 
     if (this.isCart) {
-      let orderData = {
-        courseId: this.courseDetail._id,
-        amount: this.courseDetail.price
-      }
-      this.singleCheckout(orderData);
-    } else {
       let courseIds = this.cartData.map((dt) => dt.courseId);
       let orderData = {
         courseIds,
         amount: this.discountedPrice
       }
       this.cartCheckout(orderData, courseIds);
+    } else {
+      let orderData = {
+        courseId: this.courseDetail._id,
+        amount: this.courseDetail.price
+      }
+      this.singleCheckout(orderData);
     }
 
   }

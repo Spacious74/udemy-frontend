@@ -4,14 +4,14 @@ import { Router, RouterLink } from '@angular/router';
 import { UserList } from '../../models/UserList';
 import { Store } from '@ngrx/store';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
-import { CourseList } from '../../models/Course/CourseList';
 import { DraftCourse } from '../../models/Course/DraftCourse';
 import { AuthService } from '../../Services/auth.service';
 import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-playlist',
   standalone: true,
-  imports: [CommonModule, RouterLink, ToastModule],
+  imports: [CommonModule, RouterLink, ToastModule, ButtonModule],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
@@ -36,7 +36,7 @@ export class PlaylistComponent {
         this.toastMsgService.showError("Error", "Something went wrong.");
       }
     }, (err) => {
-      // console.log(err);
+      this.router.navigate(['/']);
       this.toastMsgService.showError("Error", "Failed to fetch user details.");
     })
 

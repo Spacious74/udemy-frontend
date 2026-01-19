@@ -1,37 +1,49 @@
 <p-toast></p-toast>
-<div class="login-container" >
-    
-    <div class="right w-5">
-        <form class="border-1 p-5 radius14 border-300 boxShadow" #loginForm="ngForm" (ngSubmit)="formSubmission(loginForm)">
-            <div class="text-xl font-bold mb-5">Login to your account</div>
-            
+<div class="order-nav p-3 flex justify-content-center align-items-center">
+    <div class="inner-nav">
+        <div class="logo">Skill Up.</div>
+    </div>
+</div>
+<div class="login-container">
+
+    <div class="left">
+        <form #loginForm="ngForm" (ngSubmit)="formSubmission(loginForm)">
+            <div class="svg-icon flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M8.25 9a3.75 3.75 0 1 1 7.5 0a3.75 3.75 0 0 1-7.5 0M12 6.75a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5"/><path d="M1.25 12C1.25 6.063 6.063 1.25 12 1.25S22.75 6.063 22.75 12S17.937 22.75 12 22.75S1.25 17.937 1.25 12M12 2.75a9.25 9.25 0 0 0-6.558 15.773c.18-.973.535-1.89 1.246-2.628C7.753 14.791 9.454 14.25 12 14.25s4.247.541 5.311 1.645c.712.738 1.066 1.656 1.247 2.629A9.25 9.25 0 0 0 12 2.75m5.194 16.905c-.102-1.212-.365-2.1-.962-2.719c-.65-.673-1.853-1.186-4.232-1.186s-3.582.513-4.232 1.186c-.597.62-.86 1.507-.962 2.72A9.2 9.2 0 0 0 12 21.25a9.2 9.2 0 0 0 5.194-1.595"/></g></svg>
+            </div>
+            <div class="text-xl font-bold text-center mb-5">Login to your account</div>
+
             <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                 <label for="email">Email</label>
-                <input required type="email" #email="ngModel" name="email"
-                [class.border-red-300]="email.invalid && email.touched" pInputText ngModel />
+                <input required type="email" #email="ngModel" name="email" placeholder="Enter your email..."
+                    [class.border-red-300]="email.invalid && email.touched" pInputText ngModel />
                 <div *ngIf="loginForm.submitted && !loginForm.value.email" class="text-red-500">Email is required.</div>
             </div>
-            
+
             <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                 <label for="password">Password</label>
-                <p-password required ngModel name="password" [feedback]="false" [toggleMask]="true"></p-password>
+                <p-password required ngModel name="password" placeholder="Enter your password..."
+                 [feedback]="false" [toggleMask]="true"></p-password>
                 <div *ngIf="loginForm.submitted && !loginForm.value.password" class="text-red-500">Password is required.</div>
                 <div class="flex justify-content-between align-items-center py-1">
                     <small class="cursor-pointer hover:text-primary">Forgot Password?</small>
                 </div>
             </div>
-            
-            <div class="flex gap-3 align-items-center mt-4">
-                <button pButton [disabled]="loading"
-                [label]="loading ? 'Loading...': 'Login'" 
-                [icon]="loading ? 'pi pi-spin pi-spinner': 'pi pi-sign-in'" type="submit"></button>
-                <small>
+
+            <div class="flex flex-column p-fluid gap-3 align-items-center mt-4">
+                <button pButton [disabled]="loading" [label]="loading ? 'Loading...': 'Login'"
+                    [icon]="loading ? 'pi pi-spin pi-spinner': 'pi pi-sign-in'" type="submit"></button>
+                <div class="text-sm">
                     New Here? <a class="text-primary" routerLink="/signup">Create new account</a>
-                </small>
+                </div>
             </div>
         </form>
     </div>
-    <div class="left w-5">
-        <img src="../../../assets/images/login_illustration.png" alt="login_illustration" width="100%"/>
+    <div class="right">
+        <div class="right-txt mb-5">
+            <div class="text-xl font-bold mb-2 text-center ">Hey, Welcome again !</div>
+            <div class="text-lg">Login to continue you learing journey...</div>
+        </div>
+        <img src="../../../assets/images/login.png" alt="login_illustration" />
     </div>
 </div>

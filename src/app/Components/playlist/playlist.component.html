@@ -1,31 +1,35 @@
 <p-toast></p-toast>
 <div class="container">
+
     <div class="head py-6 ">
-        <div class="text m-auto" style="width: 75%;">
+        <div class="header-text text m-auto">
             My Learning
         </div>
     </div>
+
     <div *ngIf="courseEnrolled?.length == 0" >
         <div class="w-full flex justify-content-center">
             <img src="../../../assets/images/Office-Desk--Streamline-Bangalore.png" alt="Start Learning Today" >
         </div>
         <div class="text-xl font-bold text-center ">Start Learning Today</div>
     </div>
-    <div *ngIf="courseEnrolled?.length>0">
-        <div class="info  m-auto mt-6 mb-3 pb-2 border-bottom-1 border-300 text-lg font-bold" style="width: 75%;">
+
+    <div class="playlist-container m-auto" *ngIf="courseEnrolled?.length>0">
+
+        <div class="w-full mt-6 mb-3 pb-2 border-bottom-1 border-300 text-lg font-bold">
             {{courseEnrolled?.length}} courses
         </div>
-        <div class="m-auto courses pb-6 flex flex-wrap gap-4 " style="width: 75%;">
+        <div class="w-full courses pb-6 flex flex-wrap gap-4 ">
             <ng-container *ngFor="let item of courseEnrolled">
-                <div (click)="navigateToCoursePlayer(item._id)" class="card cursor-pointer" style="width: 28%;">
+                <div (click)="navigateToCoursePlayer(item._id)" class="card cursor-pointer" style="width: 23%;">
                     <div class="imgcont mb-1" style="width: 100%;">
                         <img [src]="item.coursePoster.url" alt="poster" class="w-full border-round-lg" style="object-fit: cover;">
                     </div>
                     <div class="play text-0 flex justify-content-center align-items-center ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24"><path fill="currentColor" d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.737 4 21.277 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="62" height="62" viewBox="0 0 28 28"><path fill="currentColor" d="M12.766 9.278a1.5 1.5 0 0 0-2.266 1.29v6.864a1.5 1.5 0 0 0 2.266 1.29l6.505-3.862a1 1 0 0 0 0-1.72zM2 14C2 7.373 7.373 2 14 2s12 5.373 12 12s-5.373 12-12 12S2 20.627 2 14M14 3.5C8.201 3.5 3.5 8.201 3.5 14S8.201 24.5 14 24.5S24.5 19.799 24.5 14S19.799 3.5 14 3.5"/></svg>
                     </div>
                     <div class="flex flex-column gap-2 mt-1" routerLink="/player">
-                        <div class="title text-lg hover:text-green-500 hover:text-underline">
+                        <div class="title hover:text-green-500 hover:text-underline">
                             {{item.title}}
                         </div>
                         <div class="ins text-sm">

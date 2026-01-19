@@ -283,4 +283,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     )
   }
 
+  navigateToPlayer(){
+    let url = "/player/" + this.courseId;
+    this.router.navigate([url]);
+  }
+
 }
