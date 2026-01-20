@@ -5,15 +5,19 @@ import { ButtonModule } from 'primeng/button';
 import { RatingModule } from 'primeng/rating';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { RateAndReviewService, Reviews } from '../../../Services/rateAndReview.service';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { Store } from '@ngrx/store';
 import { UserList } from '../../../models/UserList';
+import { ToastModule } from 'primeng/toast';
+
 @Component({
   selector: 'app-rate-review',
   standalone: true,
-  imports: [CommonModule, ProgressBarModule, ButtonModule, FormsModule, InputTextModule, RatingModule, InputTextareaModule],
+  imports: [CommonModule, ProgressBarModule, ButtonModule, FormsModule, InputTextModule, RatingModule,
+    InputTextareaModule, DialogModule, ToastModule],
   templateUrl: './rate-review.component.html',
   styleUrl: './rate-review.component.css',
 })
@@ -21,11 +25,11 @@ export class RateReviewComponent {
 
   @Input() courseId: string = null;
   @Input() userId: string = null;
-  @Input() username : string = null;
-  public overallRating: number = 4.3;
+  @Input() username: string = null;
+  public overallRating: number = 0;
   public overEmpty: number;
-  public myReview : Reviews | null;
-  public updateMode : boolean = false;
+  public myReview: Reviews | null;
+  public updateMode: boolean = false;
   public reviews: any[] = [
     {
       username: 'Steve rogers',
@@ -75,7 +79,6 @@ export class RateReviewComponent {
   ];
 
   public reviewsArr: Reviews[] = [];
-  public reviewData: Reviews = new Reviews();
 
   constructor(
     private rateReviewService: RateAndReviewService,
@@ -83,12 +86,12 @@ export class RateReviewComponent {
     private store: Store<{ userInfo: UserList }>
   ) { }
 
-  // ngOnInit(): void {
-  //   this.getReviews();
-  // }
+
+  public reviewData: Reviews = new Reviews();
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['courseId']) {
+    if (changes['courseId'] && !changes['courseId'].firstChange) {
       this.getReviews();
+      console.log("ngonchanges It runs...");
     }
   }
 
@@ -96,20 +99,21 @@ export class RateReviewComponent {
     this.rateReviewService.getReviews(this.userId, this.courseId).subscribe((res) => {
       this.reviewsArr = res.reviews;
       this.myReview = res.userReview;
-      if(res.userReview != null) this.updateMode = true;
+      if (res.userReview != null) this.updateMode = true;
       this.overallRating = res.overallRating;
+      this.reviewData = { ...res.userReview };
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
       })
   }
 
-  submitReview(){
+  submitReview() {
     this.reviewData.userId = this.userId;
     this.reviewData.username = this.username;
     // this.reviewData = new Reviews();
     // console.log(this.reviewData); 
-    if(this.updateMode) this.updateReview()
+    if (this.updateMode) this.updateReview()
     else this.addReview();
   }
 
@@ -117,6 +121,10 @@ export class RateReviewComponent {
     this.rateReviewService.postReview(this.reviewData, this.courseId).subscribe((res) => {
       this.reviewsArr = res.reviews;
       this.overallRating = res.overallRating;
+      this.myReview = res.userReview;
+      if (res.userReview != null) this.updateMode = true;
+      this.reviewData = { ...res.userReview };
+      this.toastMsgService.showSuccess("Success", "Thankyou for your feedback!");
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
@@ -127,6 +135,10 @@ export class RateReviewComponent {
     this.rateReviewService.updateReview(this.courseId, this.userId, this.reviewData).subscribe((res) => {
       this.reviewsArr = res.reviews;
       this.overallRating = res.overallRating;
+      this.myReview = res.userReview;
+      if (res.userReview != null) this.updateMode = true;
+      this.reviewData = { ...res.userReview };
+      this.toastMsgService.showSuccess("Success", "Your feedback has been updated, Thankyou!");
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);

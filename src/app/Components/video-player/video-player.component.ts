@@ -43,9 +43,11 @@ export class VideoPlayerComponent implements OnInit {
   public selectedCourse: DraftCourse;
   public sectionList: SectionList[];
   public videosCompleted: String[];
-  public courseId: any;
-  public userId: string;
-  public username : string;
+
+  public courseId: string = null;
+  public userId: string = null;
+  public username: string = null;
+
   public currentWatchingVideo: CurrentWatchingVideo;
   public currentVideoId: string = '';
   public currentUrl: string = '';
@@ -56,18 +58,26 @@ export class VideoPlayerComponent implements OnInit {
   public totalCompletedLectures: number = 0;
   public totalCompletedLecturesPercentage: number = 0;
   public totalLectures: number = 0;
-  public completionStatus : boolean = false;
-  public currentSectionIndex : string = null;
-  public certificateLoadingState : boolean = false;
+  public completionStatus: boolean = false;
+  public currentSectionIndex: string = null;
+  public certificateLoadingState: boolean = false;
+
+  @ViewChild(RateReviewComponent) reviewComp!: RateReviewComponent;
 
   constructor(
     private userProgressService: UserProgressService,
     private draftedCourseService: DraftedCourseService,
-    private certificateService : CertificateService,
+    private certificateService: CertificateService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
     private store: Store<{ userInfo: UserList }>
   ) { }
+
+  onTabChange(event: any) {
+    if (event.index === 1) {
+      this.reviewComp.getReviews();
+    }
+  }
 
   ngOnInit(): void {
 
@@ -123,7 +133,7 @@ export class VideoPlayerComponent implements OnInit {
         this.completionStatus = res.videosProgress.courseCompletionStatus;
 
         let value = this.findSectionAndVideoIndex(this.sectionList, this.currentVideoId);
-        this.currentSectionIndex = String(value+1);
+        this.currentSectionIndex = String(value + 1);
         if (!this.activeIndex.includes(value)) this.activeIndex = [...this.activeIndex, value];
       })
     );
@@ -131,7 +141,7 @@ export class VideoPlayerComponent implements OnInit {
   onAccordionOpen(event: any) {
     if (!this.activeIndex.includes(event.index)) this.activeIndex = [...this.activeIndex, event.index];
   }
-  
+
   onAccordionClose(event: any) {
     this.activeIndex = this.activeIndex.filter(i => i !== event.index);
   }
@@ -148,9 +158,9 @@ export class VideoPlayerComponent implements OnInit {
         this.completionStatus = res.videosProgress.courseCompletionStatus;
         this.videoSet = new Set(this.videosCompleted);
       },
-      (error) => {
-        this.toastMsgService.showError("Error", error.error.message);
-      });
+        (error) => {
+          this.toastMsgService.showError("Error", error.error.message);
+        });
     }
   }
 
@@ -177,7 +187,7 @@ export class VideoPlayerComponent implements OnInit {
       this.videoSet = new Set(this.videosCompleted);
       this.completionStatus = res.videosProgress.courseCompletionStatus;
       let value = this.findSectionAndVideoIndex(this.sectionList, this.currentVideoId);
-      this.currentSectionIndex = String(value+1);
+      this.currentSectionIndex = String(value + 1);
       if (!this.activeIndex.includes(value)) this.activeIndex = [...this.activeIndex, value];
     },
       (error) => {
@@ -193,24 +203,24 @@ export class VideoPlayerComponent implements OnInit {
     return null;
   }
 
-  getSequence(sectionIdx:number, videoIdx:number){
-    if(sectionIdx == 0) return null;
-    let a = this.sectionList[sectionIdx-1].videos.length + 1;
-    for(let i=0;i<videoIdx; i++){
+  getSequence(sectionIdx: number, videoIdx: number) {
+    if (sectionIdx == 0) return null;
+    let a = this.sectionList[sectionIdx - 1].videos.length + 1;
+    for (let i = 0; i < videoIdx; i++) {
       a++;
     }
     return a;
   }
-  
+
   generateCertificate(value: string) {
     this.certificateLoadingState = true;
-    this.certificateService.generateCertificate(this.userId, this.courseId).subscribe((res)=>{
+    this.certificateService.generateCertificate(this.userId, this.courseId).subscribe((res) => {
       window.open(res.pdfUrl, "_blank");
       this.certificateLoadingState = false;
     },
-    (error) => {
-      this.toastMsgService.showError("Error", error.error.message);
-      this.certificateLoadingState = false;
-    })
+      (error) => {
+        this.toastMsgService.showError("Error", error.error.message);
+        this.certificateLoadingState = false;
+      })
   }
 }

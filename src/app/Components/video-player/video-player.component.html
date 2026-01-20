@@ -29,7 +29,7 @@
         </div>
 
         <div class="rest">
-            <p-tabView [activeIndex]="0">
+            <p-tabView [activeIndex]="0" (onChange)="onTabChange($event)">
                 <p-tabPanel>
                     <ng-template pTemplate="header">
                         <span class="flex gap-2 align-items-center "> <i class="pi pi-book"></i> Overview</span>

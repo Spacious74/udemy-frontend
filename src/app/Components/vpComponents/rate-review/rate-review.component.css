@@ -18,11 +18,12 @@
   font-size: 4rem;
   font-weight: 600;
   font-family: "General Sans";
-  color: #d19601;
+  color: #daa520;
   line-height: 1;
 }
 .avtr {
   width: 40px;
   height: 40px;
-  border-radius: 500px;
+  border-radius: 999px;
+  border: solid 1px;
 }
