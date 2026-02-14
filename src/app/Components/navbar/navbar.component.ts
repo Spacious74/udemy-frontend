@@ -63,14 +63,7 @@ export class NavbarComponent implements OnInit {
       { name: 'Programming Languages' },
     ];
   }
-
-  public isScrolled = false;
-
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.isScrolled = window.pageYOffset > 50;
-  }
-
+  
   initializeUser(){
     this.store.select("userInfo").subscribe((res)=>{
       if(res){

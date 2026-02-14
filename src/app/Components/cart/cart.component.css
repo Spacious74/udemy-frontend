@@ -1,9 +1,10 @@
 .head {
   font-size: 1.5rem;
   font-weight: 600;
-  font-family: "General Sans";
+  font-family: "Satoshi";
   margin-bottom: 1rem;
 }
+
 .cart {
   height: 70vh;
   padding: 20px;
@@ -12,15 +13,18 @@
   border-radius: 12px;
   overflow-y: auto;
 }
-.item-card{
+
+.item-card {
   background-color: #fff;
   border-radius: 14px;
   box-shadow: #00000029 0px 1px 4px;
 }
-.text-green{
+
+.text-green {
   color: #10B981;
 }
-.delete-btn{
+
+.delete-btn {
   color: #be1414;
   border: solid 1px #be1414;
   border-radius: 8px;

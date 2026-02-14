@@ -2,13 +2,38 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+@font-face {
+  font-family: 'Aspekta';
+  src: url('./assets/fonts/AspektaVF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: 'Satoshi';
+  src: url('./assets/fonts/Satoshi-Variable.woff2') format('woff2');
+  font-style: normal;
+  font-display: swap;
+}
 
-*{
-  font-family: "Rubik", sans-serif;
+@font-face {
+  font-family: 'Clash';
+  src: url('./assets/fonts/ClashDisplay-Variable.woff2') format('woff2');
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  font-family: "Aspekta", sans-serif;
+}
+
+.head {
+  font-family: "Clash", sans-serif;
+}
+
+.logo_font{
+  font-family: "Clash", "Satoshi", "Aspekta", sans-serif;
 }
 
 html {
@@ -18,7 +43,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-
+  background-color: #f5f5f5;
 }
 
 .icon {
@@ -45,20 +70,6 @@ body {
 
 ::-webkit-scrollbar-thumb:active {
   cursor: grabbing;
-}
-
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Domine';
-}
-
-.script-font {
-  font-family: 'Domine';
 }
 
 body {
@@ -132,18 +143,19 @@ body {
 }
 
 /* Primeflex CSS */
-.surface-0{
+.surface-0 {
   background-color: #ffffff !important;
 }
 
-.text-0{
+.text-0 {
   color: #fff !important;
 }
 
-.border-1{
+.border-1 {
   border: solid 1px #cecece !important;
 }
-.border-round{
+
+.border-round {
   border-radius: 8px !important;
 }
 
@@ -151,43 +163,51 @@ body {
   border-radius: 12px;
   overflow: hidden;
 }
-.p-fieldset{
+
+.p-fieldset {
   border-color: #cecece;
   border-radius: 12px;
 }
-.p-fieldset.p-fieldset-toggleable .p-fieldset-legend{
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend {
   width: 80%;
   border-radius: 14px;
 }
-.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a{
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
   padding: 0.6rem 1rem;
   border: solid 1px #cecece;
 }
-.icon-btn{
+
+.icon-btn {
   padding: 3px 4px;
   border-radius: 5px;
   display: flex;
-  align-items: center; justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
-.icon-btn:hover{
+
+.icon-btn:hover {
   background-color: #10b9812a;
 }
-.text-btn{
+
+.text-btn {
   color: #10B981;
   font-weight: bold;
   padding: 3px 6px;
   border-radius: 5px;
 }
-.text-btn:hover{
+
+.text-btn:hover {
   background-color: #10b9812a;
 }
 
-.p-fieldset .p-fieldset-content{
+.p-fieldset .p-fieldset-content {
   padding: 12px;
 }
 
-.vid-tab{
-  background-color:  #14141404;
+.vid-tab {
+  background-color: #14141404;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
   border: solid 1px #dddddd;
 }
@@ -199,11 +219,11 @@ body {
   justify-content: space-between;
 }
 
-.p-accordion .p-accordion-content{
+.p-accordion .p-accordion-content {
   padding: 0.8rem;
 }
 
-.p-checkbox .p-checkbox-box{
-  width: 20px; 
+.p-checkbox .p-checkbox-box {
+  width: 20px;
   height: 20px;
 }

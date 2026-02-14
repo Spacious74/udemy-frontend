@@ -1,5 +1,5 @@
 import { ApplicationConfig, isDevMode } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -12,14 +12,17 @@ import { userInfoReducer } from './store/reducers/user.reducer';
 import { UserInfoEffects } from './store/effects/user.effects';
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({
+      scrollPositionRestoration: 'top',
+      anchorScrolling: 'enabled'
+    })),
     provideClientHydration(),
     provideAnimations(),
     provideHttpClient(withFetch()),
     provideStore({
-      userInfo : userInfoReducer
+      userInfo: userInfoReducer
     }),
     provideEffects(UserInfoEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
-],
+  ],
 };

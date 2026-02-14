@@ -1,85 +1,185 @@
-<p-toast ></p-toast>
+<p-toast></p-toast>
 <div class="homepage-container relative">
-    <div class="topsect relative" id="top">
-        <img src="../../../assets/images/carousel3.jpg" alt="carousel poster" class="img w-full ">
-        <div class="info absolute border-round-lg p-4 shadow-3 ">
-            <div class="head m-0 p-0 text-3xl mb-3 font-bold ">
-            Welcome {{userDetails?.username}} ! Learning comes to you</div>
-            <div class="para">Attain a world of knowledge — at home or on the go. Trusted by millions of learners around
-                the world.</div>
+    <div class="container topsect">
+        <div class="left">
+            <div class="main-head head mb-3">In the Age of AI, Skills Make You Smarter & Irreplaceable</div>
+            <div class="sub-head">Learn in-demand technologies, build real projects, and stay ahead in an AI-driven tech
+                industry.</div>
+            <div class="features-container flex gap-2 mt-3">
+                <div class="feature-pill ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M10 2.25C7.904 2.25 6.171 3.91 6.171 6S7.904 9.75 10 9.75S13.829 8.09 13.829 6S12.096 2.25 10 2.25M7.671 6c0-1.224 1.024-2.25 2.329-2.25S12.329 4.776 12.329 6S11.305 8.25 10 8.25S7.671 7.224 7.671 6m-.584 5.86c.064-.018.202-.011.384.106c.512.332 1.4.77 2.529.77s2.017-.438 2.53-.77c.18-.117.319-.124.383-.107q.215.06.428.128l.985.315a.75.75 0 0 0 .457-1.428l-.984-.316q-.243-.077-.488-.145c-.612-.168-1.193.033-1.596.294c-.37.24-.974.529-1.715.529c-.74 0-1.345-.29-1.715-.53c-.403-.26-.984-.461-1.596-.293q-.245.068-.488.145l-.984.316a3.77 3.77 0 0 0-2.429 2.342c-.075.22-.107.432-.125.604l-.389 3.673c-.16 1.177.493 2.388 1.781 2.687c1.199.278 3.127.57 5.945.57a.75.75 0 1 0 0-1.5c-2.714 0-4.528-.28-5.605-.53c-.427-.1-.708-.503-.634-1.03l.002-.013l.391-3.7c.014-.124.03-.208.052-.271a2.27 2.27 0 0 1 1.468-1.404l.985-.315q.213-.068.428-.128M20.53 16.03a.75.75 0 1 0-1.06-1.06L16 18.44l-1.47-1.47a.75.75 0 1 0-1.06 1.06L16 20.56z" />
+                    </svg>
+                    Top Instructors
+                </div>
+                <div class="feature-pill ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd"
+                            d="M8.3 3.25h7.4c.899 0 1.648 0 2.243.08c.627.084 1.194.27 1.65.725c.455.456.64 1.023.725 1.65c.08.595.08 1.345.08 2.243v7.284l1.513 1.561l.003.004l.008.007l.007.008l.006.006l.01.01l.01.011l.005.005l.008.009l.009.01l.008.01l.012.015c.372.43.703 1.074.748 1.717v.004l.003.023v.013l.002.014v.115c0 .13 0 .319-.005.4a2.75 2.75 0 0 1-2.57 2.57c-.088.006-.185.006-.311.006H4.137c-.126 0-.223 0-.31-.006a2.75 2.75 0 0 1-2.572-2.57a9 9 0 0 1-.004-.398v-.117l.001-.014v-.012l.003-.024v-.004c.046-.643.377-1.286.749-1.717l.012-.015l.008-.01l.01-.01l.007-.009l.004-.005l.011-.01l.01-.011l.005-.006l.008-.008l.007-.007l.004-.004l1.513-1.561V7.948c0-.898 0-1.648.08-2.242c.084-.628.27-1.195.725-1.65c.456-.456 1.023-.642 1.65-.726c.595-.08 1.344-.08 2.243-.08M4.67 16.286l-1.514 1.563c-.227.253-.394.626-.405.877v.223l.001.13a1.25 1.25 0 0 0 1.17 1.168c.033.003.078.003.239.003h15.678c.16 0 .206 0 .24-.003a1.25 1.25 0 0 0 1.168-1.168l.001-.035l.001-.257v-.06c-.011-.252-.178-.625-.406-.878l-1.514-1.563zm14.227-1.5V8c0-.964-.002-1.612-.067-2.095c-.062-.461-.169-.659-.3-.789s-.327-.237-.788-.3c-.483-.064-1.131-.066-2.095-.066H8.353c-.964 0-1.612.002-2.095.067c-.461.062-.659.169-.789.3s-.238.327-.3.788c-.065.483-.066 1.131-.066 2.095v6.786zM2.331 18.024l-.031-.012l.009.005zm6.419.476a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75"
+                            clip-rule="evenodd" />
+                        <path fill="currentColor" d="M12.75 6.75a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0" />
+                    </svg>
+                    Real-World Projects
+                </div>
+                <div class="feature-pill ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <path fill="currentColor"
+                            d="M11.25 2c.966 0 1.75.784 1.75 1.75V5h2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-2.996-2.846L2 14V8a3 3 0 0 1 3-3h2V3.75C7 2.784 7.784 2 8.75 2zM17 11.231A3 3 0 0 1 15 12h-4v.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V12H5a2.98 2.98 0 0 1-2-.769V14l.01.204A2 2 0 0 0 5 16h10a2 2 0 0 0 2-2zM5 6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h4v-.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v.5h4a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm3.75-3a.75.75 0 0 0-.75.75V5h4V3.75a.75.75 0 0 0-.75-.75z" />
+                    </svg>
+                    Job-Ready Skills
+                </div>
+            </div>
+            <button class="main-btn flex align-items-center mt-3 gap-1">
+                Browse Courses
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M13.47 8.53a.75.75 0 0 1 1.06-1.06l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 1 1-1.06-1.06l2.72-2.72H6.5a.75.75 0 0 1 0-1.5h9.69z" />
+                </svg>
+            </button>
+        </div>
+        <div class="right">
+            <img src="../../../assets/images/img1.3.png" alt="landing-page-illustration" class="main-img">
         </div>
     </div>
-    <div class="container m-auto pb-5 pt-8 ">
+    <div class="container m-auto py-8 ">
         <div class="flex justify-content-between align-items-center ">
             <div>
-                <div class="heading mb-2">
+                <div class="heading head mb-2">
                     A broad selection of courses for you.
                 </div>
                 <div class="subheading mb-5">
                     Choose from over 2,352 courses with new additions published every month.
                 </div>
             </div>
-            <div routerLink="/courses"
-                class="flex font-bold hover:bg-green-60 p-2 border-round-lg cursor-pointer hover:text-green-700 align-items-center gap-1 ">
-                See all <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24">
+            <div routerLink="/courses" class="flex font-bold cursor-pointer align-items-center gap-1 ">
+                Explore more <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2" d="m21 12l-5-5m5 5l-5 5m5-5H3" />
                 </svg>
             </div>
         </div>
-        <div class="cards">
-            <p-carousel [value]="data" [numVisible]="4" [numScroll]="3" [circular]="true">
+        <div class="cards-grid">
+            <!-- <p-carousel [value]="data" [numVisible]="4" [numScroll]="3" [circular]="true">
                 <ng-template let-data pTemplate="item">
-                    <div (click)="navigateToCourseDetails(data._id)"
-                        class="cursor-pointer border-1 surface-border border-round hover:border-green-400 
-                        hover:shadow-3 m-3 h-20rem overflow-hidden">
-                        <div class="imgPlaceHolder w-full h-10rem">
-                           
+                    <div (click)="navigateToCourseDetails(data._id)" class="course-card cursor-pointer border-1 surface-border 
+                    border-round hover:border-green-400 hover:shadow-3 m-3 h-20rem overflow-hidden">
+                        <div class="imgcont w-full">
+                            <img [src]="data?.coursePoster.url" [alt]="data?.title"
+                                class="w-full h-9rem border-round border-1 border-100" style="object-fit:cover;" />
                         </div>
-                        <div class="p-2">
-                            <div class="font-bold mb-2 text-xl ">{{ data.title }}</div>
-                            <div class="mb-2 text-sm"> {{data.educator.edname}} </div>
-                            <div class="mb-2 text-lg">{{ '$' + data.price }}</div>
+                        <div class="p-2 flex flex-column gap-1">
+                            <div class="font-bold text-lg ">{{ data.title }}</div>
+                            <div class="text-sm">Instructor : {{data.educator.edname}} </div>
+                            <div class="text-lg">{{ '₹' + data.price }}</div>
                         </div>
                     </div>
                 </ng-template>
-            </p-carousel>
+            </p-carousel> -->
+            @for (item of data; track $index) {
+            <div (click)="navigateToCourseDetails(item._id)" class="course-card">
+                <div class="course-badge">{{item.level}}</div>
+                <div class="imgcont w-full">
+                    <img [src]="item?.coursePoster.url" [alt]="item?.title"
+                        class="w-full h-10rem border-round border-1 border-100" style="object-fit:cover;" />
+                </div>
+                <div class="card-content p-3 pt-2 flex flex-column justify-content-between gap-2">
+                    <div class="course-title">{{ item.title }}</div>
+                    <div class="text-sm">Instructor : {{item.educator.edname}} </div>
+                    <div class="course-price">{{ '₹' + item.price }}</div>
+                </div>
+            </div>
+            }
         </div>
     </div>
     <div class="container m-auto py-5 ">
-        <div class="flex justify-content-between align-items-center ">
+        <div class="flex align-items-center">
             <div>
-                <div class="heading mb-2">
-                    Top categories for you
-                </div>
-                <div class="subheading mb-5">
-                    Expand your career opportunities with trending topics
-                </div>
-            </div>
-            <div
-                class="flex font-bold hover:bg-green-60 p-2 border-round-lg cursor-pointer hover:text-green-700 align-items-center gap-1 ">
-                Explore <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" d="m21 12l-5-5m5 5l-5 5m5-5H3" />
-                </svg>
+                <div class="heading head mb-2">Top categories for you</div>
+                <div class="subheading mb-5">Expand your career opportunities with trending topics</div>
             </div>
         </div>
         <div class="categories-cont flex gap-4 pb-7 align-items-center justify-content-between ">
             <ng-container *ngFor="let cat of categories">
-                <div
-                    class="categ border-1 border-300 shadow-2 border-round-lg pb-3 hover:border-green-400 flex flex-column justify-content-center align-items-center            ">
-                    <div class="cate-img w-7">
+                <div (click)="navigateWithCategory(cat.query)"
+                 class="categ flex flex-column justify-content-between align-items-center p-4">
+                    <div class="cate-img pb-2">
                         <img class="w-full" [src]="cat.url" [alt]="cat.name">
                     </div>
-                    {{cat.name}}
+                    <div class="text-lg">{{cat.name}}</div>
                 </div>
             </ng-container>
         </div>
     </div>
+
+
+    <div class="container m-auto py-5 ">
+
+        <section class="benefits-section">
+            <div class="heading head mb-2">The benefits of taking a course at Skill Up.</div>
+            <div class="subheading mb-7">Learn smarter, build real skills, and grow your career with expert-guided learning.</div>
+
+            <div class="benefits-grid">
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 10h4"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M21.998 12.5c0-.077.002-.533 0-.565c-.036-.501-.465-.9-1.005-.933c-.035-.002-.076-.002-.16-.002h-2.602C16.446 11 15 12.343 15 14s1.447 3 3.23 3h2.603c.084 0 .125 0 .16-.002c.54-.033.97-.432 1.005-.933c.002-.032.002-.488.002-.565"/><circle cx="18" cy="14" r="1" fill="currentColor"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M10 22h3c3.771 0 5.657 0 6.828-1.172c.809-.808 1.06-1.956 1.137-3.828m0-6c-.078-1.872-.328-3.02-1.137-3.828C18.657 6 16.771 6 13 6h-3C6.229 6 4.343 6 3.172 7.172S2 10.229 2 14s0 5.657 1.172 6.828c.653.654 1.528.943 2.828 1.07M6 6l3.735-2.477a3.24 3.24 0 0 1 3.53 0L17 6"/></g></svg>
+                    <h3>More Affordable</h3>
+                    <p>Learn high-value skills at a fraction of the cost of traditional education.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none"><path fill="currentColor" d="M12 21.25a.75.75 0 0 0 0 1.5zm-7.682-.422l.498-.56zm15.364 0l-.498-.56zM7.955 22.684a.75.75 0 1 0 .09-1.498zM2.25 12c0 1.874 0 3.83.169 5.466c.085.82.215 1.589.422 2.244c.203.646.503 1.256.979 1.679l.996-1.121c-.183-.163-.377-.478-.545-1.008c-.164-.52-.28-1.178-.36-1.948c-.16-1.543-.161-3.415-.161-5.312zM12 22.75c2.102 0 3.746.001 5.027-.152c1.293-.154 2.33-.477 3.153-1.209l-.996-1.121c-.495.44-1.178.703-2.335.84c-1.17.14-2.709.142-4.849.142zm-3.955-1.564c-1.714-.103-2.613-.371-3.229-.918l-.996 1.121c1.016.903 2.363 1.188 4.135 1.295zm12.205-8.799c0 1.832-.013 3.616-.178 5.08c-.082.731-.2 1.353-.36 1.845c-.164.5-.352.799-.528.956l.996 1.121c.46-.409.755-.993.957-1.61c.206-.628.338-1.362.426-2.144c.176-1.562.186-3.432.187-5.247z"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m14.66 14.202l3.004-.901m-8.324.9L3.332 12.4c-.595-.179-.893-.268-1.082-.482a1 1 0 0 1-.1-.134C2 11.541 2 11.231 2 10.609c0-2.45 0-3.675.673-4.502q.195-.24.434-.434C3.934 5 5.159 5 7.609 5h8.782c2.45 0 3.675 0 4.502.673q.24.195.434.434C22 6.934 22 8.159 22 10.609c0 .622 0 .932-.15 1.175a1 1 0 0 1-.1.134c-.15.17-.369.26-.75.38"/><path stroke="currentColor" stroke-width="2" d="M6.5 5c.823-.02 1.66-.545 1.94-1.32l.035-.103L8.5 3.5c.042-.127.064-.19.086-.246a2 2 0 0 1 1.735-1.25C10.38 2 10.448 2 10.58 2h2.838c.133 0 .2 0 .26.004a2 2 0 0 1 1.735 1.25c.023.056.044.12.086.246l.026.077c.018.053.026.08.035.103c.28.775 1.116 1.3 1.939 1.32"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M14 12.5h-4a.5.5 0 0 0-.5.5v2.162a.5.5 0 0 0 .314.464l.7.28a4 4 0 0 0 2.972 0l.7-.28a.5.5 0 0 0 .314-.464V13a.5.5 0 0 0-.5-.5Z"/></g></svg>
+                    <h3>Job Connector</h3>
+                    <p>Our platform bridges the gap between learning and employment.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14v-2c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828c-.653.654-1.528.943-2.828 1.07M7 4V2.5M17 4V2.5M21.5 9H10.75M2 9h3.875"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></g></svg>
+                    <h3>Flexible and Short</h3>
+                    <p>Short, structured modules that fit your schedule.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="16" r="3"/><path d="m12 19.26l-2.263 2.17c-.324.31-.486.465-.623.52c-.313.122-.66.017-.824-.25c-.072-.117-.095-.328-.14-.75c-.025-.239-.038-.358-.077-.458a.83.83 0 0 0-.5-.48c-.104-.037-.229-.049-.477-.073c-.44-.044-.661-.065-.783-.134a.617.617 0 0 1-.26-.79c.056-.132.218-.287.542-.598L8.073 17l1.04-1.04M12 19.26l2.263 2.17c.324.31.486.465.623.52c.313.122.66.017.824-.25c.072-.117.095-.328.14-.75c.025-.239.038-.358.077-.458a.83.83 0 0 1 .5-.48c.105-.037.229-.049.477-.073c.44-.043.661-.065.783-.134a.617.617 0 0 0 .26-.79c-.056-.132-.218-.287-.542-.598L15.926 17L15 16.073"/><path stroke-linecap="round" d="M17.32 17.996c1.972-.021 3.072-.145 3.801-.875C22 16.243 22 14.828 22 12V9M7 17.998c-2.175-.012-3.353-.108-4.121-.877C2 16.243 2 14.828 2 12V8c0-2.828 0-4.243.879-5.121C3.757 2 5.172 2 8 2h8c2.828 0 4.243 0 5.121.879c.49.49.707 1.146.803 2.121M9 6h6M7 9.5h2m8 0h-4.5"/></g></svg>
+                    <h3>Credible Certificate</h3>
+                    <p>Validate your skills with professional credentials.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="2"/><path d="M13 15c0 1.105 0 2-4 2s-4-.895-4-2s1.79-2 4-2s4 .895 4 2Z"/><path stroke-linecap="round" d="M22 12c0 3.771 0 5.657-1.172 6.828S17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172S2 15.771 2 12s0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172c.47.47.751 1.054.92 1.828M19 12h-4m4-3h-5m5 6h-3"/></g></svg>
+                    <h3>Build a Portfolio</h3>
+                    <p>Create real-world projects while learning.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="4"/><path stroke-linecap="round" d="M18 9c1.657 0 3-1.12 3-2.5S19.657 4 18 4M6 9C4.343 9 3 7.88 3 6.5S4.343 4 6 4m11.197 11c.51.588.803 1.271.803 2c0 2.21-2.686 4-6 4s-6-1.79-6-4s2.686-4 6-4q.511 0 1 .055M20 19c1.754-.385 3-1.359 3-2.5s-1.246-2.115-3-2.5M4 19c-1.754-.385-3-1.359-3-2.5s1.246-2.115 3-2.5"/></g></svg>
+                    <h3>Group Learning</h3>
+                    <p>Learn through discussions, feedback, and teamwork.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M19.647 15.536V8c0-1.886 0-2.828-.586-3.414C18.476 4 17.533 4 15.647 4H12m7.647 11.536l1.744 1.8l.088.092a2 2 0 0 1 .52 1.284l.001.127c0 .15 0 .224-.004.287a2 2 0 0 1-1.87 1.87a5 5 0 0 1-.287.004H4.161c-.15 0-.224 0-.287-.004a2 2 0 0 1-1.87-1.87C2 19.063 2 18.988 2 18.84l.001-.127a2 2 0 0 1 .52-1.284l.088-.092l1.744-1.8m15.294 0h-2.611m-12.683 0V8c0-1.886 0-2.828.586-3.414S6.467 4 8.353 4m-4 11.536H13M9.5 18.5h5"/><path fill="currentColor" d="M12.75 6.75a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0"/></g></svg>
+                    <h3>Live Mentoring</h3>
+                    <p>Ask questions and get real-time support.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-linejoin="round" d="m9.5 12.4l1.429 1.6l3.571-4"/><path d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 2.505-.837 4.437-2 5.913M3.193 14c.857 4.298 4.383 6.513 6.706 7.527c.721.315 1.082.473 2.101.473c1.02 0 1.38-.158 2.101-.473c.579-.252 1.231-.58 1.899-.994"/></g></svg>
+                    <h3>Lifelong Access</h3>
+                    <p>Revisit lessons whenever you need a refresher.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+
+
     <div class="container m-auto py-5 mb-4">
         <div class="flex justify-content-between align-items-center ">
             <div>
-                <div class="heading mb-2">
+                <div class="heading head mb-2">
                     Trending articles for you
                 </div>
                 <div class="subheading mb-5">
@@ -97,7 +197,7 @@
         <div class="articles flex gap-3 ">
             <ng-container *ngFor="let article of articles">
                 <div
-                    class=" article border-1 cursor-pointer w-3 border-300 hover:shadow-3 border-round hover:border-green-500 h-16rem overflow-hidden ">
+                    class="article border-1 cursor-pointer w-3 border-300 hover:shadow-3 border-round hover:border-green-500 h-16rem overflow-hidden ">
                     <div class="">
                         <img [src]="article.articleImage" class="shadow-2 artimage" />
                     </div>
@@ -113,13 +213,14 @@
             </ng-container>
         </div>
     </div>
-    <div *ngIf="userRole && userRole == 'student'" class="flex m-auto container py-8 gap-4 align-items-center justify-content-center">
-        <div class="imgcont w-4 j text-center">
-            <img src="../../../assets/images/teacher2.png" alt="teacher" class="w-7 timg">
+    <div *ngIf="userRole && userRole == 'student'"
+        class="teacher-card flex m-auto container py-2 mb-7 align-items-center justify-content-center">
+        <div class="imgcont text-center w-5">
+            <img src="../../../assets/images/teacher2.png" alt="teacher">
         </div>
         <div class="textsection w-6 flex flex-column gap-3 ">
             <div class="flex flex-column gap-3">
-                <div class="heading">
+                <div class="heading head">
                     Became an Educator at Skill Up.
                 </div>
                 <div class="text">
@@ -127,30 +228,9 @@
                     careers and earn money on each paid enrollment.
                 </div>
             </div>
-            <div>
-                <div class="heading text-lg mb-3">
-                    How to begin ?
-                </div>
-                <div class="flex gap-5 mb-4">
-                    <div
-                        class="flex w-3 bg-bluegray-50  border-round-xl text-sm p-3 shadow-2 text-center flex-column gap-1 align-items-center">
-                        <img width="40" height="40" src="https://img.icons8.com/3d-fluency/60/mind-map.png" alt="mind-map" />
-                        Plan your curriculum
-                    </div>
-                    <div
-                        class="flex w-3 bg-bluegray-50  border-round-xl text-sm p-3 shadow-2 text-center flex-column align-items-center">
-                        <img width="40" height="40" src="https://img.icons8.com/3d-fluency/60/documentary.png" alt="Camera" />
-                        Record your lectures
-                    </div>
-                    <div
-                        class="flex w-3 bg-bluegray-50 border-round-xl text-sm p-3 shadow-2 text-center flex-column align-items-center">
-                        <img width="40" height="40" src="https://img.icons8.com/3d-fluency/60/rocket.png" alt="rocket" />
-                        Launch your course
-                    </div>
-                </div>
-                <p-button (onClick)="togglePopup()" class="cursor-pointer" label="Get started " icon="pi pi-arrow-right"
-                    iconPos="right"></p-button>
-            </div>
+            
+            <p-button (onClick)="togglePopup()" class="cursor-pointer" label="Get started " icon="pi pi-arrow-right"
+                iconPos="right"></p-button>
         </div>
     </div>
     <app-footer></app-footer>
@@ -158,24 +238,22 @@
 
 <p-dialog header="Became an Educator at SkillUp" [modal]="true" [(visible)]="showPopUp" [style]="{ width: '40rem' }">
     <div class="text text-900">
-        <p class="ed-head text-green-600 font-bold text-xl">
+        <p class="ed-head head text-green-600 font-bold text-xl">
             Let's begin your journey as an Educator at SkillUp.
         </p>
         <div class="my-2">
-            As a teacher, you can create and manage courses, 
+            As a teacher, you can create and manage courses,
             share your knowledge with students, and earn revenue by teaching.
         </div>
         <ul class="list-none m-0 my-2 p-0" style="line-height: 30px;">
             <li class="flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48"><g fill="none"><path fill="url(#fluentColorPeopleTeam480)" d="M37.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 44 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 39.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 30 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H37q.111 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam487)" fill-opacity="0.5" d="M37.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 44 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 39.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 30 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H37q.111 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam481)" d="M11.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 18 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 13.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 4 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H11q.112 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam488)" fill-opacity="0.5" d="M11.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 18 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 13.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 4 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H11q.112 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam482)" d="M19.25 19A4.25 4.25 0 0 0 15 23.25V34a9 9 0 1 0 18 0V23.25A4.25 4.25 0 0 0 28.75 19z"/><path fill="url(#fluentColorPeopleTeam483)" d="M19.25 19A4.25 4.25 0 0 0 15 23.25V34a9 9 0 1 0 18 0V23.25A4.25 4.25 0 0 0 28.75 19z"/><path fill="url(#fluentColorPeopleTeam484)" d="M37 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10"/><path fill="url(#fluentColorPeopleTeam485)" d="M11 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10"/><path fill="url(#fluentColorPeopleTeam486)" d="M18 11a6 6 0 1 1 12 0a6 6 0 0 1-12 0"/><defs><linearGradient id="fluentColorPeopleTeam480" x1="33.329" x2="45.202" y1="21.792" y2="34.43" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#7a41dc"/><stop offset="1" stop-color="#5b2ab5"/></linearGradient><linearGradient id="fluentColorPeopleTeam481" x1="7.329" x2="19.202" y1="21.792" y2="34.43" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#9c6cfe"/><stop offset="1" stop-color="#7a41dc"/></linearGradient><linearGradient id="fluentColorPeopleTeam482" x1="19.28" x2="32.658" y1="22.191" y2="38.211" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#bd96ff"/><stop offset="1" stop-color="#9c6cfe"/></linearGradient><linearGradient id="fluentColorPeopleTeam483" x1="24" x2="44.557" y1="16.143" y2="44.95" gradientUnits="userSpaceOnUse"><stop stop-color="#885edb" stop-opacity="0"/><stop offset="1" stop-color="#e362f8"/></linearGradient><linearGradient id="fluentColorPeopleTeam484" x1="34.378" x2="39.474" y1="8.329" y2="16.467" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#7a41dc"/><stop offset="1" stop-color="#5b2ab5"/></linearGradient><linearGradient id="fluentColorPeopleTeam485" x1="8.378" x2="13.474" y1="8.329" y2="16.467" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#9c6cfe"/><stop offset="1" stop-color="#7a41dc"/></linearGradient><linearGradient id="fluentColorPeopleTeam486" x1="20.854" x2="26.969" y1="6.595" y2="16.36" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#bd96ff"/><stop offset="1" stop-color="#9c6cfe"/></linearGradient><radialGradient id="fluentColorPeopleTeam487" cx="0" cy="0" r="1" gradientTransform="matrix(8.7001 -.00781 .01988 22.1392 27.8 29.008)" gradientUnits="userSpaceOnUse"><stop offset=".433" stop-color="#3b148a"/><stop offset="1" stop-color="#3b148a" stop-opacity="0"/></radialGradient><radialGradient id="fluentColorPeopleTeam488" cx="0" cy="0" r="1" gradientTransform="matrix(-11.0348 -.0079 .0201 -28.0801 22.535 29.008)" gradientUnits="userSpaceOnUse"><stop offset=".433" stop-color="#3b148a"/><stop offset="1" stop-color="#3b148a" stop-opacity="0"/></radialGradient></defs></g></svg>
                 Reach thousands of students
             </li>
             <li class="flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg"  width="1.5em" height="1.5em" viewBox="0 0 128 128"><path fill="#fcc21b" d="M68.43 5.38c.89-1.95 2.55-2.5 3.93-2.56c2.1-.1 4.3 1.35 6.37 3.06C80.2 7.54 81.96 8.82 84 9.72c1.41.5 2.81.6 4.23.53c2-.1 4.03-.54 6.04-.64l.11-.01l.91-.08c2.3-.11 4.47.43 6.53 1.62c1.89 1.72 2.72 3.86 2.46 6.44c-.44 2.13-.06 4.08 1.13 5.85c2.05 1.44 4.2 2.7 6.46 3.77c2.34 1.28 3.81 3.21 4.45 5.78c.23 2.72-1.03 4.46-3.75 5.21c-3.54.89-8.3.89-12.31 3.99c-5.86 4.89-7.7 9.82-10.25 10.57c-1.25-1.42-9.05-7.45-22.13-10.34c-2.34-8.07-3.76-27.55.55-37.03"/><path fill="#d19b15" d="M81.63 40.69c2.3-4.6 8.85-12.69 10.42-11.09c1.55 1.74-2.02 10.78-4.53 15.21c-.89-.94-3.76-2.91-5.01-3.24"/><path fill="#8d6e63" d="M93.2 55.42c-1.35 0-2.67-.69-3.42-1.93c-6.88-11.32-22.46-10.13-22.61-10.11c-2.2.18-4.14-1.44-4.33-3.63a4.006 4.006 0 0 1 3.61-4.34c.84-.08 20.67-1.71 30.17 13.94c1.15 1.89.54 4.35-1.34 5.49c-.66.39-1.37.58-2.08.58"/><path fill="#fcc21b" d="M96.06 122.07c-17.13 4.22-40.94 3.92-57.95.56C22.19 119.48 10 110.09 11.4 91.61c1.42-18.7 13.81-36.31 30.85-44.07c16.49-7.51 38.62-11.17 50.28 5.87c2.9 4.24 8.44 13.65 8.7 18.27c.02.37.04.7.12 1.02c.02 1.16.49 2.33 1.63 3.19c7.33 5.55 12.67 12.91 13.65 23c1.16 12.03-10.22 20.63-20.57 23.18"/><path fill="#424242" d="M80.87 91.13c-2.08-3.38-5.91-7.05-9.53-10.2l2.81-7.78c2.5 1.95 4.7 3.78 6.42 5.36c.28.27.72.29 1.04.06l6.44-4.79c.18-.14.29-.34.32-.57a.8.8 0 0 0-.21-.62c-1.91-2.13-6.05-5.86-10.58-8.93l1.65-4.56c.19-.52-.07-1.09-.6-1.29l-7.57-2.74c-.52-.19-1.1.08-1.29.6l-1.23 3.41c-7.13-2.21-12.79-1.5-17.23 2.21c-3.48 2.92-4.98 7.09-3.92 10.87c1.08 4.03 4.24 6.79 8.24 10.28l.51.45c.93.8 1.92 1.63 2.89 2.46l-3.42 9.46c-4.49-2.94-8.25-7.01-8.89-7.9a.806.806 0 0 0-1.08-.21l-7.42 4.74c-.18.11-.31.3-.36.52c-.04.21 0 .43.12.61c2.23 3.36 5.88 7.12 9.77 10.06c.93.7 2.33 1.68 4.05 2.71l-1.29 3.55c-.18.52.08 1.09.6 1.28l7.58 2.75c.52.19 1.1-.08 1.29-.6l1.07-2.96c6.92 1.88 13 .79 17.7-3.23c4.54-3.89 5.32-9.35 2.12-15M65.18 68.4l-2.07 5.73c-1.93-1.5-2.96-2.63-2.23-4.25c.76-1.66 2.65-1.77 4.3-1.48m2.05 23.9c1.33 1.29 2.27 2.48 2.36 3.57c.04.62-.19 1.22-.73 1.84c-.94 1.09-2.44 1.3-3.99 1.11z"/></svg>
+                
                 Earn by sharing your knowledge
             </li>
             <li class="flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg"  width="1.8em" height="1.8em" viewBox="0 0 128 128"><path fill="#424242" d="M99.06 91.42S83.95 105.6 63.97 105.6S28.89 91.42 28.89 91.42s-2.81-13.49 4.45-36.78c3.83-12.28 58.33-13.53 62.6-2.79c7.26 18.23 3.12 39.57 3.12 39.57"/><path fill="#212121" d="m28.89 91.42l4.79 3.84s-.04-7.6 2.31-14.69c.88-2.65 4.02-3.76 6.38-2.27l18.29 11.47a6.39 6.39 0 0 0 6.7.05c8.74-5.3 31.54-19.17 32.58-20.02c0 0 0-1.71-.43-3.89L28.63 66z"/><path fill="#424242" d="m122.81 52.03l-56.8 33.83c-1.24.74-2.79.74-4.04 0L5.19 52.03c-1.58-.94-1.58-3.23 0-4.17l56.8-33.83c1.24-.74 2.79-.74 4.04 0l56.8 33.83c1.57.94 1.57 3.23-.02 4.17"/><path fill="#9e9e9e" d="M64.04 83.38c-.01 0-.03.01-.04.01c-.16 0-.32-.04-.46-.13L4.18 49.04s-.29.55 0 1.54c.3.99.76 1.31 1.01 1.46l56.8 33.83c.62.37 1.32.56 2.02.56h.04v-3.05z"/><path fill="#616161" d="M64 83.38c.01 0 .03.01.04.01c.16 0 .32-.04.46-.13l59.36-34.22s.29.55 0 1.54c-.3.99-.76 1.31-1.01 1.46l-56.8 33.83c-.62.37-1.32.56-2.02.56h-.04v-3.05z"/><path fill="#424242" d="m35.45 70.06l.32-2.81S60.28 53.92 62.7 52.52s4.96-2.96 6.09-4.21c2-2.2.56-3.58.56-3.58s-1.58 2.56-5.35 2.11c-2.16-.26-4.97-2.01-5.44-2.83s-27.67 19.9-27.67 19.9l-.19 3.33z"/><path fill="#e2a610" d="M69.35 44.74c-2.62 3.66-7.06 2.06-7.06 2.06s-13.91 6.67-14.43 5.66s11.49-7.19 11.49-7.19s-.67-2.46-.6-3.51c0 0-21.72 13.82-29.87 18.47c-4.27 2.44-5.18 4.74-5.17 7.98c0 1.42.02 6.03.04 8.78c0 .51-.22.99-.61 1.31a5.16 5.16 0 0 0-1.89 3.99c0 1.53.67 2.9 1.73 3.85c.57.51.45 1.61.5 2.32c.1 1.36 0 1.98-.56 3.24c-.55 1.23-1.06 2.49-1.41 3.79c-.27 1-.45 2.03-.63 3.05c-1.19 6.83-1.73 14.13-4.88 20.41a.993.993 0 0 0 .45 1.34a1.007 1.007 0 0 0 1.35-.44c1.64-3.27 2.49-6.85 3.19-10.4c-.04 3.21-.06 6.45-.17 9.95c-.02.68-.07 2.05.55 2.35c2.33 1.13 2.33-2.35 2.33-2.35s.03 3.13 3.2 3.13s3.4-3.13 3.4-3.13s.23 2.87 1.86 2.73c.66-.06 1.53-.46 1.22-3.89c-.31-3.42-1.08-15.68-1.41-19.56c-.46-5.37-2.22-8.56-2.58-10.46c-.13-.72-.14-1.47.43-1.94a5.165 5.165 0 0 0 .13-7.88a1.71 1.71 0 0 1-.58-1.42c.19-2.59.4-6.35.57-7.22c.74-3.91 2.67-4.61 4.65-5.77c1.98-1.17 30.66-14.19 32.33-15.3c3.09-2.07 2.43-3.95 2.43-3.95"/><path fill="#ffca28" d="M69.35 44.74c-2.47 3.49-7.6 1.93-7.6 1.93s-13.11 5.81-12.24 4.76c.86-1.05 9.84-6.16 9.84-6.16s-.67-2.46-.6-3.51c0 0-22.1 12.77-30.67 18.91c-2.21 1.59-4.95 4.19-2.72 6.78c1.03 1.19 3.02 1.44 4.29.5c.77-.56 1.37-1.38 2.05-2.03c.84-.82 1.86-1.34 2.86-1.93c1.98-1.17 30.66-14.19 32.33-15.3c3.12-2.07 2.46-3.95 2.46-3.95"/><path fill="#9e740b" d="M26.11 91.86c-1.32 0-2.21-.11-3.02-.3a.62.62 0 0 1-.48-.65l.26-3.82c.03-.39.4-.66.78-.55c.9.26 2.7.52 5.64-.1c.36-.08.72.17.76.54l.4 3.8c.03.31-.17.6-.47.67c-1.53.35-2.64.41-3.87.41"/><path fill="#616161" d="M99.06 91.42s1.77-9.24 1.06-19.07c-.12-1.66-1.14-3.09-1.93 2.72c-.45 3.33-1.43 13.3-3.1 19.53c2.55-1.84 3.97-3.18 3.97-3.18M65.73 36.79c.73.23 1.4.79 1.59 1.54c.25 1-.38 2-1.06 2.78c-1.33 1.53-3.16 2.87-5.19 2.8c-.67-.02-1.39-.24-1.8-.77c-.29-.37-.39-.85-.42-1.32c-.18-3.43 3.7-6.03 6.88-5.03"/></svg>
                 Build a personal brand
             </li>
         </ul>
@@ -183,8 +261,8 @@
             <i class="pi pi-info-circle"></i> You have to create your first course to get started as an educator
         </div>
         <div class="flex gap-2 justify-content-end my-2">
-            <p-button size="small" (onClick)="updateUserRole()" class="cursor-pointer" 
-            label="Proceed to Get Started" icon="pi pi-arrow-right" iconPos="right"></p-button>
+            <p-button size="small" (onClick)="updateUserRole()" class="cursor-pointer" label="Proceed to Get Started"
+                icon="pi pi-arrow-right" iconPos="right"></p-button>
         </div>
     </div>
 </p-dialog>

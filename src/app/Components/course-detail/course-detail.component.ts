@@ -21,12 +21,15 @@ import { PaymentService } from '../../Services/payment.service';
 import { appEnv } from '../../../config/environment';
 import { AuthService } from '../../Services/auth.service';
 import { filter, Subscription } from 'rxjs';
+import { RateAndReviewService, Reviews } from '../../Services/rateAndReview.service';
+import { RatingModule } from 'primeng/rating';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, ToastModule],
+  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, ToastModule, RatingModule, FormsModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
@@ -34,12 +37,14 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   public selectedCourse: DraftCourse;
   public sectionList: SectionList[];
-  public reviewsArr: any[];
   public courseContent: any[] = courseContent;
   public userDetails: UserList;
   public existInCart: boolean = false;
   public token: string = null;
   public loading: boolean = false;
+
+  public reviewsArr: Reviews[] = [];
+  public overallRating: number = 0;
 
   constructor(
     private draftedCourseService: DraftedCourseService,
@@ -47,6 +52,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
     private store: Store<{ userInfo: UserList }>,
+    private rateReviewService: RateAndReviewService,
     private cookieService: CookieService,
     private router: Router,
     private cartService: CartService,
@@ -61,8 +67,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
     this.token = this.cookieService.get("skillUpToken");
 
-    this.courseId = this.activatedRoute.snapshot.paramMap.get('courseId');
-    if (this.courseId) this.fetchCourseAndPlaylist();
+    // this.courseId = this.activatedRoute.snapshot.paramMap.get('courseId');
+    // if (this.courseId) this.fetchCourseAndPlaylist();
 
     const routeSub = this.activatedRoute.paramMap.subscribe(params => {
       const newId = params.get('courseId');
@@ -88,6 +94,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         filter(user => !!user && !!user._id)
       ).subscribe((res) => {
         this.userDetails = res;
+        this.fetchUserReviews();
         this.fetchUserCartData();
       });
 
@@ -156,6 +163,16 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
+  fetchUserReviews() {
+    this.rateReviewService.getReviews(this.userDetails._id, this.courseId).subscribe((res) => {
+      this.reviewsArr = res.reviews;
+      this.overallRating = res.overallRating;
+    },
+    (error) => {
+      this.toastMsgService.showError("Error", error.error.message);
+    })
+  }
+
   fetchUserCartData() {
     this.cartService.getCart(this.userDetails?._id).subscribe((res) => {
       if (res.success) {
@@ -205,72 +222,6 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  // payment initializer method on click of a button
-  checkOutHandler() {
-
-    let orderData = {
-      courseId: this.selectedCourse._id,
-      amount: this.selectedCourse.price
-    }
-
-    this.paymentService.singleCheckout(orderData).subscribe((res) => {
-      if (res.success) {
-        this.openRazorpayCheckout(res.orderId, res.amount);
-        this.toastMsgService.showSuccess("Success", "Order created successfully.");
-      } else {
-        this.toastMsgService.showInfo("Info", "Something went wrong, please try again later.");
-      }
-      this.loading = false;
-    }, (err) => {
-      this.toastMsgService.showError("Error", err.error.message);
-      this.loading = false;
-    });
-
-  }
-
-  // opens razorpay checkout popup
-  openRazorpayCheckout(orderId: String, amount: number) {
-    const options = {
-      key: appEnv.razorpayKey,
-      amount: amount * 100,
-      currency: 'INR',
-      name: 'Skill Up.',
-      description: 'Course Purchase',
-      order_id: orderId,
-      handler: this.paymentDone.bind(this),
-      prefill: {
-        name: this.userDetails.username,
-        email: this.userDetails.email,
-      },
-      theme: { color: '#1A241B' }
-    };
-    const rzp = new Razorpay(options);
-    rzp.open();
-  }
-
-  // After payment successfull
-  paymentDone(response: any) {
-
-    let data = {
-      razorpay_payment_id: response.razorpay_payment_id,
-      razorpay_order_id: response.razorpay_order_id,
-      razorpay_signature: response.razorpay_signature,
-      userId: this.userDetails._id,
-      courseId: this.selectedCourse._id
-    }
-
-    this.paymentService.singlePaymentVerify(data).subscribe((res) => {
-      if (res.success) {
-        this.toastMsgService.showSuccess("Success", "Payment successful. Course added to your Learning.");
-        this.isEnrolled = true;
-        this.loading = false;
-      }
-    }, (err) => {
-      this.toastMsgService.showError("Error", err.error.message);
-      this.loading = false;
-    })
-  }
-
   goToOrderSummaryPage() {
     this.router.navigate(
       ['/order-summary'],
@@ -283,7 +234,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     )
   }
 
-  navigateToPlayer(){
+  navigateToPlayer() {
     let url = "/player/" + this.courseId;
     this.router.navigate([url]);
   }

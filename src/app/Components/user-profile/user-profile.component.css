@@ -1,6 +1,7 @@
-.head{
-    font-family: 'General Sans';
+.head {
+    font-family: 'Satoshi';
 }
-.previewImg{
+
+.previewImg {
     object-fit: cover;
 }

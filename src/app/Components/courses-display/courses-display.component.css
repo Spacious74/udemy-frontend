@@ -1,18 +1,21 @@
 .head {
   font-size: 1.3rem;
   font-weight: 600;
-  font-family: "General Sans";
+  font-family: "Satoshi";
   margin-bottom: 1rem;
 }
+
 .container {
   position: relative;
   box-sizing: border-box;
 }
+
 .filter {
   width: 22%;
   height: calc(100vh - 60px);
   border-right: solid 1px #cfcfcf;
 }
+
 .coursescont {
   height: calc(100vh - 60px);
   overflow-y: scroll;

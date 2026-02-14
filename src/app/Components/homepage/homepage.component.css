@@ -1,73 +1,234 @@
-.homepage-container{
+.homepage-container {
   background-color: #f5f5f5;
+}
 
-}
 .topsect {
-  scroll-margin: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70vh;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 20px;
+  background: linear-gradient(to bottom, #fff 0%, #fff 40%, #ffffff00 100%),
+    linear-gradient(to right, #a3f9ff, #12e47b);
+  position: relative;
+  overflow: hidden;
+  padding: 0px 40px;
+  z-index: 2;
+  border: solid 2px #3f553f;
 }
-.info {
-  top: 50%;
-  left: 25%;
-  width: 33%;
-  background-color: #f5f5f5;
-  transform: translate(-50%, -50%);
+
+.topsect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(90deg, #ccc 1px, transparent 1px);
+  background-size: 50px 100%;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0) 70%);
 }
-.info .head {
-  font-family: "General Sans";
-  
-  color: #303030;
+
+.topsect .left,
+.right {
+  width: 50%;
 }
-.info .para {
-  line-height: 1.6;
+
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topsect .main-img {
+  /* width: 500px; */
+  border-radius: 20px;
+  /* transform: scaleX(-1); */
+}
+
+.main-head {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.sub-head {
+  font-size: 1.2rem;
+  width: 80%;
 }
 
 .container {
   width: 90%;
 }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.course-card {
+  background-color: #fff;
+  border-radius: 12px;
+  border: solid 1px #9b9b9b;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.course-card:hover {
+  border: solid 1px #0eb27c;
+  box-shadow: 0px 0px 0px 2px #10b880ad;
+}
+
+.course-card .course-title {
+  font-weight: 600;
+}
+
+.course-badge {
+  position: absolute;
+  background-color: #10B880;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 0.85rem;
+  left: 5px;
+  top: 5px;
+  padding: 1px 8px;
+}
+
+
 .heading {
   font-size: 1.5rem;
-  font-weight: 700;
-  font-family: "General Sans";
+  font-weight: 600;
 }
+
+.categ {
+  border-radius: 16px;
+  border: solid 1px #9b9b9b;
+  background: radial-gradient(circle 160px at 50% 120%, #03eca3c9, #fff);
+  cursor: pointer;
+}
+
+.categ:hover {
+  border: solid 1px #0eb27c;
+  box-shadow: 0px 0px 0px 2px #10b880ad;
+}
+
+
+.benefits-section {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.benefits-grid svg{
+  color: #10B880;
+}
+
+.benefit-card {
+  text-align: center;
+}
+
+.benefit-card img {
+  width: 60px;
+  margin-bottom: 12px;
+}
+
+.benefit-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.benefit-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+
+
 .artimage {
   width: 100%;
   height: 150px;
   object-fit: cover;
   transition: all 0.5s ease;
 }
+
 .artimage:hover {
   width: 120%;
   height: 150px;
 }
+
 .article:hover {
   .artimage {
     width: 120%;
     height: 150px;
     background-position: center;
   }
+
   .art-title {
     color: #0eb27c;
     text-decoration: underline;
   }
 }
-.timg {
-  transform: scaleX(-1);
+
+.feature-pill {
+  background-color: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  width: max-content;
+  font-size: 0.85rem;
+  border: solid 2px #ffc123;
+}
+
+.main-btn {
+  background-color: #000;
+  padding: 10px 20px;
+  border: solid 2px #fff;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.teacher-card{
+  border: solid 2px #666;
+  border-radius: 20px;
 }
 
 .footer {
   background: linear-gradient(135deg, #1a251a 50%, #3f553f);
 }
+
 .link {
   text-decoration: none;
   color: #8cdf7c;
 }
+
 .link:hover {
   text-decoration: underline;
 }
+
 .name {
   text-shadow: 0px 0px 3px #ffffff;
   letter-spacing: 1px;
 }
+
 .topbtn {
   color: #fff;
   width: 50px;
@@ -78,11 +239,12 @@
   right: 5%;
   text-decoration: none;
 }
-.imgPlaceHolder{
+
+.imgPlaceHolder {
   background: linear-gradient(135deg, #30c272, #3055b9);
 }
-.ed-head{
-  font-family: "General Sans";
+
+.ed-head {
   margin: 5px 0;
   letter-spacing: 1px;
 }

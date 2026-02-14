@@ -1,54 +1,65 @@
 .container {
   width: 75%;
 }
+
 .title {
   font-size: 1.6rem;
-  font-family: "General Sans";
   font-weight: 600;
   letter-spacing: 1px;
 }
+
 .course-header {
   color: #a6cabd;
   background-size: 30px 30px;
   background-image: radial-gradient(circle, #2e3f2e 1px, #1a251a 1px);
 }
+
 .price {
   letter-spacing: 2px;
   color: #ffffff;
   font-size: 1.6rem;
+  font-weight: 600;
 }
+
 .head {
   font-size: 1.3rem;
   font-weight: 600;
-  font-family: "General Sans";
   margin-bottom: 1rem;
 }
+
 #check {
   display: none;
 }
+
 .restPara {
   /* display: none; */
   height: 0px;
   overflow: hidden;
   transition: height 0.3s ease;
 }
-#check:checked ~ .restPara {
+
+#check:checked~.restPara {
   height: auto;
   transition: height 0.3s ease;
 }
+
 .label2 {
   display: none;
 }
-#check:checked ~ .label2 {
+
+#check:checked~.label2 {
   display: flex;
 }
+
 .label {
   display: flex;
 }
-#check:checked ~ .label {
+
+#check:checked~.label {
   display: none;
   height: auto;
 }
+
 .readBtn {
   background: linear-gradient(180deg, #ff000000, #ffffff 60%);
   width: 100%;
@@ -59,15 +70,18 @@
   align-items: end;
   position: relative;
 }
+
 .profileImg {
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 200px;
 }
+
 .teacherImg {
   aspect-ratio: 1;
   object-fit: cover;
 }
+
 .insInfo .imgcont {
   width: 15%;
 }
@@ -75,33 +89,39 @@
 #check2 {
   display: none;
 }
+
 .restPara2 {
   /* display: none; */
   height: 0px;
   overflow: hidden;
   transition: height 0.3s ease;
 }
-#check2:checked ~ .restPara2 {
+
+#check2:checked~.restPara2 {
   height: auto;
   transition: height 0.3s ease;
 }
+
 .label2v2 {
   display: none;
 }
-#check2:checked ~ .label2v2 {
+
+#check2:checked~.label2v2 {
   display: flex;
 }
+
 .labelv2 {
   display: flex;
 }
-#check2:checked ~ .labelv2 {
+
+#check2:checked~.labelv2 {
   display: none;
   height: auto;
 }
 
 .courseCard {
-  position: fixed;
-  top: 15%;
+  position: absolute;
+  top: 3%;
   right: 12.5%;
   border-radius: 16px;
   border: solid 1px #000;

@@ -1,10 +1,11 @@
 .heading {
   font-size: 1.3rem;
-  font-family: "General Sans";
+  font-family: "Satoshi";
   font-weight: 600;
   margin-bottom: 15px;
 }
-.text{
-    width: 70%;
-    /* color: #e9e9e9; */
+
+.text {
+  width: 70%;
+  /* color: #e9e9e9; */
 }
