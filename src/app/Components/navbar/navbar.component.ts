@@ -21,12 +21,13 @@ import { UserService } from '../../state/user.service';
 import { BadgeModule } from 'primeng/badge';
 import { Cart } from '../../models/Cart';
 import { userInfoActions } from '../../store/actions/userInfo.action';
+import { SidebarModule } from 'primeng/sidebar';
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     FormsModule, DropdownModule, InputTextModule, ButtonModule, RouterLink, RouterLinkActive, CommonModule,
-    OverlayPanelModule, TooltipModule, ToastModule, DialogModule, BadgeModule
+    OverlayPanelModule, TooltipModule, ToastModule, DialogModule, BadgeModule, SidebarModule 
   ],
   providers: [MessageService, ToastMessageService],
   templateUrl: './navbar.component.html',
@@ -43,6 +44,7 @@ export class NavbarComponent implements OnInit {
   public userId : string;
   public userRole : string;
   public cartLength : number=0;
+  public sidebarVisible : boolean = false;
 
   constructor(
     private authService: AuthService,

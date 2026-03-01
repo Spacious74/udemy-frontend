@@ -1,84 +1,110 @@
-<p-toast ></p-toast>
-<nav class="nav-container navbar-default">
-    <div class="navbar flex justify-content-between justify-content-between align-items-center m-auto ">
+<p-toast></p-toast>
 
-        <div class="left w-9 flex align-items-center gap-2">
-            <span routerLink="/" class="logo_font cursor-pointer logo w-2">
-                Skill Up.
-            </span>
+<nav class="nav-container">
 
-            <!--  SELECT CATEGORY -->
-            <div class="select p-fluid w-3">
-                <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" class="p-inputtext-sm" 
-                optionLabel="name" [showClear]="true" placeholder="Categories" (onChange)="display($event)" ></p-dropdown>
-            </div>
-            <!-- SEARCH TEXT -->
-            <div class="p-input-icon-right p-fluid w-5">
-                
-                <input type="text" class="p-inputtext-sm" placeholder="Search for courses..." pInputText
-                    [(ngModel)]="searchText" pTooltip="Press enter to search." tooltipPosition="right" 
-                    (keydown.enter)="searchIt()"  />
-                <i class="pi pi-search" (click)="searchIt()" ></i>
-            </div>
+    <!-- TOP NAV -->
+    <div class="navbar">
+
+        <!-- LOGO -->
+        <div class="nav-logo" routerLink="/">
+            Skill Up.
         </div>
 
-        <div class="right w-6 flex justify-content-end align-items-center">
-            <ul class="links list-none flex align-items-center gap-4 mr-4">
-                <li *ngIf="userLoggedIn && userRole == 'teacher'"  
-                routerLinkActive="text-green-700 font-semibold" routerLink="/educator" [routerLinkActiveOptions]="{ exact: false }"
-                 class="cursor-pointer hover:text-green-700 flex align-items-center gap-1 ">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" color="currentColor"><path d="M13 3.002Q12.295 3 11.5 3C7.022 3 4.782 3 3.391 4.391S2 8.021 2 12.5c0 4.478 0 6.718 1.391 8.109S7.021 22 11.5 22c4.478 0 6.718 0 8.109-1.391S21 16.979 21 12.5q0-.795-.002-1.5"/><path d="m18.5 2l.258.697c.338.914.507 1.371.84 1.704c.334.334.791.503 1.705.841L22 5.5l-.697.258c-.914.338-1.371.507-1.704.84c-.334.334-.503.791-.841 1.705L18.5 9l-.258-.697c-.338-.914-.507-1.371-.84-1.704c-.334-.334-.791-.503-1.705-.841L15 5.5l.697-.258c.914-.338 1.371-.507 1.704-.84c.334-.334.503-.791.841-1.705zM7 17.5c2.332-2.442 6.643-2.557 9 0M13.995 10c0 1.38-1.12 2.5-2.503 2.5A2.5 2.5 0 0 1 8.988 10c0-1.38 1.12-2.5 2.504-2.5a2.5 2.5 0 0 1 2.503 2.5"/></g></svg>
-                    Teacher Panel
-                </li> 
-                <li *ngIf="userLoggedIn" routerLinkActive="text-green-700 font-semibold" routerLink="/playlist" class="cursor-pointer hover:text-green-700 flex align-items-center gap-1 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><circle cx="12" cy="12" r="10"/><path d="M15.453 12.395c-.151.627-.867 1.07-2.3 1.955c-1.383.856-2.075 1.285-2.633 1.113a1.4 1.4 0 0 1-.61-.393c-.41-.45-.41-1.324-.41-3.07s0-2.62.41-3.07c.17-.186.38-.321.61-.392c.558-.173 1.25.256 2.634 1.112c1.432.886 2.148 1.329 2.3 1.955a1.7 1.7 0 0 1 0 .79"/></g></svg>
-                    My Courses
-                </li>
-                <li routerLinkActive="text-green-700 font-semibold" routerLink="/cart" class="cursor-pointer hover:text-green-700  flex align-items-center gap-1 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" color="currentColor"><path d="m8 16l8.72-.727c2.729-.227 3.341-.823 3.643-3.544L21 6M6 6h16"/><circle cx="6" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M8 20h7M2 2h.966c.945 0 1.768.625 1.997 1.515L7.94 15.076a1.96 1.96 0 0 1-.35 1.686L6.631 18"/></g></svg>
-                    Cart
-                    <!-- <p-badge [value]="cartLength" /> -->
+        <!-- DESKTOP LEFT -->
+        <div class="nav-left-desktop">
 
+            <!-- Category -->
+            <div class="category-dropdown p-fluid">
+                <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" [showClear]="true"
+                    placeholder="Categories" (onChange)="display($event)" [style]="{ width: '160px' }">
+                </p-dropdown>
+            </div>
+
+            <!-- Search -->
+            <div class="search-box p-fluid">
+                <input type="text" pInputText placeholder="Search for courses..." [(ngModel)]="searchText"
+                    (keydown.enter)="searchIt()" />
+                <i class="pi pi-search" (click)="searchIt()"></i>
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="nav-right">
+
+            <!-- Desktop Links -->
+            <ul class="nav-links">
+
+                <li *ngIf="userLoggedIn" routerLink="/playlist" 
+                routerLinkActive="nav-link-active" [routerLinkActiveOptions]="{ exact: true }" class="flex align-items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M9.99 10.91a1.49 1.49 0 0 1 1.615-.022l3.371 2.09c.538.334.774.91.774 1.432c0 .523-.236 1.099-.774 1.432l-3.371 2.09c-.54.334-1.157.28-1.615-.022a1.67 1.67 0 0 1-.74-1.41v-4.18c0-.593.289-1.114.74-1.41m.823 1.254c-.019.012-.063.056-.063.156v4.18c0 .1.044.144.063.156l.001.001l3.372-2.09c.021-.013.064-.059.064-.157s-.043-.143-.064-.157l-3.371-2.09z"/><path d="M8.7 1.25c-.22 0-.39 0-.536.016A2.75 2.75 0 0 0 5.71 3.87a2.89 2.89 0 0 0-2.055 2.721c-.6.18-1.119.465-1.543.923c-.652.705-.854 1.572-.862 2.586c-.007.975.167 2.207.382 3.736l.44 3.114c.168 1.196.305 2.168.518 2.929c.223.797.552 1.452 1.16 1.956c.604.5 1.32.715 2.166.817c.819.098 1.849.098 3.13.098h5.907c1.282 0 2.312 0 3.13-.098c.847-.102 1.563-.317 2.167-.817c.608-.504.937-1.16 1.16-1.956c.213-.761.35-1.733.519-2.93l.439-3.113c.216-1.53.39-2.761.382-3.736c-.008-1.014-.21-1.881-.862-2.586c-.424-.458-.943-.742-1.544-.923a2.89 2.89 0 0 0-2.054-2.72a2.75 2.75 0 0 0-2.454-2.605c-.147-.016-.316-.016-.536-.016zm10.11 5.078a1.38 1.38 0 0 0-1.348-1.078H6.538c-.669 0-1.212.47-1.349 1.078c.926-.078 2.06-.078 3.427-.078h6.768c1.366 0 2.5 0 3.427.078M16.769 3.75a1.25 1.25 0 0 0-1.092-.993a5 5 0 0 0-.417-.007H8.74c-.28 0-.361.001-.417.007a1.25 1.25 0 0 0-1.092.993zM3.213 8.533c.303-.327.758-.544 1.643-.662c.901-.12 2.108-.121 3.816-.121h6.656c1.708 0 2.915.002 3.816.121c.885.118 1.34.335 1.643.662c.296.32.457.755.463 1.579c.006.85-.15 1.97-.376 3.576l-.423 3c-.178 1.261-.302 2.133-.485 2.787c-.177.63-.384.965-.673 1.204c-.293.244-.687.4-1.388.484c-.719.086-1.658.087-3 .087h-5.81c-1.342 0-2.281-.001-3-.087c-.7-.085-1.095-.24-1.388-.483c-.289-.24-.496-.576-.673-1.205c-.183-.654-.307-1.526-.485-2.787l-.423-3c-.226-1.605-.382-2.726-.376-3.576c.006-.824.167-1.26.463-1.579"/></g></svg>
+                    <label class="course-label">My Courses</label>
+                </li>
+
+                <li routerLink="/cart"  routerLinkActive="nav-link-active" [routerLinkActiveOptions]="{ exact: true }"
+                class="cart-link flex align-items-center justify-content-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="m2 3l.265.088c1.32.44 1.98.66 2.357 1.184S5 5.492 5 6.883V9.5c0 2.828 0 4.243.879 5.121c.878.879 2.293.879 5.121.879h8"/><path d="M7.5 18a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3Zm9 0a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3ZM5 6h11.45c2.055 0 3.083 0 3.528.674c.444.675.04 1.619-.77 3.508l-.429 1c-.378.882-.567 1.322-.942 1.57c-.376.248-.856.248-1.815.248H5"/></g></svg>
+                    <label class="cart-label">My Cart</label>
                 </li>
             </ul>
-            <ng-container *ngIf="!userLoggedIn else elseBlock">
-                <div class="btn-container flex align-items-center gap-2 ">
-                    <p-button routerLink="/login" severity="secondary" size="small" class="cursor-pointer" label="Login"
-                        icon="pi pi-sign-in" [outlined]="true"></p-button>
-                    <p-button routerLink="/signup" severity="primary" size="small" class="cursor-pointer"
-                        label="Signup" icon="pi pi-user"></p-button>
-                </div>
-            </ng-container>
-            <!-- ELSE BLOCK -->
+
+            <!-- Profile -->
+            <div class="profile-section" *ngIf="userLoggedIn else elseBlock" (click)="op.toggle($event)">
+                <img *ngIf="userDetails?.profileImage" [src]="userDetails?.profileImage" class="profile-img">
+            </div>
+
             <ng-template #elseBlock>
-                <div class="flex align-items-center  cursor-pointer justify-content-end " (click)="op.toggle($event)">
-
-                    <img *ngIf="userDetails?.profileImage != ''" [src]="userDetails?.profileImage"
-                    class="previewImg border-circle border-1 border-green-500 w-2rem h-2rem" alt="profile-img" >
-                    <svg *ngIf="userDetails?.profileImage == ''" xmlns="http://www.w3.org/2000/svg" class="text-primary"
-                    width="2.3rem" height="2.3rem" viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M9.713 3.64c.581-.495.872-.743 1.176-.888a2.58 2.58 0 0 1 2.222 0c.304.145.595.393 1.176.888c.599.51 1.207.768 2.007.831c.761.061 1.142.092 1.46.204c.734.26 1.312.837 1.571 1.572c.112.317.143.698.204 1.46c.063.8.32 1.407.83 2.006c.496.581.744.872.889 1.176c.336.703.336 1.52 0 2.222c-.145.304-.393.595-.888 1.176a3.3 3.3 0 0 0-.831 2.007c-.061.761-.092 1.142-.204 1.46a2.58 2.58 0 0 1-1.572 1.571c-.317.112-.698.143-1.46.204c-.8.063-1.407.32-2.006.83c-.581.496-.872.744-1.176.889a2.58 2.58 0 0 1-2.222 0c-.304-.145-.595-.393-1.176-.888a3.3 3.3 0 0 0-2.007-.831c-.761-.061-1.142-.092-1.46-.204a2.58 2.58 0 0 1-1.571-1.572c-.112-.317-.143-.698-.204-1.46a3.3 3.3 0 0 0-.83-2.006c-.496-.581-.744-.872-.89-1.176a2.58 2.58 0 0 1 .001-2.222c.145-.304.393-.595.888-1.176c.52-.611.769-1.223.831-2.007c.061-.761.092-1.142.204-1.46a2.58 2.58 0 0 1 1.572-1.571c.317-.112.698-.143 1.46-.204a3.3 3.3 0 0 0 2.006-.83"/><path d="M14.5 9.25a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M17 19.2c-.317-6.187-9.683-6.187-10 0"/></g>
-                    </svg>
+                <div class="btn-container flex align-items-center gap-2 "> 
+                    <p-button routerLink="/login" severity="secondary" size="small" class="cursor-pointer" 
+                    label="Login" icon="pi pi-sign-in" [outlined]="true"></p-button> 
+                    <p-button routerLink="/signup" severity="primary" size="small"
+                    class="cursor-pointer" label="Signup" icon="pi pi-user"></p-button> 
                 </div>
-                <p-overlayPanel #op>
-                    <ng-template pTemplate="content">
-                        <div class="flex flex-column gap-1">
-                            <div style="width: 150px;" routerLink="/user-profile"
-                                class="listItems py-1 border-round px-2 cursor-pointer hover:bg-green-100 ">
-                                Profile
-                            </div>
-                            <div (click)="logout()" style="width: 150px;"
-                                class="listItems py-1 border-round px-2 cursor-pointer hover:bg-green-100 ">
-                                Logout
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-overlayPanel>
             </ng-template>
-        </div>
 
+            <p-overlayPanel #op>
+                <ng-template pTemplate="content">
+                    <div class="overlay-links">
+
+                        <!-- Tablet → Teacher panel inside overlay -->
+                        <div *ngIf="userLoggedIn && userRole == 'teacher'" 
+                        routerLink="/educator">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.581 1.25h-.02c-.114 0-.202 0-.286.005a2.75 2.75 0 0 0-2.385 1.72c-.031.077-.059.16-.095.269l-.006.019l-.026.077l-.029.085c-.16.442-.691.811-1.253.825l-1.82.09c-.786.092-1.459.288-2.028.751a4 4 0 0 0-.542.542c-.463.57-.66 1.242-.752 2.029c-.089.76-.089 1.715-.089 2.9v.078c0 .284 0 .55.023.774c.025.248.083.512.24.766q.078.124.175.234c.169.191.365.315.562.406c.003 1.616.024 3.248.169 4.646c.085.82.215 1.589.422 2.245c.203.645.503 1.256.979 1.678c.823.732 1.86 1.055 3.153 1.21c1.27.151 2.898.151 4.976.151h.102c2.078 0 3.706 0 4.976-.152c1.293-.154 2.33-.477 3.153-1.209c.476-.422.776-1.033.98-1.678c.206-.656.336-1.425.421-2.245c.145-1.398.166-3.03.169-4.646a1.66 1.66 0 0 0 .736-.64c.158-.254.216-.518.241-.766c.023-.224.023-.49.023-.774v-.078c0-1.185 0-2.14-.09-2.9c-.092-.787-.288-1.46-.751-2.029a4 4 0 0 0-.542-.542c-.57-.463-1.242-.66-2.029-.752L17.52 4.25c-.562-.014-1.093-.383-1.253-.825l-.029-.085l-.032-.097c-.036-.107-.063-.191-.095-.269a2.75 2.75 0 0 0-2.385-1.719a5 5 0 0 0-.285-.005zm-3.01 4.5h8.859c1.222 0 2.078.002 2.733.079c.646.076.999.216 1.257.426q.18.146.325.325c.21.258.35.611.426 1.257c.078.662.079 1.529.079 2.772c0 .326 0 .515-.015.654a.5.5 0 0 1-.023.125l-.024.033a.5.5 0 0 1-.114.058c-.129.054-.31.109-.622.202l-5.202 1.561V13c0-.69-.56-1.25-1.25-1.25h-4c-.69 0-1.25.56-1.25 1.25v.242l-5.202-1.56a7 7 0 0 1-.622-.203a.5.5 0 0 1-.114-.058l5.938 1.821l-5.962-1.854a.5.5 0 0 1-.023-.125a7 7 0 0 1-.015-.654c0-1.243.001-2.11.079-2.772c.076-.646.216-.999.426-1.257a2.3 2.3 0 0 1 .325-.325c.258-.21.611-.35 1.257-.426c.655-.077 1.51-.079 2.733-.079m3.01-3c-.143 0-.183 0-.215.002a1.25 1.25 0 0 0-1.084.782a4 4 0 0 0-.07.203l-.029.085l-.038.113q-.06.164-.14.315h5.99a2.5 2.5 0 0 1-.178-.428l-.028-.085a4 4 0 0 0-.07-.203a1.25 1.25 0 0 0-1.085-.782a4 4 0 0 0-.215-.002zM3.752 13.309c.007 1.437.036 2.817.159 4.003c.08.77.196 1.427.36 1.948c.168.53.362.845.545 1.008c.495.44 1.178.703 2.335.84c1.17.14 2.709.142 4.849.142s3.678-.001 4.849-.141c1.157-.138 1.84-.402 2.335-.841c.183-.163.377-.478.545-1.008c.164-.52.28-1.178.36-1.948c.123-1.186.152-2.567.159-4.003l-4.998 1.499v.354c0 .51-.311.97-.786 1.16l-.7.28a4.75 4.75 0 0 1-3.528 0l-.7-.28a1.25 1.25 0 0 1-.786-1.16v-.354zm6.498-.059v1.742l.543.217c.775.31 1.64.31 2.414 0l.543-.217V13.25z" clip-rule="evenodd"/></svg>
+                            Instructor Panel
+                        </div>
+
+                        <div routerLink="/user-profile">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 1.25a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5M8.75 6a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0M12 12.25c-2.313 0-4.445.526-6.024 1.414C4.42 14.54 3.25 15.866 3.25 17.5v.102c-.001 1.162-.002 2.62 1.277 3.662c.629.512 1.51.877 2.7 1.117c1.192.242 2.747.369 4.773.369s3.58-.127 4.774-.369c1.19-.24 2.07-.605 2.7-1.117c1.279-1.042 1.277-2.5 1.276-3.662V17.5c0-1.634-1.17-2.96-2.725-3.836c-1.58-.888-3.711-1.414-6.025-1.414M4.75 17.5c0-.851.622-1.775 1.961-2.528c1.316-.74 3.184-1.222 5.29-1.222c2.104 0 3.972.482 5.288 1.222c1.34.753 1.961 1.677 1.961 2.528c0 1.308-.04 2.044-.724 2.6c-.37.302-.99.597-2.05.811c-1.057.214-2.502.339-4.476.339s-3.42-.125-4.476-.339c-1.06-.214-1.68-.509-2.05-.81c-.684-.557-.724-1.293-.724-2.601" clip-rule="evenodd"/></svg>
+                            My Profile
+                        </div>
+                        <div (click)="logout()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M14.945 1.25c-1.367 0-2.47 0-3.337.117c-.9.12-1.658.38-2.26.981c-.524.525-.79 1.17-.929 1.928c-.135.737-.161 1.638-.167 2.72a.75.75 0 0 0 1.5.008c.006-1.093.034-1.868.142-2.457c.105-.566.272-.895.515-1.138c.277-.277.666-.457 1.4-.556c.755-.101 1.756-.103 3.191-.103h1c1.436 0 2.437.002 3.192.103c.734.099 1.122.28 1.4.556c.276.277.456.665.555 1.4c.102.754.103 1.756.103 3.191v8c0 1.435-.001 2.436-.103 3.192c-.099.734-.279 1.122-.556 1.399s-.665.457-1.399.556c-.755.101-1.756.103-3.192.103h-1c-1.435 0-2.436-.002-3.192-.103c-.733-.099-1.122-.28-1.399-.556c-.243-.244-.41-.572-.515-1.138c-.108-.589-.136-1.364-.142-2.457a.75.75 0 1 0-1.5.008c.006 1.082.032 1.983.167 2.72c.14.758.405 1.403.93 1.928c.601.602 1.36.86 2.26.982c.866.116 1.969.116 3.336.116h1.11c1.368 0 2.47 0 3.337-.116c.9-.122 1.658-.38 2.26-.982s.86-1.36.982-2.26c.116-.867.116-1.97.116-3.337v-8.11c0-1.367 0-2.47-.116-3.337c-.121-.9-.38-1.658-.982-2.26s-1.36-.86-2.26-.981c-.867-.117-1.97-.117-3.337-.117z"/><path fill="currentColor" d="M15 11.25a.75.75 0 0 1 0 1.5H4.027l1.961 1.68a.75.75 0 1 1-.976 1.14l-3.5-3a.75.75 0 0 1 0-1.14l3.5-3a.75.75 0 1 1 .976 1.14l-1.96 1.68z"/></svg>
+                            Logout
+                        </div>
+
+                    </div>
+                </ng-template>
+            </p-overlayPanel>
+
+        </div>
     </div>
+
+    <!-- MOBILE SEARCH BAR -->
+    <div class="mobile-search">
+         <div class="mb-search-box p-fluid">
+            <input type="text" pInputText placeholder="Search for courses..." [(ngModel)]="searchText"
+                (keydown.enter)="searchIt()" />
+            <i class="pi pi-search" (click)="searchIt()"></i>
+        </div>
+        <div class="category-dropdown p-fluid">
+            <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" [showClear]="true"
+                placeholder="Categories" (onChange)="display($event)" [style]="{ width: '160px' }">
+            </p-dropdown>
+        </div>
+    </div>
+
 </nav>
+
 
 <p-dialog header="Became an Educator at SkillUp" [modal]="true" [(visible)]="showPopUp" [style]="{ width: '40rem' }">
     <div class="text text-900">
@@ -86,20 +112,119 @@
             Let's begin your journey as an Educator at SkillUp.
         </p>
         <div class="my-2">
-            As a teacher, you can create and manage courses, 
+            As a teacher, you can create and manage courses,
             share your knowledge with students, and earn revenue by teaching.
         </div>
         <ul class="list-none m-0 my-2 p-0" style="line-height: 30px;">
             <li class="flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48"><g fill="none"><path fill="url(#fluentColorPeopleTeam480)" d="M37.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 44 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 39.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 30 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H37q.111 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam487)" fill-opacity="0.5" d="M37.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 44 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 39.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 30 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H37q.111 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam481)" d="M11.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 18 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 13.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 4 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H11q.112 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam488)" fill-opacity="0.5" d="M11.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 18 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 13.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 4 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H11q.112 0 .222-.004"/><path fill="url(#fluentColorPeopleTeam482)" d="M19.25 19A4.25 4.25 0 0 0 15 23.25V34a9 9 0 1 0 18 0V23.25A4.25 4.25 0 0 0 28.75 19z"/><path fill="url(#fluentColorPeopleTeam483)" d="M19.25 19A4.25 4.25 0 0 0 15 23.25V34a9 9 0 1 0 18 0V23.25A4.25 4.25 0 0 0 28.75 19z"/><path fill="url(#fluentColorPeopleTeam484)" d="M37 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10"/><path fill="url(#fluentColorPeopleTeam485)" d="M11 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10"/><path fill="url(#fluentColorPeopleTeam486)" d="M18 11a6 6 0 1 1 12 0a6 6 0 0 1-12 0"/><defs><linearGradient id="fluentColorPeopleTeam480" x1="33.329" x2="45.202" y1="21.792" y2="34.43" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#7a41dc"/><stop offset="1" stop-color="#5b2ab5"/></linearGradient><linearGradient id="fluentColorPeopleTeam481" x1="7.329" x2="19.202" y1="21.792" y2="34.43" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#9c6cfe"/><stop offset="1" stop-color="#7a41dc"/></linearGradient><linearGradient id="fluentColorPeopleTeam482" x1="19.28" x2="32.658" y1="22.191" y2="38.211" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#bd96ff"/><stop offset="1" stop-color="#9c6cfe"/></linearGradient><linearGradient id="fluentColorPeopleTeam483" x1="24" x2="44.557" y1="16.143" y2="44.95" gradientUnits="userSpaceOnUse"><stop stop-color="#885edb" stop-opacity="0"/><stop offset="1" stop-color="#e362f8"/></linearGradient><linearGradient id="fluentColorPeopleTeam484" x1="34.378" x2="39.474" y1="8.329" y2="16.467" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#7a41dc"/><stop offset="1" stop-color="#5b2ab5"/></linearGradient><linearGradient id="fluentColorPeopleTeam485" x1="8.378" x2="13.474" y1="8.329" y2="16.467" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#9c6cfe"/><stop offset="1" stop-color="#7a41dc"/></linearGradient><linearGradient id="fluentColorPeopleTeam486" x1="20.854" x2="26.969" y1="6.595" y2="16.36" gradientUnits="userSpaceOnUse"><stop offset=".125" stop-color="#bd96ff"/><stop offset="1" stop-color="#9c6cfe"/></linearGradient><radialGradient id="fluentColorPeopleTeam487" cx="0" cy="0" r="1" gradientTransform="matrix(8.7001 -.00781 .01988 22.1392 27.8 29.008)" gradientUnits="userSpaceOnUse"><stop offset=".433" stop-color="#3b148a"/><stop offset="1" stop-color="#3b148a" stop-opacity="0"/></radialGradient><radialGradient id="fluentColorPeopleTeam488" cx="0" cy="0" r="1" gradientTransform="matrix(-11.0348 -.0079 .0201 -28.0801 22.535 29.008)" gradientUnits="userSpaceOnUse"><stop offset=".433" stop-color="#3b148a"/><stop offset="1" stop-color="#3b148a" stop-opacity="0"/></radialGradient></defs></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48">
+                    <g fill="none">
+                        <path fill="url(#fluentColorPeopleTeam480)"
+                            d="M37.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 44 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 39.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 30 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H37q.111 0 .222-.004" />
+                        <path fill="url(#fluentColorPeopleTeam487)" fill-opacity="0.5"
+                            d="M37.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 44 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 39.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 30 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H37q.111 0 .222-.004" />
+                        <path fill="url(#fluentColorPeopleTeam481)"
+                            d="M11.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 18 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 13.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 4 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H11q.112 0 .222-.004" />
+                        <path fill="url(#fluentColorPeopleTeam488)" fill-opacity="0.5"
+                            d="M11.222 39.997a7 7 0 0 0 3.07-.818A7 7 0 0 0 18 33v-9.75a4.25 4.25 0 0 0-3.409-4.167A4.3 4.3 0 0 0 13.75 19h-5.5q-.433.001-.842.083A4.25 4.25 0 0 0 4 23.25V33c0 2.675 1.501 5 3.707 6.179a6.96 6.96 0 0 0 3.27.821H11q.112 0 .222-.004" />
+                        <path fill="url(#fluentColorPeopleTeam482)"
+                            d="M19.25 19A4.25 4.25 0 0 0 15 23.25V34a9 9 0 1 0 18 0V23.25A4.25 4.25 0 0 0 28.75 19z" />
+                        <path fill="url(#fluentColorPeopleTeam483)"
+                            d="M19.25 19A4.25 4.25 0 0 0 15 23.25V34a9 9 0 1 0 18 0V23.25A4.25 4.25 0 0 0 28.75 19z" />
+                        <path fill="url(#fluentColorPeopleTeam484)" d="M37 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10" />
+                        <path fill="url(#fluentColorPeopleTeam485)" d="M11 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10" />
+                        <path fill="url(#fluentColorPeopleTeam486)" d="M18 11a6 6 0 1 1 12 0a6 6 0 0 1-12 0" />
+                        <defs>
+                            <linearGradient id="fluentColorPeopleTeam480" x1="33.329" x2="45.202" y1="21.792" y2="34.43"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".125" stop-color="#7a41dc" />
+                                <stop offset="1" stop-color="#5b2ab5" />
+                            </linearGradient>
+                            <linearGradient id="fluentColorPeopleTeam481" x1="7.329" x2="19.202" y1="21.792" y2="34.43"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".125" stop-color="#9c6cfe" />
+                                <stop offset="1" stop-color="#7a41dc" />
+                            </linearGradient>
+                            <linearGradient id="fluentColorPeopleTeam482" x1="19.28" x2="32.658" y1="22.191" y2="38.211"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".125" stop-color="#bd96ff" />
+                                <stop offset="1" stop-color="#9c6cfe" />
+                            </linearGradient>
+                            <linearGradient id="fluentColorPeopleTeam483" x1="24" x2="44.557" y1="16.143" y2="44.95"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#885edb" stop-opacity="0" />
+                                <stop offset="1" stop-color="#e362f8" />
+                            </linearGradient>
+                            <linearGradient id="fluentColorPeopleTeam484" x1="34.378" x2="39.474" y1="8.329" y2="16.467"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".125" stop-color="#7a41dc" />
+                                <stop offset="1" stop-color="#5b2ab5" />
+                            </linearGradient>
+                            <linearGradient id="fluentColorPeopleTeam485" x1="8.378" x2="13.474" y1="8.329" y2="16.467"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".125" stop-color="#9c6cfe" />
+                                <stop offset="1" stop-color="#7a41dc" />
+                            </linearGradient>
+                            <linearGradient id="fluentColorPeopleTeam486" x1="20.854" x2="26.969" y1="6.595" y2="16.36"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".125" stop-color="#bd96ff" />
+                                <stop offset="1" stop-color="#9c6cfe" />
+                            </linearGradient>
+                            <radialGradient id="fluentColorPeopleTeam487" cx="0" cy="0" r="1"
+                                gradientTransform="matrix(8.7001 -.00781 .01988 22.1392 27.8 29.008)"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".433" stop-color="#3b148a" />
+                                <stop offset="1" stop-color="#3b148a" stop-opacity="0" />
+                            </radialGradient>
+                            <radialGradient id="fluentColorPeopleTeam488" cx="0" cy="0" r="1"
+                                gradientTransform="matrix(-11.0348 -.0079 .0201 -28.0801 22.535 29.008)"
+                                gradientUnits="userSpaceOnUse">
+                                <stop offset=".433" stop-color="#3b148a" />
+                                <stop offset="1" stop-color="#3b148a" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                    </g>
+                </svg>
                 Reach thousands of students
             </li>
             <li class="flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg"  width="1.5em" height="1.5em" viewBox="0 0 128 128"><path fill="#fcc21b" d="M68.43 5.38c.89-1.95 2.55-2.5 3.93-2.56c2.1-.1 4.3 1.35 6.37 3.06C80.2 7.54 81.96 8.82 84 9.72c1.41.5 2.81.6 4.23.53c2-.1 4.03-.54 6.04-.64l.11-.01l.91-.08c2.3-.11 4.47.43 6.53 1.62c1.89 1.72 2.72 3.86 2.46 6.44c-.44 2.13-.06 4.08 1.13 5.85c2.05 1.44 4.2 2.7 6.46 3.77c2.34 1.28 3.81 3.21 4.45 5.78c.23 2.72-1.03 4.46-3.75 5.21c-3.54.89-8.3.89-12.31 3.99c-5.86 4.89-7.7 9.82-10.25 10.57c-1.25-1.42-9.05-7.45-22.13-10.34c-2.34-8.07-3.76-27.55.55-37.03"/><path fill="#d19b15" d="M81.63 40.69c2.3-4.6 8.85-12.69 10.42-11.09c1.55 1.74-2.02 10.78-4.53 15.21c-.89-.94-3.76-2.91-5.01-3.24"/><path fill="#8d6e63" d="M93.2 55.42c-1.35 0-2.67-.69-3.42-1.93c-6.88-11.32-22.46-10.13-22.61-10.11c-2.2.18-4.14-1.44-4.33-3.63a4.006 4.006 0 0 1 3.61-4.34c.84-.08 20.67-1.71 30.17 13.94c1.15 1.89.54 4.35-1.34 5.49c-.66.39-1.37.58-2.08.58"/><path fill="#fcc21b" d="M96.06 122.07c-17.13 4.22-40.94 3.92-57.95.56C22.19 119.48 10 110.09 11.4 91.61c1.42-18.7 13.81-36.31 30.85-44.07c16.49-7.51 38.62-11.17 50.28 5.87c2.9 4.24 8.44 13.65 8.7 18.27c.02.37.04.7.12 1.02c.02 1.16.49 2.33 1.63 3.19c7.33 5.55 12.67 12.91 13.65 23c1.16 12.03-10.22 20.63-20.57 23.18"/><path fill="#424242" d="M80.87 91.13c-2.08-3.38-5.91-7.05-9.53-10.2l2.81-7.78c2.5 1.95 4.7 3.78 6.42 5.36c.28.27.72.29 1.04.06l6.44-4.79c.18-.14.29-.34.32-.57a.8.8 0 0 0-.21-.62c-1.91-2.13-6.05-5.86-10.58-8.93l1.65-4.56c.19-.52-.07-1.09-.6-1.29l-7.57-2.74c-.52-.19-1.1.08-1.29.6l-1.23 3.41c-7.13-2.21-12.79-1.5-17.23 2.21c-3.48 2.92-4.98 7.09-3.92 10.87c1.08 4.03 4.24 6.79 8.24 10.28l.51.45c.93.8 1.92 1.63 2.89 2.46l-3.42 9.46c-4.49-2.94-8.25-7.01-8.89-7.9a.806.806 0 0 0-1.08-.21l-7.42 4.74c-.18.11-.31.3-.36.52c-.04.21 0 .43.12.61c2.23 3.36 5.88 7.12 9.77 10.06c.93.7 2.33 1.68 4.05 2.71l-1.29 3.55c-.18.52.08 1.09.6 1.28l7.58 2.75c.52.19 1.1-.08 1.29-.6l1.07-2.96c6.92 1.88 13 .79 17.7-3.23c4.54-3.89 5.32-9.35 2.12-15M65.18 68.4l-2.07 5.73c-1.93-1.5-2.96-2.63-2.23-4.25c.76-1.66 2.65-1.77 4.3-1.48m2.05 23.9c1.33 1.29 2.27 2.48 2.36 3.57c.04.62-.19 1.22-.73 1.84c-.94 1.09-2.44 1.3-3.99 1.11z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 128 128">
+                    <path fill="#fcc21b"
+                        d="M68.43 5.38c.89-1.95 2.55-2.5 3.93-2.56c2.1-.1 4.3 1.35 6.37 3.06C80.2 7.54 81.96 8.82 84 9.72c1.41.5 2.81.6 4.23.53c2-.1 4.03-.54 6.04-.64l.11-.01l.91-.08c2.3-.11 4.47.43 6.53 1.62c1.89 1.72 2.72 3.86 2.46 6.44c-.44 2.13-.06 4.08 1.13 5.85c2.05 1.44 4.2 2.7 6.46 3.77c2.34 1.28 3.81 3.21 4.45 5.78c.23 2.72-1.03 4.46-3.75 5.21c-3.54.89-8.3.89-12.31 3.99c-5.86 4.89-7.7 9.82-10.25 10.57c-1.25-1.42-9.05-7.45-22.13-10.34c-2.34-8.07-3.76-27.55.55-37.03" />
+                    <path fill="#d19b15"
+                        d="M81.63 40.69c2.3-4.6 8.85-12.69 10.42-11.09c1.55 1.74-2.02 10.78-4.53 15.21c-.89-.94-3.76-2.91-5.01-3.24" />
+                    <path fill="#8d6e63"
+                        d="M93.2 55.42c-1.35 0-2.67-.69-3.42-1.93c-6.88-11.32-22.46-10.13-22.61-10.11c-2.2.18-4.14-1.44-4.33-3.63a4.006 4.006 0 0 1 3.61-4.34c.84-.08 20.67-1.71 30.17 13.94c1.15 1.89.54 4.35-1.34 5.49c-.66.39-1.37.58-2.08.58" />
+                    <path fill="#fcc21b"
+                        d="M96.06 122.07c-17.13 4.22-40.94 3.92-57.95.56C22.19 119.48 10 110.09 11.4 91.61c1.42-18.7 13.81-36.31 30.85-44.07c16.49-7.51 38.62-11.17 50.28 5.87c2.9 4.24 8.44 13.65 8.7 18.27c.02.37.04.7.12 1.02c.02 1.16.49 2.33 1.63 3.19c7.33 5.55 12.67 12.91 13.65 23c1.16 12.03-10.22 20.63-20.57 23.18" />
+                    <path fill="#424242"
+                        d="M80.87 91.13c-2.08-3.38-5.91-7.05-9.53-10.2l2.81-7.78c2.5 1.95 4.7 3.78 6.42 5.36c.28.27.72.29 1.04.06l6.44-4.79c.18-.14.29-.34.32-.57a.8.8 0 0 0-.21-.62c-1.91-2.13-6.05-5.86-10.58-8.93l1.65-4.56c.19-.52-.07-1.09-.6-1.29l-7.57-2.74c-.52-.19-1.1.08-1.29.6l-1.23 3.41c-7.13-2.21-12.79-1.5-17.23 2.21c-3.48 2.92-4.98 7.09-3.92 10.87c1.08 4.03 4.24 6.79 8.24 10.28l.51.45c.93.8 1.92 1.63 2.89 2.46l-3.42 9.46c-4.49-2.94-8.25-7.01-8.89-7.9a.806.806 0 0 0-1.08-.21l-7.42 4.74c-.18.11-.31.3-.36.52c-.04.21 0 .43.12.61c2.23 3.36 5.88 7.12 9.77 10.06c.93.7 2.33 1.68 4.05 2.71l-1.29 3.55c-.18.52.08 1.09.6 1.28l7.58 2.75c.52.19 1.1-.08 1.29-.6l1.07-2.96c6.92 1.88 13 .79 17.7-3.23c4.54-3.89 5.32-9.35 2.12-15M65.18 68.4l-2.07 5.73c-1.93-1.5-2.96-2.63-2.23-4.25c.76-1.66 2.65-1.77 4.3-1.48m2.05 23.9c1.33 1.29 2.27 2.48 2.36 3.57c.04.62-.19 1.22-.73 1.84c-.94 1.09-2.44 1.3-3.99 1.11z" />
+                </svg>
                 Earn by sharing your knowledge
             </li>
             <li class="flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg"  width="1.8em" height="1.8em" viewBox="0 0 128 128"><path fill="#424242" d="M99.06 91.42S83.95 105.6 63.97 105.6S28.89 91.42 28.89 91.42s-2.81-13.49 4.45-36.78c3.83-12.28 58.33-13.53 62.6-2.79c7.26 18.23 3.12 39.57 3.12 39.57"/><path fill="#212121" d="m28.89 91.42l4.79 3.84s-.04-7.6 2.31-14.69c.88-2.65 4.02-3.76 6.38-2.27l18.29 11.47a6.39 6.39 0 0 0 6.7.05c8.74-5.3 31.54-19.17 32.58-20.02c0 0 0-1.71-.43-3.89L28.63 66z"/><path fill="#424242" d="m122.81 52.03l-56.8 33.83c-1.24.74-2.79.74-4.04 0L5.19 52.03c-1.58-.94-1.58-3.23 0-4.17l56.8-33.83c1.24-.74 2.79-.74 4.04 0l56.8 33.83c1.57.94 1.57 3.23-.02 4.17"/><path fill="#9e9e9e" d="M64.04 83.38c-.01 0-.03.01-.04.01c-.16 0-.32-.04-.46-.13L4.18 49.04s-.29.55 0 1.54c.3.99.76 1.31 1.01 1.46l56.8 33.83c.62.37 1.32.56 2.02.56h.04v-3.05z"/><path fill="#616161" d="M64 83.38c.01 0 .03.01.04.01c.16 0 .32-.04.46-.13l59.36-34.22s.29.55 0 1.54c-.3.99-.76 1.31-1.01 1.46l-56.8 33.83c-.62.37-1.32.56-2.02.56h-.04v-3.05z"/><path fill="#424242" d="m35.45 70.06l.32-2.81S60.28 53.92 62.7 52.52s4.96-2.96 6.09-4.21c2-2.2.56-3.58.56-3.58s-1.58 2.56-5.35 2.11c-2.16-.26-4.97-2.01-5.44-2.83s-27.67 19.9-27.67 19.9l-.19 3.33z"/><path fill="#e2a610" d="M69.35 44.74c-2.62 3.66-7.06 2.06-7.06 2.06s-13.91 6.67-14.43 5.66s11.49-7.19 11.49-7.19s-.67-2.46-.6-3.51c0 0-21.72 13.82-29.87 18.47c-4.27 2.44-5.18 4.74-5.17 7.98c0 1.42.02 6.03.04 8.78c0 .51-.22.99-.61 1.31a5.16 5.16 0 0 0-1.89 3.99c0 1.53.67 2.9 1.73 3.85c.57.51.45 1.61.5 2.32c.1 1.36 0 1.98-.56 3.24c-.55 1.23-1.06 2.49-1.41 3.79c-.27 1-.45 2.03-.63 3.05c-1.19 6.83-1.73 14.13-4.88 20.41a.993.993 0 0 0 .45 1.34a1.007 1.007 0 0 0 1.35-.44c1.64-3.27 2.49-6.85 3.19-10.4c-.04 3.21-.06 6.45-.17 9.95c-.02.68-.07 2.05.55 2.35c2.33 1.13 2.33-2.35 2.33-2.35s.03 3.13 3.2 3.13s3.4-3.13 3.4-3.13s.23 2.87 1.86 2.73c.66-.06 1.53-.46 1.22-3.89c-.31-3.42-1.08-15.68-1.41-19.56c-.46-5.37-2.22-8.56-2.58-10.46c-.13-.72-.14-1.47.43-1.94a5.165 5.165 0 0 0 .13-7.88a1.71 1.71 0 0 1-.58-1.42c.19-2.59.4-6.35.57-7.22c.74-3.91 2.67-4.61 4.65-5.77c1.98-1.17 30.66-14.19 32.33-15.3c3.09-2.07 2.43-3.95 2.43-3.95"/><path fill="#ffca28" d="M69.35 44.74c-2.47 3.49-7.6 1.93-7.6 1.93s-13.11 5.81-12.24 4.76c.86-1.05 9.84-6.16 9.84-6.16s-.67-2.46-.6-3.51c0 0-22.1 12.77-30.67 18.91c-2.21 1.59-4.95 4.19-2.72 6.78c1.03 1.19 3.02 1.44 4.29.5c.77-.56 1.37-1.38 2.05-2.03c.84-.82 1.86-1.34 2.86-1.93c1.98-1.17 30.66-14.19 32.33-15.3c3.12-2.07 2.46-3.95 2.46-3.95"/><path fill="#9e740b" d="M26.11 91.86c-1.32 0-2.21-.11-3.02-.3a.62.62 0 0 1-.48-.65l.26-3.82c.03-.39.4-.66.78-.55c.9.26 2.7.52 5.64-.1c.36-.08.72.17.76.54l.4 3.8c.03.31-.17.6-.47.67c-1.53.35-2.64.41-3.87.41"/><path fill="#616161" d="M99.06 91.42s1.77-9.24 1.06-19.07c-.12-1.66-1.14-3.09-1.93 2.72c-.45 3.33-1.43 13.3-3.1 19.53c2.55-1.84 3.97-3.18 3.97-3.18M65.73 36.79c.73.23 1.4.79 1.59 1.54c.25 1-.38 2-1.06 2.78c-1.33 1.53-3.16 2.87-5.19 2.8c-.67-.02-1.39-.24-1.8-.77c-.29-.37-.39-.85-.42-1.32c-.18-3.43 3.7-6.03 6.88-5.03"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 128 128">
+                    <path fill="#424242"
+                        d="M99.06 91.42S83.95 105.6 63.97 105.6S28.89 91.42 28.89 91.42s-2.81-13.49 4.45-36.78c3.83-12.28 58.33-13.53 62.6-2.79c7.26 18.23 3.12 39.57 3.12 39.57" />
+                    <path fill="#212121"
+                        d="m28.89 91.42l4.79 3.84s-.04-7.6 2.31-14.69c.88-2.65 4.02-3.76 6.38-2.27l18.29 11.47a6.39 6.39 0 0 0 6.7.05c8.74-5.3 31.54-19.17 32.58-20.02c0 0 0-1.71-.43-3.89L28.63 66z" />
+                    <path fill="#424242"
+                        d="m122.81 52.03l-56.8 33.83c-1.24.74-2.79.74-4.04 0L5.19 52.03c-1.58-.94-1.58-3.23 0-4.17l56.8-33.83c1.24-.74 2.79-.74 4.04 0l56.8 33.83c1.57.94 1.57 3.23-.02 4.17" />
+                    <path fill="#9e9e9e"
+                        d="M64.04 83.38c-.01 0-.03.01-.04.01c-.16 0-.32-.04-.46-.13L4.18 49.04s-.29.55 0 1.54c.3.99.76 1.31 1.01 1.46l56.8 33.83c.62.37 1.32.56 2.02.56h.04v-3.05z" />
+                    <path fill="#616161"
+                        d="M64 83.38c.01 0 .03.01.04.01c.16 0 .32-.04.46-.13l59.36-34.22s.29.55 0 1.54c-.3.99-.76 1.31-1.01 1.46l-56.8 33.83c-.62.37-1.32.56-2.02.56h-.04v-3.05z" />
+                    <path fill="#424242"
+                        d="m35.45 70.06l.32-2.81S60.28 53.92 62.7 52.52s4.96-2.96 6.09-4.21c2-2.2.56-3.58.56-3.58s-1.58 2.56-5.35 2.11c-2.16-.26-4.97-2.01-5.44-2.83s-27.67 19.9-27.67 19.9l-.19 3.33z" />
+                    <path fill="#e2a610"
+                        d="M69.35 44.74c-2.62 3.66-7.06 2.06-7.06 2.06s-13.91 6.67-14.43 5.66s11.49-7.19 11.49-7.19s-.67-2.46-.6-3.51c0 0-21.72 13.82-29.87 18.47c-4.27 2.44-5.18 4.74-5.17 7.98c0 1.42.02 6.03.04 8.78c0 .51-.22.99-.61 1.31a5.16 5.16 0 0 0-1.89 3.99c0 1.53.67 2.9 1.73 3.85c.57.51.45 1.61.5 2.32c.1 1.36 0 1.98-.56 3.24c-.55 1.23-1.06 2.49-1.41 3.79c-.27 1-.45 2.03-.63 3.05c-1.19 6.83-1.73 14.13-4.88 20.41a.993.993 0 0 0 .45 1.34a1.007 1.007 0 0 0 1.35-.44c1.64-3.27 2.49-6.85 3.19-10.4c-.04 3.21-.06 6.45-.17 9.95c-.02.68-.07 2.05.55 2.35c2.33 1.13 2.33-2.35 2.33-2.35s.03 3.13 3.2 3.13s3.4-3.13 3.4-3.13s.23 2.87 1.86 2.73c.66-.06 1.53-.46 1.22-3.89c-.31-3.42-1.08-15.68-1.41-19.56c-.46-5.37-2.22-8.56-2.58-10.46c-.13-.72-.14-1.47.43-1.94a5.165 5.165 0 0 0 .13-7.88a1.71 1.71 0 0 1-.58-1.42c.19-2.59.4-6.35.57-7.22c.74-3.91 2.67-4.61 4.65-5.77c1.98-1.17 30.66-14.19 32.33-15.3c3.09-2.07 2.43-3.95 2.43-3.95" />
+                    <path fill="#ffca28"
+                        d="M69.35 44.74c-2.47 3.49-7.6 1.93-7.6 1.93s-13.11 5.81-12.24 4.76c.86-1.05 9.84-6.16 9.84-6.16s-.67-2.46-.6-3.51c0 0-22.1 12.77-30.67 18.91c-2.21 1.59-4.95 4.19-2.72 6.78c1.03 1.19 3.02 1.44 4.29.5c.77-.56 1.37-1.38 2.05-2.03c.84-.82 1.86-1.34 2.86-1.93c1.98-1.17 30.66-14.19 32.33-15.3c3.12-2.07 2.46-3.95 2.46-3.95" />
+                    <path fill="#9e740b"
+                        d="M26.11 91.86c-1.32 0-2.21-.11-3.02-.3a.62.62 0 0 1-.48-.65l.26-3.82c.03-.39.4-.66.78-.55c.9.26 2.7.52 5.64-.1c.36-.08.72.17.76.54l.4 3.8c.03.31-.17.6-.47.67c-1.53.35-2.64.41-3.87.41" />
+                    <path fill="#616161"
+                        d="M99.06 91.42s1.77-9.24 1.06-19.07c-.12-1.66-1.14-3.09-1.93 2.72c-.45 3.33-1.43 13.3-3.1 19.53c2.55-1.84 3.97-3.18 3.97-3.18M65.73 36.79c.73.23 1.4.79 1.59 1.54c.25 1-.38 2-1.06 2.78c-1.33 1.53-3.16 2.87-5.19 2.8c-.67-.02-1.39-.24-1.8-.77c-.29-.37-.39-.85-.42-1.32c-.18-3.43 3.7-6.03 6.88-5.03" />
+                </svg>
                 Build a personal brand
             </li>
         </ul>
@@ -107,8 +232,8 @@
             <i class="pi pi-info-circle"></i> You have to create your first course to get started as an educator
         </div>
         <div class="flex gap-2 justify-content-end my-2">
-            <p-button size="small" (onClick)="updateUserRole()" class="cursor-pointer" 
-            label="Proceed to Get Started" icon="pi pi-arrow-right" iconPos="right"></p-button>
+            <p-button size="small" (onClick)="updateUserRole()" class="cursor-pointer" label="Proceed to Get Started"
+                icon="pi pi-arrow-right" iconPos="right"></p-button>
         </div>
     </div>
 </p-dialog>

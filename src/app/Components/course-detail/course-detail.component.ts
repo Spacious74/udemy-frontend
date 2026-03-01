@@ -24,12 +24,14 @@ import { filter, Subscription } from 'rxjs';
 import { RateAndReviewService, Reviews } from '../../Services/rateAndReview.service';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
 
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, ToastModule, RatingModule, FormsModule],
+  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, 
+    ToastModule, RatingModule, FormsModule, DialogModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
@@ -45,6 +47,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   public reviewsArr: Reviews[] = [];
   public overallRating: number = 0;
+
+  public reviewDialog : boolean = false;
 
   constructor(
     private draftedCourseService: DraftedCourseService,
@@ -75,6 +79,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       if (newId && newId !== this.courseId) {
         this.courseId = newId;
         this.fetchCourseAndPlaylist();
+        this.fetchUserReviews();
       }
     });
 
@@ -94,7 +99,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         filter(user => !!user && !!user._id)
       ).subscribe((res) => {
         this.userDetails = res;
-        this.fetchUserReviews();
+      
         this.fetchUserCartData();
       });
 
@@ -110,12 +115,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  // these both methods rendering stars according to the rating
-  getStars(num: number) {
-    return new Array(num).fill(1);
-  }
-  getRemainingStars(num: number) {
-    return new Array(5 - num).fill(1);
+  showReviewDialog(){
+    this.reviewDialog = !this.reviewDialog;
   }
 
   loadCartDataFromStorage() {
@@ -164,7 +165,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   fetchUserReviews() {
-    this.rateReviewService.getReviews(this.userDetails._id, this.courseId).subscribe((res) => {
+    this.rateReviewService.getReviews(null, this.courseId).subscribe((res) => {
       this.reviewsArr = res.reviews;
       this.overallRating = res.overallRating;
     },

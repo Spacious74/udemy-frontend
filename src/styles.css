@@ -2,6 +2,10 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
+:root{
+  --primary-color : #10B981;
+}
+
 @font-face {
   font-family: 'Aspekta';
   src: url('./assets/fonts/AspektaVF.woff2') format('woff2');
@@ -82,7 +86,7 @@ body {
 }
 
 .p-inputtext {
-  padding: 0.5rem;
+  padding: 0.4rem;
   font-size: 0.95rem;
 }
 
@@ -93,6 +97,23 @@ body {
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 0.3rem 0rem ;
+}
+
+
+.p-overlaypanel-content .overlay-links div{ 
+  padding: 0.4rem 1rem;
+  display: flex; align-items: center; justify-content: left;
+  gap: 8px;
+  cursor: pointer;
+}
+.p-overlaypanel-content .overlay-links div:hover{ 
+  background-color: #10b9814f;
+  color: #000;
+  font-weight: bold;
 }
 
 .boxShadow {

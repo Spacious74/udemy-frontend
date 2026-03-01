@@ -1,32 +1,159 @@
-.navbar-default {
-  background: #f5f5f5;
-  padding: 10px 0px;
+/* New CSS */
+
+.nav-container {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #eee;
   position: sticky;
-  backdrop-filter: blur(10px);
   top: 0px;
   z-index: 10;
 }
 
-.previewImg {
-  object-fit: cover;
-}
-
 .navbar {
-  width: 90%;
+  max-width: 1400px;
+  margin: auto;
+  padding: 0.8rem 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.logo {
+.nav-logo {
   font-size: 1.4rem;
   font-weight: bolder;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: bolder;
+  margin-left: 16px;
+  font-family: 'Clash';
 }
 
-.logoicon {
-  margin-bottom: 3px;
-  margin-right: -3px;
+/* Desktop Left */
+.nav-left-desktop {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  margin-left: 2rem;
 }
 
-.navbar .links {
-  text-decoration: none;
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+}
+
+.search-box input {
+  width: 100%;
+  padding-right: 2rem;
+}
+
+.search-box i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Right */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
   margin: 0;
-  padding: 0;
+}
+.nav-links li{
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+.nav-links li:hover{
+  background-color: #10b9814f;
+}
+.nav-link-active{
+  background-color: #10b9814f;
+}
+
+.profile-section {
+  width: 38px;
+  aspect-ratio: 1;
+  border: solid 1px var(--primary-color);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 999px;
+  box-shadow: 0px 0px 0px 3px #10b98167;
+}
+
+.profile-img {
+  width: 100%;
+}
+
+/* Mobile Elements Hidden by Default */
+.nav-left-mobile,
+.mobile-search {
+  display: none;
+}
+
+/* ========================= */
+/* ======= MOBILE ========= */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .nav-left-desktop {
+    display: none;
+  }
+
+  .nav-left-mobile {
+    display: block;
+  }
+
+  .navbar {
+    justify-content: space-between;
+  }
+
+  .mobile-search {
+    display: flex;
+    padding: 0.5rem 1rem;
+    gap: 10px;
+    border-top: 1px solid #eee;
+    position: relative;
+  }
+  .mb-search-box{
+    position: relative;
+    width : 100%;
+    display: flex;
+  }
+  .mobile-search input {
+    width: 100%;
+    padding-right: 1rem;
+  }
+
+  .mobile-search i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    padding-left: 2px;
+  }
+  .cart-label{
+    display: none;
+  }
+
+}
+
+
+@media (max-width : 400px) {
+  .course-label{
+    display: none;
+  }
 }
