@@ -1,9 +1,14 @@
 <p-toast></p-toast>
-<div class="detail-container relative ">
-    <div class="course-header py-7 ">
+<div class="detail-container relative">
+    <div class="course-header ">
+
         <div class="container mx-auto flex align-items-center justify-content-left ">
 
-            <div class="details w-7 flex flex-column gap-3">
+            <div class="top-details flex flex-column gap-3">
+                <div class="imgcont-mobile">
+                    <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture"
+                        class="w-full" style="object-fit: cover;" />
+                </div>
                 <div class="title text-0 ">
                     {{selectedCourse?.title}}
                 </div>
@@ -13,30 +18,29 @@
 
                 <div class="ratingStudents text-sm flex align-items-center gap-3 ">
                     @if(reviewsArr?.length){
-                        <div  class="rating flex gap-2 ">
-                            <span
-                                class="px-2 flex align-items-center justify-content-center border-round text-900 font-bold border-1 ">
-                                {{overallRating.toFixed(1)}}
-                            </span>
-                            <div class="stars" style="color : #daa520;">
-                                <p-rating [(ngModel)]="overallRating" [readonly]="true" [cancel]="false">
-                                    <ng-template pTemplate="onicon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                            <path fill="currentColor" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2"
-                                                d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
-                                        </svg>
-                                    </ng-template>
-                                    <ng-template pTemplate="officon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2"
-                                                d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
-                                        </svg>
-                                    </ng-template>
-                                </p-rating>
-                            </div> ({{reviewsArr?.length}} ratings)
-                        </div>
+                    <div class="rating flex gap-2 ">
+                        <span class="px-2 flex align-items-center justify-content-center border-round text-900 font-bold border-1 ">
+                            {{overallRating.toFixed(1)}}
+                        </span>
+                        <div class="stars" style="color : #daa520;">
+                            <p-rating [(ngModel)]="overallRating" [readonly]="true" [cancel]="false">
+                                <ng-template pTemplate="onicon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                        <path fill="currentColor" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2"
+                                            d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
+                                    </svg>
+                                </ng-template>
+                                <ng-template pTemplate="officon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2"
+                                            d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
+                                    </svg>
+                                </ng-template>
+                            </p-rating>
+                        </div> ({{reviewsArr?.length}} ratings)
+                    </div>
                     }
                     <div class="students flex align-items-center gap-2 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 640 512">
@@ -72,7 +76,8 @@
 
         </div>
     </div>
-    <div class="courseCard overflow-hidden w-3 surface-0">
+
+    <div class="courseCard overflow-hidden surface-0">
         <div class="imgcont p-3 w-full">
             <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture"
                 class="w-full h-12rem border-round-lg" style="object-fit: cover;" />
@@ -97,6 +102,7 @@
                 (onClick)="navigateToPlayer()"></p-button>
         </div>
     </div>
+
     <div class="container mx-auto mb-8 ">
         <div class="section py-4 mt-4 ">
             <div class="head">
@@ -182,85 +188,85 @@
 
         <div class="section py-4 w-7">
             <div class="head">Rating & reviews</div>
-            
-            @if (reviewsArr?.length) {
-                <div class="raterev-header flex align-items-center gap-7 p-3">
-                    <span class="flex align-items-center gap-1 text-lg font-bold">
-                        <svg style="color : #f1b10e;" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                            viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z" />
-                        </svg>
-                        {{overallRating.toFixed(1)}} course rating
-                    </span>
-                    <span class="flex align-items-center gap-1 text-lg font-bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-                            <circle cx="9.001" cy="6" r="4" fill="currentColor" />
-                            <ellipse cx="9.001" cy="17.001" fill="currentColor" rx="7" ry="4" />
-                            <path fill="currentColor"
-                                d="M21 17c0 1.657-2.036 3-4.521 3c.732-.8 1.236-1.805 1.236-2.998c0-1.195-.505-2.2-1.239-3.001C18.962 14 21 15.344 21 17M18 6a3 3 0 0 1-4.029 2.82A5.7 5.7 0 0 0 14.714 6c0-1.025-.27-1.987-.742-2.819A3 3 0 0 1 18 6.001" />
-                        </svg>
-                        {{reviewsArr?.length}} ratings
-                    </span>
-    
-                </div>
-    
-                <section class="reviews-section p-3 mb-4">
 
-                    <div class="reviews-grid">
-                        <div class="review-card" *ngFor="let review of reviewsArr | slice:0:4">
-    
-                            <div class="flex align-items-center gap-2">
-                                <div class="avatar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24">
-                                        <path fill="currentColor" fill-rule="evenodd"
-                                            d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-7-3a3 3 0 1 1-6 0a3 3 0 0 1 6 0m-3 11.5a8.46 8.46 0 0 0 4.807-1.489c.604-.415.862-1.205.51-1.848C16.59 15.83 15.09 15 12 15s-4.59.83-5.318 2.163c-.351.643-.093 1.433.511 1.848A8.46 8.46 0 0 0 12 20.5"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-    
-                                <div class="review-meta">
-                                    <h4>{{ review.username }}</h4>
-    
-                                    <div class="flex gap-2">
-                                        <div class="stars" style="color : #daa520;">
-                                            <p-rating [(ngModel)]="review.rating" [readonly]="true" [cancel]="false">
-                                                <ng-template pTemplate="onicon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        viewBox="0 0 24 24">
-                                                        <path fill="currentColor" stroke="currentColor"
-                                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
-                                                    </svg>
-                                                </ng-template>
-                                                <ng-template pTemplate="officon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        viewBox="0 0 24 24">
-                                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                            stroke-linejoin="round" stroke-width="2"
-                                                            d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
-                                                    </svg>
-                                                </ng-template>
-                                            </p-rating>
-                                        </div>
-    
-                                        <span class="time">1 day ago</span>
+            @if (reviewsArr?.length) {
+            <div class="raterev-header flex align-items-center gap-7 p-3">
+                <span class="flex align-items-center gap-1 text-lg font-bold">
+                    <svg style="color : #f1b10e;" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z" />
+                    </svg>
+                    {{overallRating.toFixed(1)}} course rating
+                </span>
+                <span class="flex align-items-center gap-1 text-lg font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                        <circle cx="9.001" cy="6" r="4" fill="currentColor" />
+                        <ellipse cx="9.001" cy="17.001" fill="currentColor" rx="7" ry="4" />
+                        <path fill="currentColor"
+                            d="M21 17c0 1.657-2.036 3-4.521 3c.732-.8 1.236-1.805 1.236-2.998c0-1.195-.505-2.2-1.239-3.001C18.962 14 21 15.344 21 17M18 6a3 3 0 0 1-4.029 2.82A5.7 5.7 0 0 0 14.714 6c0-1.025-.27-1.987-.742-2.819A3 3 0 0 1 18 6.001" />
+                    </svg>
+                    {{reviewsArr?.length}} ratings
+                </span>
+
+            </div>
+
+            <section class="reviews-section p-3 mb-4">
+
+                <div class="reviews-grid">
+                    <div class="review-card" *ngFor="let review of reviewsArr | slice:0:4">
+
+                        <div class="flex align-items-center gap-2">
+                            <div class="avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24">
+                                    <path fill="currentColor" fill-rule="evenodd"
+                                        d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-7-3a3 3 0 1 1-6 0a3 3 0 0 1 6 0m-3 11.5a8.46 8.46 0 0 0 4.807-1.489c.604-.415.862-1.205.51-1.848C16.59 15.83 15.09 15 12 15s-4.59.83-5.318 2.163c-.351.643-.093 1.433.511 1.848A8.46 8.46 0 0 0 12 20.5"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+
+                            <div class="review-meta">
+                                <h4>{{ review.username }}</h4>
+
+                                <div class="flex gap-2">
+                                    <div class="stars" style="color : #daa520;">
+                                        <p-rating [(ngModel)]="review.rating" [readonly]="true" [cancel]="false">
+                                            <ng-template pTemplate="onicon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24">
+                                                    <path fill="currentColor" stroke="currentColor"
+                                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
+                                                </svg>
+                                            </ng-template>
+                                            <ng-template pTemplate="officon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24">
+                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="m8.587 8.236l2.598-5.232a.911.911 0 0 1 1.63 0l2.598 5.232l5.808.844a.902.902 0 0 1 .503 1.542l-4.202 4.07l.992 5.75c.127.738-.653 1.3-1.32.952L12 18.678l-5.195 2.716c-.666.349-1.446-.214-1.319-.953l.992-5.75l-4.202-4.07a.902.902 0 0 1 .503-1.54z" />
+                                                </svg>
+                                            </ng-template>
+                                        </p-rating>
                                     </div>
+
+                                    <span class="time">1 day ago</span>
                                 </div>
                             </div>
-    
-                            <p class="review-text">{{ review.desc }}</p>
-    
                         </div>
+
+                        <p class="review-text">{{ review.desc }}</p>
+
                     </div>
-    
-                </section>
-    
-                <p-button size="small" class="cursor-pointer" label="Show all reviews" (onClick)="showReviewDialog()"
+                </div>
+
+            </section>
+
+            <p-button size="small" class="cursor-pointer" label="Show all reviews" (onClick)="showReviewDialog()"
                 [outlined]="true"></p-button>
             }@else{
-                <span class="empty-review-text">Be the first one to review about this course.</span>
-            }            
+            <span class="empty-review-text">Be the first one to review about this course.</span>
+            }
 
         </div>
 

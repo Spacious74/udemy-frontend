@@ -1,17 +1,39 @@
+.head {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
 .container {
   width: 90%;
-}
-
-.title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: 1px;
 }
 
 .course-header {
   color: #a6cabd;
   background-size: 30px 30px;
   background-image: radial-gradient(circle, #2e3f2e 1px, #1a251a 1px);
+  padding: 64px 0px;
+}
+
+.course-header .top-details{
+  width: 100%;
+  max-width: 650px;
+}
+
+.course-header .title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+
+.courseCard {
+  position: absolute;
+  top: 3%;
+  right: 10%;
+  border-radius: 16px;
+  border: solid 1px #000;
+  max-width: 350px;
+  width: 100%;
 }
 
 .price {
@@ -19,12 +41,6 @@
   color: #ffffff;
   font-size: 1.6rem;
   font-weight: 600;
-}
-
-.head {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
 }
 
 #check {
@@ -119,13 +135,7 @@
   height: auto;
 }
 
-.courseCard {
-  position: absolute;
-  top: 3%;
-  right: 12.5%;
-  border-radius: 16px;
-  border: solid 1px #000;
-}
+
 
 .raterev-header {
   border: solid 1px #c0c0c0;
@@ -181,9 +191,45 @@
   font-weight: bold;
 }
 
-/* Responsive */
+.imgcont-mobile{
+  width: 100%;
+  max-width: 400px;
+  display: none;
+}
+.imgcont-mobile img{
+  height: 220px;
+  border-radius: 20px;
+}
+
+/* ====================== */
+/* ===== Tablet ======== */
+/* ====================== */
+
+@media (max-width: 1024px) {
+  .container{
+    width: 93%;
+  }
+  .courseCard{
+    display: none;
+  }
+  .course-header{
+    padding: 40px 0px;
+  }
+  .imgcont-mobile{
+    display: block;
+  }
+}
+
+
+/* ====================== */
+/* ===== Mobile ======== */
+/* ====================== */
+
 @media (max-width: 768px) {
   .reviews-grid {
     grid-template-columns: 1fr;
+  }
+  .courseCard{
+    display: none;
   }
 }
