@@ -6,8 +6,20 @@
 
             <div class="top-details flex flex-column gap-3">
                 <div class="imgcont-mobile">
-                    <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture"
-                        class="w-full" style="object-fit: cover;" />
+                    <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture" class="w-full"
+                        style="object-fit: cover;" />
+                    <div *ngIf="!isEnrolled" class="btncont mt-2 p-fluid flex gap-2 cursor-pointer">
+                        <p-button class="w-full" label="Buy now" (onClick)="goToOrderSummaryPage()"></p-button>
+
+                        <p-button *ngIf="!existInCart" (click)="addToCart()" class="w-full"
+                            [icon]="loading ?'pi pi-spin pi-spinner' : 'pi pi-cart-plus'"
+                            [label]="loading ? 'Loading...' : 'Add to cart'" [outlined]="true"></p-button>
+
+                        <p-button *ngIf="existInCart" class="w-full" icon="pi pi-check" label="In Cart"
+                            [outlined]="true"></p-button>
+                    </div>
+                    <p-button *ngIf="isEnrolled" class="w-full" icon="pi pi-check" label="Go to Learning"
+                        (onClick)="navigateToPlayer()"></p-button>
                 </div>
                 <div class="title text-0 ">
                     {{selectedCourse?.title}}
@@ -19,7 +31,8 @@
                 <div class="ratingStudents text-sm flex align-items-center gap-3 ">
                     @if(reviewsArr?.length){
                     <div class="rating flex gap-2 ">
-                        <span class="px-2 flex align-items-center justify-content-center border-round text-900 font-bold border-1 ">
+                        <span
+                            class="px-2 flex align-items-center justify-content-center border-round text-900 font-bold border-1 ">
                             {{overallRating.toFixed(1)}}
                         </span>
                         <div class="stars" style="color : #daa520;">
@@ -136,18 +149,18 @@
         </div>
         <div class="section py-4 ">
             <div class="head">Description</div>
-            <div class="dtext w-7">
+            <div class="dtext">
                 <p class="m-0 z-2">
                     {{selectedCourse?.description.slice(0,300)}}
                 </p>
                 <input type="checkbox" name="check" id="check">
-                <label *ngIf="selectedCourse?.description.length > 300"
-                    class="label z-3 text-green-500 cursor-pointer readBtn py-2 " for="check">Read more...</label>
+                <label *ngIf="selectedCourse?.description.length > 300" class="label z-3 cursor-pointer readBtn py-2 "
+                    for="check">Read more...</label>
                 <p *ngIf="selectedCourse?.description.length > 300" class="restPara z-2 m-0 mt-2 ">
                     {{selectedCourse?.description.slice(300)}}
                 </p>
-                <label *ngIf="selectedCourse?.description.length > 300"
-                    class="label2 z-3 text-green-500 cursor-pointer py-2  " for="check">Read less...</label>
+                <label *ngIf="selectedCourse?.description.length > 300" class="label2 z-3 cursor-pointer py-2"
+                    for="check">Read less...</label>
 
             </div>
         </div>
@@ -157,7 +170,7 @@
             <div class="head">
                 Course content
             </div>
-            <div class="accordian w-7">
+            <div class="accordian ">
                 <ng-container *ngFor="let item of sectionList; index as idx">
                     <p-accordion *ngIf="item.videos.length > 0" size="small" [activeIndex]="[0]">
                         <p-accordionTab>
@@ -186,28 +199,20 @@
             </div>
         </div>
 
-        <div class="section py-4 w-7">
+        <div class="rate-review-container section py-4">
             <div class="head">Rating & reviews</div>
 
             @if (reviewsArr?.length) {
-            <div class="raterev-header flex align-items-center gap-7 p-3">
+            <div class="raterev-header flex align-items-center gap-1">
                 <span class="flex align-items-center gap-1 text-lg font-bold">
-                    <svg style="color : #f1b10e;" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                    <svg style="color : #f1b10e;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z" />
                     </svg>
                     {{overallRating.toFixed(1)}} course rating
                 </span>
-                <span class="flex align-items-center gap-1 text-lg font-bold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-                        <circle cx="9.001" cy="6" r="4" fill="currentColor" />
-                        <ellipse cx="9.001" cy="17.001" fill="currentColor" rx="7" ry="4" />
-                        <path fill="currentColor"
-                            d="M21 17c0 1.657-2.036 3-4.521 3c.732-.8 1.236-1.805 1.236-2.998c0-1.195-.505-2.2-1.239-3.001C18.962 14 21 15.344 21 17M18 6a3 3 0 0 1-4.029 2.82A5.7 5.7 0 0 0 14.714 6c0-1.025-.27-1.987-.742-2.819A3 3 0 0 1 18 6.001" />
-                    </svg>
-                    {{reviewsArr?.length}} ratings
-                </span>
+                <span class="text-xs">( {{reviewsArr?.length}} ratings )</span>
 
             </div>
 
@@ -277,24 +282,28 @@
             <div class="insInfo">
                 <div class="inshead mb-3 flex gap-4 align-items-center">
                     <div class="imgcont">
-                        <img [src]="selectedCourse?.educator?.edId?.profileImage" alt="" class="w-full teacherImg"
-                            style="border-radius: 400px;">
+                        <img [src]="selectedCourse?.educator?.edId?.profileImage" alt="" class="w-full teacherImg">
                     </div>
                     <div class="info">
                         <div class="name text-xl text-green-500 font-bold">{{selectedCourse?.educator?.edname}}</div>
                         <div>Founder CEO,Corporate Trainer,Programming Aficionado</div>
-                        <div class=" mt-3 stcr flex flex-column gap-2">
+                        <div class="stcr flex flex-column gap-2">
                             <div class="students flex align-items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 640 512">
-                                    <path fill="currentColor"
-                                        d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64m448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64m32 32h-64c-17.6 0-33.5 7.1-45.1 18.6c40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64m-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32S208 82.1 208 144s50.1 112 112 112m76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2m-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
+                                        <path
+                                            d="M12 1.25a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5M8.75 6a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0" />
+                                        <path
+                                            d="M2.728 5.818a.75.75 0 1 0-1.455.364l.382 1.528a8.21 8.21 0 0 0 5.595 5.869v4.473c0 .899 0 1.648.08 2.242c.084.628.27 1.195.726 1.65c.455.456 1.022.642 1.65.726c.595.08 1.344.08 2.242.08h.104c.899 0 1.648 0 2.243-.08c.627-.084 1.194-.27 1.65-.726s.64-1.022.725-1.65c.08-.594.08-1.343.08-2.242v-4.193a2.62 2.62 0 0 1 1.856 2.208l.65 5.52a.75.75 0 1 0 1.489-.175l-.65-5.52A4.124 4.124 0 0 0 16 12.25H8.085A6.71 6.71 0 0 1 3.11 7.346zM8.75 18v-4.25h6.5V18c0 .964-.001 1.612-.066 2.095c-.062.461-.17.659-.3.789s-.328.237-.79.3c-.482.064-1.13.066-2.094.066s-1.611-.002-2.094-.067c-.462-.062-.66-.169-.79-.3s-.237-.327-.3-.788c-.064-.483-.066-1.131-.066-2.095" />
+                                    </g>
                                 </svg>
                                 12,345 students.
                             </div>
                             <div class="courses flex align-items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 26 26">
-                                    <path fill="currentColor"
-                                        d="M9.875 0a1 1 0 0 0-.406.156S8.204.952 6.844 1.813c-1.36.86-2.873 1.808-3.219 2l-.063.03C2.306 4.618 2.045 5.884 2 6.594c-.003.033 0 .06 0 .095c-.011.266 0 .437 0 .437v13.063C2 22.087 4.213 23 6.313 23c.7 0 1.4-.113 2-.313c.4-.2.687-.6.687-1v-10.5c0-2.3.5-3.38 2-4.28c.4-.2 4.594-3.095 4.594-3.095c.2-.2.406-.606.406-.906v-.094c0-.4-.2-.706-.5-.906s-.7-.2-1 0c-.1.1-6.2 4.207-7.5 4.907c-1.3.8-2.513.993-2.813.593c-.093-.093-.174-.378-.187-.656v-.063c.001-.272.071-.784.625-1.125c.562-.313 1.957-1.204 3.313-2.062c.573-.363.644-.402 1.093-.688A1 1 0 0 0 11 2.5V1a1 1 0 0 0-1.125-1m8 3.5a1 1 0 0 0-.438.188s-5.034 3.387-5.906 3.968l-.031.032c-.724.543-1.153 1.189-1.344 1.78A3.3 3.3 0 0 0 10 10.5v.313a1 1 0 0 0 0 .093V23c0 1.9 2.188 3 4.188 3c.9 0 1.712-.194 2.312-.594c1.2-.7 7-5.218 7-5.218c.3-.2.5-.482.5-.782v-13c0-.5-.194-.8-.594-1c-.3-.2-.793-.106-1.093.094c-1.6 1.2-5.907 4.588-6.907 5.188c-1.4.8-2.719 1-3.219.5c-.2-.2-.187-.388-.187-.688q.008-.26.063-.438c.056-.174.17-.388.593-.718c.02-.016.01-.015.031-.031c.723-.483 2.934-1.99 4.376-2.97A1 1 0 0 0 19 6V4.5a1 1 0 0 0-1.125-1M22 10.813v2l-5 3.874v-2z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor" fill-rule="evenodd"
+                                        d="M9.945 1.25h4.11c1.368 0 2.47 0 3.337.117c.9.12 1.658.38 2.26.981c.602.602.86 1.36.982 2.26c.116.867.116 1.97.116 3.337v8.11c0 1.367 0 2.47-.116 3.337c-.121.9-.38 1.658-.982 2.26s-1.36.86-2.26.982c-.867.116-1.97.116-3.337.116h-4.11c-1.367 0-2.47 0-3.337-.116c-.9-.122-1.658-.38-2.26-.982s-.86-1.36-.981-2.26a12 12 0 0 1-.082-.943a.75.75 0 0 1-.016-.392a66 66 0 0 1-.019-2.002v-8.11c0-1.367 0-2.47.117-3.337c.12-.9.38-1.658.982-2.26c.601-.602 1.36-.86 2.26-.981c.866-.117 1.969-.117 3.336-.117m-5.168 17c.015.353.039.664.076.942c.099.734.28 1.122.556 1.399c.277.277.666.457 1.4.556c.755.101 1.756.103 3.191.103h4c1.436 0 2.437-.002 3.192-.103c.734-.099 1.122-.28 1.4-.556c.276-.277.456-.665.555-1.4c.083-.615.1-1.395.102-2.441H13.75v2.808c0 .111 0 .27-.02.406a.94.94 0 0 1-.445.683a.96.96 0 0 1-.783.072c-.13-.04-.272-.109-.378-.159l-.024-.012l-1.1-.522l-1.1.522l-.024.012c-.106.05-.248.118-.378.159a.96.96 0 0 1-.783-.072a.94.94 0 0 1-.444-.683a3 3 0 0 1-.02-.406V16.75h-.353c-.978 0-1.32.006-1.582.077a2.25 2.25 0 0 0-1.54 1.422m4.973-1.5v2.21l.75-.357l.008-.004a1.1 1.1 0 0 1 .492-.13c.236 0 .443.105.492.13l.009.004l.75.356V16.75zm-1.852-1.5h-.116c-.818 0-1.376 0-1.855.128a3.8 3.8 0 0 0-1.177.548V8c0-1.435.002-2.437.103-3.192c.099-.734.28-1.122.556-1.399c.277-.277.666-.457 1.4-.556c.755-.101 1.756-.103 3.191-.103h4c1.436 0 2.437.002 3.192.103c.734.099 1.122.28 1.4.556c.276.277.456.665.555 1.4c.102.754.103 1.756.103 3.191v7.25zM7.25 7A.75.75 0 0 1 8 6.25h8a.75.75 0 0 1 0 1.5H8A.75.75 0 0 1 7.25 7m0 3.5A.75.75 0 0 1 8 9.75h5a.75.75 0 0 1 0 1.5H8a.75.75 0 0 1-.75-.75"
+                                        clip-rule="evenodd" />
                                 </svg>
                                 8 courses.
                             </div>
@@ -302,7 +311,7 @@
                     </div>
 
                 </div>
-                <div class="dtext w-7">
+                <div class="dtext">
                     <p class="m-0 z-2">
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi ipsam animi tenetur in eaque
                         enim quo, harum labore optio facilis officiis corrupti impedit ullam nobis, architecto tempora
