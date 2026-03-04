@@ -28,12 +28,13 @@
 
 .courseCard {
   position: absolute;
-  top: 3%;
+  top: 5%;
   right: 10%;
   border-radius: 16px;
   border: solid 1px #000;
   max-width: 350px;
   width: 100%;
+  height: fit-content;
 }
 
 .dtext{

@@ -1,6 +1,35 @@
 <p-toast></p-toast>
+
 <div class="detail-container relative">
-    <div class="course-header ">
+
+    <div class="courseCard overflow-hidden surface-0">
+        <div class="imgcont p-3 w-full">
+            <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture"
+                class="w-full h-12rem border-round-lg" style="object-fit: cover;" />
+        </div>
+        <div class="p-3 p-fluid">
+            <div class="text-lg font-bold">{{selectedCourse?.title}}</div>
+            <div class="instructor text-sm mt-2">Instructor : {{selectedCourse?.educator?.edname}}</div>
+            <div class="pricetext-600 text-lg py-3 font-bold ">
+                ₹ {{selectedCourse?.price}}
+            </div>
+            <div *ngIf="!isEnrolled" class="btncont mt-2 p-fluid flex gap-2 cursor-pointer">
+                <p-button class="w-full" label="Buy now" (onClick)="goToOrderSummaryPage()"></p-button>
+
+                <p-button *ngIf="!existInCart" (click)="addToCart()" class="w-full"
+                    [icon]="loading ?'pi pi-spin pi-spinner' : 'pi pi-cart-plus'"
+                    [label]="loading ? 'Loading...' : 'Add to cart'" [outlined]="true"></p-button>
+
+                <p-button *ngIf="existInCart" class="w-full" icon="pi pi-check" label="In Cart"
+                    [outlined]="true"></p-button>
+            </div>
+            <p-button *ngIf="isEnrolled" class="w-full" icon="pi pi-check" label="Go to Learning"
+                (onClick)="navigateToPlayer()"></p-button>
+        </div>
+    </div>
+
+
+    <div class="course-header">
 
         <div class="container mx-auto flex align-items-center justify-content-left ">
 
@@ -90,31 +119,7 @@
         </div>
     </div>
 
-    <div class="courseCard overflow-hidden surface-0">
-        <div class="imgcont p-3 w-full">
-            <img [src]="selectedCourse?.coursePoster.url" alt="course-detail picture"
-                class="w-full h-12rem border-round-lg" style="object-fit: cover;" />
-        </div>
-        <div class="p-3 p-fluid">
-            <div class="text-lg font-bold">{{selectedCourse?.title}}</div>
-            <div class="instructor text-sm mt-2">Instructor : {{selectedCourse?.educator?.edname}}</div>
-            <div class="pricetext-600 text-lg py-3 font-bold ">
-                ₹ {{selectedCourse?.price}}
-            </div>
-            <div *ngIf="!isEnrolled" class="btncont mt-2 p-fluid flex gap-2 cursor-pointer">
-                <p-button class="w-full" label="Buy now" (onClick)="goToOrderSummaryPage()"></p-button>
 
-                <p-button *ngIf="!existInCart" (click)="addToCart()" class="w-full"
-                    [icon]="loading ?'pi pi-spin pi-spinner' : 'pi pi-cart-plus'"
-                    [label]="loading ? 'Loading...' : 'Add to cart'" [outlined]="true"></p-button>
-
-                <p-button *ngIf="existInCart" class="w-full" icon="pi pi-check" label="In Cart"
-                    [outlined]="true"></p-button>
-            </div>
-            <p-button *ngIf="isEnrolled" class="w-full" icon="pi pi-check" label="Go to Learning"
-                (onClick)="navigateToPlayer()"></p-button>
-        </div>
-    </div>
 
     <div class="container mx-auto mb-8 ">
         <div class="section py-4 mt-4 ">
@@ -328,15 +333,17 @@
                         recusandae, reprehenderit nostrum et a sequi perferendis atque corrupti ipsum ab! Numquam
                         consectetur ipsam officiis sint.
                     </p>
-                    <label class="label2v2 z-3 text-green-500 cursor-pointer py-2  " for="check2">Read less...</label>
-
+                    <label class="label2v2 z-3 text-green-500 cursor-pointer py-2" for="check2">Read less...</label>
                 </div>
             </div>
         </div>
     </div>
-    <div>
-        <app-footer></app-footer>
-    </div>
+</div>
+
+
+
+<div>
+    <app-footer></app-footer>
 </div>
 
 
