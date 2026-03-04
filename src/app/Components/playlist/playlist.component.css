@@ -11,16 +11,26 @@
   background-image: radial-gradient(circle, #2e3f2e 1px, #1a251a 1px);
 }
 
+.playlist-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+
+}
+
 .text {
   font-size: 1.8rem;
   font-weight: 600;
-  font-family: "Satoshi";
+  font-family: "Clash";
   color: #c0d8c0;
   letter-spacing: 1px;
 }
 
 .card {
   position: relative;
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 12px;
 }
 
 .play {
@@ -65,4 +75,20 @@
   border-radius: 999px;
   background-color: #10b869;
   color: #fff;
+}
+
+.play-btn {
+  display: none;
+}
+
+/* ====================== */
+/* ===== Mobile ======== */
+/* ====================== */
+
+@media (max-width: 768px) {
+
+  .play-btn {
+    display: block;
+  }
+
 }

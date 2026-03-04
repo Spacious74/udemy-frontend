@@ -105,6 +105,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/']);
     this.userLoggedIn = false;
     this.store.dispatch(userInfoActions.loadUserSuccess({payload : null}));
+    window.location.reload();
   }
 
   togglePopup(){

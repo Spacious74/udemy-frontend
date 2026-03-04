@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="container">
 
-    <div class="head py-6 ">
+    <div class="head py-4">
         <div class="header-text text m-auto">
             My Learning
         </div>
@@ -19,9 +19,9 @@
         <div class="w-full mt-6 mb-3 pb-2 border-bottom-1 border-300 text-lg font-bold">
             {{courseEnrolled?.length}} courses
         </div>
-        <div class="w-full courses pb-6 flex flex-wrap gap-4 ">
+        <div class="playlist-cards  w-full courses pb-6">
             <ng-container *ngFor="let item of courseEnrolled">
-                <div (click)="navigateToCoursePlayer(item._id)" class="card cursor-pointer" style="width: 23%;">
+                <div (click)="navigateToCoursePlayer(item._id)" class="card cursor-pointer">
                     <div class="imgcont mb-1" style="width: 100%;">
                         <img [src]="item.coursePoster.url" alt="poster" class="w-full border-round-lg" style="object-fit: cover;">
                     </div>
@@ -35,6 +35,8 @@
                         <div class="ins text-sm">
                             Instructor : {{item.educator.edname}}
                         </div>
+                        <p-button class="play-btn w-full" icon="pi pi-play" label="Play" size="small" [rounded]="true"
+                        (onClick)="navigateToCoursePlayer(item._id)"></p-button>
                     </div>
                 </div>
             </ng-container>
