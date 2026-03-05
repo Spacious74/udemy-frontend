@@ -13,9 +13,9 @@
 
 .playlist-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(265px, max-content));
   gap: 30px;
-
+  justify-content: start;
 }
 
 .text {
@@ -30,7 +30,9 @@
   position: relative;
   background-color: #fff;
   padding: 12px;
+  width: inherit;
   border-radius: 12px;
+  border: solid 1px #c0d8c0;
 }
 
 .play {
@@ -44,6 +46,9 @@
 
 .imgcont {
   position: relative;
+  border: solid 1px #c0d8c0;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .imgcont img {

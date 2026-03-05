@@ -1,22 +1,76 @@
-.head {
-  font-size: 1.3rem;
+.courses-page {
+  padding: 20px;
+}
+
+.filter-bar {
+  border-radius: 8px;
+  background-color: #fff;
+  border : solid 1px #cfd1d4;
+  padding : 8px;
+}
+
+.filter-dropdown {
+  width: 160px;
+}
+
+.clear-btn {
+  font-size: 12px;
+  cursor: pointer;
+  color: #16a34a;
+  margin-left: 5px;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.course-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  transition: all .2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px #16a34a94,  0 10px 20px #00000014;
+
+}
+
+.course-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.course-body {
+  padding: 12px;
+}
+
+.course-title {
   font-weight: 600;
-  font-family: "Satoshi";
-  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: semibold;
+  margin-bottom: 4px;
 }
 
-.container {
-  position: relative;
-  box-sizing: border-box;
+.instructor {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 6px;
 }
 
-.filter {
-  width: 22%;
-  height: calc(100vh - 60px);
-  border-right: solid 1px #cfcfcf;
+.course-meta {
+  font-size: 0.85rem;
+  color: #374151;
+  margin-bottom: 6px;
 }
 
-.coursescont {
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
+.price {
+  font-size: 1.2rem;
+  font-weight: 600;
 }

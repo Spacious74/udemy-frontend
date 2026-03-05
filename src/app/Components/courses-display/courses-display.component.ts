@@ -20,7 +20,7 @@ import { DraftedCourseService } from '../../Services/draftedCourse.service';
   styleUrl: './courses-display.component.css',
 })
 export class CoursesDisplayComponent implements OnInit, OnDestroy {
-  
+
   public courses: any[];
   public price!: string;
   public lang!: string;
@@ -35,21 +35,34 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   public rows: number = 10;
   public totalRecords: number = 0;
 
-  priceOption: any[] = [
-    { name: 'Paid', value: 'paid' },
-    { name: 'Free', value: 'free' },
-  ];
-  language: any[] = [
-    { name: 'Hindi', value: 'Hindi' },
-    { name: 'English', value: 'English' },
-  ];
+  public sortOptions = [
+    { label: 'Most Relevant', value: 'relevant' },
+    { label: 'Price Low to High', value: 'lth' },
+    { label: 'Price High to Low', value: 'htl' }
+  ]
+
+  public priceOptions = [
+    { label: 'Paid', value: 'paid' },
+    { label: 'Free', value: 'free' }
+  ]
+
+  public languageOptions = [
+    { label: 'English', value: 'english' },
+    { label: 'Hindi', value: 'hindi' }
+  ]
+
+  public levelOptions = [
+    { label: 'Beginner', value: 'beginner' },
+    { label: 'Intermediate', value: 'intermediate' },
+    { label: 'Advanced', value: 'advanced' }
+  ]
 
   constructor(
     private courseService: CourseService,
-    private draftedCourseService : DraftedCourseService,
+    private draftedCourseService: DraftedCourseService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastMsgService : ToastMessageService
+    private toastMsgService: ToastMessageService
   ) { }
   public paramsObs: any;
   ngOnInit() {
@@ -75,13 +88,13 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
     this.paramsObs.unsubscribe();
   }
   fetchData() {
-    this.draftedCourseService.getAllCourses(this.page, this.sort, this.lang,
-      this.category, this.searchText).subscribe((res) => {
+    this.draftedCourseService.getAllCourses(this.page, this.sort, this.lang, this.category, this.searchText)
+      .subscribe((res) => {
         if (res.success) {
           this.courses = res.data;
           this.totalRecords = res.totalCourses;
           this.error = "";
-        }else{
+        } else {
           this.error = "Unable to fetch data from server!";
           this.toastMsgService.showError("Error", "Unable to fetch data from server!");
         }
