@@ -57,6 +57,9 @@
                 <div class="course-title">
                     {{ item.title }}
                 </div>
+                <div class="course-subTitle">
+                    {{ item.subTitle.substring(0,100) }}...
+                </div>
 
                 <div class="instructor">
                     Instructor : {{item.educator.edname}}
@@ -82,11 +85,13 @@
 
 
     <!-- PAGINATION -->
+     <div class="paginator p-fluid">
+         <p-paginator *ngIf="totalRecords>0" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+             [totalRecords]="totalRecords" [showCurrentPageReport]="true"
+             currentPageReportTemplate="{first} - {last} of {totalRecords}" class="w-full" >
+         </p-paginator>
+     </div>
 
-    <p-paginator *ngIf="totalRecords>0" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
-        [totalRecords]="totalRecords" [showCurrentPageReport]="true"
-        currentPageReportTemplate="{first} - {last} of {totalRecords}">
-    </p-paginator>
 
 
 </div>

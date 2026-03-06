@@ -32,7 +32,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
 
   public first: number = 0;
   public page: number = 0;
-  public rows: number = 10;
+  public rows: number = 30;
   public totalRecords: number = 0;
 
   public sortOptions = [
