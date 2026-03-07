@@ -2,6 +2,9 @@
   background-color: #333333;
   position: relative;
 }
+.videoPlayer{
+  width: 70%;
+}
 .vid-btn{
   cursor: pointer;
   position: absolute;
@@ -71,4 +74,22 @@
 }
 .video_text{
   width: 95%;
+}
+
+.course-content-tab{
+  /* display: none; */
+}
+
+
+@media (max-width: 1100px) {
+  .course-content-tab{
+    display : flex;
+  }
+  .playlistcontainer{
+    display : none;
+  }
+  .videoPlayer{
+    width : 100%;
+  }
+
 }
