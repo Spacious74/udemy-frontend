@@ -5,6 +5,7 @@
   margin-bottom: 20px;
 }
 
+
 .progressback {
   background-color: #cacaca;
   width: 70%;
@@ -30,4 +31,32 @@
   height: 40px;
   border-radius: 999px;
   border: solid 1px;
+}
+
+.feedback{
+  width : 70%
+}
+.ratingsect{
+  width: 30%;
+  align-items: center;
+}
+
+@media (max-width:620px) {
+  .top-container {
+    flex-direction: column-reverse;
+  }
+  .top-container .feedback{
+    width: 100%;
+  }
+  .top-container .ratingsect{
+    width: 100%;
+    margin: 20px 0px;
+    background-color: #daa52031;
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .rnum{
+    font-size: 2.5rem;
+  }
+
 }

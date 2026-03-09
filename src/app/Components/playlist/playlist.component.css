@@ -12,10 +12,9 @@
 }
 
 .playlist-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(265px, max-content));
+  display: flex;
+  flex-wrap: wrap;
   gap: 30px;
-  justify-content: start;
 }
 
 .text {
@@ -30,7 +29,8 @@
   position: relative;
   background-color: #fff;
   padding: 12px;
-  width: inherit;
+  width: 100%;
+  max-width: 280px;
   border-radius: 12px;
   border: solid 1px #c0d8c0;
 }

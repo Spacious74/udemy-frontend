@@ -2,7 +2,15 @@
   background-color: #333333;
   position: relative;
 }
+.tab-label{
+  white-space: nowrap;
+}
 .videoPlayer{
+  width:100%;
+  height:480px;
+}
+
+.videoPlayerContainer{
   width: 70%;
 }
 .vid-btn{
@@ -76,10 +84,15 @@
   width: 95%;
 }
 
-.course-content-tab{
-  /* display: none; */
+.tag{
+  font-size: 0.85rem;
+  width: 70px;
+  background-color: #096848;
+  color: #fff;
+  padding: 2px;
+  border-radius: 999px;
+  text-align: center;
 }
-
 
 @media (max-width: 1100px) {
   .course-content-tab{
@@ -88,8 +101,18 @@
   .playlistcontainer{
     display : none;
   }
-  .videoPlayer{
+  .videoPlayerContainer{
     width : 100%;
   }
+  .videoPlayer{
+    height:450px;
+  }
 
+}
+
+
+@media (max-width:620px){
+  .videoPlayer{
+    height:260px;
+  }
 }

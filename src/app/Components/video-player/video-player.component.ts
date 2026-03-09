@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+var window: Window;
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -40,6 +41,8 @@ import { CertificateService } from '../../Services/certificate.service';
 })
 export class VideoPlayerComponent implements OnInit {
 
+  public isTablet : boolean = false;
+
   public selectedCourse: DraftCourse;
   public sectionList: SectionList[];
   public videosCompleted: String[];
@@ -74,7 +77,7 @@ export class VideoPlayerComponent implements OnInit {
   ) { }
 
   onTabChange(event: any) {
-    if (event.index === 1) {
+    if (event.index === 1 || this.isTablet) {
       this.reviewComp.getReviews();
     }
   }
@@ -104,7 +107,18 @@ export class VideoPlayerComponent implements OnInit {
         this.toastMsgService.showError('Error', error.error?.message);
       }
     });
+    this.checkScreen();
+  }
 
+  @HostListener('window:resize')
+  onResize(){
+    this.checkScreen();
+  }
+
+  checkScreen() {
+    const width = globalThis.innerWidth;
+    // Tablet breakpoint
+    this.isTablet = width <= 1100;
   }
 
   fetchCourseAndPlaylist() {

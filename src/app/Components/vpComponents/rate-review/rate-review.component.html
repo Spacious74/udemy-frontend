@@ -1,9 +1,9 @@
 <p-toast></p-toast>
 <div class="container">
 
-    <div class="flex mb-4">
+    <div class="top-container flex mb-4">
 
-        <div class="feedback w-8 flex flex-column gap-2 ">
+        <div class="feedback flex flex-column gap-2 ">
             <div class="heading mb-2 ">Give us feedback</div>
             <div class="flex gap-3">
                 <span class="text">Give us a star rating : </span>
@@ -18,7 +18,7 @@
             (onClick)="submitReview()"></p-button>
         </div>
 
-        <div *ngIf="reviewsArr?.length>0" class="ratingsect w-4 flex flex-column align-items-center justify-content-center">
+        <div *ngIf="reviewsArr?.length>0" class="ratingsect flex flex-column justify-content-center">
             <div class="heading mb-2">
                 Course Rating
             </div>

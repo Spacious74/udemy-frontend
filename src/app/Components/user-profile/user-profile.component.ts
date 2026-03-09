@@ -17,6 +17,19 @@ import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { UserDto } from '../../models/UserDto';
 import { Router } from '@angular/router';
+import { CertificateService } from '../../Services/certificate.service';
+
+interface Certificate {
+  certificateId: string;
+  userId: string;
+  userName: string;
+  courseId: string;
+  courseName: string;
+  instructorName: string;
+  pdfUrl: string;
+  verificationUrl: string;
+  issuedAt: Date;
+}
 
 @Component({
   selector: 'app-user-profile',
@@ -24,33 +37,37 @@ import { Router } from '@angular/router';
   imports: [InputTextModule, ButtonModule, TabViewModule, CommonModule, FormsModule, InputTextareaModule,
     ToastModule, TagModule, FileUploadModule, InputGroupModule, InputGroupAddonModule
   ],
-  providers : [ToastMessageService],
+  providers: [ToastMessageService],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit {
-  
+
   public userDetails: UserList;
-  public loading : boolean = false;
-  public formData : UserDto = new UserDto();  
-  public isChanged : boolean = false;
-  public originalData : string = '';
+  public loading: boolean = false;
+  public formData: UserDto = new UserDto();
+  public isChanged: boolean = false;
+  public originalData: string = '';
   public imagePreview: string | ArrayBuffer | null = null;
-  public uploading : boolean = false;
-  public deleting : boolean = false;
+  public uploading: boolean = false;
+  public deleting: boolean = false;
+  public certificates: Certificate[] = [];
 
   constructor(
-    private authService : AuthService,
-    private cookieService : CookieService,
-    private routerService : Router,
-    private toastMsgService : ToastMessageService,
-  ){}
+    private authService: AuthService,
+    private cookieService: CookieService,
+    private routerService: Router,
+    private toastMsgService: ToastMessageService,
+    private certificateService: CertificateService
+  ) { }
+
+
   ngOnInit(): void {
     this.userDetails = AppObject.userData;
     let token = this.cookieService.get('skillUpToken')
-    if(token){
+    if (token) {
       AppObject.AuthToken = token;
-      this.authService.getUserData(token).subscribe((res)=>{
+      this.authService.getUserData(token).subscribe((res) => {
         AppObject.userData = res.data;
         this.userDetails = res.data;
         this.formData.username = res.data.username;
@@ -59,18 +76,35 @@ export class UserProfileComponent implements OnInit {
         this.formData.email = res.data.email;
         this.formData.socialLinks = res.data.socialLinks;
         this.formData.userId = res.data._id;
+        this.fetchMyCertificates();
         this.originalData = JSON.parse(JSON.stringify(this.formData));
-      }, 
-      (error)=>{
-        this.toastMsgService.showError("Error", error.error.message);
-        this.cookieService.delete('skillUpToken');
-        this.routerService.navigate(['/']);
-      })
+      },
+        (error) => {
+          this.toastMsgService.showError("Error", error.error.message);
+          this.cookieService.delete('skillUpToken');
+          this.routerService.navigate(['/']);
+        })
     }
-    if(!token){
+    if (!token) {
       console.log('token not found');
       this.routerService.navigate(['/']);
     }
+  }
+
+  
+  onTabChange(event: any) {
+     this.fetchMyCertificates();
+  }
+
+  fetchMyCertificates() {
+    this.certificateService.getAllCertificates(this.formData.userId).subscribe((res) => {
+      this.certificates = res.data
+    },
+    (error) => {
+      this.loading = false;
+      this.uploading = false;
+      this.toastMsgService.showError("Error", error.error.message);
+    })
   }
 
   uploadFile(event: any) {
@@ -78,7 +112,7 @@ export class UserProfileComponent implements OnInit {
     const file = event.files[0];
     const uploadData = new FormData();
     uploadData.append('file', file);
-    this.authService.uploadUserProfile(uploadData).subscribe((res)=>{
+    this.authService.uploadUserProfile(uploadData).subscribe((res) => {
       this.uploading = false;
       this.formData = { ...this.formData, profileImage: res.data.profileImage };
       this.imagePreview = null;
@@ -87,28 +121,28 @@ export class UserProfileComponent implements OnInit {
         this.fileUpload.clear();
       }
       this.toastMsgService.showSuccess("Success", "Profile picture updated successfully.");
-    }, 
-    (error)=>{
-      this.loading = false;
-      this.uploading = false;
-      this.toastMsgService.showError("Error", error.error.message);
-    })
+    },
+      (error) => {
+        this.loading = false;
+        this.uploading = false;
+        this.toastMsgService.showError("Error", error.error.message);
+      })
   }
 
-  deleteFile(){
+  deleteFile() {
     this.deleting = true;
-    this.authService.deleteUserImage().subscribe((res)=>{
-    this.deleting = false;
+    this.authService.deleteUserImage().subscribe((res) => {
+      this.deleting = false;
       this.formData = { ...this.formData, profileImage: res.data.profileImage };
       if (this.fileUpload) {
         this.fileUpload.clear();
       }
       this.toastMsgService.showSuccess("Success", "Profile picture deleted successfully.");
-    }, 
-    (error)=>{
-      this.loading = false;
-      this.toastMsgService.showError("Error", error.error.message);
-    })
+    },
+      (error) => {
+        this.loading = false;
+        this.toastMsgService.showError("Error", error.error.message);
+      })
   }
 
   onImageSelect(event: any): void {
@@ -122,16 +156,16 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  @ViewChild('fileUpload') fileUpload: FileUpload; 
+  @ViewChild('fileUpload') fileUpload: FileUpload;
   clearFileSelection(): void {
     this.fileUpload.clear(); // Clear selected files
     this.imagePreview = null;
   }
 
-  updateData(){
+  updateData() {
     this.loading = true;
-    this.authService.updateUser(this.formData).subscribe((res)=>{
-      if(res.success){
+    this.authService.updateUser(this.formData).subscribe((res) => {
+      if (res.success) {
         this.toastMsgService.showSuccess("Success", "User information updated successfully.");
         this.loading = false;
         this.isChanged = false;
@@ -141,28 +175,32 @@ export class UserProfileComponent implements OnInit {
         this.formData.email = res.data.email;
         this.formData.socialLinks.portfolio = res.data.socialLinks.portfolio;
         this.formData.userId = res.data._id;
-      }else{
+      } else {
         this.toastMsgService.showError("Error", "Something went wrong.");
         this.loading = false;
         this.isChanged = false;
       }
-    }, 
-    (error)=>{
-      this.loading = false;
-      this.isChanged = false;
-      this.toastMsgService.showError("Error", error.error.message);
-    })
+    },
+      (error) => {
+        this.loading = false;
+        this.isChanged = false;
+        this.toastMsgService.showError("Error", error.error.message);
+      })
   }
 
-    // Method triggered on any input change
-    onInputChange() {
-      this.isChanged = this.checkForChanges();
-    }
-  
-    // Check if any field has been modified compared to the original data
-    checkForChanges(): boolean {
-      return JSON.stringify(this.formData) !== JSON.stringify(this.originalData);
-    }
-  
+  // Method triggered on any input change
+  onInputChange() {
+    this.isChanged = this.checkForChanges();
+  }
+
+  // Check if any field has been modified compared to the original data
+  checkForChanges(): boolean {
+    return JSON.stringify(this.formData) !== JSON.stringify(this.originalData);
+  }
+
+  downloadCertificate(pdfUrl : any){
+    window.open(pdfUrl, "_blank");
+  }
+
 
 }

@@ -1,7 +1,57 @@
 .head {
-    font-family: 'Satoshi';
+    font-family: 'Clash';
 }
 
 .previewImg {
     object-fit: cover;
+}
+
+.certificates-container{
+  width: 100%;
+}
+
+.title{
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cert-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+  gap: 20px;
+}
+
+.cert-card{
+  background: white;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 4px 10px #00000014;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.2s;
+}
+
+.cert-card:hover{
+  transform: translateY(-4px);
+}
+
+.cert-content{
+  margin-bottom: 15px;
+}
+
+.course-name{
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.instructor{
+  font-size: 14px;
+  color: #666;
+}
+
+.cert-actions{
+  margin-top: auto;
 }

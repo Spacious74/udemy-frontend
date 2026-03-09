@@ -1,21 +1,23 @@
-<p-toast ></p-toast>
+<p-toast></p-toast>
 <div class="container flex flex-column justify-content-center align-items-center">
     <div class="userinfo w-9 mt-3">
-        <p-tabView>
+        <p-tabView (onChange)="onTabChange($event)">
             <p-tabPanel header="Profile Settings">
                 <div class="tab-container">
-                
+
                     <div class="profile-img p-3 py-2 mb-2 flex justify-content-left 
                     align-items-center gap-3 w-full border-1 border-300 border-round-2xl">
 
-                        <img *ngIf="formData.profileImage == '' && !imagePreview" class="previewImg mr-4" alt="profile-img"
-                        src="https://img.icons8.com/3d-fluency/100/user-male-circle.png" >
+                        <img *ngIf="formData.profileImage == '' && !imagePreview" class="previewImg mr-4"
+                            alt="profile-img" src="https://img.icons8.com/3d-fluency/100/user-male-circle.png">
 
-                        <img *ngIf="formData.profileImage != '' && !imagePreview" class="previewImg mr-4 w-6rem h-6rem border-1 border-300 border-circle" 
-                        alt="profile-img" [src]="formData.profileImage" >
-                        <div *ngIf="imagePreview" class="flex flex-column gap-2 align-items-center justify-content-center mr-4">
-                            <img   class="previewImg  w-6rem h-6rem border-1 border-300 border-circle" 
-                            alt="profile-img" [src]="imagePreview" >
+                        <img *ngIf="formData.profileImage != '' && !imagePreview"
+                            class="previewImg mr-4 w-6rem h-6rem border-1 border-300 border-circle" alt="profile-img"
+                            [src]="formData.profileImage">
+                        <div *ngIf="imagePreview"
+                            class="flex flex-column gap-2 align-items-center justify-content-center mr-4">
+                            <img class="previewImg  w-6rem h-6rem border-1 border-300 border-circle" alt="profile-img"
+                                [src]="imagePreview">
                             <span class="text-xs font-bold">
                                 Preview
                             </span>
@@ -24,91 +26,123 @@
                         <div class="flex flex-column gap-1">
                             <div class="flex gap-2">
                                 <p-fileUpload #fileUpload mode="basic" *ngIf="!uploading"
-                                [chooseLabel]="formData.profileImage != '' ? 'Update Photo' : 'Choose Photo'" chooseIcon="pi pi-upload"
-                                [customUpload]="true" (uploadHandler)="uploadFile($event)" accept="image/*" 
-                                (onSelect)="onImageSelect($event)" [maxFileSize]="3000000"  />
+                                    [chooseLabel]="formData.profileImage != '' ? 'Update Photo' : 'Choose Photo'"
+                                    chooseIcon="pi pi-upload" [customUpload]="true" (uploadHandler)="uploadFile($event)"
+                                    accept="image/*" (onSelect)="onImageSelect($event)" [maxFileSize]="3000000" />
 
-                                <div *ngIf="uploading" class="flex align-items-center w-8rem gap-2 justify-content-center" >
+                                <div *ngIf="uploading"
+                                    class="flex align-items-center w-8rem gap-2 justify-content-center">
                                     <i class="pi pi-spin pi-spinner"></i> Uploading...
                                 </div>
 
                                 <p-button *ngIf="imagePreview" severity="danger" size="small" [disabled]="uploading"
-                                (onClick)="clearFileSelection()"  class="cursor-pointer" icon="pi pi-times" [outlined]="true"
-                                label="Clear Selection"  ></p-button>
+                                    (onClick)="clearFileSelection()" class="cursor-pointer" icon="pi pi-times"
+                                    [outlined]="true" label="Clear Selection"></p-button>
 
-                                <p-button *ngIf="formData.profileImage != '' && !imagePreview" severity="danger" size="small" 
-                                (onClick)="deleteFile()"  class="cursor-pointer"  [outlined]="true" [disabled]="deleting"
-                                [icon]="deleting ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
-                                [label]="deleting ? 'Removing...' : 'Remove Photo'" 
-                                [disabled]="uploading"  ></p-button>
+                                <p-button *ngIf="formData.profileImage != '' && !imagePreview" severity="danger"
+                                    size="small" (onClick)="deleteFile()" class="cursor-pointer" [outlined]="true"
+                                    [disabled]="deleting" [icon]="deleting ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
+                                    [label]="deleting ? 'Removing...' : 'Remove Photo'"
+                                    [disabled]="uploading"></p-button>
                             </div>
-                            <span *ngIf="imagePreview" class="text-xs font-bold text-green-600 flex align-items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"><path d="M12.394 20.734c-.757.985-2.332.471-2.362-.771l-.239-9.86a1.317 1.317 0 0 1 2.003-1.157l8.42 5.137c1.06.647.718 2.268-.513 2.431l-3.987.527c-.346.046-.66.227-.872.503z"/><path stroke-linecap="round" d="M3.797 8.75h2.5m3.75-3.502v-2.5M6.815 5.765L5.047 3.998m8.232 1.767l1.768-1.767"/></g></svg>
+                            <span *ngIf="imagePreview"
+                                class="text-xs font-bold text-green-600 flex align-items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em"
+                                    viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5">
+                                        <path
+                                            d="M12.394 20.734c-.757.985-2.332.471-2.362-.771l-.239-9.86a1.317 1.317 0 0 1 2.003-1.157l8.42 5.137c1.06.647.718 2.268-.513 2.431l-3.987.527c-.346.046-.66.227-.872.503z" />
+                                        <path stroke-linecap="round"
+                                            d="M3.797 8.75h2.5m3.75-3.502v-2.5M6.815 5.765L5.047 3.998m8.232 1.767l1.768-1.767" />
+                                    </g>
+                                </svg>
                                 Click again to upload you photo
                             </span>
                         </div>
 
-                        
+
                     </div>
-                        
+
                     <div class="userinfo border-1 border-300 border-round-2xl p-4 relative">
                         <div class="absolute right-0 top-0 p-3 ">
-                            <p-tag *ngIf="isChanged" value="Unsaved" [rounded]="true" severity="info"   />
+                            <p-tag *ngIf="isChanged" value="Unsaved" [rounded]="true" severity="info" />
                         </div>
                         <div class="flex mb-3 align-items-end gap-3">
                             <div class="w-4 flex flex-column gap-2">
-                                <label for="username" class="text-600" >Full Name</label>
-                                <input pInputText id="username" class="text-900 font-bold" [(ngModel)]="formData.username"
-                                (ngModelChange)="onInputChange()"
+                                <label for="username" class="text-600">Full Name</label>
+                                <input pInputText id="username" class="text-900 font-bold"
+                                    [(ngModel)]="formData.username" (ngModelChange)="onInputChange()"
                                     aria-describedby="username-help" />
                             </div>
                             <div class="w-6 flex flex-column gap-2">
-                                <label for="email" class="text-600" >Email</label>
+                                <label for="email" class="text-600">Email</label>
                                 <input pInputText id="email" class="text-900 font-bold" [(ngModel)]="formData.email"
-                                (ngModelChange)="onInputChange()"
-                                    aria-describedby="email-help" />
+                                    (ngModelChange)="onInputChange()" aria-describedby="email-help" />
                             </div>
                         </div>
                         <div class="w-full flex flex-column gap-2 mb-3">
-                            <label for="introduction" class="text-600" >Introduction</label>
-                            <textarea rows="5" cols="30" class="text-900 font-bold" pInputTextarea 
-                            (ngModelChange)="onInputChange()"
-                            placeholder="Write about yourself..." [(ngModel)]="formData.bio"></textarea>
+                            <label for="introduction" class="text-600">Introduction</label>
+                            <textarea rows="5" cols="30" class="text-900 font-bold" pInputTextarea
+                                (ngModelChange)="onInputChange()" placeholder="Write about yourself..."
+                                [(ngModel)]="formData.bio"></textarea>
                         </div>
 
                         <div class="social flex flex-column gap-3">
                             <div class="w-6 flex flex-column gap-2">
-                                <label for="portfolio" class="text-600" >Portfolio</label>
+                                <label for="portfolio" class="text-600">Portfolio</label>
                                 <input pInputText id="portfolio" class="text-900 font-bold" name="portfolio"
-                                placeholder="www.myportfolio.com" (ngModelChange)="onInputChange()"
-                                [(ngModel)]="formData.socialLinks.portfolio"/>
+                                    placeholder="www.myportfolio.com" (ngModelChange)="onInputChange()"
+                                    [(ngModel)]="formData.socialLinks.portfolio" />
                             </div>
                             <div class="w-6 flex flex-column gap-2">
-                                <label for="linkedIn" class="text-600" >LinkedIn</label>
+                                <label for="linkedIn" class="text-600">LinkedIn</label>
                                 <input pInputText id="linkedIn" class="text-900 font-bold" name="linkedIn"
-                                placeholder="www.linkedin.com/my-profile" (ngModelChange)="onInputChange()"
-                                [(ngModel)]="formData.socialLinks.linkedin"/>
+                                    placeholder="www.linkedin.com/my-profile" (ngModelChange)="onInputChange()"
+                                    [(ngModel)]="formData.socialLinks.linkedin" />
                             </div>
                             <div class="w-6 flex flex-column gap-2">
-                                <label for="github" class="text-600" >GitHub</label>
+                                <label for="github" class="text-600">GitHub</label>
                                 <input pInputText id="github" class="text-900 font-bold" name="github"
-                                placeholder="https://github.com/my-profile" (ngModelChange)="onInputChange()"
-                                [(ngModel)]="formData.socialLinks.github"/>
+                                    placeholder="https://github.com/my-profile" (ngModelChange)="onInputChange()"
+                                    [(ngModel)]="formData.socialLinks.github" />
                             </div>
                         </div>
 
                         <div class="btn-container mt-3">
                             <p-button severity="success" size="small" class="cursor-pointer" label="Save Changes"
-                            (onClick)="updateData()" [icon]="!loading ? 'pi pi-save' : 'pi pi-spin pi-spinner'"
-                            ></p-button>
+                                (onClick)="updateData()"
+                                [icon]="!loading ? 'pi pi-save' : 'pi pi-spin pi-spinner'"></p-button>
                         </div>
                     </div>
 
 
                 </div>
             </p-tabPanel>
+
             <p-tabPanel header="My Certificates">
-                <div class="certificates"></div>
+                {{ certificates | json }}
+                <div class="cert-grid">
+
+                    @for (certificate of certificates; track certificate.certificateId) {
+
+                    <div class="cert-card">
+                        <div class="course-name">
+                            {{ certificate.courseName }}
+                        </div>
+
+                        <div>
+                            Instructor: {{ certificate.instructorName }}
+                        </div>
+
+                        <a [href]="certificate.pdfUrl" download>
+                            Download
+                        </a>
+
+                    </div>
+
+                    }
+
+                </div>
             </p-tabPanel>
             <p-tabPanel header="My Transactions">
                 <div class="transactions">
