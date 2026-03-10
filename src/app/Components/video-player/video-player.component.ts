@@ -229,7 +229,7 @@ export class VideoPlayerComponent implements OnInit {
   generateCertificate(value: string) {
     this.certificateLoadingState = true;
     this.certificateService.generateCertificate(this.userId, this.courseId).subscribe((res) => {
-      window.open(res.pdfUrl, "_blank");
+      globalThis.open(res.pdfUrl, "_blank");
       this.certificateLoadingState = false;
     },
       (error) => {

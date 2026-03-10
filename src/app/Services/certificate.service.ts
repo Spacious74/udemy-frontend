@@ -8,7 +8,7 @@ interface response{
 }
 interface response2{
     success : boolean,
-    data : [{
+    certificates : [{
         certificateId: string;
         userId: string;
         userName: string;
@@ -16,6 +16,7 @@ interface response2{
         courseName: string;
         instructorName: string;
         pdfUrl: string;
+        pngUrl : string;
         verificationUrl: string;
         issuedAt: Date;
     }]

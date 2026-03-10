@@ -27,6 +27,7 @@ interface Certificate {
   courseName: string;
   instructorName: string;
   pdfUrl: string;
+  pngUrl : string;
   verificationUrl: string;
   issuedAt: Date;
 }
@@ -98,7 +99,7 @@ export class UserProfileComponent implements OnInit {
 
   fetchMyCertificates() {
     this.certificateService.getAllCertificates(this.formData.userId).subscribe((res) => {
-      this.certificates = res.data
+      this.certificates = res.certificates;
     },
     (error) => {
       this.loading = false;

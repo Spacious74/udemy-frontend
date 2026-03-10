@@ -120,12 +120,13 @@
             </p-tabPanel>
 
             <p-tabPanel header="My Certificates">
-                {{ certificates | json }}
+               
                 <div class="cert-grid">
 
                     @for (certificate of certificates; track certificate.certificateId) {
 
                     <div class="cert-card">
+                        <img [src]="certificate.pngUrl" alt="certificate" class="w-full">
                         <div class="course-name">
                             {{ certificate.courseName }}
                         </div>
