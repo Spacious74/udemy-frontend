@@ -126,16 +126,17 @@
                     @for (certificate of certificates; track certificate.certificateId) {
 
                     <div class="cert-card">
-                        <img [src]="certificate.pngUrl" alt="certificate" class="w-full">
+                        <img [src]="certificate.pngUrl" alt="certificate" class="w-full certificate-image">
                         <div class="course-name">
                             {{ certificate.courseName }}
                         </div>
 
-                        <div>
+                        <div class="instructor">
                             Instructor: {{ certificate.instructorName }}
                         </div>
 
-                        <a [href]="certificate.pdfUrl" download>
+                        <a [href]="certificate.pdfUrl" download class="download-btn flex align-items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15c0 2.828 0 4.243.879 5.121C4.757 21 6.172 21 9 21h6c2.828 0 4.243 0 5.121-.879C21 19.243 21 17.828 21 15M12 3v13m0 0l4-4.375M12 16l-4-4.375"/></svg>
                             Download
                         </a>
 
@@ -145,11 +146,11 @@
 
                 </div>
             </p-tabPanel>
-            <p-tabPanel header="My Transactions">
+            <!-- <p-tabPanel header="My Transactions">
                 <div class="transactions">
 
                 </div>
-            </p-tabPanel>
+            </p-tabPanel> -->
         </p-tabView>
     </div>
 </div>
