@@ -10,6 +10,8 @@ import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { ChartModule } from 'primeng/chart';
+import { Store } from '@ngrx/store';
+import { Cart } from '../../../models/Cart';
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -22,12 +24,28 @@ export class TeacherDashboardComponent {
 
   public data: any;
   public options: any;
-  constructor(private router: Router) {}
+  public userDetails : UserList;
+
+  constructor(
+    private store : Store<{cart : Cart[], userInfo : UserList}>,
+    private router: Router
+  ) {}
+
+
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    this.store.select("userInfo").subscribe((res)=>{
+      if(res){
+        this.userDetails = res;
+      }
+    },
+    (error) => {
+     console.log(error);
+    })
 
     this.data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'],

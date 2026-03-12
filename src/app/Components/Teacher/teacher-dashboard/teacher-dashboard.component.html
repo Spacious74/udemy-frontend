@@ -5,10 +5,10 @@
         class="overview-card w-full flex justify-content-between align-items-center p-3 border-1 
         border-200 px-4 surface-0 border-round-xl ">
         <div class="flex align-items-center gap-3">
-            <p-avatar label="U" styleClass="mr-2" size="xlarge" shape="circle" />
+            <p-avatar [label]="userDetails?.username.split('')[0]" styleClass="mr-2" size="xlarge" shape="circle" />
             <div class="flex flex-column">
-                <span class="text-xl font-semibold ">Welcome, Username</span>
-                <span class="text">username&#64;gmail.com</span>
+                <span class="text-xl font-semibold ">Welcome, {{userDetails?.username}}</span>
+                <span class="text">{{userDetails?.email}}</span>
             </div>
         </div>
         <p-button label="Create course" icon="pi pi-plus" [rounded]="true" (onClick)="navigateToPage()"/>
