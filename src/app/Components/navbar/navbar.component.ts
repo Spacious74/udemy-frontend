@@ -10,18 +10,16 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { AppObject } from '../../baseSettings/AppObject';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { UserList } from '../../models/UserList';
 import { DialogModule } from 'primeng/dialog';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { UserService } from '../../state/user.service';
 import { BadgeModule } from 'primeng/badge';
 import { Cart } from '../../models/Cart';
 import { userInfoActions } from '../../store/actions/userInfo.action';
 import { SidebarModule } from 'primeng/sidebar';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -45,13 +43,13 @@ export class NavbarComponent implements OnInit {
   public userRole : string;
   public cartLength : number=0;
   public sidebarVisible : boolean = false;
+  public totalItems : number  = 0;
 
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
     private toastMsgService: ToastMessageService,
     private router: Router,
-    private msg: MessageService,
     private store : Store<{cart : Cart[], userInfo : UserList}>
   ) { }
 
@@ -78,6 +76,9 @@ export class NavbarComponent implements OnInit {
     (error) => {
       this.toastMsgService.showError("Error", error.error.message);
       this.userLoggedIn = false;
+    })
+    this.store.select("cart").subscribe((res)=>{
+      console.log(res)
     })
   }
 

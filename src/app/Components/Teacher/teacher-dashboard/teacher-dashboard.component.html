@@ -32,7 +32,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 16 16"><path fill="currentColor" d="M8 8a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5m-4.844 3.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449q.015-.116.045-.237m9.691 0q.03.12.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72M14 7.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0M3.5 9a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3M5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99z"/></svg>
                 </div>
                 <div class="stats-text flex flex-column gap-1">
-                    <div class="text-xl font-semibold">3,45,678</div>
+                    <div class="text-xl font-semibold">{{totalStudents}}</div>
                     <div class="text-sm text-500">Students </div>
                 </div>
             </div>
@@ -43,8 +43,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 20 20"><path fill="currentColor" d="M17 5.5A2.5 2.5 0 0 0 14.5 3h-9A2.5 2.5 0 0 0 3 5.5V6h14zm0 4.1V7H3v7.5A2.5 2.5 0 0 0 5.5 17h4.1A5.5 5.5 0 0 1 17 9.6m2 4.9a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0m-2.287-.437l-2.97-1.65a.5.5 0 0 0-.743.437v3.3a.5.5 0 0 0 .743.437l2.97-1.65a.5.5 0 0 0 0-.874"/></svg>
                 </div>
                 <div class="stats-text flex flex-column gap-1">
-                    <div class="text-xl font-semibold">34</div>
-                    <div class="text-sm">Total Courses </div>
+                    <div class="text-xl font-semibold">{{totalCourses}}</div>
+                    <div class="text-sm">Total Live Courses </div>
                 </div>
             </div>
         </div>
@@ -62,10 +62,10 @@
     </div>
 
     <div class="charts flex gap-2 my-2">
-        <div class="surface-0 w-6 border-round-xl p-3 border-1 border-200">
+        <!-- <div class="surface-0 w-6 border-round-xl p-3 border-1 border-200">
             <div class="text font-semibold mb-3">Monthly Salary in Thousands</div>
             <p-chart type="line" [data]="data" [options]="options" />
-        </div>
+        </div> -->
         <div class="quick-info flex flex-column gap-2 w-6">
             <div class="top-course surface-0 border-1 border-200 p-3 border-round-xl">
                 <div class="font-semibold mb-3">Top performing course</div>

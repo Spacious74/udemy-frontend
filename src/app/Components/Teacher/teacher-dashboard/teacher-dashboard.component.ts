@@ -12,6 +12,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { ChartModule } from 'primeng/chart';
 import { Store } from '@ngrx/store';
 import { Cart } from '../../../models/Cart';
+import { DraftedCourseService } from '../../../Services/draftedCourse.service';
+import { DraftCourse } from '../../../models/Course/DraftCourse';
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -22,74 +24,41 @@ import { Cart } from '../../../models/Cart';
 })
 export class TeacherDashboardComponent {
 
+  public courses: DraftCourse[];
   public data: any;
   public options: any;
   public userDetails : UserList;
+  public totalStudents : number = 0;
+  public totalCourses : number  = 0;
 
   constructor(
+    private draftedCourseService: DraftedCourseService,
     private store : Store<{cart : Cart[], userInfo : UserList}>,
     private router: Router
   ) {}
 
 
   ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.store.select("userInfo").subscribe((res)=>{
       if(res){
         this.userDetails = res;
+        this.fetchData();
       }
     },
     (error) => {
      console.log(error);
     })
+   
+  }
 
-    this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'],
-      datasets: [
-        {
-          label: 'Label text',
-          data: [65, 34.567, 80, 56, 55, 40, 75, 65],
-          fill: true,
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(38, 107, 255, 0.2)'
-        }
-      ]
-    };
-
-    this.options = {
-      maintainAspectRatio: false,
-      aspectRatio: 1.1,
-      plugins: {
-        legend: {
-          display: false,
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false
-          }
-        },
-        y: {
-          ticks: {
-            color: textColorSecondary
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false
-          }
-        }
-      }
-    };
+  fetchData() {
+    this.draftedCourseService.getReleasedCourses(this.userDetails._id).subscribe((res) => {
+      this.totalStudents = res.data.reduce((sum,data)=>data.totalStudentsPurchased+sum,0);
+      this.totalCourses = res.data.length;
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   navigateToPage() {
