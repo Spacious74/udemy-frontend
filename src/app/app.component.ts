@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './Components/navbar/navbar.component';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,7 +11,7 @@ import { userInfoActions } from './store/actions/userInfo.action';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, ToastModule],
+  imports: [RouterOutlet, ToastModule],
   providers: [MessageService, ToastMessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
