@@ -25,13 +25,14 @@ import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { CartStateService } from '../../Services/cartState.service';
+import { SafeHtmlPipe } from '../../baseSettings/pipes/safe-html.pipe';
 
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
   imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, 
-    ToastModule, RatingModule, FormsModule, DialogModule],
+    ToastModule, RatingModule, FormsModule, DialogModule, SafeHtmlPipe],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })

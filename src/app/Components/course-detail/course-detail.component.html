@@ -155,16 +155,11 @@
         <div class="section py-4 ">
             <div class="head">Description</div>
             <div class="dtext">
-                <div class="m-0 z-2" [innerHTML]="selectedCourse?.description"></div>
-                <!-- <input type="checkbox" name="check" id="check">
-                <label *ngIf="selectedCourse?.description.length > 300" class="label z-3 cursor-pointer readBtn py-2 "
-                    for="check">Read more...</label>
-
-                <div *ngIf="selectedCourse?.description.length > 300" class="restPara z-2 m-0 mt-2 " [innerHTML]="selectedCourse?.description.slice(300)"></div>
-
-                <label *ngIf="selectedCourse?.description.length > 300" class="label2 z-3 cursor-pointer py-2"
-                    for="check">Read less...</label> -->
-
+                <input *ngIf="selectedCourse?.description?.length > 500" type="checkbox" id="checkDesc" class="read-more-toggle">
+                <div [ngClass]="{'read-more-content': selectedCourse?.description?.length > 500}" class="m-0 text-editor-content" [innerHTML]="selectedCourse?.description | safeHtml"></div>
+                
+                <label *ngIf="selectedCourse?.description?.length > 500" class="read-more-btn cursor-pointer" for="checkDesc">Read more <i class="pi pi-chevron-down text-sm"></i></label>
+                <label *ngIf="selectedCourse?.description?.length > 500" class="read-less-btn cursor-pointer" for="checkDesc">Read less <i class="pi pi-chevron-up text-sm"></i></label>
             </div>
         </div>
 
@@ -315,23 +310,24 @@
 
                 </div>
                 <div class="dtext">
-                    <p class="m-0 z-2">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi ipsam animi tenetur in eaque
-                        enim quo, harum labore optio facilis officiis corrupti impedit ullam nobis, architecto tempora
-                        aperiam
-                        officia aliquam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo maiores rem
-                        non?
-                        Fugiat eius dignissimos repellat totam quibusdam eveniet laboriosam.
-                    </p>
-                    <input type="checkbox" name="check" id=" check2">
-                    <label class="labelv2 z-3 text-green-500 cursor-pointer readBtn py-2 " for="check2">Read
-                        more...</label>
-                    <p class="restPara2 z-2 m-0 mt-2 ">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, sed tenetur culpa rerum vel
-                        recusandae, reprehenderit nostrum et a sequi perferendis atque corrupti ipsum ab! Numquam
-                        consectetur ipsam officiis sint.
-                    </p>
-                    <label class="label2v2 z-3 text-green-500 cursor-pointer py-2" for="check2">Read less...</label>
+                    <input type="checkbox" id="checkInstructor" class="read-more-toggle">
+                    <div class="read-more-content m-0 z-2">
+                        <p class="m-0">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi ipsam animi tenetur in eaque
+                            enim quo, harum labore optio facilis officiis corrupti impedit ullam nobis, architecto tempora
+                            aperiam
+                            officia aliquam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo maiores rem
+                            non?
+                            Fugiat eius dignissimos repellat totam quibusdam eveniet laboriosam.
+                        </p>
+                        <p class="m-0 mt-2">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, sed tenetur culpa rerum vel
+                            recusandae, reprehenderit nostrum et a sequi perferendis atque corrupti ipsum ab! Numquam
+                            consectetur ipsam officiis sint.
+                        </p>
+                    </div>
+                    <label class="read-more-btn cursor-pointer" for="checkInstructor">Read more <i class="pi pi-chevron-down text-sm"></i></label>
+                    <label class="read-less-btn cursor-pointer" for="checkInstructor">Read less <i class="pi pi-chevron-up text-sm"></i></label>
                 </div>
             </div>
         </div>
