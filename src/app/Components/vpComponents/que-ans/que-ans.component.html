@@ -1,0 +1,41 @@
+<div class="container w-11 m-auto ">
+    <div class="heading mb-3 mt-3 ">
+        Unconfuse yourself & ask question
+    </div>
+    <div class="ask mb-4">
+        <div class="p-fluid flex mb-1 align-items-center gap-2">
+            <input class="min-w-9" pInputText type="text"
+                placeholder="Ask any question related to this course lecutres ?" [(ngModel)]="queText" />
+            <p-button class="w-4" label=" Ask question"></p-button>
+        </div>
+        <div
+            class="text cursor-pointer font-semibold hover:text-green-400 flex align-items-center gap-2 text-sm">
+            <i class="pi pi-question-circle"></i> Questions asked by you
+        </div>
+    </div>
+    <div class="heading mb-4 ">
+        All questions of this course
+    </div>
+    <div class="questions flex flex-column gap-4 mb-5 ">
+        <ng-container *ngFor="let item of que">
+            <div class="queCard flex align-items-center gap-3 border-bottom-1 pb-3 border-300  ">
+                <div class="avtr flex align-items-center justify-content-center  surface-700 text-0 ">
+                    {{item.username.slice(0,1)}}
+                </div>
+                <div class="flex align-items-center justify-content-between w-full ">
+                    <div class="qtext flex flex-column gap-1 ">
+                        <span class=" cursor-pointer hover:text-green-500 hover:underline font-bold text-lg">
+                            {{item.question}}
+                        </span>
+                        <span class="text-sm">
+                            {{item.username}} | Lecture {{item.lectNo}}
+                        </span>
+                    </div>
+                    <div class="ansno">
+                        <i class="pi pi-comments"></i> {{item.ansArr.length}}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,327 @@
+.homepage-container {
+  background-color: #f5f5f5;
+  padding: 0 1.8rem;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.explore-link{
+  display: flex; align-items: center;
+  gap: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.explore-more-mobile{
+  padding: 6px 12px;
+  background-color: #ccc;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 20px;
+  font-weight: 600;
+  display: none;
+}
+
+.topsect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 20px;
+  background: linear-gradient(to bottom, #fff 0%, #fff 40%, #ffffff00 100%),
+  linear-gradient(to right, #a3f9ff, #12e47b);
+  position: relative;
+  overflow: hidden;
+  max-height: 70vh;
+  padding: 40px;
+  z-index: 2;
+  border: solid 2px #3f553f;
+}
+
+.topsect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(90deg, #ccc 1px, transparent 1px);
+  background-size: 50px 100%;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom,rgba(0, 0, 0, 1) 0%,rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: linear-gradient(to bottom,rgba(0, 0, 0, 1) 0%,rgba(0, 0, 0, 0) 70%);
+}
+
+.topsect .left {
+  flex: 1;
+}
+
+.topsect .right {
+  flex: 1;
+}
+
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-head {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.sub-head {
+  font-size: 1.2rem;
+  width: 80%;
+}
+
+.topsect .main-img {
+  border-radius: 20px;
+}
+
+.feature-pill {
+  background-color: #fff;
+  padding: 4px 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  width: max-content;
+  font-size: 0.85rem;
+  border: solid 1px #ffc123;
+  background-color : #ffc123;
+}
+
+.main-btn {
+  background-color: #000;
+  padding: 12px 20px;
+  border: solid 2px #fff;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.course-card {
+  background-color: #fff;
+  border-radius: 12px;
+  border: solid 1px #9b9b9b;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.course-card:hover {
+  border: solid 1px #0eb27c;
+  box-shadow: 0px 0px 0px 2px #10b880ad;
+}
+
+.course-card .course-title {
+  font-weight: 600;
+}
+
+.course-badge {
+  position: absolute;
+  background-color: #10B880;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 0.85rem;
+  left: 5px;
+  top: 5px;
+  padding: 1px 8px;
+}
+
+
+
+.category-cards-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.categ {
+  border-radius: 16px;
+  border: solid 1px #9b9b9b;
+  background: radial-gradient(circle 180px at 50% 110%, #03eca28e, #fff);
+  cursor: pointer;
+}
+
+.categ:hover {
+  border: solid 1px #0eb27c;
+  box-shadow: 0px 0px 0px 2px #10b880ad;
+}
+.category-text{
+  padding: 4px 12px;
+  background-color: var(--primary-color);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: bold;
+  border: solid 1px #000;
+  text-align: center;
+}
+.cate-img img{
+  display: block;
+}
+
+.benefits-section {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+.benefits-grid svg{
+  color: #10B880;
+}
+
+.benefit-card {
+  text-align: center;
+}
+
+.benefit-card img {
+  width: 60px;
+  margin-bottom: 12px;
+}
+
+.benefit-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.benefit-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+
+
+.artimage {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.artimage:hover {
+  width: 120%;
+  height: 150px;
+}
+
+.article:hover {
+  .artimage {
+    width: 120%;
+    height: 150px;
+    background-position: center;
+  }
+
+  .art-title {
+    color: #0eb27c;
+    text-decoration: underline;
+  }
+}
+
+
+.teacher-card{
+  border: solid 2px #666;
+  border-radius: 20px;
+}
+
+
+/* ====================== */
+/* ===== Tablet ======== */
+/* ====================== */
+
+@media (max-width: 1024px) {
+
+  .topsect {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .topsect .left,
+  .topsect .right {
+    width: 100%;
+  }
+
+  .left{
+    margin-top: 30px;
+  }
+
+  .sub-head {
+    width: 100%;
+    margin: auto;
+  }
+
+  .features-container {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .main-img {
+    width: 80%;
+    max-width: 400px;
+  }
+
+  .main-btn{
+    margin: auto;
+    width: 100%;
+    justify-content: center;
+  }
+
+}
+
+
+/* ====================== */
+/* ===== Mobile ======== */
+/* ====================== */
+
+@media (max-width: 768px) {
+
+  .explore-more-mobile{
+    display: block;
+    margin: auto;
+  }
+
+  .explore-link{
+    display: none;
+  }
+
+  .main-head {
+    font-size: 1.6rem;
+  }
+
+  .sub-head {
+    font-size: 1rem;
+  }
+
+  .main-btn {
+    font-size: 1rem;
+    padding: 8px 18px;
+  }
+
+  .feature-pill {
+    font-size: 0.75rem;
+  }
+
+  .main-img {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .cate-img{
+    width: 160px;
+  }
+
+}

@@ -1,0 +1,14 @@
+.editDeleteIcons{
+    display: none;
+}
+.vid-editDeleteIcons{
+    display: none;
+}
+.sectionHeader:hover .editDeleteIcons{
+   display: flex;
+   align-items: center;
+}
+.vid-tab:hover .vid-editDeleteIcons{
+   display: flex;
+   align-items: center;
+}

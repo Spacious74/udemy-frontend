@@ -1,0 +1,40 @@
+<p-toast ></p-toast>
+<div class="container flex">
+    <div class="sidebar p-4 surface-50 sticky" style="width: 20%; height: calc(100vh - 60px);">
+        <ul class="options_list m-0 p-0 list-none flex flex-column gap-2">
+            <li class="hover:text-primary flex gap-2 align-items-center  hover:bg-white hover:shadow-1 cursor-pointer 
+            py-2 p-3 border-round" [routerLinkActiveOptions]="{ exact: true }" routerLink="/educator/dashboard" 
+            routerLinkActive="surface-0 shadow-1 text-primary font-semibold border-1 border-primary " >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 18c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C3.689 14 4.46 14 6 14s2.31 0 2.876.347c.317.194.583.46.777.777C10 15.689 10 16.46 10 18s0 2.31-.347 2.877c-.194.316-.46.582-.777.776C8.311 22 7.54 22 6 22s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.776C2 20.31 2 19.54 2 18m12 0c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C15.689 14 16.46 14 18 14s2.31 0 2.877.347c.316.194.582.46.776.777C22 15.689 22 16.46 22 18s0 2.31-.347 2.877a2.36 2.36 0 0 1-.776.776C20.31 22 19.54 22 18 22s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.776C14 20.31 14 19.54 14 18M2 6c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C3.689 2 4.46 2 6 2s2.31 0 2.876.347c.317.194.583.46.777.777C10 3.689 10 4.46 10 6s0 2.31-.347 2.876c-.194.317-.46.583-.777.777C8.311 10 7.54 10 6 10s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.777C2 8.311 2 7.54 2 6m12 0c0-1.54 0-2.31.347-2.876c.194-.317.46-.583.777-.777C15.689 2 16.46 2 18 2s2.31 0 2.877.347c.316.194.582.46.776.777C22 3.689 22 4.46 22 6s0 2.31-.347 2.876c-.194.317-.46.583-.776.777C20.31 10 19.54 10 18 10s-2.31 0-2.876-.347a2.35 2.35 0 0 1-.777-.777C14 8.311 14 7.54 14 6" color="currentColor"/></svg>
+                Dashboard
+            </li>
+            <li class="hover:text-primary flex gap-2 align-items-center hover:bg-white hover:shadow-1 cursor-pointer 
+            py-2 p-3 border-round" [routerLinkActiveOptions]="{ exact: true }" routerLink="/educator/my-courses" 
+            routerLinkActive="surface-0 shadow-1 text-primary font-semibold border-1 border-primary " >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><path d="M20.5 16.929V10c0-3.771 0-5.657-1.172-6.828S16.271 2 12.5 2h-1C7.729 2 5.843 2 4.672 3.172S3.5 6.229 3.5 10v9.5"/><path d="M20.5 17H6a2.5 2.5 0 0 0 0 5h14.5"/><path d="M20.5 17a2.5 2.5 0 0 0 0 5M14.96 9.838c-.125.538-.722.917-1.915 1.676c-1.154.734-1.73 1.101-2.195.954a1.14 1.14 0 0 1-.508-.336C10 11.746 10 10.997 10 9.5s0-2.246.341-2.631c.142-.16.317-.276.509-.337c.465-.147 1.041.22 2.195.954c1.193.759 1.79 1.138 1.916 1.676c.052.221.052.455 0 .676"/></g></svg>
+                My Courses
+            </li>
+            <li class="hover:text-primary flex gap-2 align-items-center hover:bg-white hover:shadow-1 cursor-pointer 
+            py-2 p-3 border-round" [routerLinkActiveOptions]="{ exact: true }" routerLink="/educator/drafted-courses" 
+            routerLinkActive="surface-0 shadow-1 text-primary font-semibold border-1 border-primary " >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.002 11v-1c0-3.771 0-5.657-1.24-6.828C17.52 2 15.524 2 11.532 2h-1.06c-3.993 0-5.99 0-7.23 1.172S2.002 6.229 2.002 10v4c0 3.771 0 5.657 1.24 6.828S6.48 22 10.472 22h.53m-4-15h8m-8 5h8m5.86 2.44l.695.692a1.497 1.497 0 0 1 0 2.121l-3.638 3.696a2 2 0 0 1-1.05.551l-2.254.488a.5.5 0 0 1-.597-.593l.48-2.235c.074-.397.267-.762.554-1.047l3.683-3.674a1.507 1.507 0 0 1 2.127 0" color="currentColor"/></svg>
+                Drafted Courses
+            </li>
+            <li class="hover:text-primary flex gap-2 align-items-center hover:bg-white hover:shadow-1 cursor-pointer py-2 p-3 border-round" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.5 14.5h7m-7-5H12m2.17 11.39c4.184-.277 7.516-3.657 7.79-7.9c.053-.83.053-1.69 0-2.52c-.274-4.242-3.606-7.62-7.79-7.899a33 33 0 0 0-4.34 0c-4.184.278-7.516 3.657-7.79 7.9a20 20 0 0 0 0 2.52c.1 1.545.783 2.976 1.588 4.184c.467.845.159 1.9-.328 2.823c-.35.665-.526.997-.385 1.237c.14.24.455.248 1.084.263c1.245.03 2.084-.322 2.75-.813c.377-.279.566-.418.696-.434s.387.09.899.3c.46.19.995.307 1.485.34c1.425.094 2.914.094 4.342 0" color="currentColor"/></svg>
+                Student Messages
+            </li>
+            <li class="hover:text-primary flex gap-2 align-items-center hover:bg-white hover:shadow-1 cursor-pointer py-2 p-3 border-round" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><path d="M19.5 16v-3.994c0-1.486 0-2.23-.256-2.91c-.255-.68-.745-1.24-1.723-2.358L16 5H8L6.48 6.738C5.5 7.856 5.01 8.416 4.755 9.096s-.256 1.424-.256 2.91V16c0 2.828 0 4.243.879 5.121S7.672 22 10.5 22h3c2.828 0 4.243 0 5.121-.879c.879-.878.879-2.293.879-5.121"/><path d="M9.5 15.683c0 1.23 1.854 2.237 3.633 1.672s1.517-2.23.913-2.884s-1.491-.544-2.506-.596c-2.281-.116-2.442-2.303-.595-3.168c1.355-.635 3.093.18 3.293 1.293m-2.267-2.5v.978m0 7.242v.78M7.5 2h9c.466 0 .699 0 .883.076a1 1 0 0 1 .54.541c.077.184.077.417.077.883s0 .699-.076.883a1 1 0 0 1-.541.54C17.199 5 16.966 5 16.5 5h-9c-.466 0-.699 0-.883-.076a1 1 0 0 1-.54-.541C6 4.199 6 3.966 6 3.5s0-.699.076-.883a1 1 0 0 1 .541-.54C6.801 2 7.034 2 7.5 2"/></g></svg>
+                Earnings & Reports
+            </li>
+            <li class="hover:text-primary flex gap-2 align-items-center hover:bg-white hover:shadow-1 cursor-pointer py-2 p-3 border-round" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><path d="M15.5 12a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0"/><path d="M21.011 14.097c.522-.141.783-.212.886-.346c.103-.135.103-.351.103-.784v-1.934c0-.433 0-.65-.103-.784s-.364-.205-.886-.345c-1.95-.526-3.171-2.565-2.668-4.503c.139-.533.208-.8.142-.956s-.256-.264-.635-.479l-1.725-.98c-.372-.21-.558-.316-.725-.294s-.356.21-.733.587c-1.459 1.455-3.873 1.455-5.333 0c-.377-.376-.565-.564-.732-.587c-.167-.022-.353.083-.725.295l-1.725.979c-.38.215-.57.323-.635.48c-.066.155.003.422.141.955c.503 1.938-.718 3.977-2.669 4.503c-.522.14-.783.21-.886.345S2 10.6 2 11.033v1.934c0 .433 0 .65.103.784s.364.205.886.346c1.95.526 3.171 2.565 2.668 4.502c-.139.533-.208.8-.142.956s.256.264.635.48l1.725.978c.372.212.558.317.725.295s.356-.21.733-.587c1.46-1.457 3.876-1.457 5.336 0c.377.376.565.564.732.587c.167.022.353-.083.726-.295l1.724-.979c.38-.215.57-.323.635-.48s-.003-.422-.141-.955c-.504-1.937.716-3.976 2.666-4.502"/></g></svg>
+                Settings
+            </li>
+        </ul>
+    </div>
+    <div class="right-section surface-100" style="width: 80%; overflow-y: auto; height: calc(100vh - 60px)" >
+        <router-outlet></router-outlet>
+    </div>
+</div>

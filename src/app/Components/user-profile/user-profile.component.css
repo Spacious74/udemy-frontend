@@ -1,0 +1,76 @@
+.head {
+    font-family: 'Clash';
+}
+
+.previewImg {
+    object-fit: cover;
+}
+
+.certificates-container{
+  width: 100%;
+}
+
+.title{
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cert-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+  gap: 20px;
+}
+
+.cert-card{
+  background: #ffffff;
+  border-radius: 18px;
+  border: solid 2px #d3d3d3;
+  padding: 12px;
+  box-shadow: 0 4px 10px #00000014;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.2s;
+}
+
+.cert-card:hover{
+  transform: translateY(-4px);
+}
+
+.cert-content{
+  margin-bottom: 15px;
+}
+
+.course-name{
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.instructor{
+  font-size: 14px;
+  color: #666;
+}
+
+.cert-actions{
+  margin-top: auto;
+}
+
+.certificate-image{
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.download-btn{
+  text-decoration: none;
+  background-color: var(--primary-color);
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin-top: 10px;
+  color: #fff;
+  font-weight: bold;
+  width: 130px;
+  text-align: center;
+}

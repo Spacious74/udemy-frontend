@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+<div class="order-nav p-3 flex justify-content-center align-items-center">
+    <div class="inner-nav">
+        <div class="logo">Skill Up.</div>
+    </div>
+</div>
+<div class="login-container">
+
+    <div class="left">
+        <form #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)">
+
+            <div class="text-2xl head font-semibold text-center mb-5">Create your new account</div>
+
+            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                <label class="font-bold" for="username">Full name</label>
+                <input pInputText type="text" name="username" placeholder="Enter your full name..."
+                    [(ngModel)]="formData.username" />
+            </div>
+
+            <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                <label class="font-bold" for="email">Email</label>
+                <input pInputText type="text" name="email" placeholder="Enter your email..."
+                    [(ngModel)]="formData.email" />
+            </div>
+
+            <div class="flex flex-column ">
+                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                    <label class="font-bold" for="password">Password</label>
+                    <p-password [(ngModel)]="formData.password" toggleMask name="password"
+                        [feedback]="false"></p-password>
+                </div>
+
+                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                    <label class="font-bold" for="reEnterPassword">Confirm Password</label>
+                    <p-password [(ngModel)]="formData.confirmPassword" toggleMask name="reEnterPassword"
+                        [feedback]="false"></p-password>
+                </div>
+            </div>
+
+            <div class="flex flex-column gap-3 p-fluid align-items-center mt-2">
+                <button pButton label="Signup" icon="pi pi-sign-in" type="submit"></button>
+                <div class="text-sm">
+                    Already have an account ? <a class="text-primary" routerLink="/login">Login</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="right">
+        <div class="right-txt mb-5">
+            <div class="text-xl font-bold mb-2 text-center ">Hey, Let's get started!</div>
+            <div class="text-lg">Sign up to explore courses and start learning today....</div>
+        </div>
+        <img src="../../../assets/images/signup.png" alt="signup_illustration" />
+    </div>
+</div>
+<app-footer></app-footer>

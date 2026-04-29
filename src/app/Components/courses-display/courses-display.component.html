@@ -1,0 +1,75 @@
+<div class="container courses-page">
+
+    <div class="filter-bar flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="flex flex-wrap align-items-center gap-3">
+
+            <!-- SORT -->
+            <p-dropdown  [options]="sortOptions" [(ngModel)]="sort" placeholder="Sort" optionLabel="label" optionValue="value" 
+                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
+
+            <!-- PRICE -->
+            <p-dropdown [options]="priceOptions"[(ngModel)]="price"placeholder="Price"optionLabel="label"optionValue="value"
+                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
+
+            <!-- LANGUAGE -->
+            <p-dropdown [options]="languageOptions"[(ngModel)]="lang"placeholder="Language"optionLabel="label"optionValue="value"
+                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
+
+            <!-- LEVEL -->
+            <p-dropdown [options]="levelOptions"[(ngModel)]="level"placeholder="Level"optionLabel="label"optionValue="value"
+                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
+
+            <!-- CLEAR FILTERS -->
+            <p-button label="Clear All"size="small"icon="pi pi-times"(onClick)="clearFilter('')" [text]="true"> </p-button>
+
+        </div>
+
+        <!-- RESULTS -->
+        <div class="status">
+            Showing "{{totalRecords}}" results
+            <span *ngIf="category || searchText">for</span>
+            <ng-container *ngIf="category">{{category}}</ng-container>
+            <ng-container *ngIf="searchText">{{searchText}}</ng-container>
+        </div>
+    </div>
+
+    <!-- COURSES GRID -->
+    <div class="courses-grid mb-4">
+
+        <div class="course-card cursor-pointer"
+            *ngFor="let item of courses"
+            (click)="navigateToCourseDetails(item._id)">
+
+            <img [src]="item.coursePoster?.url" class="course-img" [alt]="item.title" />
+
+            <div class="course-body">
+
+                <div class="course-title">{{ item.title }}</div>
+
+                <div class="course-subTitle">{{ item.subTitle?.substring(0,100) }}...</div>
+
+                <div class="instructor">Instructor : {{item.educator?.edname}}</div>
+
+                <div class="course-meta flex gap-2">
+                    <span>{{item.totalLectures}} Lectures</span> ·
+                    <span>{{item.level}}</span> ·
+                    <span>{{item.language}}</span>
+                </div>
+
+                <div class="price">{{ item.price === 0 ? 'Free' : ('₹ ' + item.price) }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="paginator p-fluid">
+        <p-paginator *ngIf="totalRecords > 0" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" 
+            [totalRecords]="totalRecords" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}" 
+            class="w-full">
+        </p-paginator>
+    </div>
+
+</div>

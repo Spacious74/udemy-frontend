@@ -1,0 +1,9 @@
+
+.sidebar{
+    border-right: solid 1px #cecece;
+}
+.router-link-active{
+    color : green;
+    font-weight: bolder;
+    background-color: #fff;
+}

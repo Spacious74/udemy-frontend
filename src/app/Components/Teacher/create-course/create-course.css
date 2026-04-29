@@ -1,0 +1,8 @@
+.imgPlaceHolder {
+  background: linear-gradient(135deg, #30c272, #3055b9);
+  border-radius: 12px;
+}
+.previewImg{
+  object-fit: cover;
+  border-radius: 12px;
+}
