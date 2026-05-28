@@ -2,7 +2,7 @@
 
     @if(cartItemsLength === 0) {
     <div class="empty-cart">
-        <img src="../../../assets/images/Empty-Order--Streamline-Tokyo.png" alt="Empty Cart" />
+        <img src="/assets/images/Empty-Order--Streamline-Tokyo.png" alt="Empty Cart" />
         <div class="title">Missing Cart items?</div>
         <div class="subtitle">Login to see the items you added previously</div>
 
@@ -59,7 +59,8 @@
 
                     <span class="price">₹ {{ item.coursePrice }}</span>
 
-                    <span class="delete-btn flex align-items-center justify-content-center" (click)="removeFromCart(item.courseId)">
+                    <span class="delete-btn flex align-items-center justify-content-center"
+                        (click)="removeFromCart(item.courseId)">
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

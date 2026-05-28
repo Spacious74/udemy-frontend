@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -15,31 +15,67 @@ import { Store } from '@ngrx/store';
 import { UserList } from '../../models/UserList';
 import { userInfoActions } from '../../store/actions/userInfo.action';
 import { FooterComponent } from '../footer/footer.component';
+import { SocialAuthService, SocialLoginModule, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { Subscription } from 'rxjs';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   imports: [
-    CommonModule, FormsModule, InputTextModule, ButtonModule, PasswordModule, RouterLink, ToastModule, FooterComponent
+    CommonModule, FormsModule, InputTextModule, ButtonModule, PasswordModule, RouterLink, ToastModule, FooterComponent, DividerModule,
+    SocialLoginModule, GoogleSigninButtonModule
   ],
   providers: [ToastMessageService],
   templateUrl: './signup.component.html',
   styleUrl: '../login/login.component.css',
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit, OnDestroy {
 
-  public loading : boolean = false;
-  public errorFlag : boolean = false;
-  public formData : User = new User();
+  public loading: boolean = false;
+  public errorFlag: boolean = false;
+  public formData: User = new User();
+  private googleAuthSub: Subscription;
 
   constructor(
-    private authService: AuthService, 
-    private cookieService : CookieService,
-    private router : Router,
-    private toastmsgService : ToastMessageService,
-    private store : Store<{userInfo : UserList}>
+    private authService: AuthService,
+    private socialAuthService: SocialAuthService,
+    private cookieService: CookieService,
+    private router: Router,
+    private toastmsgService: ToastMessageService,
+    private store: Store<{ userInfo: UserList }>
   ) {}
-  
+
+  ngOnInit(): void {
+    // Subscribe to Google auth state — fires when user clicks <asl-google-signin-button>
+    this.googleAuthSub = this.socialAuthService.authState.subscribe((googleUser) => {
+      if (!googleUser) return;
+      this.loading = true;
+      this.authService.googleSignup(googleUser.idToken).subscribe((res) => {
+        if (this.cookieService.get('skillUpToken')) {
+          this.cookieService.delete('skillUpToken');
+        }
+        this.cookieService.set('skillUpToken', res.token, 65);
+
+        const payloadData = (res as any).data || res.user;
+        this.store.dispatch(userInfoActions.loadUserSuccess({ payload: payloadData }));
+
+        this.loading = false; this.errorFlag = false;
+        this.toastmsgService.showSuccess('Success', 'User registered successfully.');
+        this.formData = new User();
+        this.router.navigate(['/']);
+      }, (error) => {
+        this.loading = false;
+        this.errorFlag = true;
+        this.toastmsgService.showError('Error', error?.error?.message || 'Google signup failed.');
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.googleAuthSub?.unsubscribe();
+  }
+
   formSubmission(form: NgForm) {
 
     this.loading = true;
@@ -48,20 +84,20 @@ export class SignupComponent {
       this.toastmsgService.showWarn("Warning", "Password not matching with confirm password...");
       this.errorFlag = true;
       this.loading = false; return;
-    }else{
+    } else {
       this.errorFlag = false;
     }
 
     this.formData.role = "student";
     this.authService.register(this.formData).subscribe(
       (res) => {
-        if(this.cookieService.get('skillUpToken')){
+        if (this.cookieService.get('skillUpToken')) {
           this.cookieService.delete('skillUpToken');
         }
         this.cookieService.set('skillUpToken', res.token, 65);
-        
-        this.store.dispatch(userInfoActions.loadUserSuccess({payload : res.data}));
-        
+
+        this.store.dispatch(userInfoActions.loadUserSuccess({ payload: res.data }));
+
         this.loading = false; this.errorFlag = false;
         this.toastmsgService.showSuccess("Success", "User registered successfully.");
         this.formData = new User();
@@ -74,13 +110,7 @@ export class SignupComponent {
         this.toastmsgService.showError("Error", error.error.message);
       }
     );
-    
+
   }
 
 }
-
-// email: "chris@gmail.com"
-// message :  "User registered successfully!"
-// success :  true
-// token :  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NzBlMWM2NTkxNGI2MWMzODJjNWJhODMiLCJlbWFpbCI6ImNocmlzQGdtYWlsLmNvbSIsImlhdCI6MTcyODk3ODAyMSwiZXhwIjoxNzI4OTgxNjIxfQ.KxL_Ml5P5EeeQ-dx9CTzvqQfutTXyWUhZ4I46D3dBWo"
-// username :  "Chris"

@@ -63,28 +63,28 @@ export class HomepageComponent implements OnInit {
     this.categories = [
       {
         name: 'Web Development',
-        url: '../../../assets/images/development.png',
-        query : 'Development'
+        url: '/assets/images/development.png',
+        query: 'Development'
       },
       {
         name: 'Business',
-        url: '../../../assets/images/business.png',
-        query : 'Business'
+        url: '/assets/images/business.png',
+        query: 'Business'
       },
       {
         name: 'IT & Software',
-        url: '../../../assets/images/itsoftware.png',
-        query : 'IT & Software'
+        url: '/assets/images/itsoftware.png',
+        query: 'IT & Software'
       },
       {
         name: 'Programming',
-        url: '../../../assets/images/programming.png',
-        query : 'Programming Languages'
+        url: '/assets/images/programming.png',
+        query: 'Programming Languages'
       },
       {
         name: 'Design',
-        url: '../../../assets/images/designing.png',
-        query : 'Design'
+        url: '/assets/images/designing.png',
+        query: 'Design'
       },
     ];
 
@@ -95,7 +95,7 @@ export class HomepageComponent implements OnInit {
     this.showPopUp = !this.showPopUp;
   }
 
-  navigateWithCategory(query : string){
+  navigateWithCategory(query: string) {
     this.routerService.navigate(['/courses/' + query]);
   }
 
@@ -111,7 +111,7 @@ export class HomepageComponent implements OnInit {
     };
     this.draftedCourseService.getAllCourses(query).pipe(
       map((res) => {
-        if (res?.data) return {...res, data: res.data.slice(0, 4)};
+        if (res?.data) return { ...res, data: res.data.slice(0, 4) };
         return res;
       })
     ).subscribe((res) => {

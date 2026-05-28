@@ -7,9 +7,18 @@
 <div class="login-container">
 
     <div class="left">
+
         <form #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)">
 
             <div class="text-2xl head font-semibold text-center mb-5">Create your new account</div>
+
+            <div class="google-btn-wrapper flex justify-content-center">
+                <asl-google-signin-button type="standard" size="large" shape="rectangular" theme="outline" text="signup_with" logo_alignment="left"></asl-google-signin-button>
+            </div>
+
+            <p-divider align="center" type="solid" >
+                or
+            </p-divider>
 
             <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                 <label class="font-bold" for="username">Full name</label>
@@ -23,7 +32,7 @@
                     [(ngModel)]="formData.email" />
             </div>
 
-            <div class="flex flex-column ">
+            <div class="flex gap-2">
                 <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                     <label class="font-bold" for="password">Password</label>
                     <p-password [(ngModel)]="formData.password" toggleMask name="password"
@@ -51,7 +60,7 @@
             <div class="text-xl font-bold mb-2 text-center ">Hey, Let's get started!</div>
             <div class="text-lg">Sign up to explore courses and start learning today....</div>
         </div>
-        <img src="../../../assets/images/signup.png" alt="signup_illustration" />
+        <img src="/assets/images/signup.png" alt="signup_illustration" />
     </div>
 </div>
 <app-footer></app-footer>

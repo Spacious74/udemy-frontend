@@ -79,6 +79,16 @@
   font-family: "Clash";
 }
 
+.google-btn-wrapper {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.google-btn-wrapper asl-google-signin-button {
+  width: 100%;
+  display: block;
+}
+
 /* ============================= */
 /* TABLET RESPONSIVE */
 /* ============================= */

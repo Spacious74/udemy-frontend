@@ -13,6 +13,18 @@ interface UserResponse {
   success: boolean
 }
 
+interface GoogleAuthResponse {
+  success: boolean;
+  message: string;
+  token: string;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,6 +50,15 @@ export class AuthService {
     return this.http.post<AuthResponse>(url, userData);
   }
 
+  googleSignup(token: string): Observable<GoogleAuthResponse> {
+    let url = basePath + 'user/google/signup';
+    return this.http.post<GoogleAuthResponse>(url,{ token });
+  }
+
+  googleLogin(token: string): Observable<GoogleAuthResponse> {
+    let url = basePath + 'user/google/login';
+    return this.http.post<GoogleAuthResponse>(url,{ token });
+  }
   getUserData(sendedtoken?: string): Observable<AuthResponse> {
     let url = basePath + 'user/getUserLogonData';
     var headers = new HttpHeaders({ 'credentials': 'include' });
