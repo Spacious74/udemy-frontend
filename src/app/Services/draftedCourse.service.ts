@@ -70,27 +70,32 @@ export class DraftedCourseService {
 
     getCourseByCourseAndEducatorId(courseId: string, educatorId: string): Observable<ApiResponse<DraftCourse>> {
         let url = this.base_url + `getByCourseAndEducatorId?courseId=${courseId}&educatorId=${educatorId}`;
-        return this.http.get<ApiResponse<DraftCourse>>(url);
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<ApiResponse<DraftCourse>>(url, { headers });
     }
 
     getAllDraftedCourseById(educatorId: any): Observable<ApiResponse<DraftCourse[]>> {
         let url = this.base_url + `?educatorId=${educatorId}`;
-        return this.http.get<ApiResponse<DraftCourse[]>>(url);
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<ApiResponse<DraftCourse[]>>(url, { headers });
     }
 
     getReleasedCourses(educatorId: any): Observable<ApiResponse<DraftCourse[]>> {
         let url = this.base_url + `released?educatorId=${educatorId}`;
-        return this.http.get<ApiResponse<DraftCourse[]>>(url);
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<ApiResponse<DraftCourse[]>>(url, { headers });
     }
 
     createCourse(data: CourseDetailDto): Observable<ApiResponse<DraftCourse>> {
         let url = this.base_url + 'create';
-        return this.http.post<ApiResponse<DraftCourse>>(url, data);
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.post<ApiResponse<DraftCourse>>(url, data, { headers });
     }
 
     updateCourse(courseId: string, data: CourseDetailDto): Observable<ApiResponse<DraftCourse>> {
         let url = this.base_url + 'update?courseId=' + courseId;
-        return this.http.post<ApiResponse<DraftCourse>>(url, data);
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.post<ApiResponse<DraftCourse>>(url, data, { headers });
     }
 
     uploadThumbnail(formData: any, courseId: string): Observable<AuthResponse> {
@@ -113,7 +118,8 @@ export class DraftedCourseService {
 
     releaseCourse(courseId: string): Observable<ApiResponse<string>> {
         let url = this.base_url + 'release-course?courseId=' + courseId;
-        return this.http.post<ApiResponse<string>>(url, {});
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.post<ApiResponse<string>>(url, {}, { headers });
     }
 
 }

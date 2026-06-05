@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/ApiResponse';
 import { SectionList } from '../models/Course/SectionList';
 import { VideoList } from '../models/Course/VideoList';
+import { AppObject } from '../baseSettings/AppObject';
 interface videoResponse {
     success : boolean;
     videoObj : VideoList
@@ -18,47 +19,56 @@ export class AddVideoService {
 
     getAllVideoSections(courseId: any): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `getAllSections?courseId=${courseId}`;
-        return this.http.get<ApiResponse<SectionList[]>>(url);
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<ApiResponse<SectionList[]>>(url, { headers });
     }
 
     addSection(courseId: any, sectionName: string): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `add?courseId=${courseId}`;
-        return this.http.post<ApiResponse<SectionList[]>>(url, { sectionName });
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.post<ApiResponse<SectionList[]>>(url, { sectionName }, { headers });
     }
 
     updateSection(courseId: string, sectionId: string, sectionName: string): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `update?courseId=${courseId}&sectionId=${sectionId}`;
-        return this.http.put<ApiResponse<SectionList[]>>(url, { sectionName });
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.put<ApiResponse<SectionList[]>>(url, { sectionName }, { headers });
     }
 
     deleteSection(courseId: string, sectionId: string): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `delete?courseId=${courseId}&sectionId=${sectionId}`;
-        return this.http.delete<ApiResponse<SectionList[]>>(url);
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.delete<ApiResponse<SectionList[]>>(url, { headers });
     }
 
     addVideoToSection(courseId: string, sectionId: string, videoTitle: string): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `addVideo?courseId=${courseId}&sectionId=${sectionId}`;
-        return this.http.post<ApiResponse<SectionList[]>>(url, { videoTitle });
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.post<ApiResponse<SectionList[]>>(url, { videoTitle }, { headers });
     }
 
     addVideoFile(courseId: string, sectionId: string, videoId: string, videoInfo: any) {
         let url = this.base_url + `addVideoFile?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
-        return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo);
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo, { headers });
     }
 
     updateVideoFile(courseId: string, sectionId: string, videoId: string, videoInfo: any) {
         let url = this.base_url + `updateVideoFile?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
-        return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo);
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo, { headers });
     }
 
     updateVideoTitle(courseId: string, sectionId: string, videoId: string, videoTitle: string): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `updateVideoTitle?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
-        return this.http.put<ApiResponse<SectionList[]>>(url, { videoTitle });
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.put<ApiResponse<SectionList[]>>(url, { videoTitle }, { headers });
     }
 
     deleteVideo(courseId: string, sectionId: string, videoId: string): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `deleteVideo?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
-        return this.http.delete<ApiResponse<SectionList[]>>(url);
+        const headers = AppObject.preparePostJsonHeader();
+        return this.http.delete<ApiResponse<SectionList[]>>(url, { headers });
     }
 
 }

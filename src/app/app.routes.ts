@@ -18,6 +18,9 @@ import { CreateCourseComponent } from './Components/Teacher/create-course/create
 import { DraftedCourseComponent } from './Components/Teacher/drafted-course/drafted-course.component';
 
 import { OrderSummaryComponent } from './Components/order-summary/order-summary.component';
+import { authGuard } from './guards/auth.guard';
+import { educatorGuard } from './guards/educator.guard';
+import { noAuthGuard } from './guards/no-auth.guard';
 
 export const routes: Routes = [
 
@@ -48,26 +51,31 @@ export const routes: Routes = [
       {
         path: 'cart',
         component: CartComponent,
+        canActivate: [authGuard],
         title: 'Cart'
       },
       {
         path: 'playlist',
         component: PlaylistComponent,
+        canActivate: [authGuard],
         title: 'My Learning'
       },
       {
         path: 'player/:courseId',
         component: VideoPlayerComponent,
+        canActivate: [authGuard],
         title: 'Continue learning...'
       },
       {
         path: 'user-profile',
         component: UserProfileComponent,
+        canActivate: [authGuard],
         title: 'User Profile'
       },
       {
         path: 'educator',
         component: TeacherSectionComponent,
+        canActivate: [educatorGuard],
         title: 'Educator Profile',
         children: [
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -78,6 +86,7 @@ export const routes: Routes = [
       },
       {
         path: 'create-course/:courseId',
+        canActivate: [educatorGuard],
         component: CreateCourseComponent
       }
     ]
@@ -86,16 +95,19 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [noAuthGuard],
     title: 'Login to Skill Up.'
   },
   {
     path: 'signup',
     component: SignupComponent,
+    canActivate: [noAuthGuard],
     title: 'Create account'
   },
   {
     path: 'order-summary',
     component: OrderSummaryComponent,
+    canActivate: [authGuard],
     title: 'Order Summary'
   }
 ];

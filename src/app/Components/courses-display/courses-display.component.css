@@ -1,88 +1,166 @@
 .courses-page {
   padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.filter-bar {
+.sidebar-filters {
+  width: 280px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+}
+
+::ng-deep .sidebar-filters .p-dropdown {
+  width: 100% !important;
   border-radius: 8px;
-  background-color: #fff;
-  border : solid 1px #cfd1d4;
-  padding : 8px;
-}
-
-.filter-dropdown {
-  width: 160px;
-}
-
-.clear-btn {
-  font-size: 12px;
-  cursor: pointer;
-  color: #16a34a;
-  margin-left: 5px;
 }
 
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
 }
 
 .course-card {
-  border: 1px solid #bec1c7;
-  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
   overflow: hidden;
-  background: #fff;
-  transition: all .2s ease;
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .course-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 0 2px #16a34a94,  0 10px 20px #00000014;
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: var(--primary-color, #16a34a);
+}
+
+.img-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  overflow: hidden;
+  background-color: #f3f4f6;
 }
 
 .course-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.course-card:hover .course-img {
+  transform: scale(1.05);
+}
+
+.badge-free {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #10b981;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+  z-index: 1;
 }
 
 .course-body {
-  padding: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .course-title {
-  font-weight: 600;
-  font-size: 1.1rem;
-  font-weight: semibold;
-  margin-bottom: 4px;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #111827;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.course-subTitle{
+
+.course-subTitle {
   font-size: 0.95rem;
-  color: #525763;
-  margin-bottom: 6px;
-  line-height: 1.2;
+  color: #4b5563;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
 }
 
 .instructor {
-  font-size: 0.85rem;
-  color: #6b7280;
-  margin-bottom: 6px;
-}
-
-.course-meta {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: #374151;
-  margin-bottom: 6px;
 }
 
-.price {
-  font-size: 1.2rem;
-  font-weight: 600;
+.meta-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f3f4f6;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #4b5563;
 }
 
-.paginator{
-  border: solid 1px #bec1c7;
-  border-radius: 999px;
-  box-shadow: 0px 2px 2px #00000014;
-  overflow: hidden;
+.meta-tag i {
+  color: #6b7280;
+}
+
+.price-section {
+  margin-top: auto;
+}
+
+::ng-deep .view-btn .p-button {
+  transition: all 0.2s;
+}
+.course-card:hover ::ng-deep .view-btn .p-button {
+  background-color: var(--primary-color, #16a34a) !important;
+  color: white !important;
+  border-color: var(--primary-color, #16a34a) !important;
+}
+
+.paginator {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 4px;
+}
+
+@media (max-width: 768px) {
+  .sidebar-filters {
+    width: 100%;
+    position: static;
+    margin-bottom: 20px;
+  }
 }

@@ -79,8 +79,8 @@ export class AuthService {
 
   updateUser(body: UserDto): Observable<AuthResponse> {
     let url = basePath + 'user/update';
-    // const headers = AppObject.preparePostJsonHeader();
-    return this.http.post<AuthResponse>(url, body);
+    const headers = AppObject.preparePostJsonHeader();
+    return this.http.post<AuthResponse>(url, body, { headers });
   }
 
   uploadUserProfile(formData: any): Observable<AuthResponse> {

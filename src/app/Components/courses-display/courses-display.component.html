@@ -1,75 +1,106 @@
 <div class="container courses-page">
 
-    <div class="filter-bar flex flex-wrap align-items-center justify-content-between gap-3">
-        <div class="flex flex-wrap align-items-center gap-3">
-
-            <!-- SORT -->
-            <p-dropdown  [options]="sortOptions" [(ngModel)]="sort" placeholder="Sort" optionLabel="label" optionValue="value" 
-                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
-
-            <!-- PRICE -->
-            <p-dropdown [options]="priceOptions"[(ngModel)]="price"placeholder="Price"optionLabel="label"optionValue="value"
-                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
-
-            <!-- LANGUAGE -->
-            <p-dropdown [options]="languageOptions"[(ngModel)]="lang"placeholder="Language"optionLabel="label"optionValue="value"
-                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
-
-            <!-- LEVEL -->
-            <p-dropdown [options]="levelOptions"[(ngModel)]="level"placeholder="Level"optionLabel="label"optionValue="value"
-                (onChange)="fetchData()" styleClass="filter-dropdown"> </p-dropdown>
-
-            <!-- CLEAR FILTERS -->
-            <p-button label="Clear All"size="small"icon="pi pi-times"(onClick)="clearFilter('')" [text]="true"> </p-button>
-
-        </div>
-
+    <div class="status-bar mb-4">
         <!-- RESULTS -->
-        <div class="status">
+        <div class="status font-semibold text-xl text-gray-800">
             Showing "{{totalRecords}}" results
-            <span *ngIf="category || searchText">for</span>
-            <ng-container *ngIf="category">{{category}}</ng-container>
-            <ng-container *ngIf="searchText">{{searchText}}</ng-container>
+            <span *ngIf="category || searchText" class="font-normal text-gray-600">for</span>
+            <ng-container *ngIf="category"> "{{category}}"</ng-container>
+            <ng-container *ngIf="searchText"> "{{searchText}}"</ng-container>
         </div>
     </div>
 
-    <!-- COURSES GRID -->
-    <div class="courses-grid mb-4">
-
-        <div class="course-card cursor-pointer"
-            *ngFor="let item of courses"
-            (click)="navigateToCourseDetails(item._id)">
-
-            <img [src]="item.coursePoster?.url" class="course-img" [alt]="item.title" />
-
-            <div class="course-body">
-
-                <div class="course-title">{{ item.title }}</div>
-
-                <div class="course-subTitle">{{ item.subTitle?.substring(0,100) }}...</div>
-
-                <div class="instructor">Instructor : {{item.educator?.edname}}</div>
-
-                <div class="course-meta flex gap-2">
-                    <span>{{item.totalLectures}} Lectures</span> ·
-                    <span>{{item.level}}</span> ·
-                    <span>{{item.language}}</span>
-                </div>
-
-                <div class="price">{{ item.price === 0 ? 'Free' : ('₹ ' + item.price) }}</div>
-
+    <div class="page-layout flex flex-column md:flex-row gap-4">
+        
+        <!-- LEFT SIDE FILTERS -->
+        <div class="sidebar-filters flex flex-column gap-4">
+            <div class="flex justify-content-between align-items-center border-bottom-1 border-gray-200 pb-2">
+                <h3 class="m-0 text-xl text-gray-800 font-bold">Filters</h3>
+                <p-button label="Clear" size="small" icon="pi pi-filter-slash" (onClick)="clearFilter('')" [text]="true" severity="danger" class="p-0"> </p-button>
             </div>
 
+            <!-- SORT -->
+            <div class="filter-group">
+                <label class="block text-sm font-semibold mb-2 text-gray-700">Sort By</label>
+                <p-dropdown [options]="sortOptions" [(ngModel)]="sort" placeholder="Sort" optionLabel="label" optionValue="value" 
+                    (onChange)="fetchData()" styleClass="w-full"> </p-dropdown>
+            </div>
+
+            <!-- PRICE -->
+            <div class="filter-group">
+                <label class="block text-sm font-semibold mb-2 text-gray-700">Price</label>
+                <p-dropdown [options]="priceOptions" [(ngModel)]="price" placeholder="Price" optionLabel="label" optionValue="value"
+                    (onChange)="fetchData()" styleClass="w-full"> </p-dropdown>
+            </div>
+
+            <!-- LANGUAGE -->
+            <div class="filter-group">
+                <label class="block text-sm font-semibold mb-2 text-gray-700">Language</label>
+                <p-dropdown [options]="languageOptions" [(ngModel)]="lang" placeholder="Language" optionLabel="label" optionValue="value"
+                    (onChange)="fetchData()" styleClass="w-full"> </p-dropdown>
+            </div>
+
+            <!-- LEVEL -->
+            <div class="filter-group">
+                <label class="block text-sm font-semibold mb-2 text-gray-700">Level</label>
+                <p-dropdown [options]="levelOptions" [(ngModel)]="level" placeholder="Level" optionLabel="label" optionValue="value"
+                    (onChange)="fetchData()" styleClass="w-full"> </p-dropdown>
+            </div>
         </div>
 
-    </div>
+        <!-- RIGHT SIDE COURSES -->
+        <div class="main-content flex-1">
+            
+            <!-- COURSES GRID -->
+            <div class="courses-grid mb-4">
+                <div class="course-card cursor-pointer"
+                    *ngFor="let item of courses"
+                    (click)="navigateToCourseDetails(item._id)">
 
-    <!-- PAGINATION -->
-    <div class="paginator p-fluid">
-        <p-paginator *ngIf="totalRecords > 0" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" 
-            [totalRecords]="totalRecords" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}" 
-            class="w-full">
-        </p-paginator>
+                    <div class="img-wrapper">
+                        <img [src]="item.coursePoster?.url" class="course-img" [alt]="item.title" />
+                        <div *ngIf="item.price === 0" class="badge-free">Free</div>
+                    </div>
+
+                    <div class="course-body">
+                        <div class="course-title">{{ item.title }}</div>
+                        <div class="course-subTitle">{{ item.subTitle }}</div>
+
+                        <div class="instructor flex align-items-center gap-2 mt-2 mb-3">
+                            <i class="pi pi-user text-green-600"></i> 
+                            <span>{{item.educator?.edname}}</span>
+                        </div>
+
+                        <div class="course-meta flex flex-wrap gap-2 text-xs text-gray-600 mb-3">
+                            <span class="meta-tag"><i class="pi pi-video"></i> {{item.totalLectures}} Lectures</span>
+                            <span class="meta-tag"><i class="pi pi-chart-bar"></i> {{item.level}}</span>
+                            <span class="meta-tag"><i class="pi pi-language"></i> {{item.language}}</span>
+                        </div>
+
+                        <div class="price-section flex align-items-center justify-content-between border-top-1 border-gray-200 pt-3">
+                            <div class="price text-xl font-bold text-gray-900">{{ item.price === 0 ? 'Free' : ('₹ ' + item.price) }}</div>
+                            <p-button label="View Details" size="small" [outlined]="true" icon="pi pi-arrow-right" iconPos="right" class="view-btn"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="totalRecords === 0" class="flex flex-column align-items-center justify-content-center p-5 bg-white border-round-xl border-1 border-gray-200 text-center shadow-1">
+                <i class="pi pi-search text-6xl text-gray-300 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-700 m-0 mb-2">No Courses Found</h3>
+                <p class="text-gray-500 m-0">Try adjusting your filters to find what you're looking for.</p>
+                <p-button label="Clear Filters" icon="pi pi-filter-slash" (onClick)="clearFilter('')" class="mt-4" [outlined]="true"></p-button>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="paginator p-fluid mt-4" *ngIf="totalRecords > 0">
+                <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" 
+                    [totalRecords]="totalRecords" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}" 
+                    class="w-full">
+                </p-paginator>
+            </div>
+            
+        </div>
     </div>
 
 </div>

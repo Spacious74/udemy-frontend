@@ -49,8 +49,11 @@
             </ul>
 
             <!-- Profile -->
-            <div class="profile-section" *ngIf="userLoggedIn else elseBlock" (click)="op.toggle($event)">
-                <img *ngIf="userDetails?.profileImage" [src]="userDetails?.profileImage" class="profile-img">
+            <div class="profile-section cursor-pointer" *ngIf="userLoggedIn else elseBlock" (click)="op.toggle($event)">
+                <img *ngIf="userDetails?.profileImage; else noImage" [src]="userDetails?.profileImage" class="profile-img">
+                <ng-template #noImage>
+                    <span class="text-xl font-bold text-green-600">{{ userDetails?.username?.charAt(0) | uppercase }}</span>
+                </ng-template>
             </div>
 
             <ng-template #elseBlock>
