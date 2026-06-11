@@ -26,13 +26,14 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { CartStateService } from '../../Services/cartState.service';
 import { SafeHtmlPipe } from '../../baseSettings/pipes/safe-html.pipe';
+import { DividerModule } from 'primeng/divider';
 
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
   imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, 
-    ToastModule, RatingModule, FormsModule, DialogModule, SafeHtmlPipe],
+    ToastModule, RatingModule, FormsModule, DialogModule, SafeHtmlPipe, DividerModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })

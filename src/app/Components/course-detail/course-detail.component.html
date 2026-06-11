@@ -34,8 +34,8 @@
                         <i class="pi pi-id-card text-primary text-base"></i> Certificate upon completion
                     </span>
                 </div>
-                
-                <p-button label="Add to Playlist" icon="pi pi-plus" [outlined]="true" class="mb-5 inline-block" size="small"></p-button>
+
+                <p-divider></p-divider>
 
                 <!-- Course Overview (Description) -->
                 <h2 class="text-xl font-bold mb-3 mt-5 text-900">Course Overview</h2>
@@ -114,7 +114,7 @@
             
             <!-- Right Column -->
             <div class="col-12 lg:col-4 relative mt-4 lg:mt-0">
-                <div class="sticky flex flex-column gap-4" style="top: 2rem;">
+                <div class="sticky flex flex-column gap-4" style="top: 5rem;">
                     
                     <!-- Pricing Card -->
                     <div class="card-premium p-4">
@@ -130,8 +130,8 @@
                         </div>
                         
                         <div *ngIf="!isEnrolled" class="flex flex-column gap-3 mb-4">
-                            <p-button label="Add to Cart" [icon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-cart-plus'" (onClick)="!existInCart ? addToCart() : null" [label]="existInCart ? 'In Cart' : 'Add to Cart'" class="w-full" styleClass="w-full py-2 text-base font-bold shadow-2"></p-button>
-                            <p-button label="Enroll Now" (onClick)="goToOrderSummaryPage()" [outlined]="true" class="w-full" styleClass="w-full py-2 text-base font-bold"></p-button>
+                            <p-button label="Enroll Now" (onClick)="goToOrderSummaryPage()" class="w-full" styleClass="w-full py-2 text-base font-bold"></p-button>
+                            <p-button label="Add to Cart" [icon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-cart-plus'" [outlined]="true"  (onClick)="!existInCart ? addToCart() : null" [label]="existInCart ? 'In Cart' : 'Add to Cart'" class="w-full" styleClass="w-full py-2 text-base font-bold shadow-2"></p-button>
                         </div>
                         <div *ngIf="isEnrolled" class="flex flex-column gap-3 mb-4">
                             <p-button label="Go to Learning" icon="pi pi-check" (onClick)="navigateToPlayer()" class="w-full" styleClass="w-full py-2 text-base font-bold shadow-2"></p-button>
@@ -145,11 +145,6 @@
                             <li class="flex align-items-center gap-2"><i class="pi pi-id-card text-primary text-lg"></i> Certificate of completion</li>
                         </ul>
 
-                        <div class="font-bold text-900 mb-2 text-base">Use Coupon</div>
-                        <div class="flex mb-1 shadow-1 border-round-lg overflow-hidden">
-                            <input type="text" placeholder="Your coupon" class="border-none outline-none w-full p-2 text-sm text-700 bg-gray-50" />
-                            <p-button label="Redeem" styleClass="border-none border-round-none px-3 text-sm font-semibold m-0 h-full"></p-button>
-                        </div>
                     </div>
 
                     <!-- Instructor Card -->
