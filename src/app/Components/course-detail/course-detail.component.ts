@@ -51,6 +51,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   public overallRating: number = 0;
 
   public reviewDialog : boolean = false;
+  public isDescriptionExpanded: boolean = false;
+
+  toggleDescription() {
+    this.isDescriptionExpanded = !this.isDescriptionExpanded;
+  }
 
   constructor(
     private draftedCourseService: DraftedCourseService,

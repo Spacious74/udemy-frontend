@@ -1,0 +1,79 @@
+<div class="p-4" *ngIf="!showStudentsTable">
+    <div class="text-2xl font-bold mb-3">Course Analytics</div>
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let course of courses">
+            <div class="surface-card border-1 border-200 border-round-xl flex flex-column h-full hover:shadow-3 transition-all transition-duration-300">
+                <div class="w-full relative" style="height: 140px;">
+                    <img *ngIf="course.coursePoster?.url" alt="Course Cover" [src]="course.coursePoster.url"
+                        class="w-full h-full object-cover" style="border-top-left-radius: 12px; border-top-right-radius: 12px;" />
+                    <div *ngIf="!course.coursePoster?.url"
+                        class="w-full h-full surface-200 flex align-items-center justify-content-center text-500 font-bold"
+                        style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        No Image Available
+                    </div>
+                </div>
+                
+                <div class="p-3 flex flex-column flex-1">
+                    <div class="text-base font-semibold text-900 mb-3 course-title" [title]="course.title">
+                        {{course.title}}
+                    </div>
+                    <div>
+                        <div class="text-500 mb-1 text-sm">Total Students: <span class="font-bold text-700">{{course.totalStudentsPurchased || 0}}</span></div>
+                        <div class="text-green-500 font-bold">{{course.price | currency:'INR'}}</div>
+                    </div>
+                    <p-button label="Enrolled Students" icon="pi pi-users" (onClick)="viewEnrolledStudents(course)"
+                            styleClass="p-button-outlined p-button-sm mt-3"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="courses.length === 0" class="text-center p-5 text-500 text-lg">
+        No courses found.
+    </div>
+</div>
+
+<div class="p-4" *ngIf="showStudentsTable">
+    <div class="flex align-items-center mb-4 gap-3">
+        <p-button icon="pi pi-arrow-left" (onClick)="goBack()"
+            styleClass="p-button-rounded p-button-secondary p-button-text"></p-button>
+        <div class="text-xl font-bold">Enrolled Students - {{selectedCourse?.title}}</div>
+    </div>
+
+    <div class="">
+        <div class="text-lg font-semibold mb-3">Total Students: {{enrolledStudents.length}}</div>
+
+        <p-table [value]="enrolledStudents" [loading]="loadingStudents" [paginator]="true" [rows]="10"
+            styleClass="p-datatable-striped border-1 border-round-xl overflow-hidden">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="p-2 px-4">Profile</th>
+                    <th class="p-2 px-4">Username</th>
+                    <th class="p-2 px-4">Email</th>
+                    <th class="p-2 px-4">Role</th>
+                    <th class="p-2 px-4">Enrolled At</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-student>
+                <tr>
+                    <td class="p-2 px-4 flex align-items-center">
+                        <img *ngIf="student.profileImage" [src]="student.profileImage" alt="Profile"
+                            style="width: 40px; height: 40px; border-radius: 50%;" class="border-1">
+                        <div *ngIf="!student.profileImage"
+                            class="w-2rem h-2rem bg-primary flex align-items-center justify-content-center border-circle text-white font-bold">
+                            {{student.username.charAt(0) | uppercase}}
+                        </div>
+                    </td>
+                    <td class="p-2 px-4">{{ student.username }}</td>
+                    <td class="p-2 px-4">{{ student.email }}</td>
+                    <td class="p-2 px-4"><span class="p-badge p-badge-info">{{ student.role }}</span></td>
+                    <td class="p-2 px-4">{{ student.createdAt | date:'medium' }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" class="text-center p-4">No students enrolled yet.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

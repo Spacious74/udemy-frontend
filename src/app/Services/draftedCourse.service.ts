@@ -122,4 +122,10 @@ export class DraftedCourseService {
         return this.http.post<ApiResponse<string>>(url, {}, { headers });
     }
 
+    getEnrolledStudents(courseId: string, educatorId: string): Observable<any> {
+        let url = this.base_url + `enrolled-students?courseId=${courseId}&educatorId=${educatorId}`;
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<any>(url, { headers });
+    }
+
 }

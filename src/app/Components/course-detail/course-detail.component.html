@@ -40,7 +40,12 @@
                 <!-- Course Overview (Description) -->
                 <h2 class="text-xl font-bold mb-3 mt-5 text-900">Course Overview</h2>
                 <div class="card-premium p-4 mb-5">
-                    <div class="dtext text-sm text-700 line-height-3" [innerHTML]="selectedCourse?.description | safeHtml"></div>
+                    <div class="description-container" [ngClass]="{'collapsed': !isDescriptionExpanded, 'expanded': isDescriptionExpanded}">
+                        <div class="dtext text-sm text-700 line-height-3" [innerHTML]="selectedCourse?.description | safeHtml"></div>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-primary font-bold cursor-pointer" (click)="toggleDescription()">{{isDescriptionExpanded ? 'Read less' : 'Read more...'}}</span>
+                    </div>
                 </div>
                 
                 <!-- Course Syllabus -->

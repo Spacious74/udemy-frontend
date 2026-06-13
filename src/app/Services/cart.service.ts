@@ -42,7 +42,11 @@ export class CartService {
 
   removeFromCart(userId: string, courseId: string): Observable<cartResponse> {
     let url = this.base_url + `removeFromCart?userId=${userId}&courseId=${courseId}`;
-    return this.http.post<cartResponse>(url, null);
+    var headers = new HttpHeaders({ 'credentials': 'include' });
+    headers = headers.append('content-type', 'application/json');
+    const token = this.cookieService.get("skillUpToken");
+    headers = headers.append('AUTH_TOKEN', token);
+    return this.http.post<cartResponse>(url, null, { headers, withCredentials: true });
   }
 
   mergeCart(userId: string, cartItems: string): Observable<cartResponse> {
