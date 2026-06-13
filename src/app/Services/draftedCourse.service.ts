@@ -128,4 +128,11 @@ export class DraftedCourseService {
         return this.http.get<any>(url, { headers });
     }
 
+    getTeacherAnalytics(): Observable<any> {
+        let url = `${basePath}analytics/teacher`;
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<any>(url, { headers });
+    }
+
+
 }

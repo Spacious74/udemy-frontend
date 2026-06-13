@@ -22,6 +22,8 @@ export class CourseAnalyticsComponent implements OnInit {
   public enrolledStudents: any[] = [];
   public showStudentsTable: boolean = false;
   public loadingStudents: boolean = false;
+  public analyticsMap: { [courseId: string]: { earnings: number, studentsEnrolled: number, studentsData?: any[] } } = {};
+
 
   constructor(
     private draftedCourseService: DraftedCourseService,
@@ -40,21 +42,44 @@ export class CourseAnalyticsComponent implements OnInit {
   fetchCourses() {
     this.draftedCourseService.getAllDraftedCourseById(this.userDetails._id).subscribe((res) => {
       this.courses = res.data;
+      this.fetchAnalytics();
     }, (err) => {
       console.log(err);
     });
   }
 
+  fetchAnalytics() {
+    this.draftedCourseService.getTeacherAnalytics().subscribe((res) => {
+      if(res.success) {
+        res.data.forEach((item: any) => {
+          this.analyticsMap[item.courseId] = {
+            earnings: item.earnings,
+            studentsEnrolled: item.studentsEnrolled?.length || 0,
+            studentsData: item.studentsEnrolled || []
+          };
+        });
+      }
+    }, err => {
+      console.error(err);
+    });
+  }
+
+
   viewEnrolledStudents(course: DraftCourse) {
     this.selectedCourse = course;
     this.showStudentsTable = true;
-    this.loadingStudents = true;
-    this.draftedCourseService.getEnrolledStudents(course._id, this.userDetails._id).subscribe((res) => {
-      this.enrolledStudents = res.data;
-      this.loadingStudents = false;
-    }, err => {
-      this.loadingStudents = false;
-      console.error(err);
+    
+    const studentsData = this.analyticsMap[course._id]?.studentsData || [];
+    this.enrolledStudents = studentsData.map((s: any) => {
+      const user = s.studentId || {};
+      return {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        profileImage: user.profileImage,
+        enrolledAt: s.enrolledAt || user.createdAt
+      };
     });
   }
 
