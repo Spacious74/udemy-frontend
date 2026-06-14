@@ -60,8 +60,7 @@
         <div class="heading">
             Description
         </div>
-        <div class="text">
-            {{course?.description}}
+        <div class="text" [innerHTML]="course?.description" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; overflow: hidden;">
         </div>
     </div>
 </div>

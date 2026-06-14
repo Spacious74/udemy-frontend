@@ -34,25 +34,18 @@ export class CourseAnalyticsComponent implements OnInit {
     this.store.select("userInfo").subscribe((res)=>{
       if(res){
         this.userDetails = res;
-        this.fetchCourses();
+        this.fetchAnalytics();
       }
-    });
-  }
-
-  fetchCourses() {
-    this.draftedCourseService.getAllDraftedCourseById(this.userDetails._id).subscribe((res) => {
-      this.courses = res.data;
-      this.fetchAnalytics();
-    }, (err) => {
-      console.log(err);
     });
   }
 
   fetchAnalytics() {
     this.draftedCourseService.getTeacherAnalytics().subscribe((res) => {
       if(res.success) {
+        this.courses = res.courses;
         res.data.forEach((item: any) => {
-          this.analyticsMap[item.courseId] = {
+          const cId = item.courseId?._id || item.courseId;
+          this.analyticsMap[cId] = {
             earnings: item.earnings,
             studentsEnrolled: item.studentsEnrolled?.length || 0,
             studentsData: item.studentsEnrolled || []

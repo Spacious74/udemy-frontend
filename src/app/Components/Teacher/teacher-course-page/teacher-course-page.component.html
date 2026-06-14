@@ -1,6 +1,48 @@
 <div class="card" style="background-color: #f8f8f8; height: 100%;">
     <p-tabView>
-        <p-tabPanel header="Drafted Courses">
+         <p-tabPanel [header]="'Released Courses ' + ' (' + (releasedCourses?.length) + ')'">
+            <div class="p-1">
+                <div *ngIf="!error && releasedCourses?.length > 0" class="grid">
+                    <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let item of releasedCourses; let first = first">
+                        <div class="surface-card border-1 border-200 border-round-xl flex flex-column h-full hover:shadow-3 transition-all transition-duration-300">
+                            <div class="w-full relative" style="height: 140px;">
+                                <img *ngIf="item.coursePoster?.url" [src]="item.coursePoster.url" [alt]="item.title"
+                                    class="w-full h-full object-cover" style="border-top-left-radius: 12px; border-top-right-radius: 12px;" />
+                                <div *ngIf="!item.coursePoster?.url"
+                                    class="w-full h-full surface-200 flex align-items-center justify-content-center text-500 font-bold"
+                                    style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                                    No Image Available
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 flex flex-column flex-1">
+                                <div class="text-base font-semibold text-900 mb-2 course-title" [title]="item.title">
+                                    {{ item.title }}
+                                </div>
+                                <div>
+                                    <div class="text-500 mb-1 text-sm">{{item.totalLectures}} lectures | {{item.level}} | {{item.language}}</div>
+                                    <div class="text-green-500 font-bold">₹ {{item.price}}</div>
+                                </div>
+                                <div class="mt-auto flex gap-2 pt-3">
+                                    <p-button label="Update" icon="pi pi-pencil" styleClass="p-button-sm p-button-outlined flex-1" (onClick)="navigateToEditCourse(item?._id)"></p-button>
+                                    <p-button icon="pi pi-eye" [outlined]="true" severity="secondary" styleClass="p-button-sm"
+                                        (onClick)="navigateToCourseDetails(item._id)"></p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!error && (!releasedCourses || releasedCourses.length === 0)" class="p-5">
+                    You haven't released any courses yet.
+                </div>
+                <div *ngIf="error" class="p-5 text-red-500">
+                    {{ error }}
+                </div>
+            </div>
+        </p-tabPanel>
+
+
+        <p-tabPanel [header]="'Drafted Courses ' + ' (' + (draftedCourseList?.length) + ')'">
             <div class="p-1">
                 <p-button label="Create New Course" icon="pi pi-plus" [rounded]="true" (onClick)="navigateToCreateCourse()"/>
                 
@@ -42,47 +84,7 @@
                 </div>
             </div>
         </p-tabPanel>
-        
-        <p-tabPanel header="Released Courses">
-            <div class="p-1">
-                <div *ngIf="!error && releasedCourses?.length > 0" class="grid">
-                    <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let item of releasedCourses; let first = first">
-                        <div class="surface-card border-1 border-200 border-round-xl flex flex-column h-full hover:shadow-3 transition-all transition-duration-300">
-                            <div class="w-full relative" style="height: 140px;">
-                                <img *ngIf="item.coursePoster?.url" [src]="item.coursePoster.url" [alt]="item.title"
-                                    class="w-full h-full object-cover" style="border-top-left-radius: 12px; border-top-right-radius: 12px;" />
-                                <div *ngIf="!item.coursePoster?.url"
-                                    class="w-full h-full surface-200 flex align-items-center justify-content-center text-500 font-bold"
-                                    style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                                    No Image Available
-                                </div>
-                            </div>
-                            
-                            <div class="p-3 flex flex-column flex-1">
-                                <div class="text-base font-semibold text-900 mb-2 course-title" [title]="item.title">
-                                    {{ item.title }}
-                                </div>
-                                <div>
-                                    <div class="text-500 mb-1 text-sm">{{item.totalLectures}} lectures | {{item.level}} | {{item.language}}</div>
-                                    <div class="text-green-500 font-bold">₹ {{item.price}}</div>
-                                </div>
-                                <div class="mt-auto flex gap-2 pt-3">
-                                    <p-button label="Update" icon="pi pi-pencil" styleClass="p-button-sm p-button-outlined flex-1" (onClick)="navigateToEditCourse(item?._id)"></p-button>
-                                    <p-button icon="pi pi-eye" [outlined]="true" severity="secondary" styleClass="p-button-sm"
-                                        (onClick)="navigateToCourseDetails(item._id)"></p-button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="!error && (!releasedCourses || releasedCourses.length === 0)" class="p-5">
-                    You haven't released any courses yet.
-                </div>
-                <div *ngIf="error" class="p-5 text-red-500">
-                    {{ error }}
-                </div>
-            </div>
-        </p-tabPanel>
+
     </p-tabView>
 </div>
 

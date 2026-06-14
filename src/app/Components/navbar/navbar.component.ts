@@ -106,6 +106,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.cookieService.delete('skillUpToken');
+    this.cookieService.delete('skillUpToken', '/');
     this.router.navigate(['/']);
     this.userLoggedIn = false;
     this.store.dispatch(userInfoActions.loadUserSuccess({payload : null}));

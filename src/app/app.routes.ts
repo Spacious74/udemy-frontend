@@ -71,23 +71,19 @@ export const routes: Routes = [
         canActivate: [authGuard],
         title: 'User Profile'
       },
-      {
-        path: 'educator',
-        component: TeacherSectionComponent,
-        canActivate: [educatorGuard],
-        title: 'Educator Profile',
-        children: [
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: TeacherDashboardComponent },
-          { path: 'courses', component: TeacherCoursePageComponent },
-          { path: 'analytics', component: CourseAnalyticsComponent }
-        ]
-      },
-      {
-        path: 'create-course/:courseId',
-        canActivate: [educatorGuard],
-        component: CreateCourseComponent
-      }
+    ]
+  },
+  {
+    path: 'educator',
+    component: TeacherSectionComponent,
+    canActivate: [educatorGuard],
+    title: 'Educator Profile',
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: TeacherDashboardComponent },
+      { path: 'courses', component: TeacherCoursePageComponent },
+      { path: 'analytics', component: CourseAnalyticsComponent },
+      { path: 'create-course/:courseId', component: CreateCourseComponent }
     ]
   },
 

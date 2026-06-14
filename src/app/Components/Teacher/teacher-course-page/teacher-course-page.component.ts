@@ -76,12 +76,12 @@ export class TeacherCoursePageComponent implements OnInit {
   }
 
   navigateToEditCourse(courseId: any) {
-    let url = "/create-course/" + courseId;
+    let url = "/educator/create-course/" + courseId;
     this.router.navigate([url]);
   }
 
   navigateToCreateCourse() {
-    let url = "/create-course/" + null;
+    let url = "/educator/create-course/" + null;
     this.router.navigate([url]);
   }
 

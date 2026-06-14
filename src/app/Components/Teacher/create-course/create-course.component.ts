@@ -75,8 +75,13 @@ export class CreateCourseComponent implements OnInit {
     private draftedCourseService: DraftedCourseService,
     private activatedRoute: ActivatedRoute,
     private toastmsgService: ToastMessageService,
-    private store: Store<{ userInfo: UserList }>
+    private store: Store<{ userInfo: UserList }>,
+    private router: Router
   ) { }
+
+  goBack() {
+    this.router.navigate(['/educator/courses']);
+  }
 
   ngOnInit(): void {
 

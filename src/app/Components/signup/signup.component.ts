@@ -54,8 +54,9 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.authService.googleSignup(googleUser.idToken).subscribe((res) => {
         if (this.cookieService.get('skillUpToken')) {
           this.cookieService.delete('skillUpToken');
+          this.cookieService.delete('skillUpToken', '/');
         }
-        this.cookieService.set('skillUpToken', res.token, 65);
+        this.cookieService.set('skillUpToken', res.token, 65, '/');
 
         const payloadData = (res as any).data || res.user;
         this.store.dispatch(userInfoActions.loadUserSuccess({ payload: payloadData }));
@@ -93,8 +94,9 @@ export class SignupComponent implements OnInit, OnDestroy {
       (res) => {
         if (this.cookieService.get('skillUpToken')) {
           this.cookieService.delete('skillUpToken');
+          this.cookieService.delete('skillUpToken', '/');
         }
-        this.cookieService.set('skillUpToken', res.token, 65);
+        this.cookieService.set('skillUpToken', res.token, 65, '/');
 
         this.store.dispatch(userInfoActions.loadUserSuccess({ payload: res.data }));
 

@@ -18,7 +18,7 @@
                         {{course.title}}
                     </div>
                     <div>
-                        <div class="text-500 mb-1 text-sm">Total Students: <span class="font-bold text-700">{{analyticsMap[course._id]?.studentsEnrolled || course.totalStudentsPurchased || 0}}</span></div>
+                        <div class="text-500 mb-1 text-sm">Total Students: <span class="font-bold text-700">{{analyticsMap[course._id]?.studentsEnrolled ?? course.totalStudentsPurchased ?? 0}}</span></div>
                         <div class="text-500 mb-1 text-sm">Course Price: <span class="font-bold text-700">{{course.price | currency:'INR'}}</span></div>
                         <div class="text-green-500 font-bold mt-2">Earnings: {{analyticsMap[course._id]?.earnings || 0 | currency:'INR'}}</div>
                     </div>
