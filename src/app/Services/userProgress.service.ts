@@ -34,4 +34,8 @@ export class UserProgressService {
         return this.http.get<response>(url);
     }
 
+    getAllCourseProgress(courseId: string): Observable<{success: boolean, progressData: any[]}> {
+        let url = `${this.base_url}courseProgress?courseId=${courseId}`;
+        return this.http.get<{success: boolean, progressData: any[]}>(url);
+    }
 }

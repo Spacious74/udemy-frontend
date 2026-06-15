@@ -22,7 +22,7 @@
                         <div class="text-500 mb-1 text-sm">Course Price: <span class="font-bold text-700">{{course.price | currency:'INR'}}</span></div>
                         <div class="text-green-500 font-bold mt-2">Earnings: {{analyticsMap[course._id]?.earnings || 0 | currency:'INR'}}</div>
                     </div>
-                    <p-button label="Enrolled Students" icon="pi pi-users" (onClick)="viewEnrolledStudents(course)"
+                    <p-button label="See Analytics" icon="pi pi-chart-line" (onClick)="viewEnrolledStudents(course)"
                             styleClass="p-button-outlined p-button-sm mt-3"></p-button>
                 </div>
             </div>
@@ -33,48 +33,131 @@
     </div>
 </div>
 
-<div class="p-4" *ngIf="showStudentsTable">
-    <div class="flex align-items-center mb-4 gap-3">
+<div class="" *ngIf="showStudentsTable">
+    <div class="flex align-items-center my-2 gap-3">
         <p-button icon="pi pi-arrow-left" (onClick)="goBack()"
             styleClass="p-button-rounded p-button-secondary p-button-text"></p-button>
-        <div class="text-xl font-bold">Enrolled Students - {{selectedCourse?.title}}</div>
+        <div class="text-xl font-bold">Course Analytics - {{selectedCourse?.title}}</div>
     </div>
 
-    <div class="">
-        <div class="text-lg font-semibold mb-3">Total Students: {{enrolledStudents.length}}</div>
+    <p-tabView>
+        <p-tabPanel header="Enrolled Students">
+            <div class="text-lg font-semibold mb-3 mt-3">Total Students: {{enrolledStudents.length}}</div>
 
-        <p-table [value]="enrolledStudents" [loading]="loadingStudents" [paginator]="true" [rows]="10"
-            styleClass="p-datatable-striped border-1 border-round-xl overflow-hidden">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th class="p-2 px-4">Profile</th>
-                    <th class="p-2 px-4">Username</th>
-                    <th class="p-2 px-4">Email</th>
-                    <th class="p-2 px-4">Role</th>
-                    <th class="p-2 px-4">Enrolled At</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-student>
-                <tr>
-                    <td class="p-2 px-4 flex align-items-center">
-                        <img *ngIf="student.profileImage" [src]="student.profileImage" alt="Profile"
-                            style="width: 40px; height: 40px; border-radius: 50%;" class="border-1">
-                        <div *ngIf="!student.profileImage"
-                            class="w-2rem h-2rem bg-primary flex align-items-center justify-content-center border-circle text-white font-bold">
-                            {{student.username.charAt(0) | uppercase}}
-                        </div>
-                    </td>
-                    <td class="p-2 px-4">{{ student.username }}</td>
-                    <td class="p-2 px-4">{{ student.email }}</td>
-                    <td class="p-2 px-4"><span class="p-badge p-badge-info">{{ student.role }}</span></td>
-                    <td class="p-2 px-4">{{ student.enrolledAt | date:'medium' }}</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="5" class="text-center p-4">No students enrolled yet.</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
+            <p-table [value]="enrolledStudents" [loading]="loadingStudents" [paginator]="true" [rows]="10"
+                styleClass="p-datatable-striped border-1 border-round-xl overflow-hidden">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="p-2 px-4">Profile</th>
+                        <th class="p-2 px-4">Username</th>
+                        <th class="p-2 px-4">Email</th>
+                        <th class="p-2 px-4">Role</th>
+                        <th class="p-2 px-4">Enrolled At</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-student>
+                    <tr>
+                        <td class="p-2 px-4 flex align-items-center">
+                            <img *ngIf="student.profileImage" [src]="student.profileImage" alt="Profile"
+                                style="width: 40px; height: 40px; border-radius: 50%;" class="border-1">
+                            <div *ngIf="!student.profileImage"
+                                class="w-2rem h-2rem bg-primary flex align-items-center justify-content-center border-circle text-white font-bold">
+                                {{student.username.charAt(0) | uppercase}}
+                            </div>
+                        </td>
+                        <td class="p-2 px-4">{{ student.username }}</td>
+                        <td class="p-2 px-4">{{ student.email }}</td>
+                        <td class="p-2 px-4"><span class="p-badge p-badge-info">{{ student.role }}</span></td>
+                        <td class="p-2 px-4">{{ student.enrolledAt | date:'medium' }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5" class="text-center p-4">No students enrolled yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+
+        <p-tabPanel header="Student Reviews">
+            <div class="text-lg font-semibold mb-3 mt-3">Total Reviews: {{courseReviews.length}}</div>
+            
+            <p-table [value]="courseReviews" [loading]="loadingReviews" [paginator]="true" [rows]="10"
+                styleClass="p-datatable-striped border-1 border-round-xl overflow-hidden">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="p-2 px-4">Student</th>
+                        <th class="p-2 px-4">Rating</th>
+                        <th class="p-2 px-4" style="width: 50%">Review</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-review>
+                    <tr>
+                        <td class="p-2 px-4 font-medium">{{ review.username }}</td>
+                        <td class="p-2 px-4">
+                            <p-rating [ngModel]="review.rating" [readonly]="true" [cancel]="false"></p-rating>
+                        </td>
+                        <td class="p-2 px-4">
+                            <p class="m-0 text-600 line-height-3">{{ review.desc }}</p>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="3" class="text-center p-4">No reviews yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="User Progress">
+            <div class="text-lg font-semibold mb-3 mt-3">Track Progress: {{courseProgressData.length}} Students Started</div>
+            
+            <p-table [value]="courseProgressData" [loading]="loadingProgress" [paginator]="true" [rows]="10"
+                styleClass="p-datatable-striped border-1 border-round-xl overflow-hidden">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="p-2 px-4">Student</th>
+                        <th class="p-2 px-4">Completed Videos</th>
+                        <th class="p-2 px-4">Watch Progress</th>
+                        <th class="p-2 px-4">Currently Watching</th>
+                        <th class="p-2 px-4">Status</th>
+                        <th class="p-2 px-4">Last Activity</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-progress>
+                    <tr>
+                        <td class="p-2 px-4 font-medium">{{ progress.userId?.username || 'Unknown' }}</td>
+                        <td class="p-2 px-4">
+                            <span class="font-bold text-primary">{{ progress.videosCompleted?.length || 0 }}</span>
+                            <span class="text-sm text-500 font-medium"> / {{ selectedCourse?.totalLectures || 0 }}</span>
+                        </td>
+                        <td class="p-2 px-4" style="min-width: 150px;">
+                            <div class="flex align-items-center gap-2">
+                                <p-progressBar [value]="getWatchPercentage(progress.videosCompleted?.length || 0, selectedCourse?.totalLectures || 0)" [showValue]="false" styleClass="w-full" [style]="{'height': '6px', 'flex': 1}"></p-progressBar>
+                                <span class="text-sm font-bold text-700">{{ getWatchPercentage(progress.videosCompleted?.length || 0, selectedCourse?.totalLectures || 0) }}%</span>
+                            </div>
+                        </td>
+                        <td class="p-2 px-4">
+                            <span *ngIf="progress.currentWatchingVideo?.videoTitle" class="text-sm text-500">
+                                {{ progress.currentWatchingVideo.videoTitle }}
+                            </span>
+                            <span *ngIf="!progress.currentWatchingVideo?.videoTitle" class="text-sm text-400">
+                                Not started yet
+                            </span>
+                        </td>
+                        <td class="p-2 px-4">
+                            <span *ngIf="progress.courseCompletionStatus" class="p-badge p-badge-success">Completed</span>
+                            <span *ngIf="!progress.courseCompletionStatus" class="p-badge p-badge-warning">In Progress</span>
+                        </td>
+                        <td class="p-2 px-4 text-sm text-600">{{ progress.lastUpdated | date:'medium' }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5" class="text-center p-4">No progress tracked yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+    </p-tabView>
 </div>
