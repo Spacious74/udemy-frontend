@@ -134,5 +134,12 @@ export class DraftedCourseService {
         return this.http.get<any>(url, { headers });
     }
 
-
+    getEarningsAndReports(courseId?: string): Observable<any> {
+        let url = `${basePath}earnings`;
+        if (courseId) {
+            url += `?courseId=${courseId}`;
+        }
+        const headers = AppObject.prepareGetJsonHeader();
+        return this.http.get<any>(url, { headers });
+    }
 }

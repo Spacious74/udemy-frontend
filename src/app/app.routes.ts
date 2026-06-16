@@ -16,6 +16,7 @@ import { TeacherSectionComponent } from './Components/Teacher/teacher-section/te
 import { TeacherCoursePageComponent } from './Components/Teacher/teacher-course-page/teacher-course-page.component';
 import { CreateCourseComponent } from './Components/Teacher/create-course/create-course.component';
 import { CourseAnalyticsComponent } from './Components/Teacher/course-analytics/course-analytics.component';
+import { EarningsReportsComponent } from './Components/Teacher/earnings-reports/earnings-reports.component';
 
 import { OrderSummaryComponent } from './Components/order-summary/order-summary.component';
 import { authGuard } from './guards/auth.guard';
@@ -83,6 +84,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: TeacherDashboardComponent },
       { path: 'courses', component: TeacherCoursePageComponent },
       { path: 'analytics', component: CourseAnalyticsComponent },
+      { path: 'earnings', component: EarningsReportsComponent },
       { path: 'create-course/:courseId', component: CreateCourseComponent }
     ]
   },

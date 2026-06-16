@@ -1,0 +1,134 @@
+<div class="p-4">
+    <!-- Header -->
+    <div class="flex align-items-center mb-4 gap-3">
+        <p-button *ngIf="showCourseDetails" icon="pi pi-arrow-left" (onClick)="goBack()" styleClass="p-button-rounded p-button-secondary p-button-text"></p-button>
+        <div class="text-2xl font-bold">
+            <span *ngIf="!showCourseDetails">Earnings & Reports</span>
+            <span *ngIf="showCourseDetails">Earnings & Reports - {{selectedCourse?.title}}</span>
+        </div>
+    </div>
+
+    <!-- Top 4 Cards (Visible in both views, data updates dynamically) -->
+    <div class="grid mb-4">
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card border-1 border-200 border-round-xl p-4 flex flex-column gap-2 hover:shadow-3 transition-all transition-duration-300">
+                <span class="text-500 font-medium text-sm">Total Earnings</span>
+                <span class="text-3xl font-bold text-green-500">{{totalEarnings | currency:'INR'}}</span>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card border-1 border-200 border-round-xl p-4 flex flex-column gap-2 hover:shadow-3 transition-all transition-duration-300">
+                <span class="text-500 font-medium text-sm">This Month Earning</span>
+                <span class="text-3xl font-bold text-green-500">{{thisMonthEarnings | currency:'INR'}}</span>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card border-1 border-200 border-round-xl p-4 flex flex-column gap-2 hover:shadow-3 transition-all transition-duration-300">
+                <span class="text-500 font-medium text-sm">Total Students Purchases</span>
+                <span class="text-3xl font-bold text-primary">{{totalStudentsPurchases}}</span>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+            <div class="surface-card border-1 border-200 border-round-xl p-4 flex flex-column gap-2 hover:shadow-3 transition-all transition-duration-300">
+                <span class="text-500 font-medium text-sm">Today's Purchases & Earning</span>
+                <div class="flex align-items-center gap-2">
+                    <span class="text-3xl font-bold text-primary">{{todaysPurchasesCount}}</span>
+                    <span class="text-xl font-bold text-green-500">({{todaysEarnings | currency:'INR'}})</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: Courses Table -->
+    <div *ngIf="!showCourseDetails">
+        <div class="surface-card border-1 border-200 border-round-xl overflow-hidden p-4">
+            <p-table [value]="courses" [paginator]="true" [rows]="10" styleClass="p-datatable-striped" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 50px;">Image</th>
+                        <th>Course Title</th>
+                        <th>Total Students</th>
+                        <th>Price</th>
+                        <th>Earnings</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-course>
+                    <tr>
+                        <td>
+                            <img *ngIf="course.coursePoster?.url" [src]="course.coursePoster.url" alt="Course" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+                            <div *ngIf="!course.coursePoster?.url" class="w-3rem h-3rem bg-gray-200 flex align-items-center justify-content-center border-round">
+                                <i class="pi pi-image text-gray-400"></i>
+                            </div>
+                        </td>
+                        <td class="font-medium">{{course.title}}</td>
+                        <td>{{analyticsMap[course._id]?.studentsEnrolled ?? course.totalStudentsPurchased ?? 0}}</td>
+                        <td>{{course.price | currency:'INR'}}</td>
+                        <td class="font-bold text-green-600">{{analyticsMap[course._id]?.earnings || 0 | currency:'INR'}}</td>
+                        <td>
+                            <p-button label="View Analytics" icon="pi pi-chart-line" styleClass="p-button-outlined p-button-sm" (onClick)="viewCourseAnalytics(course)"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6" class="text-center p-4">No courses available.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <!-- Main Content: Course Analytics Details -->
+    <div *ngIf="showCourseDetails">
+        <div class="grid" *ngIf="!loadingData">
+            <!-- Left: Line Chart -->
+            <div class="col-12 lg:col-6 xl:col-8">
+                <div class="surface-card border-1 border-200 border-round-xl p-4 h-full">
+                    <div class="text-xl font-bold mb-4">Monthly Earnings Overview</div>
+                    <div style="height: 350px;">
+                        <p-chart type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Recent Transactions Table -->
+            <div class="col-12 lg:col-6 xl:col-4">
+                <div class="surface-card border-1 border-200 border-round-xl p-4 h-full overflow-hidden">
+                    <div class="text-xl font-bold mb-4">Recent Transactions</div>
+                    <p-table [value]="recentTransactions" styleClass="p-datatable-sm" responsiveLayout="scroll">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-transaction>
+                            <tr>
+                                <td class="font-medium">{{transaction.studentName}}</td>
+                                <td>
+                                    <span class="text-overflow-ellipsis white-space-nowrap overflow-hidden inline-block" style="max-width: 100px;" [title]="transaction.courseName">
+                                        {{transaction.courseName}}
+                                    </span>
+                                </td>
+                                <td class="font-bold text-green-600">{{transaction.amount | currency:'INR'}}</td>
+                                <td class="text-500 text-sm">{{transaction.date | date:'dd MMM'}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4" class="text-center p-4">No recent transactions.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="loadingData" class="flex justify-content-center align-items-center p-5">
+            <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+        </div>
+    </div>
+</div>
