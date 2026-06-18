@@ -1,3 +1,4 @@
+
 <p-toast></p-toast>
 <div class="order-nav p-3 flex justify-content-center align-items-center">
     <div class="inner-nav">
@@ -8,12 +9,26 @@
 
     <div class="left">
 
-        <form #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)">
+        <div *ngIf="isRegistered" class="flex flex-column align-items-center justify-content-center text-center p-4 h-full">
+            <i class="pi pi-check-circle text-green-500 mb-4" style="font-size: 4rem;"></i>
+            <h2 class="mb-3">Registration Successful!</h2>
+            <p class="text-lg mb-4 text-700">A verification link has been sent to your email address. Please check your inbox and verify your email.</p>
+            
+            <div class="bg-blue-50 text-blue-800 p-3 border-round mb-4 text-sm w-full font-medium flex align-items-center justify-content-center">
+                <i class="pi pi-info-circle mr-2"></i>
+                Please also check your spam or junk folder if you don't see it in your inbox.
+            </div>
+
+            <p class="text-sm text-500 mb-5">If you have verified your email, proceed to login below.</p>
+            <button pButton label="Proceed to Login" class="w-full max-w-15rem" routerLink="/login"></button>
+        </div>
+
+        <form *ngIf="!isRegistered" #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)">
 
             <div class="text-2xl head font-semibold text-center mb-5">Create your new account</div>
 
             <div class="google-btn-wrapper flex justify-content-center">
-                <asl-google-signin-button type="standard" size="large" shape="rectangular" theme="outline" text="signup_with" logo_alignment="left"></asl-google-signin-button>
+                <asl-google-signin-button type="standard" size="large" shape="pill" theme="filled_black" text="signup_with" logo_alignment="left"></asl-google-signin-button>
             </div>
 
             <p-divider align="center" type="solid" >
@@ -32,22 +47,25 @@
                     [(ngModel)]="formData.email" />
             </div>
 
-            <div class="flex gap-2">
-                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+            <div class="flex gap-2 mb-1">
+                <div class="form-control p-fluid flex flex-column gap-1 w-full">
                     <label class="font-bold" for="password">Password</label>
-                    <p-password [(ngModel)]="formData.password" toggleMask name="password"
-                        [feedback]="false"></p-password>
+                    <input pInputText [type]="showPasswords ? 'text' : 'password'" [(ngModel)]="formData.password" name="password" />
                 </div>
 
-                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                <div class="form-control p-fluid flex flex-column gap-1 w-full">
                     <label class="font-bold" for="reEnterPassword">Confirm Password</label>
-                    <p-password [(ngModel)]="formData.confirmPassword" toggleMask name="reEnterPassword"
-                        [feedback]="false"></p-password>
+                    <input pInputText [type]="showPasswords ? 'text' : 'password'" [(ngModel)]="formData.confirmPassword" name="reEnterPassword" />
                 </div>
             </div>
 
+            <div class="flex align-items-center mb-4 cursor-pointer text-sm text-600 hover:text-800 transition-colors transition-duration-200 select-none" (click)="showPasswords = !showPasswords">
+                <i class="pi mr-2" [ngClass]="showPasswords ? 'pi-eye-slash' : 'pi-eye'"></i>
+                <span>{{ showPasswords ? 'Hide password' : 'Show password' }}</span>
+            </div>
+
             <div class="flex flex-column gap-3 p-fluid align-items-center mt-2">
-                <button pButton label="Signup" icon="pi pi-sign-in" type="submit"></button>
+                <button pButton label="Signup" icon="pi pi-sign-in" type="submit" [loading]="loading"></button>
                 <div class="text-sm">
                     Already have an account ? <a class="text-primary" routerLink="/login">Login</a>
                 </div>

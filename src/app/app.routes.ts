@@ -10,6 +10,7 @@ import { CartComponent } from './Components/cart/cart.component';
 import { PlaylistComponent } from './Components/playlist/playlist.component';
 import { VideoPlayerComponent } from './Components/video-player/video-player.component';
 import { UserProfileComponent } from './Components/user-profile/user-profile.component';
+import { VerifyEmailComponent } from './Components/verify-email/verify-email.component';
 
 import { TeacherDashboardComponent } from './Components/Teacher/teacher-dashboard/teacher-dashboard.component';
 import { TeacherSectionComponent } from './Components/Teacher/teacher-section/teacher-section.component';
@@ -102,6 +103,12 @@ export const routes: Routes = [
     title: 'Create account'
   },
   {
+    path: 'verify-email',
+    component: VerifyEmailComponent,
+    title: 'Verify Email'
+  },
+  {
+
     path: 'order-summary',
     component: OrderSummaryComponent,
     canActivate: [authGuard],

@@ -1,0 +1,30 @@
+<div class="order-nav p-3 flex justify-content-center align-items-center">
+    <div class="inner-nav">
+        <div class="logo">Skill Up.</div>
+    </div>
+</div>
+<div class="login-container flex justify-content-center" style="min-height: calc(100vh - 75px);">
+    <div class="left flex flex-column align-items-center justify-content-center text-center p-5 w-full" style="max-width: 600px;">
+        
+        <div *ngIf="isLoading" class="flex flex-column align-items-center">
+            <i class="pi pi-spin pi-spinner text-primary mb-4" style="font-size: 4rem;"></i>
+            <h2 class="mb-3">Verifying your email...</h2>
+            <p class="text-lg text-700">Please wait a moment while we confirm your email address.</p>
+        </div>
+
+        <div *ngIf="!isLoading && isSuccess" class="flex flex-column align-items-center">
+            <i class="pi pi-check-circle text-green-500 mb-4" style="font-size: 4rem;"></i>
+            <h2 class="mb-3">Verification Successful!</h2>
+            <p class="text-lg mb-5 text-700">{{ message }}</p>
+            <button pButton label="Proceed to Login" class="p-button-primary w-full max-w-15rem" (click)="goToLogin()"></button>
+        </div>
+
+        <div *ngIf="!isLoading && !isSuccess" class="flex flex-column align-items-center">
+            <i class="pi pi-times-circle text-red-500 mb-4" style="font-size: 4rem;"></i>
+            <h2 class="mb-3">Verification Failed</h2>
+            <p class="text-lg mb-5 text-700">{{ message }}</p>
+            <button pButton label="Back to Login" class="p-button-secondary w-full max-w-15rem" (click)="goToLogin()"></button>
+        </div>
+
+    </div>
+</div>

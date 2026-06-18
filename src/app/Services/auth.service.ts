@@ -59,6 +59,17 @@ export class AuthService {
     let url = basePath + 'user/google/login';
     return this.http.post<GoogleAuthResponse>(url,{ token });
   }
+
+  verifyEmail(token: string): Observable<AuthResponse> {
+    let url = basePath + 'user/verify-email?token=' + token;
+    return this.http.get<AuthResponse>(url);
+  }
+
+  resendVerification(email: string): Observable<AuthResponse> {
+    let url = basePath + 'user/resend-verification';
+    return this.http.post<AuthResponse>(url, { email });
+  }
+
   getUserData(sendedtoken?: string): Observable<AuthResponse> {
     let url = basePath + 'user/getUserLogonData';
     var headers = new HttpHeaders({ 'credentials': 'include' });
@@ -96,6 +107,9 @@ export class AuthService {
   }
 
   getPreviousUrl(): string | null {
+    if (this.previousUrl && (this.previousUrl.includes('/login') || this.previousUrl.includes('/signup') || this.previousUrl.includes('/verify-email'))) {
+      return null;
+    }
     return this.previousUrl;
   }
 }

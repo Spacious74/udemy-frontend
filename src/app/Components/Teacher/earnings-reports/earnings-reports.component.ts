@@ -77,6 +77,7 @@ export class EarningsReportsComponent implements OnInit {
       this.totalStudentsPurchases = this.globalStats.totalStudentsPurchases;
       this.todaysPurchasesCount = this.globalStats.todaysPurchasesCount;
       this.todaysEarnings = this.globalStats.todaysEarnings;
+      this.updateChart(this.globalStats.monthlyEarningsChart || []);
     }
   }
 
@@ -99,11 +100,11 @@ export class EarningsReportsComponent implements OnInit {
               thisMonthEarnings: this.thisMonthEarnings,
               totalStudentsPurchases: this.totalStudentsPurchases,
               todaysPurchasesCount: this.todaysPurchasesCount,
-              todaysEarnings: this.todaysEarnings
+              todaysEarnings: this.todaysEarnings,
+              monthlyEarningsChart: d.monthlyEarningsChart || []
             };
-          } else {
-            this.updateChart(d.monthlyEarningsChart || []);
           }
+          this.updateChart(d.monthlyEarningsChart || []);
           this.loadingData = false;
         }
       },

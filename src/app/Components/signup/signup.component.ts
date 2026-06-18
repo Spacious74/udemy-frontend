@@ -34,6 +34,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   public loading: boolean = false;
   public errorFlag: boolean = false;
+  public isRegistered: boolean = false;
+  public showPasswords: boolean = false;
   public formData: User = new User();
   private googleAuthSub: Subscription;
 
@@ -92,18 +94,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.formData.role = "student";
     this.authService.register(this.formData).subscribe(
       (res) => {
-        if (this.cookieService.get('skillUpToken')) {
-          this.cookieService.delete('skillUpToken');
-          this.cookieService.delete('skillUpToken', '/');
-        }
-        this.cookieService.set('skillUpToken', res.token, 65, '/');
-
-        this.store.dispatch(userInfoActions.loadUserSuccess({ payload: res.data }));
-
-        this.loading = false; this.errorFlag = false;
-        this.toastmsgService.showSuccess("Success", "User registered successfully.");
+        this.loading = false; 
+        this.errorFlag = false;
+        this.isRegistered = true;
+        this.toastmsgService.showSuccess("Success", "User registered successfully. Please verify your email.");
         this.formData = new User();
-        this.router.navigate(['/']);
       },
       (error) => {
         console.log(error)
