@@ -70,6 +70,16 @@ export class AuthService {
     return this.http.post<AuthResponse>(url, { email });
   }
 
+  forgotPassword(email: string): Observable<AuthResponse> {
+    let url = basePath + 'user/forgot-password';
+    return this.http.post<AuthResponse>(url, { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<AuthResponse> {
+    let url = basePath + `user/reset-password/${token}`;
+    return this.http.post<AuthResponse>(url, { newPassword });
+  }
+
   getUserData(sendedtoken?: string): Observable<AuthResponse> {
     let url = basePath + 'user/getUserLogonData';
     var headers = new HttpHeaders({ 'credentials': 'include' });

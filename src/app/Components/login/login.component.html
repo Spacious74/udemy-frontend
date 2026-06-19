@@ -42,7 +42,7 @@
                 <div *ngIf="loginForm.submitted && !loginForm.value.password" class="text-red-500">Password is required.
                 </div>
                 <div class="flex justify-content-between align-items-center py-1">
-                    <small class="cursor-pointer hover:text-primary">Forgot Password?</small>
+                    <small class="cursor-pointer hover:text-primary" routerLink="/forgot-password">Forgot Password?</small>
                 </div>
             </div>
 
