@@ -8,11 +8,12 @@ import { UserList } from './models/UserList';
 import { Store } from '@ngrx/store';
 import { userInfoActions } from './store/actions/userInfo.action';
 import { CartStateService } from './Services/cartState.service';
+import { AiTutorComponent } from './Components/ai-tutor/ai-tutor.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ToastModule],
+  imports: [RouterOutlet, ToastModule, AiTutorComponent],
   providers: [MessageService, ToastMessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

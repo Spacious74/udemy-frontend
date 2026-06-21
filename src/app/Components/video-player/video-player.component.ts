@@ -1,5 +1,5 @@
 var window: Window;
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -28,6 +28,7 @@ import { CurrentWatchingVideo } from '../../models/UserProgress';
 import { VideoList } from '../../models/Course/VideoList';
 import { filter, switchMap, take, tap } from 'rxjs';
 import { CertificateService } from '../../Services/certificate.service';
+import { AiTutorService } from '../../Services/ai-tutor.service';
 
 @Component({
   selector: 'app-video-player',
@@ -39,7 +40,7 @@ import { CertificateService } from '../../Services/certificate.service';
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.css',
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit, OnDestroy {
 
   public isTablet : boolean = false;
 
@@ -73,7 +74,8 @@ export class VideoPlayerComponent implements OnInit {
     private certificateService: CertificateService,
     private activatedRoute: ActivatedRoute,
     private toastMsgService: ToastMessageService,
-    private store: Store<{ userInfo: UserList }>
+    private store: Store<{ userInfo: UserList }>,
+    private aiTutorService: AiTutorService
   ) { }
 
   onTabChange(event: any) {
@@ -102,12 +104,17 @@ export class VideoPlayerComponent implements OnInit {
     ).subscribe({
       next: () => {
         console.log('Both APIs completed successfully');
+        this.aiTutorService.setCourseMode(true, this.courseId);
       },
       error: (error) => {
         this.toastMsgService.showError('Error', error.error?.message);
       }
     });
     this.checkScreen();
+  }
+
+  ngOnDestroy(): void {
+    this.aiTutorService.setCourseMode(false);
   }
 
   @HostListener('window:resize')
