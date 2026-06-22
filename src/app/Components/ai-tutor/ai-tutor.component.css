@@ -9,9 +9,9 @@
 .ai-chat-btn {
   border-radius: 999px;
   /* background: linear-gradient(135deg, teal 0%, #35489c 50%, #450d7e 100%); */
-  background: 
-  radial-gradient(ellipse at 50% -5%, #a3f7fa8e 0%, transparent 60%),
-  linear-gradient(to bottom, #1a5fc8 0%, #0d3a7a 60%, #081f4a 100%);
+  background:
+    radial-gradient(ellipse at 50% -5%, #a3fac48e 0%, transparent 60%),
+    linear-gradient(to bottom, #1ac87a 0%, #0d7a3a 60%, #082a1a 100%);
   color: white;
   border: none;
   font-size: 16px;
@@ -44,11 +44,15 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid #e2e8f0;
+  transition: width 0.3s ease, height 0.3s ease, right 0.3s ease, bottom 0.3s ease;
+}
+
+.ai-chat-window.expanded {
+  width: 600px;
 }
 
 .ai-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: #000;
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -74,12 +78,38 @@
   background: #48bb78;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.expand-btn:hover {
+  color: #667eea;
+}
+
 .close-btn {
   background: none;
   border: none;
-  color: white;
+  color: #334155;
   font-size: 24px;
   cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #ef4444;
 }
 
 .ai-body {
@@ -124,13 +154,15 @@
 }
 
 .loading-indicator {
-  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
   background: white;
   padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   display: flex;
-  gap: 4px;
+  width : 300px;
+  gap: 8px;
 }
 
 .dot {
@@ -196,3 +228,76 @@
     height: 400px;
   }
 }
+
+.free-queries-badge {
+  background: #fef08a !important;
+  color: #854d0e !important;
+}
+
+.login-link {
+  text-decoration: underline;
+  font-weight: 600;
+  color: inherit;
+}
+
+.default-questions {
+  margin-top: 20px;
+}
+
+.suggestions-title {
+  font-size: 0.9em;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.suggestion-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.chip {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 0.85em;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  max-width: 100%;
+  text-align: left;
+}
+
+.chip:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+
+
+.sk {
+  border-radius: 8px;
+  background: linear-gradient(
+    130deg,
+    #44cf8a 0%,
+    #57a0ff6c 20%,
+    #4fc3f7 40%,
+    #8ffc93 60%,
+    #57a0ff6c 80%,
+    #44cf8a 100%
+  );
+  background-size: 500px 100%;
+  animation: shimmer 4s infinite linear;
+}
+
+
+@keyframes shimmer {
+  0%   { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
+}
+
+.line-1 { height: 14px; width: 100%; }
+.line-2 { height: 14px; width: 75%; }
+.line-3 { height: 14px; width: 50%; }

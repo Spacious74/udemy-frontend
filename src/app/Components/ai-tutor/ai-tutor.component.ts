@@ -1,32 +1,46 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AiTutorService, ChatMessage } from '../../Services/ai-tutor.service';
+import { AuthService } from '../../Services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ai-tutor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './ai-tutor.component.html',
   styleUrls: ['./ai-tutor.component.css']
 })
 export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
   isOpen = false;
+  isExpanded = false;
   isCourseMode = false;
   courseId: string | null = null;
   
   messages: ChatMessage[] = [];
   userInput = '';
   isLoading = false;
+
+  isLoggedIn = false;
+  userName: string | null = null;
+  freeQueriesRemaining = 5;
   
   @ViewChild('chatScroll') private chatScrollContainer!: ElementRef;
   
   private modeSub!: Subscription;
 
-  constructor(private aiService: AiTutorService) {}
+  constructor(
+    private aiService: AiTutorService,
+    private authService: AuthService,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit() {
+    this.checkLoginStatus();
+
     this.modeSub = this.aiService.isCourseMode.subscribe(mode => {
       this.isCourseMode = mode;
       this.courseId = this.aiService.courseId.value;
@@ -37,6 +51,37 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages = []; // Clear for general mode
       }
     });
+  }
+
+  checkLoginStatus() {
+    const token = this.cookieService.get('skillUpToken');
+    if (token) {
+      this.authService.getUserData().subscribe({
+        next: (res: any) => {
+          if (res.success && res.data) {
+            this.isLoggedIn = true;
+            this.userName = res.data.name;
+          }
+        },
+        error: () => {
+          this.initFreeQueries();
+        }
+      });
+    } else {
+      this.initFreeQueries();
+    }
+  }
+
+  initFreeQueries() {
+    this.isLoggedIn = false;
+    const queries = localStorage.getItem('ai_free_queries_used');
+    const used = queries ? parseInt(queries) : 0;
+    this.freeQueriesRemaining = Math.max(0, 5 - used);
+  }
+
+  askQuestion(question: string) {
+    this.userInput = question;
+    this.sendMessage();
   }
 
   ngOnDestroy() {
@@ -52,6 +97,10 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.isOpen) {
       this.scrollToBottom();
     }
+  }
+
+  toggleExpand() {
+    this.isExpanded = !this.isExpanded;
   }
 
   loadCourseChat() {
@@ -74,6 +123,12 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
   sendMessage() {
     if (!this.userInput.trim()) return;
 
+    if (!this.isLoggedIn && this.freeQueriesRemaining <= 0) {
+      this.messages.push({ role: 'model', content: 'You have exhausted your 5 free queries. Please <a href="/login">login</a> to continue using the AI tutor.' });
+      this.scrollToBottom();
+      return;
+    }
+
     const userMessage = this.userInput.trim();
     this.messages.push({ role: 'user', content: userMessage });
     this.userInput = '';
@@ -84,6 +139,12 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (res.success) {
           this.isLoading = false;
           this.simulateTyping(res.response);
+          if (!this.isLoggedIn) {
+            let used = parseInt(localStorage.getItem('ai_free_queries_used') || '0');
+            used++;
+            localStorage.setItem('ai_free_queries_used', used.toString());
+            this.freeQueriesRemaining = Math.max(0, 5 - used);
+          }
         } else {
           this.isLoading = false;
         }
@@ -96,6 +157,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
         this.messages.push({ role: 'model', content: `Error: ${errorMsg}` });
         this.isLoading = false;
+        this.scrollToBottom();
       }
     });
   }

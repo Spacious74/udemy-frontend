@@ -1,21 +1,46 @@
 <div class="ai-widget-container">
   <!-- Chat Window -->
-  <div class="ai-chat-window" *ngIf="isOpen">
+  <div class="ai-chat-window" *ngIf="isOpen" [class.expanded]="isExpanded">
     <div class="ai-header">
       <div class="header-info">
         <h3>SkillUp AI Tutor</h3>
-        <span class="mode-badge" [class.course-mode]="isCourseMode">
+        <span class="mode-badge" *ngIf="isLoggedIn" [class.course-mode]="isCourseMode">
           {{ isCourseMode ? 'Course Mode' : 'General Mode' }}
         </span>
+        <span class="mode-badge free-queries-badge" *ngIf="!isLoggedIn" [routerLink]="['/login']" style="cursor: pointer;">
+          {{ freeQueriesRemaining }} Free Queries Left. <span class="login-link">Login for more</span>
+        </span>
       </div>
-      <button class="close-btn" (click)="toggleChat()">&times;</button>
+      <div class="header-actions">
+        <button class="expand-btn" (click)="toggleExpand()" title="Expand Panel">
+          <svg *ngIf="!isExpanded" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+          <svg *ngIf="isExpanded" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+        </button>
+        <button class="close-btn" (click)="toggleChat()">&times;</button>
+      </div>
     </div>
 
     <div class="ai-body" #chatScroll>
       <div *ngIf="messages.length === 0 && !isLoading" class="empty-state">
-        <p>Hi! I'm your AI Tutor.</p>
+        <p>Hi{{ userName ? ' ' + userName : '' }}! I'm your AI Tutor.</p>
         <p *ngIf="isCourseMode">Ask me anything about this course!</p>
         <p *ngIf="!isCourseMode">Ask me general questions!</p>
+        
+        <div class="default-questions">
+          <p class="suggestions-title">Here are some things you can ask:</p>
+          <div class="suggestion-chips">
+            <ng-container *ngIf="isCourseMode">
+              <button class="chip" (click)="askQuestion('What are the prerequisites for this course?')">What are the prerequisites?</button>
+              <button class="chip" (click)="askQuestion('Summarize the main topics covered.')">Summarize the main topics</button>
+              <button class="chip" (click)="askQuestion('How long will it take to complete?')">How long will it take?</button>
+            </ng-container>
+            <ng-container *ngIf="!isCourseMode">
+              <button class="chip" (click)="askQuestion('What skills are in demand right now?')">What skills are in demand?</button>
+              <button class="chip" (click)="askQuestion('How do I start a career in programming?')">How to start in programming?</button>
+              <button class="chip" (click)="askQuestion('Can you help me plan a study schedule?')">Plan a study schedule</button>
+            </ng-container>
+          </div>
+        </div>
       </div>
 
       <div class="message" *ngFor="let msg of messages" [ngClass]="msg.role === 'user' ? 'user-msg' : 'model-msg'">
@@ -23,9 +48,9 @@
       </div>
       
       <div class="loading-indicator" *ngIf="isLoading">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+        <div class="sk line-1"></div>
+        <div class="sk line-2"></div>
+        <div class="sk line-3"></div>
       </div>
     </div>
 
@@ -37,16 +62,13 @@
 
   <!-- Chat Button -->
   <button class="ai-chat-btn" (click)="toggleChat()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-	<path d="M0 0h24v24H0z" fill="none" />
-	<g fill="none" stroke="currentColor" stroke-width="1.5">
-		<path d="M11.538 8.322a.493.493 0 0 1 .924 0l.712 1.922c.1.27.312.483.582.582l1.922.712a.493.493 0 0 1 0 .924l-1.922.712a1 1 0 0 0-.582.582l-.712 1.922a.493.493 0 0 1-.924 0l-.712-1.922a1 1 0 0 0-.582-.582l-1.922-.712a.493.493 0 0 1 0-.924l1.922-.712c.27-.1.483-.312.582-.582z" />
-		<circle cx="12" cy="12" r="10" />
-		<path stroke-linecap="round" stroke-linejoin="round" d="M8 8c.673-3.532 2.21-6 4-6s3.327 2.468 4 6m-8 8c.673 3.532 2.21 6 4 6s3.327-2.468 4-6M2 12h2.5M22 12h-2.5" />
-	</g>
-</svg>
-
-
-  Ask AI tutor
+    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <g fill="none">
+        <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
+        <path fill="currentColor" d="M12 2q.279 0 .555.016a1 1 0 1 1-.11 1.996a8 8 0 0 0-7.09 12.444c.166.247.213.556.13.84l-.51 1.727l1.728-.507l.109-.026a1 1 0 0 1 .732.155a8 8 0 0 0 12.444-7.09a1 1 0 1 1 1.996-.11Q22 11.721 22 12c0 5.523-4.477 10-10 10a9.96 9.96 0 0 1-5.166-1.439l-3.052.898a1 1 0 0 1-1.241-1.241l.897-3.053A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2m-3.5 8.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3m7 0a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3M19 1a1 1 0 0 1 .946.677l.13.378c.3.879.99 1.57 1.87 1.87l.377.129a1 1 0 0 1 0 1.892l-.378.13c-.879.3-1.57.99-1.87 1.87l-.129.377a1 1 0 0 1-1.892 0l-.13-.378a3 3 0 0 0-1.87-1.87l-.377-.129a1 1 0 0 1 0-1.892l.378-.13c.879-.3 1.57-.99 1.87-1.87l.129-.377l.062-.146A1 1 0 0 1 19 1m0 3.196a5 5 0 0 1-.804.804q.449.355.804.803q.356-.447.803-.803A5 5 0 0 1 19 4.196" />
+      </g>
+    </svg>
+    Ask AI tutor
   </button>
 </div>
