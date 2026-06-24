@@ -1,0 +1,139 @@
+<div class="container p-4">
+    <!-- Analytics Card -->
+    <div class="stats-card flex gap-4 mb-4">
+        <div class="flex-1 surface-0 border-round-xl p-4 border-1 border-200 flex align-items-center gap-3">
+            <div class="icon bg-blue-100 text-blue-500 flex align-items-center justify-content-center border-circle p-3">
+                <i class="pi pi-question-circle text-2xl"></i>
+            </div>
+            <div class="stats-text flex flex-column gap-1">
+                <div class="text-3xl font-bold">{{analytics.totalQuestions}}</div>
+                <div class="text-sm text-600">Total Questions</div>
+            </div>
+        </div>
+        <div class="flex-1 surface-0 border-round-xl p-4 border-1 border-200 flex align-items-center gap-3">
+            <div class="icon bg-green-100 text-green-500 flex align-items-center justify-content-center border-circle p-3">
+                <i class="pi pi-check-circle text-2xl"></i>
+            </div>
+            <div class="stats-text flex flex-column gap-1">
+                <div class="text-3xl font-bold">{{analytics.repliedByInstructor}}</div>
+                <div class="text-sm text-600">Replied</div>
+            </div>
+        </div>
+        <div class="flex-1 surface-0 border-round-xl p-4 border-1 border-200 flex align-items-center gap-3">
+            <div class="icon bg-orange-100 text-orange-500 flex align-items-center justify-content-center border-circle p-3">
+                <i class="pi pi-clock text-2xl"></i>
+            </div>
+            <div class="stats-text flex flex-column gap-1">
+                <div class="text-3xl font-bold">{{analytics.pendingQuestions}}</div>
+                <div class="text-sm text-600">Pending</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses View -->
+    <div *ngIf="!selectedCourse">
+        <div class="text-2xl font-bold mb-4 text-900">Select a Course</div>
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-4" *ngFor="let course of courses">
+                <div class="surface-0 border-round-xl border-1 border-200 overflow-hidden shadow-1 flex flex-column h-full">
+                    <img [src]="course.coursePoster?.url" alt="Course Poster" class="w-full h-10rem object-cover">
+                    <div class="p-3 flex flex-column flex-1">
+                        <div class="font-bold text-lg mb-2 text-900 line-height-3 flex-1">{{course.title}}</div>
+                        <div class="flex align-items-center justify-content-between mt-auto pt-3 border-top-1 border-200">
+                            <span class="text-500 text-sm"><i class="pi pi-users mr-1"></i>{{course.totalStudentsPurchased}} Enrolled</span>
+                            <p-button label="Show QnA" icon="pi pi-comments" size="small" (onClick)="showCourseQuestions(course)"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="courses.length === 0">
+                <div class="surface-0 p-5 text-center border-round-xl border-1 border-200 text-500">
+                    No courses available.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questions View -->
+    <div *ngIf="selectedCourse">
+        <div class="flex align-items-center mb-4 gap-3">
+            <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" (onClick)="goBackToCourses()"></p-button>
+            <div class="text-2xl font-bold text-900">Questions for: <span class="text-primary">{{selectedCourse.title}}</span></div>
+        </div>
+        
+        <div class="surface-0 border-round-xl border-1 border-200 p-0 overflow-hidden shadow-1">
+            <div *ngFor="let q of courseQuestions; let last = last" class="p-4 flex align-items-start gap-4 hover:surface-50 transition-colors" [ngClass]="{'border-bottom-1 border-200': !last}">
+                <img *ngIf="q.userId?.profileImage; else qNoImage" [src]="q.userId.profileImage" class="w-3rem h-3rem border-circle">
+                <ng-template #qNoImage>
+                    <div class="flex align-items-center justify-content-center surface-700 text-0 w-3rem h-3rem border-circle font-bold text-lg">
+                        {{q.userId?.username?.slice(0,1) || 'U'}}
+                    </div>
+                </ng-template>
+                
+                <div class="flex-1">
+                    <div class="flex align-items-center justify-content-between mb-1">
+                        <span class="font-bold text-lg text-900">{{q.questionTitle}}</span>
+                        <span class="text-xs text-500">{{q.createdAt | date:'medium'}}</span>
+                    </div>
+                    <div class="text-sm text-600 mb-2">Asked by <span class="font-semibold">{{q.userId?.username}}</span></div>
+                    <div class="text-700 mb-3 line-height-3">{{q.questionDescription}}</div>
+                    
+                    <div class="flex align-items-center gap-3">
+                        <p-button label="Reply" icon="pi pi-reply" size="small" [outlined]="true" (onClick)="openReplyModal(q)"></p-button>
+                        <p-button label="View All Answers ({{q.answerCount}})" icon="pi pi-list" size="small" [text]="true" (onClick)="showAllAnswers(q)"></p-button>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="courseQuestions.length === 0" class="p-5 text-center text-500">
+                No questions asked yet in this course.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reply Modal -->
+<p-dialog header="Reply to Student" [(visible)]="displayReplyModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-column gap-3" *ngIf="currentQuestionForReply">
+        <div class="surface-50 p-3 border-round border-1 border-200">
+            <div class="font-bold text-900 mb-1">{{currentQuestionForReply.questionTitle}}</div>
+            <div class="text-600 text-sm">{{currentQuestionForReply.questionDescription}}</div>
+        </div>
+        
+        <div class="flex flex-column gap-2 mt-2">
+            <label class="font-semibold text-900">Your Answer</label>
+            <textarea rows="5" placeholder="Type your detailed answer here..." [(ngModel)]="replyText" class="w-full border-1 border-300 p-3 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit; resize: vertical;"></textarea>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="closeReplyModal()"></p-button>
+        <p-button label="Post Reply" icon="pi pi-check" (onClick)="postReply()"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- View Answers Modal -->
+<p-dialog header="All Answers" [(visible)]="displayAnswersModal" [modal]="true" [style]="{width: '60vw'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-column gap-3 max-h-30rem overflow-y-auto pr-2">
+        <div *ngFor="let ans of currentQuestionAnswers" class="surface-0 p-3 border-round-xl border-1 border-200" [ngClass]="{'border-green-400 bg-green-50': ans.isInstructorAnswer}">
+            <div class="flex gap-3 align-items-start">
+                <img *ngIf="ans.answeredBy?.profileImage; else ansNoImage" [src]="ans.answeredBy.profileImage" class="w-2rem h-2rem border-circle">
+                <ng-template #ansNoImage>
+                    <div class="flex align-items-center justify-content-center surface-700 text-0 w-2rem h-2rem border-circle font-bold text-sm">
+                        {{ans.answeredBy?.username?.slice(0,1) || 'U'}}
+                    </div>
+                </ng-template>
+                <div class="flex-1">
+                    <div class="flex align-items-center gap-2 mb-2">
+                        <span class="font-bold text-900 text-sm">{{ans.answeredBy?.username}}</span>
+                        <span class="text-xs text-500">{{ans.createdAt | date:'medium'}}</span>
+                        <span *ngIf="ans.isInstructorAnswer" class="bg-green-100 text-green-700 px-2 py-1 border-round text-xs font-semibold">Instructor</span>
+                    </div>
+                    <div class="text-700 line-height-3 text-sm">{{ans.answer}}</div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="currentQuestionAnswers.length === 0" class="text-center text-500 py-4 border-1 border-200 border-round-xl">
+            No answers for this question yet.
+        </div>
+    </div>
+</p-dialog>

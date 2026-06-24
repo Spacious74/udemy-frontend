@@ -1,41 +1,121 @@
 <div class="container w-11 m-auto ">
-    <div class="heading mb-3 mt-3 ">
-        Unconfuse yourself & ask question
-    </div>
-    <div class="ask mb-4">
-        <div class="p-fluid flex mb-1 align-items-center gap-2">
-            <input class="min-w-9" pInputText type="text"
-                placeholder="Ask any question related to this course lecutres ?" [(ngModel)]="queText" />
-            <p-button class="w-4" label=" Ask question"></p-button>
+    
+    <!-- QUESTIONS LIST VIEW -->
+    <div *ngIf="!selectedQuestion">
+        <div class="heading mb-3 mt-3 font-bold text-xl">
+            Unconfuse yourself & ask a question
         </div>
-        <div
-            class="text cursor-pointer font-semibold hover:text-green-400 flex align-items-center gap-2 text-sm">
-            <i class="pi pi-question-circle"></i> Questions asked by you
+        <div class="ask mb-4 border-1 border-200 p-3 border-round-xl surface-50">
+            <div class="flex flex-column gap-2 mb-3">
+                <input pInputText type="text" placeholder="Question Title (e.g., Alternative to Figma?)" [(ngModel)]="newQuestionTitle" />
+                <textarea rows="3" placeholder="Describe your question in detail..." [(ngModel)]="newQuestionDesc" class="w-full border-1 border-300 p-2 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit;"></textarea>
+            </div>
+            <p-button label="Post Question" (onClick)="askQuestion()"></p-button>
         </div>
-    </div>
-    <div class="heading mb-4 ">
-        All questions of this course
-    </div>
-    <div class="questions flex flex-column gap-4 mb-5 ">
-        <ng-container *ngFor="let item of que">
-            <div class="queCard flex align-items-center gap-3 border-bottom-1 pb-3 border-300  ">
-                <div class="avtr flex align-items-center justify-content-center  surface-700 text-0 ">
-                    {{item.username.slice(0,1)}}
+
+        <div class="heading mb-4 font-bold text-xl">
+            Questions for this lecture
+        </div>
+        
+        <div class="questions flex flex-column gap-4 mb-5" *ngIf="questions.length > 0; else noQuestions">
+            <ng-container *ngFor="let item of questions">
+                <div class="queCard flex align-items-center gap-3 border-bottom-1 pb-3 border-300 cursor-pointer hover:surface-100 p-2 border-round transition-colors transition-duration-200" (click)="openDiscussion(item._id)">
+                    <img *ngIf="item.userId?.profileImage; else noImage" [src]="item.userId.profileImage" class="w-3rem h-3rem border-circle">
+                    <ng-template #noImage>
+                        <div class="avtr flex align-items-center justify-content-center surface-700 text-0 w-3rem h-3rem border-circle font-bold text-lg">
+                            {{item.userId?.username?.slice(0,1) || 'U'}}
+                        </div>
+                    </ng-template>
+                    
+                    <div class="flex align-items-center justify-content-between w-full ">
+                        <div class="qtext flex flex-column gap-1 ">
+                            <span class="font-bold text-lg text-900">
+                                {{item.questionTitle}}
+                            </span>
+                            <span class="text-sm text-600">
+                                {{item.userId?.username}} • {{item.createdAt | date:'medium'}}
+                            </span>
+                        </div>
+                        <div class="ansno flex align-items-center gap-1 text-600">
+                            <i class="pi pi-comments"></i> {{item.answerCount}}
+                        </div>
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-between w-full ">
-                    <div class="qtext flex flex-column gap-1 ">
-                        <span class=" cursor-pointer hover:text-green-500 hover:underline font-bold text-lg">
-                            {{item.question}}
-                        </span>
-                        <span class="text-sm">
-                            {{item.username}} | Lecture {{item.lectNo}}
-                        </span>
+            </ng-container>
+        </div>
+        
+        <p-paginator *ngIf="questions.length > 0"
+            (onPageChange)="onPageChange($event)" 
+            [first]="(currentPage - 1) * itemsPerPage" 
+            [rows]="itemsPerPage" 
+            [totalRecords]="totalQuestions" 
+            [rowsPerPageOptions]="[5, 10, 20]">
+        </p-paginator>
+
+        <ng-template #noQuestions>
+            <div class="text-center text-500 py-4 border-1 border-200 border-round-xl">No questions asked yet for this lecture. Be the first!</div>
+        </ng-template>
+    </div>
+
+    <!-- DISCUSSION VIEW -->
+    <div *ngIf="selectedQuestion" class="mt-3">
+        <p-button icon="pi pi-arrow-left" label="Back to all questions" styleClass="p-button-text mb-3" (onClick)="closeDiscussion()"></p-button>
+        
+        <!-- Original Question -->
+        <div class="surface-0 border-1 border-200 p-4 border-round-xl mb-4 shadow-1">
+            <div class="flex gap-3 align-items-start">
+                <img *ngIf="selectedQuestion.userId?.profileImage; else sqNoImage" [src]="selectedQuestion.userId.profileImage" class="w-3rem h-3rem border-circle">
+                <ng-template #sqNoImage>
+                    <div class="avtr flex align-items-center justify-content-center surface-700 text-0 w-3rem h-3rem border-circle font-bold text-lg">
+                        {{selectedQuestion.userId?.username?.slice(0,1) || 'U'}}
                     </div>
-                    <div class="ansno">
-                        <i class="pi pi-comments"></i> {{item.ansArr.length}}
-                    </div>
+                </ng-template>
+                <div class="flex-1">
+                    <div class="font-bold text-xl text-900 mb-1">{{selectedQuestion.questionTitle}}</div>
+                    <div class="text-sm text-600 mb-3">{{selectedQuestion.userId?.username}} • {{selectedQuestion.createdAt | date:'medium'}}</div>
+                    <div class="text-700 line-height-3">{{selectedQuestion.questionDescription}}</div>
                 </div>
             </div>
-        </ng-container>
+        </div>
+
+        <div class="heading mb-3 font-bold text-lg">
+            {{answers.length}} Answers
+        </div>
+
+        <!-- Answers List -->
+        <div class="answers flex flex-column gap-3 mb-4">
+            <ng-container *ngFor="let ans of answers">
+                <div class="surface-0 border-1 border-200 p-3 border-round-xl" [ngClass]="{'border-green-400 bg-green-50': ans.isInstructorAnswer}">
+                    <div class="flex gap-3 align-items-start">
+                        <img *ngIf="ans.answeredBy?.profileImage; else ansNoImage" [src]="ans.answeredBy.profileImage" class="w-2rem h-2rem border-circle">
+                        <ng-template #ansNoImage>
+                            <div class="avtr flex align-items-center justify-content-center surface-700 text-0 w-2rem h-2rem border-circle font-bold text-sm">
+                                {{ans.answeredBy?.username?.slice(0,1) || 'U'}}
+                            </div>
+                        </ng-template>
+                        <div class="flex-1">
+                            <div class="flex align-items-center gap-2 mb-2">
+                                <span class="font-bold text-900 text-sm">{{ans.answeredBy?.username}}</span>
+                                <span class="text-xs text-600">{{ans.createdAt | date:'medium'}}</span>
+                                <span *ngIf="ans.isInstructorAnswer" class="bg-green-100 text-green-700 px-2 py-1 border-round text-xs font-semibold">Instructor</span>
+                            </div>
+                            <div class="text-700 line-height-3 text-sm">{{ans.answer}}</div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div *ngIf="answers.length === 0" class="text-center text-500 py-3 border-1 border-200 border-round-xl">No answers yet.</div>
+        </div>
+
+        <!-- Reply Box -->
+        <div class="reply-box border-1 border-200 p-3 border-round-xl surface-50 mb-5">
+            <div class="font-semibold mb-2">Add an answer</div>
+            <div class="flex flex-column gap-2">
+                <textarea rows="3" placeholder="Type your answer here..." [(ngModel)]="newAnswerText" class="w-full border-1 border-300 p-2 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit;"></textarea>
+                <div class="flex justify-content-end">
+                    <p-button label="Post Answer" (onClick)="postAnswer()"></p-button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -20,6 +20,7 @@ import { TeacherCoursePageComponent } from './Components/Teacher/teacher-course-
 import { CreateCourseComponent } from './Components/Teacher/create-course/create-course.component';
 import { CourseAnalyticsComponent } from './Components/Teacher/course-analytics/course-analytics.component';
 import { EarningsReportsComponent } from './Components/Teacher/earnings-reports/earnings-reports.component';
+import { TeacherQnaComponent } from './Components/Teacher/teacher-qna/teacher-qna.component';
 
 import { OrderSummaryComponent } from './Components/order-summary/order-summary.component';
 import { authGuard } from './guards/auth.guard';
@@ -88,6 +89,7 @@ export const routes: Routes = [
       { path: 'courses', component: TeacherCoursePageComponent },
       { path: 'analytics', component: CourseAnalyticsComponent },
       { path: 'earnings', component: EarningsReportsComponent },
+      { path: 'qna', component: TeacherQnaComponent },
       { path: 'create-course/:courseId', component: CreateCourseComponent }
     ]
   },

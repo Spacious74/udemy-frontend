@@ -104,6 +104,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/cart']); return;
   }
 
+  navigateTo(path: string) {
+    this.router.navigate([path]);
+  }
+
   logout() {
     this.cookieService.delete('skillUpToken');
     this.cookieService.delete('skillUpToken', '/');

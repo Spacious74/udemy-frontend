@@ -74,9 +74,13 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   initFreeQueries() {
     this.isLoggedIn = false;
-    const queries = localStorage.getItem('ai_free_queries_used');
-    const used = queries ? parseInt(queries) : 0;
-    this.freeQueriesRemaining = Math.max(0, 5 - used);
+    if (typeof localStorage !== 'undefined') {
+      const queries = localStorage.getItem('ai_free_queries_used');
+      const used = queries ? parseInt(queries) : 0;
+      this.freeQueriesRemaining = Math.max(0, 5 - used);
+    } else {
+      this.freeQueriesRemaining = 5;
+    }
   }
 
   askQuestion(question: string) {
@@ -101,6 +105,11 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   toggleExpand() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  clearGeneralChat() {
+    if (this.isCourseMode) return;
+    this.messages = [];
   }
 
   loadCourseChat() {
@@ -140,10 +149,12 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.isLoading = false;
           this.simulateTyping(res.response);
           if (!this.isLoggedIn) {
-            let used = parseInt(localStorage.getItem('ai_free_queries_used') || '0');
-            used++;
-            localStorage.setItem('ai_free_queries_used', used.toString());
-            this.freeQueriesRemaining = Math.max(0, 5 - used);
+            if (typeof localStorage !== 'undefined') {
+              let used = parseInt(localStorage.getItem('ai_free_queries_used') || '0');
+              used++;
+              localStorage.setItem('ai_free_queries_used', used.toString());
+              this.freeQueriesRemaining = Math.max(0, 5 - used);
+            }
           }
         } else {
           this.isLoading = false;

@@ -99,6 +99,24 @@
   color: #667eea;
 }
 
+.clear-chat-btn {
+  background: none;
+  border: none;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.clear-chat-btn:hover {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
 .close-btn {
   background: none;
   border: none;

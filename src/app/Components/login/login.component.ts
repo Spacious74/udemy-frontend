@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.cookieService.delete('skillUpToken');
           this.cookieService.delete('skillUpToken', '/');
         }
-        this.cookieService.set('skillUpToken', res.token, 65, '/');
+        this.cookieService.set('skillUpToken', res.token, 1, '/');
 
         const payloadData = (res as any).data || res.user;
         this.store.dispatch(userInfoActions.loadUserSuccess({ payload: payloadData }));
