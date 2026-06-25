@@ -27,6 +27,7 @@ export class AddVideoComponent implements OnInit {
   public sectionList: SectionList[];
   public sectionName: string;
   public videoTitle: string;
+  public isFree: boolean = false;
   public sectionId: string;
   public videoId: string;
   public loading: boolean = false;
@@ -100,15 +101,17 @@ export class AddVideoComponent implements OnInit {
     this.showSection = !this.showSection;
   }
 
-  toggleVideo(event : Event, sectionId?: string, videoTitle?: string, videoId?: string) {
+  toggleVideo(event : Event, sectionId?: string, videoTitle?: string, videoId?: string, isFree?: boolean) {
     event.stopPropagation();
     if (sectionId) this.sectionId = sectionId;
     if (videoId) {
       this.videoTitle = videoTitle;
       this.videoId = videoId;
+      this.isFree = isFree || false;
     }else{
       this.videoTitle = undefined;
       this.videoId = undefined;
+      this.isFree = false;
     }
     this.showVideo = !this.showVideo;
   }
@@ -218,7 +221,7 @@ export class AddVideoComponent implements OnInit {
     if (this.videoId) {
       this.updateVideoTitle(); return;
     }
-    this.addVideoService.addVideoToSection(this.courseId, this.sectionId, this.videoTitle).subscribe((res) => {
+    this.addVideoService.addVideoToSection(this.courseId, this.sectionId, this.videoTitle, this.isFree).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;
         this.totalSection = res.data.length;
@@ -236,7 +239,7 @@ export class AddVideoComponent implements OnInit {
   }
 
   updateVideoTitle() {
-    this.addVideoService.updateVideoTitle(this.courseId, this.sectionId, this.videoId, this.videoTitle).subscribe((res) => {
+    this.addVideoService.updateVideoTitle(this.courseId, this.sectionId, this.videoId, this.videoTitle, this.isFree).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;
         this.totalSection = res.data.length;

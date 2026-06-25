@@ -6,4 +6,5 @@ export interface VideoList {
     name: string;
     position: number;
     completed: boolean;
+    isFree?: boolean;
 }

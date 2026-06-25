@@ -14,10 +14,9 @@
         <div class="nav-left-desktop">
 
             <!-- Category -->
-            <div class="category-dropdown p-fluid">
-                <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" [showClear]="true"
-                    placeholder="Categories" (onChange)="display($event)" [style]="{ width: '160px' }">
-                </p-dropdown>
+            <div class="category-dropdown p-fluid flex align-items-center cursor-pointer" (mouseenter)="menu.toggle($event)" (mouseleave)="menu.hide()">
+                <span class="font-bold">Find Courses</span>
+                <p-tieredMenu #menu [model]="menuItems" [popup]="true" styleClass="mt-2"></p-tieredMenu>
             </div>
 
             <!-- Search -->
@@ -99,10 +98,9 @@
                 (keydown.enter)="searchIt()" />
             <i class="pi pi-search" (click)="searchIt()"></i>
         </div>
-        <div class="category-dropdown p-fluid">
-            <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" [showClear]="true"
-                placeholder="Categories" (onChange)="display($event)" [style]="{ width: '160px' }">
-            </p-dropdown>
+        <div class="category-dropdown p-fluid flex align-items-center cursor-pointer" (click)="mobileMenu.toggle($event)">
+            <span class="font-bold">Find Courses</span>
+            <p-tieredMenu #mobileMenu [model]="menuItems" [popup]="true" styleClass="mt-2"></p-tieredMenu>
         </div>
     </div>
 

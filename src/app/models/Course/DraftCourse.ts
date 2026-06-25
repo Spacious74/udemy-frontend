@@ -3,8 +3,7 @@ export class DraftCourse {
     title: string;
     subTitle: string;
     description: any;
-    category: string;
-    subCategory: string;
+    subCategoryId: any;
     price: number;
     language: string;
     level: string;

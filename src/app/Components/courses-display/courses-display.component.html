@@ -4,8 +4,8 @@
         <!-- RESULTS -->
         <div class="status font-semibold text-xl text-gray-800">
             Showing "{{totalRecords}}" results
-            <span *ngIf="category || searchText" class="font-normal text-gray-600">for</span>
-            <ng-container *ngIf="category"> "{{category}}"</ng-container>
+            <span *ngIf="subCategoryId || searchText" class="font-normal text-gray-600">for</span>
+            <ng-container *ngIf="subCategoryId"> "{{subCategoryId}}"</ng-container>
             <ng-container *ngIf="searchText"> "{{searchText}}"</ng-container>
         </div>
     </div>

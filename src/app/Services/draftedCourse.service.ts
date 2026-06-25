@@ -50,7 +50,7 @@ export class DraftedCourseService {
         if (query.page) params.page = query.page;
         if (query.sortOrder) params.sortOrder = query.sortOrder;
         if (query.language) params.language = query.language;
-        if (query.category) params.category = query.category;
+        if (query.subCategoryId) params.subCategoryId = query.subCategoryId;
         if (query.searchText) params.searchText = query.searchText;
         if (query.level) params.level = query.level;
         if (query.priceType) params.priceType = query.priceType;

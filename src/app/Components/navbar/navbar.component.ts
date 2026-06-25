@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { DropdownModule } from 'primeng/dropdown';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { MenuItem } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -21,12 +22,13 @@ import { userInfoActions } from '../../store/actions/userInfo.action';
 import { SidebarModule } from 'primeng/sidebar';
 import { CartStateService } from '../../Services/cartState.service';
 import { Observable } from 'rxjs';
+import { CategoryService } from '../../Services/category.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    FormsModule, DropdownModule, InputTextModule, ButtonModule, RouterLink, RouterLinkActive, CommonModule,
+    FormsModule, TieredMenuModule, InputTextModule, ButtonModule, RouterLink, RouterLinkActive, CommonModule,
     OverlayPanelModule, TooltipModule, ToastModule, DialogModule, BadgeModule, SidebarModule 
   ],
   providers: [MessageService, ToastMessageService],
@@ -35,9 +37,8 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
 
-  public categories: any[] = [];
+  public menuItems: MenuItem[] | undefined;
   public searchText: string = '';
-  public selectedCategory: string;
   public userLoggedIn: boolean = false;
   public userDetails : UserList;
   public showPopUp : boolean = false;
@@ -54,20 +55,40 @@ export class NavbarComponent implements OnInit {
     private toastMsgService: ToastMessageService,
     private cartStateService : CartStateService,
     private router: Router,
-    private store : Store<{cart : Cart[], userInfo : UserList}>
+    private store : Store<{cart : Cart[], userInfo : UserList}>,
+    private categoryService: CategoryService
   ) {
     this.cartCount$ = this.cartStateService.cartCount$;
   }
 
   ngOnInit(): void {
     this.initializeUser();
-    this.categories = [
-      { name: 'Development' },
-      { name: 'Business' },
-      { name: 'IT & Software' },
-      { name: 'Design' },
-      { name: 'Programming Languages' },
-    ];
+    this.fetchCategories();
+  }
+  
+  fetchCategories() {
+    this.categoryService.getAllCategories().subscribe(res => {
+      if (res.success) {
+        this.menuItems = this.buildMenuTree(res.data);
+      }
+    }, err => {
+      console.error("Failed to fetch categories");
+    });
+  }
+
+  buildMenuTree(categories: any[]): MenuItem[] {
+    const parentCats = categories.filter(c => !c.parentId);
+    return parentCats.map(parent => {
+      const subCats = categories.filter(c => c.parentId === parent._id);
+      return {
+        label: parent.name,
+        items: subCats.length ? subCats.map(sub => ({
+          label: sub.name,
+          command: () => this.display(sub._id)
+        })) : undefined,
+        command: subCats.length ? undefined : () => this.display(parent._id)
+      };
+    });
   }
   
   initializeUser(){
@@ -85,11 +106,11 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  display(event: any) {
-    if (!event.value?.name) {
+  display(categoryId: string) {
+    if (!categoryId) {
       this.router.navigate(['/courses'])
     } else {
-      this.router.navigate(['/courses/' + event.value?.name]);
+      this.router.navigate(['/courses'], { queryParams: { subCategoryId: categoryId } });
     }
   }
 

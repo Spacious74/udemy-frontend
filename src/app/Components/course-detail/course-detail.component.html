@@ -75,6 +75,9 @@
                                             </div>
                                             <span class="font-medium">{{vid.name}}</span>
                                         </span>
+                                        <span *ngIf="vid.isFree" class="text-primary cursor-pointer text-xs font-bold bg-green-50 px-2 py-1 border-round border-1 border-primary" (click)="openPreviewDialog(vid.url, vid.name)">
+                                            Preview
+                                        </span>
                                     </div>
                                 </div>
                             </p-accordionTab>
@@ -204,6 +207,16 @@
                 </div>
             </div>
         </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="Course Preview" [modal]="true" [(visible)]="showPreviewDialog" [style]="{ width: '60%' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+    <div class="flex flex-column gap-3 w-full">
+        <video *ngIf="previewVideoUrl" width="100%" controls style="border-radius: 12px; aspect-ratio: 16/9; object-fit: cover;">
+            <source [src]="previewVideoUrl" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="text-xl font-bold mt-2">{{previewVideoTitle}}</div>
     </div>
 </p-dialog>
 

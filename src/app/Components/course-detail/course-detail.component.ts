@@ -57,6 +57,23 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;
   }
 
+  public showPreviewDialog: boolean = false;
+  public previewVideoUrl: string = null;
+  public previewVideoTitle: string = null;
+
+  openPreviewDialog(url: string, title: string) {
+    if(!url) {
+      this.toastMsgService.showError("Error", "Video not available yet.");
+      return;
+    }
+    this.previewVideoUrl = null;
+    setTimeout(() => {
+      this.previewVideoUrl = url;
+    });
+    this.previewVideoTitle = title;
+    this.showPreviewDialog = true;
+  }
+
   constructor(
     private draftedCourseService: DraftedCourseService,
     private cartStateService : CartStateService,

@@ -41,10 +41,10 @@ export class AddVideoService {
         return this.http.delete<ApiResponse<SectionList[]>>(url, { headers });
     }
 
-    addVideoToSection(courseId: string, sectionId: string, videoTitle: string): Observable<ApiResponse<SectionList[]>> {
+    addVideoToSection(courseId: string, sectionId: string, videoTitle: string, isFree: boolean): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `addVideo?courseId=${courseId}&sectionId=${sectionId}`;
         const headers = AppObject.preparePostJsonHeader();
-        return this.http.post<ApiResponse<SectionList[]>>(url, { videoTitle }, { headers });
+        return this.http.post<ApiResponse<SectionList[]>>(url, { videoTitle, isFree }, { headers });
     }
 
     addVideoFile(courseId: string, sectionId: string, videoId: string, videoInfo: any) {
@@ -59,10 +59,10 @@ export class AddVideoService {
         return this.http.put<ApiResponse<SectionList[]>>(url, videoInfo, { headers });
     }
 
-    updateVideoTitle(courseId: string, sectionId: string, videoId: string, videoTitle: string): Observable<ApiResponse<SectionList[]>> {
+    updateVideoTitle(courseId: string, sectionId: string, videoId: string, videoTitle: string, isFree: boolean): Observable<ApiResponse<SectionList[]>> {
         let url = this.base_url + `updateVideoTitle?courseId=${courseId}&sectionId=${sectionId}&videoId=${videoId}`;
         const headers = AppObject.preparePostJsonHeader();
-        return this.http.put<ApiResponse<SectionList[]>>(url, { videoTitle }, { headers });
+        return this.http.put<ApiResponse<SectionList[]>>(url, { videoTitle, isFree }, { headers });
     }
 
     deleteVideo(courseId: string, sectionId: string, videoId: string): Observable<ApiResponse<SectionList[]>> {

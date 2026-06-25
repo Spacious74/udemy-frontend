@@ -18,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { AddVideoComponent } from '../add-video/add-video.component';
 import { Store } from '@ngrx/store';
 import { EditorModule } from 'primeng/editor';
+import { CategoryService } from '../../../Services/category.service';
 
 @Component({
   selector: 'app-create-course',
@@ -48,13 +49,9 @@ export class CreateCourseComponent implements OnInit {
   public editMode: boolean = false;
 
   public selectedCategory: any;
-  public categories: any[] = [
-    { name: 'Development' },
-    { name: 'Business' },
-    { name: 'IT & Software' },
-    { name: 'Design' },
-    { name: 'Programming Languages' },
-  ];
+  public categories: any[] = [];
+  public selectedSubCategory: any;
+  public subCategories: any[] = [];
   public selectedLanguage: any;
   public languages = [
     { name: 'English', },
@@ -76,7 +73,8 @@ export class CreateCourseComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastmsgService: ToastMessageService,
     private store: Store<{ userInfo: UserList }>,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService
   ) { }
 
   goBack() {
@@ -99,8 +97,33 @@ export class CreateCourseComponent implements OnInit {
     },
       (error) => {
         this.toastmsgService.showError("Error", error.error.message);
-      })
+      });
 
+    this.fetchParentCategories();
+  }
+
+  fetchParentCategories() {
+    this.categoryService.getAllParentCategories().subscribe(res => {
+      if (res.success) {
+        this.categories = res.data;
+      }
+    }, err => {
+      this.toastmsgService.showError("Error", "Failed to fetch categories");
+    });
+  }
+
+  onCategoryChange() {
+    this.selectedSubCategory = null;
+    this.subCategories = [];
+    if (this.selectedCategory) {
+      this.categoryService.getSubCategoriesByParentId(this.selectedCategory._id).subscribe(res => {
+        if (res.success) {
+          this.subCategories = res.data;
+        }
+      }, err => {
+        this.toastmsgService.showError("Error", "Failed to fetch sub-categories");
+      });
+    }
   }
 
   initializeCourseDetails() {
@@ -108,8 +131,7 @@ export class CreateCourseComponent implements OnInit {
       title: this.draftedCourseDetails.title,
       subTitle: this.draftedCourseDetails.subTitle,
       description: this.draftedCourseDetails.description,
-      category: this.draftedCourseDetails.category,
-      subCategory: this.draftedCourseDetails.subCategory,
+      subCategoryId: this.draftedCourseDetails.subCategoryId,
       price: this.draftedCourseDetails.price,
       language: this.draftedCourseDetails.language,
       level: this.draftedCourseDetails.level,
@@ -118,7 +140,8 @@ export class CreateCourseComponent implements OnInit {
         edname: this.draftedCourseDetails.educator.edname
       }
     };
-    this.selectedCategory = { name: this.draftedCourseDetails.category };
+    // Initialize dropdowns appropriately if in edit mode (may require finding the parent of subCategoryId)
+    // For now, we will just set selected level and language.
     this.selectedLevel = { name: this.draftedCourseDetails.level };
     this.selectedLanguage = { name: this.draftedCourseDetails.language };
   }
@@ -138,7 +161,17 @@ export class CreateCourseComponent implements OnInit {
 
   saveCourseDetails(nextCallback: any) {
     this.loading = true;
-    this.formData.category = this.selectedCategory.name;
+    if (!this.selectedSubCategory && !this.editMode) {
+      this.toastmsgService.showError("Error", "Please select a sub-category!");
+      this.loading = false;
+      return;
+    }
+    
+    // In edit mode we might already have the subCategoryId
+    if (this.selectedSubCategory) {
+      this.formData.subCategoryId = this.selectedSubCategory._id;
+    }
+    
     this.formData.level = this.selectedLevel.name;
     this.formData.language = this.selectedLanguage.name;
     this.formData.educator = {

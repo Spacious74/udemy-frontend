@@ -32,7 +32,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   public lang!: string;
   public level!: string;
   public sort: string = '';
-  public category: string = "";
+  public subCategoryId: string = "";
   public searchText: string = "";
   public error: string = "";
 
@@ -73,12 +73,8 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.paramsObs = this.activatedRoute.params.subscribe((data) => {
-      this.category = data['category'] || "";
-      this.fetchData();
-    });
-
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.paramsObs = this.activatedRoute.queryParams.subscribe(params => {
+      this.subCategoryId = params['subCategoryId'] || "";
       this.searchText = params['q'] || "";
       this.fetchData();
     });
@@ -93,7 +89,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
       page: this.page,
       sortOrder: this.sort,
       language: this.lang,
-      category: this.category,
+      subCategoryId: this.subCategoryId,
       searchText: this.searchText,
       level: this.level,
       priceType: this.price

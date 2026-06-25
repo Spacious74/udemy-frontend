@@ -3,8 +3,7 @@ export interface CourseList {
     title: string;
     subTitle: string;
     description: string;
-    category: string;
-    subCategory: string;
+    subCategoryId: string;
     price: Number;
     language: String;
     level: String;

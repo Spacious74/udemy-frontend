@@ -36,7 +36,13 @@
                                     <label class="text-900 font-semibold mb-1" for="category">Course Category</label>
                                     <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name"
                                         autoWidth="false" [style]="{ width: '200px' }" [showClear]="true"
-                                        placeholder="Select course category..." name="category" />
+                                        placeholder="Select category..." name="category" (onChange)="onCategoryChange()" />
+                                </div>
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                    <label class="text-900 font-semibold mb-1" for="subCategory">Sub-category</label>
+                                    <p-dropdown [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="name"
+                                        autoWidth="false" [style]="{ width: '200px' }" [showClear]="true"
+                                        placeholder="Select sub-category..." name="subCategory" [disabled]="!subCategories.length" />
                                 </div>
                                 <div class="form-control p-fluid mb-3 flex flex-column gap-1">
                                     <label class="text-900 font-semibold mb-1" for="language">Course Language</label>
