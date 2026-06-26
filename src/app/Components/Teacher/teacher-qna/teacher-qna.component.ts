@@ -71,6 +71,10 @@ export class TeacherQnaComponent implements OnInit {
     this.courseQuestions = this.allQuestions.filter(q => q.courseId && q.courseId._id === course._id);
   }
 
+  getQuestionCount(courseId: string): number {
+    return this.allQuestions.filter(q => q.courseId && q.courseId._id === courseId).length;
+  }
+
   goBackToCourses() {
     this.selectedCourse = null;
     this.courseQuestions = [];

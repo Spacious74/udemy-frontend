@@ -1,25 +1,41 @@
-<div class="container w-11 m-auto ">
+<div class="container">
     
     <!-- QUESTIONS LIST VIEW -->
     <div *ngIf="!selectedQuestion">
         <div class="heading mb-3 mt-3 font-bold text-xl">
             Unconfuse yourself & ask a question
         </div>
-        <div class="ask mb-4 border-1 border-200 p-3 border-round-xl surface-50">
-            <div class="flex flex-column gap-2 mb-3">
-                <input pInputText type="text" placeholder="Question Title (e.g., Alternative to Figma?)" [(ngModel)]="newQuestionTitle" />
-                <textarea rows="3" placeholder="Describe your question in detail..." [(ngModel)]="newQuestionDesc" class="w-full border-1 border-300 p-2 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit;"></textarea>
-            </div>
-            <p-button label="Post Question" (onClick)="askQuestion()"></p-button>
-        </div>
+        <p-inplace #questionInplace>
+            <ng-template pTemplate="display">
+                <div class="cursor-pointer border-1 border-300 p-3 border-round-xl surface-50 flex align-items-center gap-2 mb-4 text-primary">
+                    <i class="pi pi-plus-circle text-xl"></i>
+                    <span class="font-semibold">Ask a new question</span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="ask mb-4 border-1 border-200 p-3 border-round-xl surface-50">
+                    <div class="flex justify-content-between align-items-center mb-2">
+                        <div class="font-semibold">New Question</div>
+                        <p-button icon="pi pi-times" [text]="true" [rounded]="true" (onClick)="questionInplace.deactivate()"></p-button>
+                    </div>
+                    <div class="flex flex-column gap-2 mb-3">
+                        <input pInputText type="text" placeholder="Question Title (e.g., Alternative to Figma?)" [(ngModel)]="newQuestionTitle" />
+                        <textarea rows="3" placeholder="Describe your question in detail..." [(ngModel)]="newQuestionDesc" class="w-full border-1 border-300 p-2 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit;"></textarea>
+                    </div>
+                    <div class="flex justify-content-end">
+                        <p-button label="Post Question" (onClick)="askQuestion(); questionInplace.deactivate()"></p-button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-inplace>
 
         <div class="heading mb-4 font-bold text-xl">
-            Questions for this lecture
+            Questions in this course
         </div>
         
         <div class="questions flex flex-column gap-4 mb-5" *ngIf="questions.length > 0; else noQuestions">
             <ng-container *ngFor="let item of questions">
-                <div class="queCard flex align-items-center gap-3 border-bottom-1 pb-3 border-300 cursor-pointer hover:surface-100 p-2 border-round transition-colors transition-duration-200" (click)="openDiscussion(item._id)">
+                <div class="queCard flex align-items-center gap-3 cursor-pointer p-3 border-round-xl mb-2" (click)="openDiscussion(item._id)">
                     <img *ngIf="item.userId?.profileImage; else noImage" [src]="item.userId.profileImage" class="w-3rem h-3rem border-circle">
                     <ng-template #noImage>
                         <div class="avtr flex align-items-center justify-content-center surface-700 text-0 w-3rem h-3rem border-circle font-bold text-lg">
@@ -34,6 +50,9 @@
                             </span>
                             <span class="text-sm text-600">
                                 {{item.userId?.username}} • {{item.createdAt | date:'medium'}}
+                            </span>
+                            <span class="text-xs text-500 mt-1 flex align-items-center gap-2" *ngIf="item.lectureInfo">
+                                <i class="pi pi-video mr-1"></i> Section {{item.lectureInfo.sectionNo}}: {{item.lectureInfo.sectionName}} > Lecture : {{item.lectureInfo.lectureName}}
                             </span>
                         </div>
                         <div class="ansno flex align-items-center gap-1 text-600">
@@ -107,15 +126,29 @@
             <div *ngIf="answers.length === 0" class="text-center text-500 py-3 border-1 border-200 border-round-xl">No answers yet.</div>
         </div>
 
+
         <!-- Reply Box -->
-        <div class="reply-box border-1 border-200 p-3 border-round-xl surface-50 mb-5">
-            <div class="font-semibold mb-2">Add an answer</div>
-            <div class="flex flex-column gap-2">
-                <textarea rows="3" placeholder="Type your answer here..." [(ngModel)]="newAnswerText" class="w-full border-1 border-300 p-2 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit;"></textarea>
-                <div class="flex justify-content-end">
-                    <p-button label="Post Answer" (onClick)="postAnswer()"></p-button>
+        <p-inplace #answerInplace>
+            <ng-template pTemplate="display">
+                <div class="cursor-pointer border-1 border-300 p-3 border-round-xl surface-50 flex align-items-center gap-2 text-primary">
+                    <i class="pi pi-reply text-xl"></i>
+                    <span class="font-semibold">Add an answer</span>
                 </div>
-            </div>
-        </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="reply-box border-1 border-200 p-3 border-round-xl surface-50 mb-5">
+                    <div class="flex justify-content-between align-items-center mb-2">
+                        <div class="font-semibold">Your Answer</div>
+                        <p-button icon="pi pi-times" [text]="true" [rounded]="true" (onClick)="answerInplace.deactivate()"></p-button>
+                    </div>
+                    <div class="flex flex-column gap-2">
+                        <textarea rows="3" placeholder="Type your answer here..." [(ngModel)]="newAnswerText" class="w-full border-1 border-300 p-2 border-round surface-0 focus:border-primary outline-none" style="font-family: inherit;"></textarea>
+                        <div class="flex justify-content-end">
+                            <p-button label="Post Answer" (onClick)="postAnswer(); answerInplace.deactivate()"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-inplace>
     </div>
 </div>

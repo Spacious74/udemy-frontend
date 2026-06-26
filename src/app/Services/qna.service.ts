@@ -39,6 +39,10 @@ export class QnaService {
     return this.http.get(`${this.apiUrl}/questions/${lectureId}?page=${page}&limit=${limit}`, this.getAuthOptions());
   }
 
+  getQuestionsForCourse(courseId: string, page: number = 1, limit: number = 5): Observable<any> {
+    return this.http.get(`${this.apiUrl}/questions/course/${courseId}?page=${page}&limit=${limit}`, this.getAuthOptions());
+  }
+
   getQuestionDetails(questionId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/question/${questionId}`, this.getAuthOptions());
   }

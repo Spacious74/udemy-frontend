@@ -40,7 +40,10 @@
                     <div class="p-3 flex flex-column flex-1">
                         <div class="font-bold text-lg mb-2 text-900 line-height-3 flex-1">{{course.title}}</div>
                         <div class="flex align-items-center justify-content-between mt-auto pt-3 border-top-1 border-200">
-                            <span class="text-500 text-sm"><i class="pi pi-users mr-1"></i>{{course.totalStudentsPurchased}} Enrolled</span>
+                            <div class="flex flex-column gap-1">
+                                <span class="text-500 text-sm"><i class="pi pi-users mr-1"></i>{{course.totalStudentsPurchased}} Enrolled</span>
+                                <span class="text-500 text-sm"><i class="pi pi-question-circle mr-1"></i>{{getQuestionCount(course._id)}} Questions</span>
+                            </div>
                             <p-button label="Show QnA" icon="pi pi-comments" size="small" (onClick)="showCourseQuestions(course)"></p-button>
                         </div>
                     </div>

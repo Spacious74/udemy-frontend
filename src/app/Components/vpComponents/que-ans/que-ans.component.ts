@@ -4,13 +4,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
+import { InplaceModule } from 'primeng/inplace';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { QnaService } from '../../../Services/qna.service';
 
 @Component({
   selector: 'app-que-ans',
   standalone: true,
-  imports: [FormsModule, ButtonModule, CommonModule, InputTextModule, PaginatorModule],
+  imports: [FormsModule, ButtonModule, CommonModule, InputTextModule, PaginatorModule, InplaceModule],
   templateUrl: './que-ans.component.html',
   styleUrl: './que-ans.component.css',
 })
@@ -36,13 +37,13 @@ export class QueAnsComponent implements OnChanges, OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.lectureId) {
+    if (this.courseId) {
       this.fetchQuestions();
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['lectureId'] && !changes['lectureId'].firstChange) {
+    if (changes['courseId'] && !changes['courseId'].firstChange) {
       this.selectedQuestion = null;
       this.currentPage = 1;
       this.fetchQuestions();
@@ -50,7 +51,7 @@ export class QueAnsComponent implements OnChanges, OnInit {
   }
 
   fetchQuestions() {
-    this.qnaService.getQuestionsForLecture(this.lectureId, this.currentPage, this.itemsPerPage).subscribe({
+    this.qnaService.getQuestionsForCourse(this.courseId, this.currentPage, this.itemsPerPage).subscribe({
       next: (res) => {
         this.questions = res.data;
         if (res.pagination) {

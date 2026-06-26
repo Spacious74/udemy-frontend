@@ -9,3 +9,31 @@
   height: 40px;
   border-radius: 500px;
 }
+
+.queCard {
+  border: 1px solid var(--surface-200);
+  background-color: var(--surface-0);
+  transition: all 0.2s ease-in-out;
+}
+
+.queCard:hover {
+  border-color: var(--primary-color);
+  background-color: var(--surface-50);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+::ng-deep .p-inplace .p-inplace-display {
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  transition: none !important;
+}
+
+::ng-deep .p-inplace .p-inplace-display:hover {
+  background: transparent !important;
+}
+
+::ng-deep .p-inplace .p-inplace-display:active {
+  background: transparent !important;
+}
