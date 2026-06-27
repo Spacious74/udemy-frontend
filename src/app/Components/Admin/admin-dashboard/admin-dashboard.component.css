@@ -1,0 +1,48 @@
+.stats-card{
+    background-color: #fff;
+    border-radius: 1.3rem;
+    border: 1px solid #e5e7eb;
+    padding: 1.3rem;
+    transition: all 0.2s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-user{
+    background-color: #bedef0;
+}
+.stats-card > * {
+  position: relative;
+  z-index: 1;
+}
+.stats-card::after{
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: -150px;
+    width: 380px;
+    height: 200px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    filter: blur(18px);
+    z-index: 0;
+    transition: all 0.2s ease-in-out;
+}
+.stats-card:hover{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.stats-card:hover::after{
+    top: -60px;
+    left: -180px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.stat-course{
+    background-color: #bef0d7;
+}
+.stat-revenue{
+    background-color: #ccb7e9;
+}
+.stat-enroll{
+    background-color: #ebebab;
+}

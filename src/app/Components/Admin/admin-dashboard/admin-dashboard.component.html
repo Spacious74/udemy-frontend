@@ -9,26 +9,34 @@
 
   <div *ngIf="!loading">
     <!-- Stat Cards -->
-    <div class="grid mb-5">
-      <!-- Users -->
+    <div class="grid mb-2">
+
+      <!-- Revenue -->
       <div class="col-12 md:col-6 lg:col-3">
-        <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
-        <div class="w-4rem h-4rem border-circle bg-blue-100 flex align-items-center justify-content-center text-blue-600">
-          <i class="pi pi-users text-2xl"></i>
-        </div>
+      <div class="stats-card stat-revenue">
+        
         <div>
-          <p class="text-sm font-medium text-gray-500 m-0">Total Users</p>
-          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalUsers }}</h3>
+          <p class="text-sm font-medium text-gray-500 m-0">Total Revenue</p>
+          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">₹{{ stats.totalRevenue | number:'1.2-2' }}</h3>
         </div>
       </div>
       </div>
 
+      <!-- Users -->
+      <div class="col-12 md:col-6 lg:col-3">
+        <div class="stats-card stat-user">
+          
+          <div>
+            <p class="text-sm font-medium m-0">Total Users</p>
+            <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalUsers }}</h3>
+          </div>
+        </div>
+      </div>
+
       <!-- Courses -->
       <div class="col-12 md:col-6 lg:col-3">
-      <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
-        <div class="w-4rem h-4rem border-circle bg-emerald-100 flex align-items-center justify-content-center text-emerald-600">
-          <i class="pi pi-book text-2xl"></i>
-        </div>
+      <div class="stats-card stat-course">
+       
         <div>
           <p class="text-sm font-medium text-gray-500 m-0">Total Courses</p>
           <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalCourses }}</h3>
@@ -38,10 +46,8 @@
 
       <!-- Enrollments -->
       <div class="col-12 md:col-6 lg:col-3">
-      <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
-        <div class="w-4rem h-4rem border-circle bg-yellow-100 flex align-items-center justify-content-center text-yellow-600">
-          <i class="pi pi-graduation-cap text-2xl"></i>
-        </div>
+      <div class="stats-card stat-enroll">
+        
         <div>
           <p class="text-sm font-medium text-gray-500 m-0">Enrollments</p>
           <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalEnrollments }}</h3>
@@ -49,18 +55,7 @@
       </div>
       </div>
 
-      <!-- Revenue -->
-      <div class="col-12 md:col-6 lg:col-3">
-      <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
-        <div class="w-4rem h-4rem border-circle bg-purple-100 flex align-items-center justify-content-center text-purple-600">
-          <i class="pi pi-wallet text-2xl"></i>
-        </div>
-        <div>
-          <p class="text-sm font-medium text-gray-500 m-0">Total Revenue</p>
-          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">${{ stats.totalRevenue | number:'1.2-2' }}</h3>
-        </div>
-      </div>
-      </div>
+      
     </div>
 
     <!-- Recent Activity -->

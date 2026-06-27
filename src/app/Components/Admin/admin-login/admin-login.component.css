@@ -1,0 +1,26 @@
+.form-card{
+    background-color: #f3f7f5;
+    padding: 10px;
+    margin: 10%;
+    border: 1px solid gray;
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    align-items: center;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-header{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.form-fields-container {
+    padding: 0px 24px;
+}
+
+.submit-button{
+
+}

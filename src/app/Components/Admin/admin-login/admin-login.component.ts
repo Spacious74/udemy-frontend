@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../../Services/auth.service';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-admin-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ToastModule, InputTextModule, PasswordModule, ButtonModule],
+  imports: [CommonModule, FormsModule, ToastModule, InputTextModule, PasswordModule, ButtonModule, RouterLink],
   providers: [ToastMessageService],
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.css'
