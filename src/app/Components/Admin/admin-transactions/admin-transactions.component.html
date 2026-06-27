@@ -1,0 +1,59 @@
+<div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
+  <div class="p-4 border-bottom-1 border-gray-100">
+    <h2 class="text-xl font-bold text-gray-800 m-0">Transaction History</h2>
+    <p class="text-gray-500 mt-1 text-sm m-0 mt-2">View all successful course purchases</p>
+  </div>
+
+  <p-table 
+    [value]="transactions" 
+    [lazy]="true" 
+    (onLazyLoad)="loadTransactions($event)" 
+    [paginator]="true" 
+    [rows]="limit" 
+    [totalRecords]="totalRecords" 
+    [loading]="loading" 
+    [rowsPerPageOptions]="[10, 20, 50]"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-lg">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Transaction ID</th>
+        <th>Student Info</th>
+        <th>Courses Purchased</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-txn>
+      <tr>
+        <td class="text-sm text-gray-600">{{ txn._id | slice:0:10 }}...</td>
+        <td>
+          <div class="font-medium text-gray-800">{{ txn.userId?.username || 'Unknown' }}</div>
+          <div class="text-xs text-gray-500">{{ txn.userId?.email || 'N/A' }}</div>
+        </td>
+        <td>
+          <ul class="pl-3 m-0 text-sm text-gray-600">
+            <li *ngFor="let c of txn.courses" class="white-space-nowrap overflow-hidden text-overflow-ellipsis max-w-15rem">{{ c.title }}</li>
+          </ul>
+        </td>
+        <td class="font-bold text-gray-800">${{ txn.amount }}</td>
+        <td class="text-gray-600">{{ txn.createdAt | date:'medium' }}</td>
+        <td>
+          <span class="px-2 py-1 bg-green-100 text-green-700 border-round text-xs font-semibold">SUCCESS</span>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center py-8 text-gray-500">
+          <i class="pi pi-receipt text-4xl mb-3 text-gray-300"></i>
+          <p>No transactions found.</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

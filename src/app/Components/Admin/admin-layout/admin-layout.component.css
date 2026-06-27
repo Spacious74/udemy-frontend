@@ -1,0 +1,28 @@
+.active-menu {
+  background-color: #eef2ff !important;
+  color: #4f46e5 !important;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.1);
+}
+.active-menu i {
+  color: #4f46e5 !important;
+}
+
+/* Custom Scrollbar for admin layout */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

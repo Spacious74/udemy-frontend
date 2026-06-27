@@ -1,0 +1,47 @@
+<div class="admin-layout flex h-screen w-full surface-50 overflow-hidden">
+  <!-- Sidebar -->
+  <aside class="sidebar bg-white border-right-1 border-gray-200 flex flex-column h-full shadow-1 z-10" style="width: 16rem;">
+    <div class="logo-area p-5 border-bottom-1 border-gray-100 flex align-items-center justify-content-center">
+      <h2 class="text-2xl font-bold flex align-items-center gap-2 m-0">
+        <i class="pi pi-shield text-indigo-600 text-3xl"></i>
+        <span class="text-gray-800">Skill<span class="text-indigo-600">Admin</span></span>
+      </h2>
+    </div>
+    
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="flex flex-column gap-2 px-4 m-0 list-none p-0">
+        <li *ngFor="let item of menuItems">
+          <a [routerLink]="item.link" routerLinkActive="active-menu" 
+             class="flex align-items-center gap-3 px-4 py-3 border-round-xl text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all transition-duration-200 no-underline">
+            <i [class]="item.icon + ' text-xl'"></i>
+            <span class="font-medium" style="font-size: 15px;">{{item.label}}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="p-5 border-top-1 border-gray-100">
+      <button (click)="logout()" class="w-full flex align-items-center justify-content-center gap-2 py-3 px-4 bg-red-50 text-red-600 border-round-xl hover:bg-red-100 transition-colors font-semibold border-none cursor-pointer">
+        <i class="pi pi-sign-out text-lg"></i> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-column h-full overflow-hidden relative">
+    <!-- Topbar -->
+    <header class="bg-white border-bottom-1 border-gray-200 flex align-items-center justify-content-between px-6 sticky top-0 z-20 shadow-1" style="height: 4rem;">
+      <h1 class="text-xl font-semibold text-gray-800 m-0">Control Panel</h1>
+      <div class="flex align-items-center gap-4">
+        <span class="text-sm font-medium text-gray-500">Admin Portal</span>
+        <div class="w-2rem h-2rem border-circle bg-indigo-600 flex align-items-center justify-content-center text-white font-bold shadow-3 cursor-pointer hover:bg-indigo-700 transition-colors" style="width: 2.5rem; height: 2.5rem;">
+          A
+        </div>
+      </div>
+    </header>
+    
+    <div class="flex-1 overflow-y-auto p-6 surface-50 relative">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

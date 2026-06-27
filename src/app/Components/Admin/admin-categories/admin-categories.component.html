@@ -1,0 +1,74 @@
+<p-toast position="bottom-right"></p-toast>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
+  <div class="p-4 border-bottom-1 border-gray-100 flex flex-column md:flex-row md:align-items-center justify-content-between gap-4">
+    <h2 class="text-xl font-bold text-gray-800 m-0">Manage Categories</h2>
+    <button pButton icon="pi pi-plus" label="Add Category" (click)="openNew()" class="bg-indigo-600 border-indigo-600 hover:bg-indigo-700"></button>
+  </div>
+
+  <p-table 
+    [value]="categories" 
+    [loading]="loading" 
+    responsiveLayout="scroll"
+    styleClass="p-datatable-lg">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Category Name</th>
+        <th>Description</th>
+        <th>Parent Category</th>
+        <th class="text-right">Actions</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-cat>
+      <tr>
+        <td class="font-semibold text-gray-800">{{ cat.name }}</td>
+        <td class="text-gray-500 white-space-nowrap overflow-hidden text-overflow-ellipsis max-w-20rem">{{ cat.description || 'No description' }}</td>
+        <td>
+          <span *ngIf="cat.parentId" class="px-2 py-1 surface-100 text-gray-600 border-round text-xs font-medium">{{ cat.parentId.name }}</span>
+          <span *ngIf="!cat.parentId" class="text-gray-400 font-italic text-sm">None</span>
+        </td>
+        <td class="text-right">
+          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-primary mr-2" (click)="editCategory(cat)" pTooltip="Edit"></button>
+          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" (click)="deleteCategory(cat)" pTooltip="Delete"></button>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" class="text-center py-8 text-gray-500">
+          <i class="pi pi-tags text-4xl mb-3 text-gray-300"></i>
+          <p>No categories found. Click 'Add Category' to create one.</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Add/Edit Dialog -->
+<p-dialog [(visible)]="displayDialog" [header]="isEditMode ? 'Edit Category' : 'Add New Category'" [modal]="true" styleClass="w-full md:w-30rem" [draggable]="false" [resizable]="false">
+  <div class="flex flex-column gap-4 mt-2">
+    <div class="flex flex-column gap-2">
+      <label for="name" class="font-medium text-gray-700">Category Name <span class="text-red-500">*</span></label>
+      <input type="text" pInputText id="name" [(ngModel)]="categoryForm.name" required class="w-full p-2" />
+    </div>
+    
+    <div class="flex flex-column gap-2">
+      <label for="desc" class="font-medium text-gray-700">Description</label>
+      <input type="text" pInputText id="desc" [(ngModel)]="categoryForm.description" class="w-full p-2" />
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <label for="parent" class="font-medium text-gray-700">Parent Category</label>
+      <p-dropdown [options]="parentOptions" [(ngModel)]="categoryForm.parentId" id="parent" placeholder="Select a parent (optional)" styleClass="w-full" appendTo="body"></p-dropdown>
+    </div>
+  </div>
+  
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text text-gray-600" (click)="displayDialog = false"></button>
+    <button pButton label="Save" icon="pi pi-check" class="bg-indigo-600 border-indigo-600" (click)="saveCategory()"></button>
+  </ng-template>
+</p-dialog>

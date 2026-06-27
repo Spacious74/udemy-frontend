@@ -1,0 +1,138 @@
+<div class="flex flex-column gap-4">
+  <div class="flex justify-content-between align-items-center">
+    <h2 class="text-2xl font-bold text-gray-800 m-0">Dashboard Overview</h2>
+  </div>
+
+  <div *ngIf="loading" class="flex justify-content-center p-6">
+    <i class="pi pi-spin pi-spinner text-4xl text-indigo-600"></i>
+  </div>
+
+  <div *ngIf="!loading">
+    <!-- Stat Cards -->
+    <div class="grid mb-5">
+      <!-- Users -->
+      <div class="col-12 md:col-6 lg:col-3">
+        <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
+        <div class="w-4rem h-4rem border-circle bg-blue-100 flex align-items-center justify-content-center text-blue-600">
+          <i class="pi pi-users text-2xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-500 m-0">Total Users</p>
+          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalUsers }}</h3>
+        </div>
+      </div>
+      </div>
+
+      <!-- Courses -->
+      <div class="col-12 md:col-6 lg:col-3">
+      <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
+        <div class="w-4rem h-4rem border-circle bg-emerald-100 flex align-items-center justify-content-center text-emerald-600">
+          <i class="pi pi-book text-2xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-500 m-0">Total Courses</p>
+          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalCourses }}</h3>
+        </div>
+      </div>
+      </div>
+
+      <!-- Enrollments -->
+      <div class="col-12 md:col-6 lg:col-3">
+      <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
+        <div class="w-4rem h-4rem border-circle bg-yellow-100 flex align-items-center justify-content-center text-yellow-600">
+          <i class="pi pi-graduation-cap text-2xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-500 m-0">Enrollments</p>
+          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">{{ stats.totalEnrollments }}</h3>
+        </div>
+      </div>
+      </div>
+
+      <!-- Revenue -->
+      <div class="col-12 md:col-6 lg:col-3">
+      <div class="bg-white border-round-xl p-4 shadow-1 border-1 border-gray-100 flex align-items-center gap-4 hover:shadow-3 transition-shadow">
+        <div class="w-4rem h-4rem border-circle bg-purple-100 flex align-items-center justify-content-center text-purple-600">
+          <i class="pi pi-wallet text-2xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-500 m-0">Total Revenue</p>
+          <h3 class="text-2xl font-bold text-gray-800 m-0 mt-1">${{ stats.totalRevenue | number:'1.2-2' }}</h3>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="grid">
+      
+      <!-- Recent Users -->
+      <div class="col-12 lg:col-6">
+      <div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
+        <div class="p-4 border-bottom-1 border-gray-100 flex justify-content-between align-items-center">
+          <h3 class="text-lg font-semibold text-gray-800 m-0">Recent Users</h3>
+        </div>
+        <p-table [value]="stats.recentUsers" [tableStyle]="{ 'min-width': '100%' }" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Joined</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td class="font-medium">{{ user.username }}</td>
+              <td class="text-gray-500">{{ user.email }}</td>
+              <td>
+                <span class="px-2 py-1 border-round-3xl text-xs font-medium" 
+                      [ngClass]="{'bg-blue-100 text-blue-700': user.role === 'student', 'bg-emerald-100 text-emerald-700': user.role === 'teacher', 'bg-purple-100 text-purple-700': user.role === 'admin'}">
+                  {{ user.role | titlecase }}
+                </span>
+              </td>
+              <td class="text-sm text-gray-500">{{ user.createdAt | date:'shortDate' }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr><td colspan="4" class="text-center py-4 text-gray-500">No users found.</td></tr>
+          </ng-template>
+        </p-table>
+      </div>
+      </div>
+
+      <!-- Recent Payments -->
+      <div class="col-12 lg:col-6">
+      <div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
+        <div class="p-4 border-bottom-1 border-gray-100 flex justify-content-between align-items-center">
+          <h3 class="text-lg font-semibold text-gray-800 m-0">Recent Transactions</h3>
+        </div>
+        <p-table [value]="stats.recentPayments" [tableStyle]="{ 'min-width': '100%' }" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>User</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-payment>
+            <tr>
+              <td class="font-medium">{{ payment.userId?.username || 'Unknown' }}</td>
+              <td class="font-semibold text-gray-800">${{ payment.amount }}</td>
+              <td>
+                <span class="px-2 py-1 border-round-3xl text-xs font-medium bg-green-100 text-green-700">
+                  {{ payment.paymentStatus | titlecase }}
+                </span>
+              </td>
+              <td class="text-sm text-gray-500">{{ payment.createdAt | date:'shortDate' }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr><td colspan="4" class="text-center py-4 text-gray-500">No transactions found.</td></tr>
+          </ng-template>
+        </p-table>
+      </div>
+      </div>
+  </div>
+</div>

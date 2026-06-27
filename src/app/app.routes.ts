@@ -26,6 +26,16 @@ import { OrderSummaryComponent } from './Components/order-summary/order-summary.
 import { authGuard } from './guards/auth.guard';
 import { educatorGuard } from './guards/educator.guard';
 import { noAuthGuard } from './guards/no-auth.guard';
+import { adminGuard } from './guards/admin.guard';
+
+import { AdminLoginComponent } from './Components/Admin/admin-login/admin-login.component';
+import { AdminLayoutComponent } from './Components/Admin/admin-layout/admin-layout.component';
+import { AdminDashboardComponent } from './Components/Admin/admin-dashboard/admin-dashboard.component';
+import { AdminUsersComponent } from './Components/Admin/admin-users/admin-users.component';
+import { AdminCoursesComponent } from './Components/Admin/admin-courses/admin-courses.component';
+import { AdminCategoriesComponent } from './Components/Admin/admin-categories/admin-categories.component';
+import { AdminTransactionsComponent } from './Components/Admin/admin-transactions/admin-transactions.component';
+import { AdminSettingsComponent } from './Components/Admin/admin-settings/admin-settings.component';
 
 export const routes: Routes = [
 
@@ -124,10 +134,30 @@ export const routes: Routes = [
     title: 'Reset Password'
   },
   {
-
     path: 'order-summary',
     component: OrderSummaryComponent,
     canActivate: [authGuard],
     title: 'Order Summary'
+  },
+  {
+    path: 'admin/login',
+    component: AdminLoginComponent,
+    canActivate: [noAuthGuard],
+    title: 'Admin Login'
+  },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    canActivate: [adminGuard],
+    title: 'Admin Panel',
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: AdminDashboardComponent, title: 'Admin Dashboard' },
+      { path: 'users', component: AdminUsersComponent, title: 'Manage Users' },
+      { path: 'courses', component: AdminCoursesComponent, title: 'Manage Courses' },
+      { path: 'categories', component: AdminCategoriesComponent, title: 'Manage Categories' },
+      { path: 'transactions', component: AdminTransactionsComponent, title: 'Transactions' },
+      { path: 'settings', component: AdminSettingsComponent, title: 'Admin Settings' }
+    ]
   }
 ];
