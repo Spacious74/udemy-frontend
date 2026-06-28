@@ -1,4 +1,4 @@
-<div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
+<div *ngIf="!isDetailView" class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
   <div class="p-4 border-bottom-1 border-gray-100">
     <div class="flex flex-column md:flex-row md:align-items-center justify-content-between gap-4">
       <h2 class="text-xl font-bold text-gray-800 m-0">Manage Users</h2>
@@ -32,6 +32,7 @@
         <th>Role</th>
         <th>Joined Date</th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </ng-template>
     
@@ -59,16 +60,244 @@
           <span class="px-2 py-1 border-round bg-green-50 text-green-600 text-xs font-medium border-1 border-green-200" *ngIf="user.isActive">Active</span>
           <span class="px-2 py-1 border-round bg-red-50 text-red-600 text-xs font-medium border-1 border-red-200" *ngIf="!user.isActive">Inactive</span>
         </td>
+        <td>
+          <div class="flex gap-2">
+            <p-dropdown 
+              [options]="assignableRoles" 
+              [ngModel]="user.role" 
+              (onChange)="changeUserRole(user._id, $event.value)" 
+              appendTo="body" 
+              styleClass="w-8rem">
+            </p-dropdown>
+            <button pButton icon="pi pi-eye" class="p-button-outlined p-button-secondary" (click)="viewUser(user)" pTooltip="View Details"></button>
+          </div>
+        </td>
       </tr>
     </ng-template>
     
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="4" class="text-center py-8 text-gray-500">
+        <td colspan="5" class="text-center py-8 text-gray-500">
           <i class="pi pi-inbox text-4xl mb-3 text-gray-300"></i>
           <p>No users found matching your criteria.</p>
         </td>
       </tr>
     </ng-template>
   </p-table>
+</div>
+
+<!-- User Detail View -->
+<div *ngIf="isDetailView && selectedUser" class="fadein animation-duration-300">
+  <div class="mb-4 flex align-items-center justify-content-between">
+    <button pButton pRipple type="button" icon="pi pi-arrow-left" label="Back to Users" class="p-button-text p-button-secondary" (click)="backToTable()"></button>
+  </div>
+
+  <div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden mb-4 p-4">
+    <div class="flex align-items-center gap-4">
+      <div class="w-5rem h-5rem border-circle bg-indigo-100 text-indigo-700 flex align-items-center justify-content-center font-bold text-3xl">
+        {{ selectedUser.username.charAt(0).toUpperCase() }}
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800 m-0 mb-1">{{ selectedUser.username }}</h2>
+        <div class="flex gap-3 text-gray-500">
+          <span><i class="pi pi-envelope mr-1"></i> {{ selectedUser.email }}</span>
+          <span><i class="pi pi-calendar mr-1"></i> Joined: {{ selectedUser.createdAt | date:'mediumDate' }}</span>
+          <span class="px-2 py-1 border-round-3xl text-xs font-semibold uppercase bg-gray-100 text-gray-700">{{ selectedUser.role }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="detailsLoading" class="flex justify-content-center p-6">
+    <i class="pi pi-spin pi-spinner text-4xl text-indigo-600"></i>
+  </div>
+
+  <div *ngIf="!detailsLoading && userDetails" class="bg-white border-round-xl shadow-1 border-1 border-gray-100">
+    <p-tabView styleClass="w-full">
+      
+      <!-- Profile Tab -->
+      <p-tabPanel header="Profile">
+        <div class="p-4">
+          <h3 class="text-lg font-semibold mb-3">User Information</h3>
+          <div class="grid">
+            <div class="col-12 md:col-6 mb-3">
+              <span class="text-gray-500 block mb-1">Username</span>
+              <span class="font-medium text-gray-800">{{ userDetails.profile.username }}</span>
+            </div>
+            <div class="col-12 md:col-6 mb-3">
+              <span class="text-gray-500 block mb-1">Email Address</span>
+              <span class="font-medium text-gray-800">{{ userDetails.profile.email }}</span>
+            </div>
+            <div class="col-12 md:col-6 mb-3">
+              <span class="text-gray-500 block mb-1">Role</span>
+              <span class="font-medium text-gray-800 uppercase">{{ userDetails.profile.role }}</span>
+            </div>
+            <div class="col-12 md:col-6 mb-3">
+              <span class="text-gray-500 block mb-1">Account Status</span>
+              <span class="font-medium text-gray-800">{{ userDetails.profile.isActive ? 'Active' : 'Inactive' }}</span>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Purchased Courses Tab -->
+      <p-tabPanel header="Purchased Courses">
+        <div class="p-3">
+          <p-table [value]="userDetails.purchasedCourses" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Course Image</th>
+                <th>Course Title</th>
+                <th>Price</th>
+                <th>Language</th>
+                <th>Level</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-course>
+              <tr>
+                <td>
+                  <img [src]="course.coursePoster?.url || 'assets/placeholder.jpg'" alt="Course Image" class="w-4rem h-3rem object-cover border-round shadow-1">
+                </td>
+                <td class="font-medium">{{ course.title }}</td>
+                <td class="font-semibold text-green-600">₹{{ course.price }}</td>
+                <td>{{ course.language }}</td>
+                <td>
+                  <span class="px-2 py-1 bg-gray-100 border-round text-xs">{{ course.level }}</span>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="5" class="text-center py-4 text-gray-500">No purchased courses found.</td></tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
+      <!-- Certificates Tab -->
+      <p-tabPanel header="Certificates Earned">
+        <div class="p-3">
+          <p-table [value]="userDetails.certificates" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Course Title</th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cert>
+              <tr>
+                <td class="font-medium">{{ cert.courseId?.title || 'Unknown Course' }}</td>
+                <td>
+                  <a [href]="cert.certificateUrl" target="_blank" class="p-button p-button-sm p-button-outlined p-button-info text-decoration-none" [class.p-disabled]="!cert.certificateUrl">
+                    <i class="pi pi-download mr-2"></i> Download
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="2" class="text-center py-4 text-gray-500">No certificates found.</td></tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
+      <!-- Created Courses Tab (Teachers Only) -->
+      <p-tabPanel header="Created Courses" *ngIf="selectedUser.role === 'teacher'">
+        <div class="p-3">
+          <p-table [value]="userDetails.teacherData?.createdCourses || []" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Course Title</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Enrolled</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-course>
+              <tr>
+                <td class="font-medium">{{ course.title }}</td>
+                <td>{{ course.subCategoryId?.name || 'N/A' }}</td>
+                <td class="font-semibold text-green-600">₹{{ course.price }}</td>
+                <td>
+                  <span class="px-2 py-1 border-round text-xs font-medium" 
+                        [ngClass]="course.isReleased ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'">
+                    {{ course.isReleased ? 'Published' : 'Draft' }}
+                  </span>
+                </td>
+                <td>{{ course.totalStudentsPurchased }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="5" class="text-center py-4 text-gray-500">No created courses found.</td></tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
+      <!-- Course Analytics Tab (Teachers Only) -->
+      <p-tabPanel header="Course Analytics" *ngIf="selectedUser.role === 'teacher'">
+        <div class="p-4" *ngIf="userDetails.teacherData">
+          
+          <div class="grid mb-4">
+            <!-- Aggregated stats based on best UX (simple cards) -->
+            <div class="col-12 md:col-6">
+              <div class="bg-indigo-50 border-round-xl p-4 border-1 border-indigo-100 flex align-items-center justify-content-between">
+                <div>
+                  <p class="text-indigo-600 m-0 font-medium mb-1">Total Students Enrolled</p>
+                  <h3 class="text-3xl font-bold text-indigo-900 m-0">
+                    <!-- Sum of all students enrolled across analytics -->
+                    {{ (userDetails.teacherData.analytics | keyvalue)?.length || 0 }} Courses Tracked
+                  </h3>
+                </div>
+                <div class="w-3rem h-3rem bg-indigo-200 border-circle flex align-items-center justify-content-center">
+                  <i class="pi pi-users text-xl text-indigo-700"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-6">
+              <div class="bg-green-50 border-round-xl p-4 border-1 border-green-100 flex align-items-center justify-content-between">
+                <div>
+                  <p class="text-green-600 m-0 font-medium mb-1">Overall Ratings</p>
+                  <h3 class="text-3xl font-bold text-green-900 m-0">
+                    {{ userDetails.teacherData.reviews?.length || 0 }} Reviews Received
+                  </h3>
+                </div>
+                <div class="w-3rem h-3rem bg-green-200 border-circle flex align-items-center justify-content-center">
+                  <i class="pi pi-star-fill text-xl text-green-700"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="text-lg font-semibold mb-3">Recent Course Reviews</h3>
+          <p-table [value]="userDetails.teacherData.reviews" [paginator]="true" [rows]="5" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Course</th>
+                <th>Overall Rating</th>
+                <th>Review Count</th>
+                <th>Last Updated</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-review>
+              <tr>
+                <td class="font-medium">{{ review.courseId?.title || 'Unknown Course' }}</td>
+                <td>
+                  <span class="font-bold text-orange-500"><i class="pi pi-star-fill mr-1"></i>{{ review.overallRating }}</span>
+                </td>
+                <td>{{ review.reviewArr?.length || 0 }}</td>
+                <td class="text-gray-500">{{ review.updatedAt | date:'mediumDate' }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="4" class="text-center py-4 text-gray-500">No reviews found yet.</td></tr>
+            </ng-template>
+          </p-table>
+
+        </div>
+      </p-tabPanel>
+
+    </p-tabView>
+  </div>
 </div>

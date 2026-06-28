@@ -10,8 +10,9 @@
           </span>
         </h3>
         
-        <span class="mode-badge free-queries-badge" *ngIf="!isLoggedIn" [routerLink]="['/login']" style="cursor: pointer;">
-          {{ freeQueriesRemaining }} Free Queries Left. <span class="login-link">Login for more</span>
+        <span class="mode-badge free-queries-badge">
+          {{ freeQueriesRemaining }} Free Queries Left (Refreshes Daily). 
+          <span *ngIf="!isLoggedIn" [routerLink]="['/login']" class="login-link ml-1" style="cursor: pointer;">Login for more</span>
         </span>
       </div>
       <div class="header-actions">

@@ -4,7 +4,7 @@
     border: 1px solid #e5e7eb;
     padding: 1.3rem;
     transition: all 0.2s ease-in-out;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    box-shadow: #0000001a 0px 1px 3px 0px, #0000000f 0px 1px 2px 0px;
     position: relative;
     overflow: hidden;
 }
@@ -21,7 +21,7 @@
     position: absolute;
     top: -20px;
     left: -150px;
-    width: 380px;
+    width: 400px;
     height: 200px;
     background-color: #ffffff;
     border-radius: 50%;
@@ -45,4 +45,16 @@
 }
 .stat-enroll{
     background-color: #ebebab;
+}
+
+.icon-container{
+    background-color: #fff;
+    color: #5c5c5c;
+    width: 50px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    box-shadow: #0000000d 0px 2px 4px 0px, #0000000d 0px 4px 8px 0px;
 }

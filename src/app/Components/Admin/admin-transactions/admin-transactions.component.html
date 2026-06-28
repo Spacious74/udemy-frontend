@@ -18,12 +18,13 @@
     
     <ng-template pTemplate="header">
       <tr>
-        <th>Transaction ID</th>
-        <th>Student Info</th>
-        <th>Courses Purchased</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>Status</th>
+        <th class="font-semibold text-gray-700">Transaction ID</th>
+        <th class="font-semibold text-gray-700">Student Info</th>
+        <th class="font-semibold text-gray-700">Courses Purchased</th>
+        <th class="font-semibold text-gray-700">Amount</th>
+        <th class="font-semibold text-gray-700">Date</th>
+        <th class="font-semibold text-gray-700">Status</th>
+        <th class="font-semibold text-gray-700 text-center">Actions</th>
       </tr>
     </ng-template>
     
@@ -39,17 +40,20 @@
             <li *ngFor="let c of txn.courses" class="white-space-nowrap overflow-hidden text-overflow-ellipsis max-w-15rem">{{ c.title }}</li>
           </ul>
         </td>
-        <td class="font-bold text-gray-800">${{ txn.amount }}</td>
+        <td class="font-bold text-gray-800">₹ {{ txn.amount }}</td>
         <td class="text-gray-600">{{ txn.createdAt | date:'medium' }}</td>
         <td>
           <span class="px-2 py-1 bg-green-100 text-green-700 border-round text-xs font-semibold">SUCCESS</span>
+        </td>
+        <td class="text-center">
+          <p-button icon="pi pi-eye" size="small" [rounded]="true" [text]="true" (onClick)="viewDetails(txn)"></p-button>
         </td>
       </tr>
     </ng-template>
     
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6" class="text-center py-8 text-gray-500">
+        <td colspan="7" class="text-center py-8 text-gray-500">
           <i class="pi pi-receipt text-4xl mb-3 text-gray-300"></i>
           <p>No transactions found.</p>
         </td>
@@ -57,3 +61,61 @@
     </ng-template>
   </p-table>
 </div>
+
+<!-- Transaction Details Dialog -->
+<p-dialog header="Transaction Details" [(visible)]="displayDialog" [modal]="true" [style]="{width: '50vw'}" [breakpoints]="{'960px': '75vw', '640px': '95vw'}" [draggable]="false" [resizable]="false">
+  <div *ngIf="selectedTxn" class="p-4 border-round surface-50">
+    <div class="grid">
+      <!-- Order ID -->
+      <div class="col-12 md:col-6 mb-3">
+        <div class="text-sm text-gray-500 font-medium mb-1">Order ID</div>
+        <div class="text-lg text-gray-900 font-semibold">{{ selectedTxn.orderId }}</div>
+      </div>
+      
+      <!-- Receipt -->
+      <div class="col-12 md:col-6 mb-3">
+        <div class="text-sm text-gray-500 font-medium mb-1">Receipt Number</div>
+        <div class="text-lg text-gray-900 font-semibold">{{ selectedTxn.receipt || 'N/A' }}</div>
+      </div>
+
+      <!-- User -->
+      <div class="col-12 md:col-6 mb-3">
+        <div class="text-sm text-gray-500 font-medium mb-1">Student</div>
+        <div class="text-lg text-gray-900 font-semibold">{{ selectedTxn.userId?.username }}</div>
+        <div class="text-sm text-gray-600">{{ selectedTxn.userId?.email }}</div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="col-12 md:col-6 mb-3">
+        <div class="text-sm text-gray-500 font-medium mb-1">Payment Method</div>
+        <div class="text-lg text-gray-900 font-semibold uppercase">{{ selectedTxn.paymentMethod || 'Razorpay' }}</div>
+      </div>
+
+      <!-- Amount -->
+      <div class="col-12 md:col-6 mb-3">
+        <div class="text-sm text-gray-500 font-medium mb-1">Amount Paid</div>
+        <div class="text-xl text-green-600 font-bold">₹ {{ selectedTxn.amount }}</div>
+      </div>
+
+      <!-- Date -->
+      <div class="col-12 md:col-6 mb-3">
+        <div class="text-sm text-gray-500 font-medium mb-1">Transaction Date</div>
+        <div class="text-lg text-gray-900 font-semibold">{{ selectedTxn.createdAt | date:'medium' }}</div>
+      </div>
+    </div>
+    
+    <div class="mt-4 pt-4 border-top-1 border-gray-300">
+      <div class="text-sm text-gray-500 font-medium mb-3">Purchased Courses</div>
+      <ul class="list-none p-0 m-0">
+        <li *ngFor="let course of selectedTxn.courses" class="flex align-items-center py-2 px-3 mb-2 bg-white border-round shadow-1">
+          <i class="pi pi-book text-blue-500 mr-3 text-xl"></i>
+          <span class="font-medium text-gray-800">{{ course.title }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <ng-template pTemplate="footer">
+    <p-button label="Close" icon="pi pi-times" (onClick)="displayDialog = false" [text]="true"></p-button>
+  </ng-template>
+</p-dialog>

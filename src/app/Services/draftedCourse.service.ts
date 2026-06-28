@@ -51,11 +51,16 @@ export class DraftedCourseService {
         if (query.sortOrder) params.sortOrder = query.sortOrder;
         if (query.language) params.language = query.language;
         if (query.subCategoryId) params.subCategoryId = query.subCategoryId;
+        if (query.categoryName) params.categoryName = query.categoryName;
         if (query.searchText) params.searchText = query.searchText;
         if (query.level) params.level = query.level;
         if (query.priceType) params.priceType = query.priceType;
 
         return this.http.get<response>(`${this.base_url}getAllCourses`, { params });
+    }
+
+    getSearchSuggestions(query: string): Observable<any> {
+        return this.http.get<any>(`${this.base_url}search/suggestions?q=${encodeURIComponent(query)}`);
     }
 
     getCourseDetailsById(courseId: string): Observable<courseDetailsResponse> {

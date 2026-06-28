@@ -23,6 +23,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { CartStateService } from '../../Services/cartState.service';
 import { Observable } from 'rxjs';
 import { CategoryService } from '../../Services/category.service';
+import { DraftedCourseService } from '../../Services/draftedCourse.service';
 
 @Component({
   selector: 'app-navbar',
@@ -48,12 +49,17 @@ export class NavbarComponent implements OnInit {
   public sidebarVisible : boolean = false;
   public totalItems : number  = 0;
   public cartCount$: Observable<number>;
+  
+  public searchSuggestions: any[] = [];
+  public showSuggestions: boolean = false;
+  private searchTimeout: any;
 
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
     private toastMsgService: ToastMessageService,
     private cartStateService : CartStateService,
+    private draftedCourseService: DraftedCourseService,
     private router: Router,
     private store : Store<{cart : Cart[], userInfo : UserList}>,
     private categoryService: CategoryService
@@ -84,9 +90,9 @@ export class NavbarComponent implements OnInit {
         label: parent.name,
         items: subCats.length ? subCats.map(sub => ({
           label: sub.name,
-          command: () => this.display(sub._id)
+          command: () => this.display(sub.name)
         })) : undefined,
-        command: subCats.length ? undefined : () => this.display(parent._id)
+        command: subCats.length ? undefined : () => this.display(parent.name)
       };
     });
   }
@@ -106,15 +112,50 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  display(categoryId: string) {
-    if (!categoryId) {
+  display(categoryName: string) {
+    if (!categoryName) {
       this.router.navigate(['/courses'])
     } else {
-      this.router.navigate(['/courses'], { queryParams: { subCategoryId: categoryId } });
+      this.router.navigate(['/courses'], { queryParams: { category: categoryName } });
+    }
+  }
+
+  onSearchInput() {
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+    
+    if (!this.searchText || this.searchText.trim() === '') {
+      this.searchSuggestions = [];
+      this.showSuggestions = false;
+      return;
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      this.draftedCourseService.getSearchSuggestions(this.searchText.trim()).subscribe(res => {
+        if (res.success) {
+          this.searchSuggestions = res.data;
+          this.showSuggestions = true;
+        }
+      });
+    }, 300);
+  }
+
+  selectSuggestion(course: any) {
+    this.showSuggestions = false;
+    this.router.navigate(['/course', course._id]);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    if (!targetElement.closest('.search-container')) {
+      this.showSuggestions = false;
     }
   }
 
   searchIt() {
+    this.showSuggestions = false;
     if (this.searchText) {
       const encodedQuery = encodeURIComponent(this.searchText);
       this.router.navigate(['/courses'], { queryParams: { q: encodedQuery } });

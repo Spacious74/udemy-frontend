@@ -33,6 +33,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   public level!: string;
   public sort: string = '';
   public subCategoryId: string = "";
+  public categoryName: string = "";
   public searchText: string = "";
   public error: string = "";
 
@@ -75,6 +76,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.paramsObs = this.activatedRoute.queryParams.subscribe(params => {
       this.subCategoryId = params['subCategoryId'] || "";
+      this.categoryName = params['category'] || "";
       this.searchText = params['q'] || "";
       this.fetchData();
     });
@@ -90,6 +92,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
       sortOrder: this.sort,
       language: this.lang,
       subCategoryId: this.subCategoryId,
+      categoryName: this.categoryName,
       searchText: this.searchText,
       level: this.level,
       priceType: this.price

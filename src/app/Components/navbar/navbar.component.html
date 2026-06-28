@@ -20,10 +20,21 @@
             </div>
 
             <!-- Search -->
-            <div class="search-box p-fluid">
+            <div class="search-box p-fluid search-container relative">
                 <input type="text" pInputText placeholder="Search for courses..." [(ngModel)]="searchText"
+                    (input)="onSearchInput()"
                     (keydown.enter)="searchIt()" />
                 <i class="pi pi-search" (click)="searchIt()"></i>
+
+                <div class="suggestions-dropdown shadow-2 border-round bg-white absolute w-full z-5" *ngIf="showSuggestions && searchSuggestions.length > 0" style="top: 110%; max-height: 300px; overflow-y: auto;">
+                    <ul class="m-0 p-0 list-none">
+                        <li *ngFor="let course of searchSuggestions" 
+                            class="p-3 cursor-pointer hover:surface-100 border-bottom-1 border-300 text-sm text-gray-800"
+                            (click)="selectSuggestion(course)">
+                            {{ course.title }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -100,10 +111,21 @@
 
     <!-- MOBILE SEARCH BAR -->
     <div class="mobile-search">
-         <div class="mb-search-box p-fluid">
+         <div class="mb-search-box p-fluid search-container relative">
             <input type="text" pInputText placeholder="Search for courses..." [(ngModel)]="searchText"
+                (input)="onSearchInput()"
                 (keydown.enter)="searchIt()" />
             <i class="pi pi-search" (click)="searchIt()"></i>
+            
+            <div class="suggestions-dropdown shadow-2 border-round bg-white absolute w-full z-5 text-left" *ngIf="showSuggestions && searchSuggestions.length > 0" style="top: 110%; max-height: 300px; overflow-y: auto;">
+                <ul class="m-0 p-0 list-none">
+                    <li *ngFor="let course of searchSuggestions" 
+                        class="p-3 cursor-pointer hover:surface-100 border-bottom-1 border-300 text-sm text-gray-800"
+                        (click)="selectSuggestion(course)">
+                        {{ course.title }}
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="category-dropdown p-fluid flex align-items-center cursor-pointer" (click)="mobileMenu.toggle($event)">
             <span class="font-bold">Find Courses</span>

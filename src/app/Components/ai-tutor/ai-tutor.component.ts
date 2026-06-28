@@ -62,25 +62,30 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.isLoggedIn = true;
             this.userName = res.data.name;
           }
+          this.fetchDailyLimit();
         },
         error: () => {
-          this.initFreeQueries();
+          this.isLoggedIn = false;
+          this.fetchDailyLimit();
         }
       });
     } else {
-      this.initFreeQueries();
+      this.isLoggedIn = false;
+      this.fetchDailyLimit();
     }
   }
 
-  initFreeQueries() {
-    this.isLoggedIn = false;
-    if (typeof localStorage !== 'undefined') {
-      const queries = localStorage.getItem('ai_free_queries_used');
-      const used = queries ? parseInt(queries) : 0;
-      this.freeQueriesRemaining = Math.max(0, 5 - used);
-    } else {
-      this.freeQueriesRemaining = 5;
-    }
+  fetchDailyLimit() {
+    this.aiService.getDailyLimit().subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.freeQueriesRemaining = res.remaining;
+        }
+      },
+      error: (err) => {
+        console.error("Error fetching limit", err);
+      }
+    });
   }
 
   askQuestion(question: string) {
@@ -132,8 +137,11 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
   sendMessage() {
     if (!this.userInput.trim()) return;
 
-    if (!this.isLoggedIn && this.freeQueriesRemaining <= 0) {
-      this.messages.push({ role: 'model', content: 'You have exhausted your 5 free queries. Please <a href="/login">login</a> to continue using the AI tutor.' });
+    if (this.freeQueriesRemaining <= 0) {
+      const msg = this.isLoggedIn 
+        ? 'You have exhausted your daily free queries. Please try again tomorrow.'
+        : 'You have exhausted your daily free queries. Please <a href="/login">login</a> to increase your limit.';
+      this.messages.push({ role: 'model', content: msg });
       this.scrollToBottom();
       return;
     }
@@ -148,14 +156,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (res.success) {
           this.isLoading = false;
           this.simulateTyping(res.response);
-          if (!this.isLoggedIn) {
-            if (typeof localStorage !== 'undefined') {
-              let used = parseInt(localStorage.getItem('ai_free_queries_used') || '0');
-              used++;
-              localStorage.setItem('ai_free_queries_used', used.toString());
-              this.freeQueriesRemaining = Math.max(0, 5 - used);
-            }
-          }
+          this.freeQueriesRemaining = Math.max(0, this.freeQueriesRemaining - 1);
         } else {
           this.isLoading = false;
         }

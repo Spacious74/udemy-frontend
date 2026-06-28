@@ -1,16 +1,18 @@
 <p-toast position="bottom-right"></p-toast>
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
-<div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
-  <div class="p-4 border-bottom-1 border-gray-100 flex flex-column md:flex-row md:align-items-center justify-content-between gap-4">
-    <h2 class="text-xl font-bold text-gray-800 m-0">Manage Courses</h2>
-    
-    <div class="flex gap-3">
-      <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input type="text" pInputText placeholder="Search course title" [(ngModel)]="search" (keyup.enter)="onSearch()">
-      </span>
-      <button pButton icon="pi pi-search" (click)="onSearch()" class="p-button-outlined"></button>
+<div *ngIf="!isDetailView" class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden">
+  <div class="p-4 border-bottom-1 border-gray-100">
+    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between gap-4">
+      <h2 class="text-xl font-bold text-gray-800 m-0">Manage Courses</h2>
+      
+      <div class="flex flex-column md:flex-row gap-3">
+        <span class="p-input-icon-left w-full md:w-20rem">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText placeholder="Search course title..." [(ngModel)]="search" (keyup.enter)="onSearch()" class="w-full">
+        </span>
+        <button pButton icon="pi pi-search" (click)="onSearch()" class="p-button-outlined"></button>
+      </div>
     </div>
   </div>
 
@@ -39,15 +41,16 @@
     <ng-template pTemplate="body" let-course>
       <tr>
         <td>
-          <div class="font-semibold text-gray-800 m-0">{{ course.title }}</div>
+          <div class="font-semibold text-gray-800 m-0">{{ course.title.length>40 ? course.title.substring(0,40) + '...' : course.title }}</div>
           <div class="text-xs text-gray-500 mt-1">{{ course.level || 'All Levels' }}</div>
         </td>
-        <td class="text-gray-600">{{ course.instructor?.username || 'Unknown' }}</td>
+        <td class="text-gray-600">{{ course.educator?.edId?.username || 'Unknown' }}</td>
         <td>
-          <span class="px-2 py-1 surface-100 text-gray-600 border-round text-xs font-medium">{{ course.category?.name || 'Uncategorized' }}</span>
+          <span class="px-2 py-1 surface-100 text-gray-600 border-round text-xs font-medium">{{ course.subCategoryId?.name || 'Uncategorized' }}</span>
         </td>
-        <td class="font-bold text-gray-800">${{ course.price }}</td>
-        <td class="text-right">
+        <td class="font-bold text-gray-800">₹ {{ course.price }}</td>
+        <td class="flex align-items-center gap-1 text-right">
+          <button pButton icon="pi pi-eye" class="p-button-rounded p-button-info p-button-text mr-2" (click)="viewCourse(course)" pTooltip="View Details"></button>
           <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" (click)="deleteCourse(course)" pTooltip="Delete Course"></button>
         </td>
       </tr>
@@ -56,10 +59,184 @@
     <ng-template pTemplate="emptymessage">
       <tr>
         <td colspan="5" class="text-center py-8 text-gray-500">
-          <i class="pi pi-inbox text-4xl mb-3 text-gray-300"></i>
+          <i class="pi pi-book text-4xl mb-3 text-gray-300"></i>
           <p>No courses found matching your criteria.</p>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
+
+<!-- Course Detail View -->
+<div *ngIf="isDetailView && selectedCourse" class="fadein animation-duration-300">
+  <div class="mb-4 flex align-items-center justify-content-between">
+    <button pButton pRipple type="button" icon="pi pi-arrow-left" label="Back to Courses" class="p-button-text p-button-secondary" (click)="backToTable()"></button>
+  </div>
+
+  <div class="bg-white border-round-xl shadow-1 border-1 border-gray-100 overflow-hidden mb-4 p-4">
+    <div class="flex align-items-center gap-4">
+      <img [src]="selectedCourse.coursePoster?.url || 'assets/placeholder.jpg'" alt="Course Poster" class="w-8rem h-5rem object-cover border-round shadow-1">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800 m-0 mb-2">{{ selectedCourse.title }}</h2>
+        <div class="flex gap-3 text-gray-500 flex-wrap">
+          <span><i class="pi pi-user mr-1"></i> {{ selectedCourse.educator?.edId?.username || 'Unknown Instructor' }}</span>
+          <span><i class="pi pi-tag mr-1"></i> {{ selectedCourse.subCategoryId?.name || 'Uncategorized' }}</span>
+          <span class="font-bold text-green-600">₹ {{ selectedCourse.price }}</span>
+          <span class="px-2 py-1 border-round-3xl text-xs font-semibold" [ngClass]="selectedCourse.isReleased ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'">
+            {{ selectedCourse.isReleased ? 'Published' : 'Draft' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="detailsLoading" class="flex justify-content-center p-6">
+    <i class="pi pi-spin pi-spinner text-4xl text-indigo-600"></i>
+  </div>
+
+  <div *ngIf="!detailsLoading && courseDetails" class="bg-white border-round-xl shadow-1 border-1 border-gray-100">
+    <p-tabView styleClass="w-full">
+      
+      <!-- Enrolled Users Tab -->
+      <p-tabPanel header="Enrolled Users">
+        <div class="p-3">
+          <p-table [value]="courseDetails.enrolledUsers" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Joined Date</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+              <tr>
+                <td class="font-medium">{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <span class="px-2 py-1 border-round text-xs font-medium" [ngClass]="user.isActive ? 'bg-green-50 text-green-600 border-1 border-green-200' : 'bg-red-50 text-red-600 border-1 border-red-200'">
+                    {{ user.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="text-gray-500">{{ user.createdAt | date:'mediumDate' }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="4" class="text-center py-4 text-gray-500">No users enrolled in this course yet.</td></tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
+      <!-- Course Lectures Tab -->
+      <p-tabPanel header="Course Lectures">
+        <div class="p-4">
+          <div *ngIf="!courseDetails.modules || courseDetails.modules.length === 0" class="text-center py-4 text-gray-500">
+            No lectures/modules found for this course.
+          </div>
+          
+          <div class="card-premium premium-accordion" *ngIf="courseDetails.modules && courseDetails.modules.length > 0">
+            <p-accordion [multiple]="true">
+                <ng-container *ngFor="let section of courseDetails.modules; let idx = index">
+                    <p-accordionTab [selected]="idx === 0">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center justify-content-between w-full pr-3">
+                                <span class="font-bold text-900 text-base">Module {{idx+1}}: {{section.sectionName}}</span>
+                                <span class="text-xs font-normal text-500">{{section.videos?.length || 0}} lectures</span>
+                            </div>
+                        </ng-template>
+                        <div class="flex flex-column gap-2 pt-2 pb-2">
+                            <div *ngFor="let vid of section.videos" class="flex align-items-center justify-content-between text-sm text-700 py-2 border-bottom-1 border-100">
+                                <span class="flex align-items-center gap-3">
+                                    <div class="w-2rem h-2rem border-circle bg-green-50 flex align-items-center justify-content-center cursor-pointer" (click)="openPreviewDialog(vid.url, vid.name)">
+                                        <i class="pi pi-play text-primary" style="font-size: 0.7rem;"></i>
+                                    </div>
+                                    <span class="font-medium cursor-pointer" (click)="openPreviewDialog(vid.url, vid.name)">{{vid.name}}</span>
+                                </span>
+                                <span *ngIf="vid.isFree" class="text-primary cursor-pointer text-xs font-bold bg-green-50 px-2 py-1 border-round border-1 border-primary" (click)="openPreviewDialog(vid.url, vid.name)">
+                                    Preview
+                                </span>
+                            </div>
+                        </div>
+                    </p-accordionTab>
+                </ng-container>
+            </p-accordion>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Course Reviews Tab -->
+      <p-tabPanel header="Course Reviews">
+        <div class="p-3">
+          <p-table [value]="courseDetails.reviews" [paginator]="true" [rows]="5" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>User</th>
+                <th>Rating</th>
+                <th>Review</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-review>
+              <tr>
+                <td class="font-medium">{{ review.userId?.username || review.username || 'Unknown' }}</td>
+                <td>
+                  <span class="font-bold text-orange-500"><i class="pi pi-star-fill mr-1"></i>{{ review.rating }}</span>
+                </td>
+                <td class="text-gray-700" style="max-width: 300px; white-space: normal;">
+                  {{ review.desc || 'No description provided.' }}
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="3" class="text-center py-4 text-gray-500">No reviews for this course yet.</td></tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
+      <!-- Course QnA Tab -->
+      <p-tabPanel header="Course Q&A">
+        <div class="p-3">
+          <p-table [value]="courseDetails.qna" [paginator]="true" [rows]="5" styleClass="p-datatable-sm" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Asked By</th>
+                <th>Question</th>
+                <th>Answers</th>
+                <th>Date</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-q>
+              <tr>
+                <td class="font-medium">{{ q.userId?.username || 'Unknown' }}</td>
+                <td style="max-width: 300px; white-space: normal;">
+                  <div class="font-bold text-gray-800 mb-1">{{ q.questionTitle }}</div>
+                  <div class="text-sm text-gray-600">{{ q.questionDescription }}</div>
+                </td>
+                <td>
+                  <span class="px-2 py-1 bg-blue-50 text-blue-600 border-round text-xs font-bold">{{ q.answerCount }} Answers</span>
+                </td>
+                <td class="text-gray-500">{{ q.createdAt | date:'short' }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr><td colspan="4" class="text-center py-4 text-gray-500">No questions asked yet.</td></tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
+    </p-tabView>
+  </div>
+</div>
+
+<!-- Video Preview Dialog -->
+<p-dialog header="Video Preview" [modal]="true" [(visible)]="showPreviewDialog" [style]="{ width: '60%' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <div class="flex flex-column gap-3 w-full p-3">
+      <video *ngIf="previewVideoUrl" width="100%" controls style="border-radius: 12px; aspect-ratio: 16/9; object-fit: cover;" autoplay>
+          <source [src]="previewVideoUrl" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+      <div class="text-xl font-bold mt-2 text-gray-800">{{previewVideoTitle}}</div>
+  </div>
+</p-dialog>

@@ -8,7 +8,7 @@ import { basePath } from '../baseSettings/basePath';
   providedIn: 'root'
 })
 export class CategoryService {
-  private url = basePath + 'courseCategory/';
+  private url = basePath + 'category/';
 
   constructor(private http: HttpClient) { }
 

@@ -9,11 +9,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { ToastModule } from 'primeng/toast';
+import { TabViewModule } from 'primeng/tabview';
+import { TooltipModule } from 'primeng/tooltip';
+import { AccordionModule } from 'primeng/accordion';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-admin-courses',
   standalone: true,
-  imports: [CommonModule, TableModule, InputTextModule, ButtonModule, FormsModule, ConfirmDialogModule, ToastModule],
+  imports: [CommonModule, TableModule, InputTextModule, ButtonModule, FormsModule, ConfirmDialogModule, ToastModule, TabViewModule, TooltipModule, AccordionModule, DialogModule],
   providers: [ConfirmationService, ToastMessageService],
   templateUrl: './admin-courses.component.html',
   styleUrl: './admin-courses.component.css'
@@ -84,5 +88,53 @@ export class AdminCoursesComponent implements OnInit {
         );
       }
     });
+  }
+
+  // Course Detail View Methods
+  isDetailView: boolean = false;
+  selectedCourse: any = null;
+  courseDetails: any = null;
+  detailsLoading: boolean = false;
+
+  viewCourse(course: any) {
+    this.isDetailView = true;
+    this.selectedCourse = course;
+    this.detailsLoading = true;
+    this.courseDetails = null;
+
+    this.adminService.getCourseDetails(course._id).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.courseDetails = res.data;
+        }
+        this.detailsLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching course details', err);
+        this.toastMsgService.showError('Error', 'Failed to fetch course details');
+        this.detailsLoading = false;
+      }
+    });
+  }
+
+  backToTable() {
+    this.isDetailView = false;
+    this.selectedCourse = null;
+    this.courseDetails = null;
+  }
+
+  // Video Preview Dialog
+  showPreviewDialog: boolean = false;
+  previewVideoUrl: string = '';
+  previewVideoTitle: string = '';
+
+  openPreviewDialog(url: string, title: string) {
+    if (!url) {
+      this.toastMsgService.showError('Error', 'Video URL is missing');
+      return;
+    }
+    this.previewVideoUrl = url;
+    this.previewVideoTitle = title;
+    this.showPreviewDialog = true;
   }
 }

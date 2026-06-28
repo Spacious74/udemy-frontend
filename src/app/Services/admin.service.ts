@@ -34,6 +34,14 @@ export class AdminService {
     return this.http.get(`${this.baseUrl}/users`, { params, headers: this.getHeaders() });
   }
 
+  updateUserRole(id: string, role: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/users/${id}/role`, { role }, { headers: this.getHeaders() });
+  }
+
+  getUserDetails(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/users/${id}/details`, { headers: this.getHeaders() });
+  }
+
   getCourses(page: number = 1, limit: number = 10, search: string = ''): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -42,6 +50,10 @@ export class AdminService {
     if (search) params = params.set('search', search);
 
     return this.http.get(`${this.baseUrl}/courses`, { params, headers: this.getHeaders() });
+  }
+
+  getCourseDetails(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/courses/${id}/details`, { headers: this.getHeaders() });
   }
 
   deleteCourse(id: string): Observable<any> {

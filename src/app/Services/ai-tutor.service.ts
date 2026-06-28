@@ -45,4 +45,8 @@ export class AiTutorService {
   getCourseChat(courseId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}ai/course-chat/${courseId}`, { headers: this.getHeaders() });
   }
+
+  getDailyLimit(): Observable<any> {
+    return this.http.get(`${this.baseUrl}ai/limit`, { headers: this.getHeaders() });
+  }
 }

@@ -51,7 +51,9 @@ export class AdminCategoriesComponent implements OnInit {
           this.categories = res.data;
           this.parentOptions = [
             { label: 'None (Root Category)', value: null },
-            ...this.categories.map(c => ({ label: c.name, value: c._id }))
+            ...this.categories
+                .filter(c => !c.parentId)
+                .map(c => ({ label: c.name, value: c._id }))
           ];
         }
         this.loading = false;
