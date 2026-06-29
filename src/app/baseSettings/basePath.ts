@@ -1,1 +1,1 @@
-export const basePath = "http://localhost:4000/skillup/api/v1/"
+export const basePath = "https://udemy-clone-backend-delta.vercel.app/skillup/api/v1"
