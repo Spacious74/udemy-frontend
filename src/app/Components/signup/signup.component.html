@@ -1,4 +1,3 @@
-
 <p-toast></p-toast>
 <div class="order-nav p-3 flex justify-content-center align-items-center">
     <div class="inner-nav">
@@ -9,12 +8,15 @@
 
     <div class="left">
 
-        <div *ngIf="isRegistered" class="flex flex-column align-items-center justify-content-center text-center p-4 h-full">
+        <div *ngIf="isRegistered"
+            class="flex flex-column align-items-center justify-content-center text-center p-4 h-full">
             <i class="pi pi-check-circle text-green-500 mb-4" style="font-size: 4rem;"></i>
             <h2 class="mb-3">Registration Successful!</h2>
-            <p class="text-lg mb-4 text-700">A verification link has been sent to your email address. Please check your inbox and verify your email.</p>
-            
-            <div class="bg-blue-50 text-blue-800 p-3 border-round mb-4 text-sm w-full font-medium flex align-items-center justify-content-center">
+            <p class="text-lg mb-4 text-700">A verification link has been sent to your email address. Please check your
+                inbox and verify your email.</p>
+
+            <div
+                class="bg-blue-50 text-blue-800 p-3 border-round mb-4 text-sm w-full font-medium flex align-items-center justify-content-center">
                 <i class="pi pi-info-circle mr-2"></i>
                 Please also check your spam or junk folder if you don't see it in your inbox.
             </div>
@@ -27,11 +29,12 @@
 
             <div class="text-2xl head font-semibold text-center mb-5">Create your new account</div>
 
-            <div class="google-btn-wrapper flex justify-content-center">
-                <asl-google-signin-button type="standard" size="large" shape="pill" theme="filled_black" text="signup_with" logo_alignment="left"></asl-google-signin-button>
+            <div class="google-btn-wrapper flex justify-content-center w-full">
+                <asl-google-signin-button type="standard" size="large" shape="pill" theme="filled_black"
+                    text="signup_with" logo_alignment="left"></asl-google-signin-button>
             </div>
 
-            <p-divider align="center" type="solid" >
+            <p-divider align="center" type="solid">
                 or
             </p-divider>
 
@@ -50,16 +53,19 @@
             <div class="flex gap-2 mb-1">
                 <div class="form-control p-fluid flex flex-column gap-1 w-full">
                     <label class="font-bold" for="password">Password</label>
-                    <input pInputText [type]="showPasswords ? 'text' : 'password'" [(ngModel)]="formData.password" name="password" />
+                    <input pInputText [type]="showPasswords ? 'text' : 'password'" [(ngModel)]="formData.password"
+                        name="password" />
                 </div>
 
                 <div class="form-control p-fluid flex flex-column gap-1 w-full">
                     <label class="font-bold" for="reEnterPassword">Confirm Password</label>
-                    <input pInputText [type]="showPasswords ? 'text' : 'password'" [(ngModel)]="formData.confirmPassword" name="reEnterPassword" />
+                    <input pInputText [type]="showPasswords ? 'text' : 'password'"
+                        [(ngModel)]="formData.confirmPassword" name="reEnterPassword" />
                 </div>
             </div>
 
-            <div class="flex align-items-center mb-4 cursor-pointer text-sm text-600 hover:text-800 transition-colors transition-duration-200 select-none" (click)="showPasswords = !showPasswords">
+            <div class="flex align-items-center mb-4 cursor-pointer text-sm text-600 hover:text-800 transition-colors transition-duration-200 select-none"
+                (click)="showPasswords = !showPasswords">
                 <i class="pi mr-2" [ngClass]="showPasswords ? 'pi-eye-slash' : 'pi-eye'"></i>
                 <span>{{ showPasswords ? 'Hide password' : 'Show password' }}</span>
             </div>

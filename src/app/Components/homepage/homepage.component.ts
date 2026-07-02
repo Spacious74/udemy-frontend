@@ -48,6 +48,7 @@ export class HomepageComponent implements OnInit {
     private routerService: Router,
     private toastMsgService: ToastMessageService,
     private draftedCourseService: DraftedCourseService,
+    private cookieService: CookieService,
     private store: Store<{ userInfo: UserList }>
   ) { }
 
@@ -130,6 +131,9 @@ export class HomepageComponent implements OnInit {
   updateUserRole() {
     this.authService.updateUser({ userId: this.userDetails._id, role: "teacher" }).subscribe((res) => {
       if (res.success) {
+        if (res.token) {
+          this.cookieService.set('skillUpToken', res.token, { expires: 1, path: '/' });
+        }
         this.toastMsgService.showSuccess("Success", "User role updated successfully");
         this.routerService.navigate(['/educator']);
         this.showPopUp = false;

@@ -100,8 +100,9 @@ export class TeacherDashboardComponent {
 
   fetchData() {
     this.draftedCourseService.getReleasedCourses(this.userDetails._id).subscribe((res) => {
-      this.totalStudents = res.data.reduce((sum,data)=>data.totalStudentsPurchased+sum,0);
-      this.totalCourses = res.data.length;
+      const coursesData = res.data || [];
+      this.totalStudents = coursesData.reduce((sum: number, data: any) => (data.totalStudentsPurchased || 0) + sum, 0);
+      this.totalCourses = coursesData.length;
     }, (err) => {
       console.log(err);
     });

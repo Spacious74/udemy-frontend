@@ -7,11 +7,22 @@ export class AppObject {
 
     public static userData : any = null;
     public static AuthToken: string;
+
+    private static getToken(): string {
+        if (this.AuthToken) return this.AuthToken;
+        if (typeof document !== 'undefined') {
+            const match = document.cookie.match(new RegExp('(^| )skillUpToken=([^;]+)'));
+            if (match) return match[2];
+        }
+        return '';
+    }
+
     public static preparePostJsonHeader(includeAuthToken: boolean = true): HttpHeaders {
         var headers = new HttpHeaders({'credentials': 'include'});
         headers = headers.append('content-type', 'application/json');
         if (includeAuthToken) {
-            headers = headers.append('AUTH_TOKEN', this.AuthToken);
+            const token = this.getToken();
+            if (token) headers = headers.append('AUTH_TOKEN', token);
         }
         return headers;
     }
@@ -23,7 +34,8 @@ export class AppObject {
             'Expires': '0'
         });
         if (includeAuthToken) {
-            headers = headers.append('AUTH_TOKEN', this.AuthToken);
+            const token = this.getToken();
+            if (token) headers = headers.append('AUTH_TOKEN', token);
         }
         return headers;
     }
@@ -38,7 +50,8 @@ export class AppObject {
         });
         headers = headers.append('content-type', 'application/json');
         if (includeAuthToken) {
-            headers = headers.append('AUTH_TOKEN', this.AuthToken);
+            const token = this.getToken();
+            if (token) headers = headers.append('AUTH_TOKEN', token);
         }
         return headers;
     }

@@ -32,12 +32,13 @@ export class AppComponent implements OnInit {
     let token = this.cookieService.get("skillUpToken");
     if(token){
       this.store.dispatch(userInfoActions.loadUser());
+    } else {
+      this.cartStateService.initializeCart();
     }
+
     this.store.select("userInfo").subscribe((res) => {
-      if(res){
-        this.cartStateService.initializeCart(res?._id)
-      } else {
-        this.cartStateService.initializeCart()
+      if(res && res._id){
+        this.cartStateService.initializeCart(res._id);
       }
     });
   }

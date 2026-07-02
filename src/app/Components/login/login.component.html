@@ -8,14 +8,15 @@
 
     <div class="left">
         <form #loginForm="ngForm" (ngSubmit)="formSubmission(loginForm)">
-            
+
             <div class="text-2xl font-semibold head text-center mb-5">Login to your account</div>
 
             <div class="google-btn-wrapper flex justify-content-center">
-                <asl-google-signin-button type="standard" size="large" shape="pill" theme="filled_black" text="signin_with" logo_alignment="left"></asl-google-signin-button>
+                <asl-google-signin-button type="standard" size="large" shape="pill" theme="filled_black"
+                    text="signin_with" logo_alignment="left"></asl-google-signin-button>
             </div>
 
-            <p-divider align="center" type="solid" >
+            <p-divider align="center" type="solid">
                 or
             </p-divider>
 
@@ -23,7 +24,8 @@
                 <label class="font-bold" for="email">Email</label>
                 <input required type="email" #email="ngModel" name="email" placeholder="Enter your email..."
                     [class.border-red-300]="email.invalid && email.touched" pInputText ngModel />
-                <div *ngIf="loginForm.submitted && !loginForm.value.email" class="text-sm text-red-500">Email is required.</div>
+                <div *ngIf="loginForm.submitted && !loginForm.value.email" class="text-sm text-red-500">Email is
+                    required.</div>
             </div>
 
             <div class="form-control p-fluid mb-3 flex flex-column gap-1">
@@ -33,7 +35,8 @@
                 <div *ngIf="loginForm.submitted && !loginForm.value.password" class="text-red-500">Password is required.
                 </div>
                 <div class="flex justify-content-between align-items-center py-1">
-                    <small class="cursor-pointer hover:text-primary" routerLink="/forgot-password">Forgot Password?</small>
+                    <small class="cursor-pointer hover:text-primary" routerLink="/forgot-password">Forgot
+                        Password?</small>
                 </div>
             </div>
 
