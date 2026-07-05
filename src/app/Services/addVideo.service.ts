@@ -5,6 +5,7 @@ import { ApiResponse } from '../models/ApiResponse';
 import { SectionList } from '../models/Course/SectionList';
 import { VideoList } from '../models/Course/VideoList';
 import { AppObject } from '../baseSettings/AppObject';
+import { basePath } from '../baseSettings/basePath';
 interface videoResponse {
     success : boolean;
     videoObj : VideoList
@@ -14,7 +15,7 @@ interface videoResponse {
 })
 export class AddVideoService {
 
-    private base_url: string = 'http://localhost:4000/skillup/api/v1/videoModule/';
+    private base_url: string = `${basePath}videoModule/`;
     constructor(private http: HttpClient) { }
 
     getAllVideoSections(courseId: any): Observable<ApiResponse<SectionList[]>> {

@@ -9,6 +9,8 @@
 .head {
   background-size: 30px 30px;
   background-image: radial-gradient(circle, #2e3f2e 1px, #1a251a 1px);
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .playlist-cards {
