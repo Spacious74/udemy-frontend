@@ -240,7 +240,7 @@
                     Enchance your knowledge with reading articles
                 </div>
             </div>
-            <div class="explore-link">
+            <div routerLink="/blogs" class="explore-link cursor-pointer">
                 Read more <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2" d="m21 12l-5-5m5 5l-5 5m5-5H3" />
@@ -248,24 +248,28 @@
             </div>
         </div>
         <div class="cards-grid">
-            <ng-container *ngFor="let article of articles">
-                <div class="border-1 cursor-pointer border-300 
-                hover:shadow-3 border-round hover:border-green-500 h-16rem overflow-hidden">
-                    <div class="">
-                        <img [src]="article.articleImage" class="shadow-2 artimage" />
+            <ng-container *ngFor="let article of dbArticles">
+                <div [routerLink]="['/blog', article.slug || article._id]" class="border-1 cursor-pointer border-300 
+                hover:shadow-3 border-round hover:border-green-500 h-16rem overflow-hidden flex flex-column">
+                    <div class="h-10rem overflow-hidden bg-gray-200 w-full flex justify-content-center align-items-center">
+                        <img *ngIf="article.coverImage" [src]="article.coverImage" class="shadow-2 w-full h-full" style="object-fit: cover;" />
+                        <span *ngIf="!article.coverImage" class="text-gray-400">No Image</span>
                     </div>
-                    <div class="p-2">
-                        <div class="font-semibold mb-2 text-lg">
-                            {{article.articleTopic}}
+                    <div class="p-3 flex flex-column justify-content-between flex-grow-1">
+                        <div class="font-semibold mb-2 text-lg line-clamp-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                            {{article.title}}
                         </div>
-                        <div class="date text-sm ">
-                            Published : {{article.articleDate}}
+                        <div class="date text-sm text-gray-500">
+                            Published : {{article.createdAt | date:'mediumDate'}}
                         </div>
                     </div>
                 </div>
             </ng-container>
+            <div *ngIf="dbArticles.length === 0" class="text-gray-500 p-3">
+                No articles published yet.
+            </div>
         </div>
-        <div class="explore-more-mobile mt-4">
+        <div routerLink="/blogs" class="explore-more-mobile mt-4 cursor-pointer text-blue-500">
             Read more articles...
         </div>
     </div>

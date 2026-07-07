@@ -52,6 +52,16 @@ export const routes: Routes = [
         canActivate: [authGuard],
         title: 'User Profile'
       },
+      {
+        path: 'blogs',
+        loadComponent: () => import('./Components/blog/blog-list/blog-list.component').then(m => m.BlogListComponent),
+        title: 'All Blogs'
+      },
+      {
+        path: 'blog/:id',
+        loadComponent: () => import('./Components/blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
+        title: 'Blog Details'
+      },
     ]
   },
   {
@@ -164,6 +174,16 @@ export const routes: Routes = [
         path: 'settings',
         loadComponent: () => import('./Components/Admin/admin-settings/admin-settings.component').then(m => m.AdminSettingsComponent),
         title: 'Admin Settings'
+      },
+      {
+        path: 'create-blog',
+        loadComponent: () => import('./Components/Admin/create-blog/create-blog.component').then(m => m.CreateBlogComponent),
+        title: 'Create Blog'
+      },
+      {
+        path: 'blogs',
+        loadComponent: () => import('./Components/Admin/admin-blogs/admin-blogs.component').then(m => m.AdminBlogsComponent),
+        title: 'Manage Blogs'
       }
     ]
   }

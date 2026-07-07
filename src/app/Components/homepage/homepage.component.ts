@@ -21,6 +21,8 @@ import { UserList } from '../../models/UserList';
 import { Store } from '@ngrx/store';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
 import { map } from 'rxjs';
+import { BlogService } from '../../Services/blog.service';
+import { Blog } from '../../models/Blog';
 
 @Component({
   selector: 'app-homepage',
@@ -42,6 +44,8 @@ export class HomepageComponent implements OnInit {
   public userDetails: UserList;
   public userId: string;
   public userRole: string = 'student';
+  public dbArticles: Blog[] = [];
+
 
   constructor(
     private authService: AuthService,
@@ -49,7 +53,8 @@ export class HomepageComponent implements OnInit {
     private toastMsgService: ToastMessageService,
     private draftedCourseService: DraftedCourseService,
     private cookieService: CookieService,
-    private store: Store<{ userInfo: UserList }>
+    private store: Store<{ userInfo: UserList }>,
+    private blogService: BlogService
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +65,7 @@ export class HomepageComponent implements OnInit {
     });
 
     this.fetchData();
+    this.fetchBlogs();
 
     this.categories = [
       {
@@ -125,6 +131,17 @@ export class HomepageComponent implements OnInit {
       if (err) {
         this.toastMsgService.showError("Error", err.message);
       }
+    });
+  }
+
+  fetchBlogs() {
+    this.blogService.getLatestBlogs().subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.dbArticles = res.blogs;
+        }
+      },
+      error: (err) => console.error("Failed to load blogs on homepage", err)
     });
   }
 

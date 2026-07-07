@@ -30,6 +30,10 @@
   font-display: swap;
 }
 
+#container-div{
+  margin: auto;
+}
+
 .container {
   max-width: 1400px;
   padding: 0 1.8rem;

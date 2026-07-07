@@ -18,7 +18,8 @@ export class AdminLayoutComponent implements OnInit {
     { label: 'Users', icon: 'pi pi-users', link: '/admin/users' },
     { label: 'Courses', icon: 'pi pi-book', link: '/admin/courses' },
     { label: 'Categories', icon: 'pi pi-tags', link: '/admin/categories' },
-    { label: 'Transactions', icon: 'pi pi-credit-card', link: '/admin/transactions' }
+    { label: 'Transactions', icon: 'pi pi-credit-card', link: '/admin/transactions' },
+    { label: 'Blogs', icon: 'pi pi-pencil', link: '/admin/blogs' }
   ];
 
   constructor(private router: Router, private cookieService: CookieService) {}
