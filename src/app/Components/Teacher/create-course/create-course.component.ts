@@ -140,10 +140,28 @@ export class CreateCourseComponent implements OnInit {
         edname: this.draftedCourseDetails.educator.edname
       }
     };
-    // Initialize dropdowns appropriately if in edit mode (may require finding the parent of subCategoryId)
-    // For now, we will just set selected level and language.
+    
     this.selectedLevel = { name: this.draftedCourseDetails.level };
     this.selectedLanguage = { name: this.draftedCourseDetails.language };
+
+    if (this.draftedCourseDetails.subCategoryId) {
+      this.categoryService.getAllCategories().subscribe(res => {
+        if (res.success) {
+          const allCategories = res.data;
+          const subCategory = allCategories.find((c: any) => c._id === this.draftedCourseDetails.subCategoryId);
+          if (subCategory && subCategory.parentId) {
+            this.selectedCategory = allCategories.find((c: any) => c._id === subCategory.parentId);
+            
+            this.categoryService.getSubCategoriesByParentId(subCategory.parentId).subscribe(subRes => {
+              if (subRes.success) {
+                this.subCategories = subRes.data;
+                this.selectedSubCategory = this.subCategories.find(c => c._id === this.draftedCourseDetails.subCategoryId);
+              }
+            });
+          }
+        }
+      });
+    }
   }
 
   fetchCourseByEdAndCourseId() {

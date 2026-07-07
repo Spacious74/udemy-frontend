@@ -25,35 +25,39 @@
                                     [(ngModel)]="formData.subTitle" />
                             </div>
 
-                            <div class="flex gap-3">
-                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                            <div class="flex flex-column md:flex-row gap-3">
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1 flex-1">
                                     <label class="text-900 font-semibold mb-1" for="price">Set Course Price</label>
                                     <p-inputNumber [(ngModel)]="formData.price" inputId="currency-india" mode="currency"
-                                        currency="INR" [min]="200" locale="en-IN" [minFractionDigits]="2"
-                                        name="price" />
+                                    currency="INR" class="w-full" styleClass="w-full" [min]="200" locale="en-IN" [minFractionDigits]="2"
+                                    name="price" />
                                 </div>
-                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1 flex-1">
                                     <label class="text-900 font-semibold mb-1" for="category">Course Category</label>
-                                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name"
-                                        autoWidth="false" [style]="{ width: '200px' }" [showClear]="true"
-                                        placeholder="Select category..." name="category" (onChange)="onCategoryChange()" />
+                                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" dataKey="_id"
+                                    [showClear]="true" styleClass="w-full" class="w-full"
+                                    placeholder="Select category..." name="category" (onChange)="onCategoryChange()" />
                                 </div>
-                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1 flex-1">
                                     <label class="text-900 font-semibold mb-1" for="subCategory">Sub-category</label>
-                                    <p-dropdown [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="name"
-                                        autoWidth="false" [style]="{ width: '200px' }" [showClear]="true"
+                                    <p-dropdown [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="name" dataKey="_id"
+                                        [showClear]="true" styleClass="w-full" class="w-full"
                                         placeholder="Select sub-category..." name="subCategory" [disabled]="!subCategories.length" />
                                 </div>
-                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
+                               
+                            </div>
+
+                            <div class="flex flex-column md:flex-row gap-3">
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1 flex-1">
                                     <label class="text-900 font-semibold mb-1" for="language">Course Language</label>
                                     <p-dropdown [options]="languages" [(ngModel)]="selectedLanguage" optionLabel="name"
-                                        autoWidth="false" [style]="{ width: '200px' }" [showClear]="true"
+                                         [showClear]="true" styleClass="w-full" class="w-full"
                                         placeholder="Select a Language..." name="language" />
                                 </div>
-                                <div class="form-control p-fluid mb-3 flex flex-column gap-1">
-                                    <label class="text-900 font-semibold mb-1" for="language">Level of Course</label>
+                                <div class="form-control p-fluid mb-3 flex flex-column gap-1 flex-1">
+                                    <label class="text-900 font-semibold mb-1" for="level">Level of Course</label>
                                     <p-dropdown [options]="levels" [(ngModel)]="selectedLevel" optionLabel="name"
-                                        autoWidth="false" [style]="{ width: '200px' }" [showClear]="true"
+                                         [showClear]="true" styleClass="w-full" class="w-full"
                                         placeholder="Select level of course..." name="level" />
                                 </div>
                             </div>

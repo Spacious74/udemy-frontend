@@ -159,6 +159,7 @@ export class AddVideoComponent implements OnInit {
     if (this.sectionId) {
       this.updateSection(); return;
     }
+    this.loading = true;
     this.addVideoService.addSection(this.courseId, this.sectionName).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;
@@ -175,6 +176,7 @@ export class AddVideoComponent implements OnInit {
   }
 
   updateSection() {
+    this.loading = true;
     this.addVideoService.updateSection(this.courseId, this.sectionId, this.sectionName).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;
@@ -217,10 +219,14 @@ export class AddVideoComponent implements OnInit {
 
   addVideo(event: Event,) {
     event.stopPropagation();
+    if (!this.videoTitle || this.videoTitle.trim() === '') {
+      this.toastmsgService.showError("Error", "Enter video title to save it."); return;
+    }
     this.videoTitle = this.videoTitle.trim();
     if (this.videoId) {
       this.updateVideoTitle(); return;
     }
+    this.loading = true;
     this.addVideoService.addVideoToSection(this.courseId, this.sectionId, this.videoTitle, this.isFree).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;
@@ -239,6 +245,7 @@ export class AddVideoComponent implements OnInit {
   }
 
   updateVideoTitle() {
+    this.loading = true;
     this.addVideoService.updateVideoTitle(this.courseId, this.sectionId, this.videoId, this.videoTitle, this.isFree).subscribe((res) => {
       if (res.success) {
         this.sectionList = res.data;

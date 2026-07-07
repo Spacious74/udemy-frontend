@@ -103,7 +103,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: () => {
-        console.log('Both APIs completed successfully');
         this.aiTutorService.setCourseMode(true, this.courseId);
       },
       error: (error) => {

@@ -6,6 +6,8 @@ import { AiTutorService, ChatMessage } from '../../Services/ai-tutor.service';
 import { AuthService } from '../../Services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ai-tutor',
@@ -31,12 +33,33 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chatScroll') private chatScrollContainer!: ElementRef;
   
   private modeSub!: Subscription;
+  private routerSub!: Subscription;
+  public showTutor = true;
 
   constructor(
     private aiService: AiTutorService,
     private authService: AuthService,
-    private cookieService: CookieService
-  ) {}
+    private cookieService: CookieService,
+    private router: Router
+  ) {
+    // Initial check
+    this.checkRoute(this.router.url);
+
+    this.routerSub = this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.checkRoute(event.urlAfterRedirects);
+      });
+  }
+
+  checkRoute(url: string) {
+    if (url.startsWith('/educator') || url.startsWith('/admin')) {
+      this.showTutor = false;
+      this.isOpen = false;
+    } else {
+      this.showTutor = true;
+    }
+  }
 
   ngOnInit() {
     this.checkLoginStatus();
@@ -95,6 +118,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy() {
     if (this.modeSub) this.modeSub.unsubscribe();
+    if (this.routerSub) this.routerSub.unsubscribe();
   }
 
   ngAfterViewChecked() {
