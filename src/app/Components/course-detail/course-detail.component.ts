@@ -27,13 +27,14 @@ import { DialogModule } from 'primeng/dialog';
 import { CartStateService } from '../../Services/cartState.service';
 import { SafeHtmlPipe } from '../../baseSettings/pipes/safe-html.pipe';
 import { DividerModule } from 'primeng/divider';
+import { SkeletonModule } from 'primeng/skeleton';
 
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, DatePipe, 
-    ToastModule, RatingModule, FormsModule, DialogModule, SafeHtmlPipe, DividerModule],
+  imports: [AccordionModule, CommonModule, ButtonModule, FooterComponent, 
+    ToastModule, RatingModule, FormsModule, DialogModule, SafeHtmlPipe, DividerModule, SkeletonModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css',
 })
@@ -46,6 +47,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   public existInCart: boolean = false;
   public token: string = null;
   public loading: boolean = false;
+  public isFetchingCourse: boolean = true;
 
   public reviewsArr: Reviews[] = [];
   public overallRating: number = 0;
@@ -213,12 +215,15 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   fetchCourseAndPlaylist() {
+    this.isFetchingCourse = true;
     this.draftedCourseService.getCourseAndPlaylist(this.courseId).subscribe((res) => {
       this.selectedCourse = res.course;
       this.sectionList = res.sectionArr;
+      this.isFetchingCourse = false;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
+        this.isFetchingCourse = false;
       })
   }
 

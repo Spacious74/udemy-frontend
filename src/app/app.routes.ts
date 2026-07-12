@@ -181,6 +181,11 @@ export const routes: Routes = [
         title: 'Create Blog'
       },
       {
+        path: 'edit-blog/:id',
+        loadComponent: () => import('./Components/Admin/create-blog/create-blog.component').then(m => m.CreateBlogComponent),
+        title: 'Edit Blog'
+      },
+      {
         path: 'blogs',
         loadComponent: () => import('./Components/Admin/admin-blogs/admin-blogs.component').then(m => m.AdminBlogsComponent),
         title: 'Manage Blogs'

@@ -11,12 +11,12 @@ import { DividerModule } from 'primeng/divider';
 import { Router } from '@angular/router';
 import { CartStateService } from '../../Services/cartState.service';
 import { FooterComponent } from '../footer/footer.component';
-
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, ButtonModule, DividerModule, FooterComponent],
+  imports: [CommonModule, ButtonModule, DividerModule, FooterComponent, SkeletonModule],
   providers: [ToastMessageService],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
@@ -24,6 +24,7 @@ import { FooterComponent } from '../footer/footer.component';
 export class CartComponent implements OnInit {
 
   public course: any[];
+  public isFetchingCart: boolean = true;
   public cartItemsLength: number = 0;
   public cartData: CartItem[];
   public userDetails: UserList;
@@ -66,18 +67,22 @@ export class CartComponent implements OnInit {
   }
 
   fetchCartData() {
+    this.isFetchingCart = true;
     this.cartService.getCart(this.userDetails._id).subscribe((res) => {
       this.cartData = res.cart.cartItems;
       this.cartItemsLength = res.cartItemsLength;
       if (res.cartItemsLength > 0) {
         this.calculateTotalPrice();
       }
+      this.isFetchingCart = false;
     }, (err) => {
       this.toastMsgService.showError("Error", "Some internal error occured.");
+      this.isFetchingCart = false;
     })
   }
 
   loadCartDataFromStorage() {
+    this.isFetchingCart = true;
     if (isPlatformBrowser(this.platformId)) {
       const data = localStorage.getItem("cartCourses");
       this.cartData = data ? JSON.parse(data) : [];
@@ -88,6 +93,7 @@ export class CartComponent implements OnInit {
     if (this.cartItemsLength > 0) {
       this.calculateTotalPrice();
     }
+    this.isFetchingCart = false;
   }
 
   removeFromCart(courseId: string) {

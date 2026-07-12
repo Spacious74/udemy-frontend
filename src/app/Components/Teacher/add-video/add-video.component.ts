@@ -43,6 +43,9 @@ export class AddVideoComponent implements OnInit {
   public videoHeader = "";
   public myWidget: any;
 
+  public showUrlDialog: boolean = false;
+  public tempVideoUrl: string = "";
+
   public totalSection: number;
 
   constructor(
@@ -136,6 +139,34 @@ export class AddVideoComponent implements OnInit {
     this.sectionId = sectionId;
     this.videoId = videoId;
     this.myWidget.open();
+  }
+
+  openUrlDialog(sectionId: string, videoId: string, updateMode: boolean) {
+    this.sectionId = sectionId;
+    this.videoId = videoId;
+    this.updateVideoMode = updateMode;
+    this.tempVideoUrl = "";
+    this.showUrlDialog = true;
+  }
+
+  savePastedUrl() {
+    if (!this.tempVideoUrl) {
+      this.toastmsgService.showError("Error", "Please enter a valid URL");
+      return;
+    }
+    
+    let data = {
+      public_id: 'demo_video_' + Date.now(),
+      url: this.tempVideoUrl,
+    }
+
+    if (this.updateVideoMode) {
+      this.updateVideoFile(data);
+    } else {
+      this.uploadVideoFile(data);
+    }
+    
+    this.showUrlDialog = false;
   }
 
 

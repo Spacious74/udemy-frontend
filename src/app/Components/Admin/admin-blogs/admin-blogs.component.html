@@ -1,50 +1,60 @@
 <p-toast></p-toast>
-<div class="card bg-white p-4 border-round shadow-2">
-  <div class="flex justify-content-between align-items-center mb-4">
-    <h2 class="text-2xl font-bold m-0 text-gray-800">Manage Blogs</h2>
-    <p-button label="Create Blog" icon="pi pi-plus" routerLink="/admin/create-blog"></p-button>
-  </div>
 
-  <p-table [value]="blogs" [loading]="loading" [paginator]="true" [rows]="10" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-striped">
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 25%">Title</th>
-        <th style="width: 20%">Author</th>
-        <th style="width: 15%">Published At</th>
-        <th style="width: 10%">Likes</th>
-        <th style="width: 15%">Status</th>
-        <th style="width: 15%">Actions</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-blog>
-      <tr>
-        <td>{{ blog.title }}</td>
-        <td>{{ blog.author?.firstName }} {{ blog.author?.lastName }}</td>
-        <td>{{ blog.createdAt | date:'shortDate' }}</td>
-        <td class="text-center font-semibold">{{ blog.likes || 0 }}</td>
-        <td>
-          <p-tag [severity]="blog.isPublished ? 'success' : 'warning'" [value]="blog.isPublished ? 'Published' : 'Hidden'"></p-tag>
-        </td>
-        <td>
-          <div class="flex gap-2">
-            <p-button [icon]="blog.isPublished ? 'pi pi-eye-slash' : 'pi pi-eye'" 
-                      [label]="blog.isPublished ? 'Hide' : 'Publish'"
-                      [severity]="blog.isPublished ? 'warning' : 'success'"
-                      (onClick)="toggleVisibility(blog)"
-                      styleClass="p-button-sm"></p-button>
-            <p-button icon="pi pi-external-link" 
-                      [routerLink]="['/blog', blog.slug || blog._id]"
-                      styleClass="p-button-sm p-button-info p-button-outlined"
-                      target="_blank"
-                      pTooltip="View Blog"></p-button>
+<div class="flex justify-content-between align-items-center mb-4">
+  <h2 class="text-2xl font-bold m-0 text-gray-800">Manage Blogs</h2>
+  <p-button label="Create Blog" icon="pi pi-plus" routerLink="/admin/create-blog"></p-button>
+</div>
+
+<div *ngIf="loading" class="flex justify-content-center py-5">
+  <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+</div>
+
+<div *ngIf="!loading && blogs.length === 0" class="text-center p-4">
+  No blogs found.
+</div>
+
+<div *ngIf="!loading && blogs.length > 0" class="grid formgrid p-fluid">
+  <div class="col-12 md:col-6 lg:col-4 mb-4" *ngFor="let blog of blogs">
+    <div class="surface-card border-1 border-300 border-round-xl h-full flex flex-column shadow-1 hover:shadow-4 transition-all transition-duration-300 overflow-hidden">
+      <!-- Cover Image -->
+      <div class="w-full relative bg-gray-200 flex justify-content-center align-items-center" style="height: 200px;">
+        <img *ngIf="blog.coverImage?.url || blog.coverImage" [src]="blog.coverImage?.url || blog.coverImage" [alt]="blog.title" class="absolute top-0 left-0 w-full h-full" style="object-fit: cover;">
+        <span *ngIf="!(blog.coverImage?.url || blog.coverImage)" class="text-500"><i class="pi pi-image text-4xl"></i></span>
+        <div class="absolute top-0 right-0 p-2">
+          <p-tag [severity]="blog.isPublished ? 'success' : 'warning'"
+            [value]="blog.isPublished ? 'Published' : 'Hidden'"></p-tag>
+        </div>
+      </div>
+      
+      <!-- Content -->
+      <div class="p-4 flex flex-column flex-grow-1">
+        <h2 class="text-lg font-bold text-900 mb-4 mt-0 line-clamp-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+          {{ blog.title }}
+        </h2>
+
+        <div class="mt-auto flex flex-column gap-3">
+          <div class="flex align-items-center justify-content-between text-sm text-600">
+            <span class="flex align-items-center gap-2"><i class="pi pi-calendar text-primary"></i> {{ blog.createdAt | date:'mediumDate' }}</span>
+            <!-- Likes are hidden for now as per user request -->
           </div>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="6" class="text-center p-4">No blogs found.</td>
-      </tr>
-    </ng-template>
-  </p-table>
+          
+          <div class="pt-3 border-top-1 border-300 flex justify-content-between align-items-center">
+            <p-button [icon]="blog.isPublished ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              [label]="blog.isPublished ? 'Hide' : 'Publish'" [severity]="blog.isPublished ? 'warning' : 'success'"
+              (onClick)="toggleVisibility(blog)" styleClass="p-button-sm"></p-button>
+            <div class="flex gap-2">
+              <p-button icon="pi pi-pencil" [routerLink]="['/admin/edit-blog', blog._id]"
+                styleClass="p-button-sm p-button-secondary p-button-outlined" pTooltip="Edit Blog"></p-button>
+              <p-button icon="pi pi-external-link" [routerLink]="['/blog', blog.slug || blog._id]"
+                styleClass="p-button-sm p-button-info p-button-outlined" target="_blank" pTooltip="View Blog"></p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4" *ngIf="!loading && totalRecords > 0">
+  <p-paginator [rows]="10" [totalRecords]="totalRecords" (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

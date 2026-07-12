@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 import { BlogService } from '../../../Services/blog.service';
 import { Blog } from '../../../models/Blog';
 
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SkeletonModule],
   templateUrl: './blog-list.component.html',
   styleUrls: ['./blog-list.component.css']
 })

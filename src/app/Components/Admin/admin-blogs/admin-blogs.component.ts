@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
 import { BlogService } from '../../../Services/blog.service';
 import { Blog } from '../../../models/Blog';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
@@ -13,7 +14,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-admin-blogs',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule, TableModule, TagModule, ToastModule],
+  imports: [CommonModule, RouterModule, ButtonModule, PaginatorModule, TagModule, ToastModule, TooltipModule],
   providers: [ToastMessageService, MessageService],
   templateUrl: './admin-blogs.component.html',
   styleUrls: ['./admin-blogs.component.css']
@@ -21,6 +22,7 @@ import { MessageService } from 'primeng/api';
 export class AdminBlogsComponent implements OnInit {
   blogs: Blog[] = [];
   loading: boolean = true;
+  totalRecords: number = 0;
 
   constructor(
     private blogService: BlogService,
@@ -28,15 +30,22 @@ export class AdminBlogsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchAdminBlogs();
+    this.fetchAdminBlogs(1, 10);
   }
 
-  fetchAdminBlogs() {
+  onPageChange(event: any) {
+    const page = event.first / event.rows + 1;
+    const limit = event.rows;
+    this.fetchAdminBlogs(page, limit);
+  }
+
+  fetchAdminBlogs(page: number = 1, limit: number = 10) {
     this.loading = true;
-    this.blogService.getAdminBlogs().subscribe({
+    this.blogService.getAdminBlogs(page, limit).subscribe({
       next: (res) => {
         if (res.success) {
           this.blogs = res.blogs;
+          this.totalRecords = res.total;
         }
         this.loading = false;
       },

@@ -45,7 +45,7 @@ export class AdminLoginComponent {
         }
         this.cookieService.set('skillUpToken', res.token, 1, '/');
 
-        this.toastMsgService.showSuccess("Success", "Admin logged in successfully");
+        this.toastMsgService.showSuccess("Success", res.message || "Admin logged in successfully");
         setTimeout(() => {
           this.router.navigate(['/admin/dashboard']).then(() => {
             window.location.reload();

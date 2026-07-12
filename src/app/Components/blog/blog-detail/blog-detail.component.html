@@ -1,63 +1,87 @@
-<div class="container mx-auto px-4 py-12 max-w-4xl">
-  <div *ngIf="loading" class="flex justify-center items-center py-20">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-  </div>
-
-  <div *ngIf="error" class="text-center py-20">
-    <h2 class="text-2xl font-bold text-red-500 mb-4">{{ error }}</h2>
-    <a routerLink="/blogs" class="text-blue-500 hover:underline">&larr; Back to Blogs</a>
-  </div>
-
-  <article *ngIf="!loading && !error && blog" class="bg-white rounded-xl shadow-sm overflow-hidden">
-    <!-- Cover Image -->
-    <div *ngIf="blog.coverImage" class="w-full h-64 md:h-96 relative">
-      <img [src]="blog.coverImage" [alt]="blog.title" class="absolute inset-0 w-full h-full object-cover">
+<div class="container mx-auto px-4 py-6" style="max-width: 900px;">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="mb-6">
+    <div class="mb-4">
+      <p-skeleton width="150px" height="1.5rem"></p-skeleton>
     </div>
+    <p-skeleton width="100%" height="400px" styleClass="border-round-2xl mb-5"></p-skeleton>
+    <div class="py-2">
+      <div class="flex gap-2 mb-4">
+         <p-skeleton width="80px" height="1.5rem" styleClass="border-round-2xl"></p-skeleton>
+         <p-skeleton width="100px" height="1.5rem" styleClass="border-round-2xl"></p-skeleton>
+      </div>
+      <p-skeleton width="80%" height="3rem" styleClass="mb-4"></p-skeleton>
+      <div class="border-bottom-1 border-300 pb-4 mb-6">
+         <p-skeleton width="200px" height="1rem"></p-skeleton>
+      </div>
+      <div class="flex flex-column gap-3">
+         <p-skeleton width="100%" height="1.2rem"></p-skeleton>
+         <p-skeleton width="100%" height="1.2rem"></p-skeleton>
+         <p-skeleton width="90%" height="1.2rem"></p-skeleton>
+         <p-skeleton width="95%" height="1.2rem"></p-skeleton>
+         <p-skeleton width="100%" height="1.2rem"></p-skeleton>
+         <p-skeleton width="85%" height="1.2rem"></p-skeleton>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="text-center py-6">
+    <h2 class="text-2xl font-bold text-red-500 mb-4">{{ error }}</h2>
+    <a routerLink="/blogs" class="text-primary no-underline hover:underline font-semibold">
+      <i class="pi pi-arrow-left mr-2"></i> Back to Blogs
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <article *ngIf="!loading && !error && blog" class="mb-6">
     
-    <div class="p-8 md:p-12">
+    <!-- Back button (Top) -->
+    <div class="mb-4">
+      <a routerLink="/blogs" class="text-600 hover:text-900 transition-colors transition-duration-200 no-underline flex align-items-center font-medium text-sm">
+        <i class="pi pi-arrow-left mr-2 text-sm"></i> Back to all articles
+      </a>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="w-full relative border-round-2xl overflow-hidden mb-5" style="height: 350px; background-color: var(--surface-200);">
+      <img *ngIf="blog.coverImage?.url" [src]="blog.coverImage?.url" [alt]="blog.title" class="w-full h-full" style="object-fit : cover;">
+      <div *ngIf="!blog.coverImage?.url" class="flex w-full h-full align-items-center justify-content-center text-500">
+        <i class="pi pi-image" style="font-size: 3rem"></i>
+      </div>
+    </div>
+
+    <div class="py-2">
       <!-- Tags -->
-      <div class="flex items-center gap-2 mb-6 flex-wrap">
-        <span *ngFor="let tag of blog.tags" class="text-sm font-semibold px-3 py-1 bg-blue-100 text-blue-800 rounded-full">
+      <div class="flex align-items-center gap-2 mb-4 flex-wrap" *ngIf="blog.tags?.length">
+        <span *ngFor="let tag of blog.tags" class="text-sm font-semibold px-3 py-1 bg-blue-100 text-blue-800 border-round-2xl">
           {{ tag }}
         </span>
       </div>
-      
+
       <!-- Title -->
-      <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+      <h1 class="text-4xl md:text-5xl font-bold text-900 mb-4 line-height-2 mt-0">
         {{ blog.title }}
       </h1>
-      
+
       <!-- Meta Information -->
-      <div class="flex items-center mb-10 pb-6 border-b border-gray-200">
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl font-bold text-gray-600 mr-4">
-            {{ blog.author?.firstName?.charAt(0) || 'A' }}
-          </div>
-          <div>
-            <p class="text-gray-900 font-semibold text-lg leading-none mb-1">
-              {{ blog.author?.firstName }} {{ blog.author?.lastName }}
-            </p>
-            <p class="text-gray-500 text-sm">
-              Published on {{ blog.createdAt | date:'mediumDate' }}
-            </p>
-          </div>
-        </div>
+      <div class="flex align-items-center mb-6 pb-4 border-bottom-1 border-300">
+        <p class="text-600 text-sm m-0 flex align-items-center">
+          <i class="pi pi-calendar mr-2"></i> Published on {{ blog.createdAt | date:'longDate' }}
+        </p>
       </div>
-      
-      <!-- Content -->
-      <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap">
-        {{ blog.content }}
+
+      <!-- HTML Content from Editor -->
+      <div class="text-800 line-height-3 text-lg blog-content-wrapper" style="word-break: break-word;" [innerHTML]="blog.content">
       </div>
-      
     </div>
   </article>
 
-  <div class="mt-10" *ngIf="!loading && !error">
-    <a routerLink="/blogs" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors">
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-      </svg>
-      Back to all articles
+  <!-- Bottom Back button -->
+  <div class="mb-6 flex justify-content-center" *ngIf="!loading && !error">
+    <!-- Using standard link to match styling, or p-button if imported -->
+    <a routerLink="/blogs" class="text-600 hover:text-900 transition-colors transition-duration-200 no-underline flex align-items-center font-semibold border-1 border-300 border-round px-4 py-2 hover:surface-100">
+      <i class="pi pi-arrow-left mr-2"></i> Back to all articles
     </a>
   </div>
 </div>

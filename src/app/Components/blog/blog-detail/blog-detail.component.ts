@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 import { BlogService } from '../../../Services/blog.service';
 import { Blog } from '../../../models/Blog';
 
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SkeletonModule],
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.css']
 })
@@ -22,13 +23,15 @@ export class BlogDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const idOrSlug = this.route.snapshot.paramMap.get('id');
-    if (idOrSlug) {
-      this.fetchBlog(idOrSlug);
-    } else {
-      this.error = 'Invalid blog identifier.';
-      this.loading = false;
-    }
+    this.route.paramMap.subscribe(params => {
+      const idOrSlug = params.get('id');
+      if (idOrSlug) {
+        this.fetchBlog(idOrSlug);
+      } else {
+        this.error = 'Invalid blog identifier.';
+        this.loading = false;
+      }
+    });
   }
 
   fetchBlog(idOrSlug: string) {
