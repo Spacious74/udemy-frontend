@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { QnaService } from '../../../Services/qna.service';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-teacher-qna',
   standalone: true,
-  imports: [CommonModule, ButtonModule, FormsModule, DialogModule],
+  imports: [CommonModule, ButtonModule, FormsModule, DialogModule, SkeletonModule],
   templateUrl: './teacher-qna.component.html',
   styleUrl: './teacher-qna.component.css'
 })
@@ -18,6 +19,7 @@ export class TeacherQnaComponent implements OnInit {
   public allQuestions: any[] = [];
   public selectedCourse: any = null;
   public courseQuestions: any[] = [];
+  public isLoading: boolean = true;
   
   public analytics = {
     totalQuestions: 0,
@@ -55,13 +57,16 @@ export class TeacherQnaComponent implements OnInit {
   }
 
   fetchCoursesWithQuestions() {
+    this.isLoading = true;
     this.qnaService.getTeacherCoursesWithQuestions().subscribe({
       next: (res) => {
         this.courses = res.data.courses;
         this.allQuestions = res.data.questions;
+        this.isLoading = false;
       },
       error: (err) => {
         this.toastMsgService.showError('Error', err.error?.message || 'Failed to fetch courses data');
+        this.isLoading = false;
       }
     });
   }

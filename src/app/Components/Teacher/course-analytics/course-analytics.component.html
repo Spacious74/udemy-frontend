@@ -1,11 +1,28 @@
 <div class="p-4" *ngIf="!showStudentsTable">
     <div class="text-2xl font-bold mb-3">Course Analytics</div>
-    <div class="grid">
+    <div *ngIf="isLoading" class="grid">
+        <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let i of [1, 2, 3, 4]">
+            <div class="surface-card border-1 border-200 border-round-xl flex flex-column h-full">
+                <p-skeleton width="100%" height="140px" styleClass="border-round-top-xl"></p-skeleton>
+                <div class="p-3 flex flex-column flex-1">
+                    <p-skeleton width="80%" height="1.5rem" styleClass="mb-3"></p-skeleton>
+                    <div>
+                        <p-skeleton width="60%" height="1rem" styleClass="mb-2"></p-skeleton>
+                        <p-skeleton width="60%" height="1rem" styleClass="mb-2"></p-skeleton>
+                        <p-skeleton width="40%" height="1rem" styleClass="mt-2"></p-skeleton>
+                    </div>
+                    <p-skeleton width="100%" height="2.5rem" styleClass="mt-3"></p-skeleton>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="grid">
         <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let course of courses">
             <div class="surface-card border-1 border-200 border-round-xl flex flex-column h-full hover:shadow-3 transition-all transition-duration-300">
                 <div class="w-full relative" style="height: 140px;">
                     <img *ngIf="course.coursePoster?.url" alt="Course Cover" [src]="course.coursePoster.url"
-                        class="w-full h-full object-cover" style="border-top-left-radius: 12px; border-top-right-radius: 12px;" />
+                        class="w-full h-full object-cover" style="border-top-left-radius: 12px; border-top-right-radius: 12px; object-fit: cover;" />
                     <div *ngIf="!course.coursePoster?.url"
                         class="w-full h-full surface-200 flex align-items-center justify-content-center text-500 font-bold"
                         style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
@@ -28,7 +45,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="courses.length === 0" class="text-center p-5 text-500 text-lg">
+    <div *ngIf="!isLoading && courses.length === 0" class="text-center p-5 text-500 text-lg">
         No courses found.
     </div>
 </div>

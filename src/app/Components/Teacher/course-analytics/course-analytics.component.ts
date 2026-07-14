@@ -13,11 +13,12 @@ import { FormsModule } from '@angular/forms';
 import { DraftCourse } from '../../../models/Course/DraftCourse';
 import { RateAndReviewService, Reviews } from '../../../Services/rateAndReview.service';
 import { UserProgressService } from '../../../Services/userProgress.service';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-course-analytics',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, CardModule, TabViewModule, RatingModule, ProgressBarModule, FormsModule],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, TabViewModule, RatingModule, ProgressBarModule, FormsModule, SkeletonModule],
   templateUrl: './course-analytics.component.html',
   styleUrls: ['./course-analytics.component.css']
 })
@@ -30,6 +31,7 @@ export class CourseAnalyticsComponent implements OnInit {
   public loadingStudents: boolean = false;
   public loadingReviews: boolean = false;
   public loadingProgress: boolean = false;
+  public isLoading: boolean = true;
   public courseReviews: Reviews[] = [];
   public courseProgressData: any[] = [];
   public analyticsMap: { [courseId: string]: { earnings: number, studentsEnrolled: number, studentsData?: any[] } } = {};
@@ -52,9 +54,10 @@ export class CourseAnalyticsComponent implements OnInit {
   }
 
   fetchAnalytics() {
+    this.isLoading = true;
     this.draftedCourseService.getTeacherAnalytics().subscribe((res) => {
       if(res.success) {
-        this.courses = res.courses;
+        this.courses = res.courses.filter((course: DraftCourse) => course.isReleased === true);
         res.data.forEach((item: any) => {
           const cId = item.courseId?._id || item.courseId;
           this.analyticsMap[cId] = {
@@ -64,8 +67,10 @@ export class CourseAnalyticsComponent implements OnInit {
           };
         });
       }
+      this.isLoading = false;
     }, err => {
       console.error(err);
+      this.isLoading = false;
     });
   }
 

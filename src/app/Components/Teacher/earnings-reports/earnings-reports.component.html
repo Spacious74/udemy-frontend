@@ -9,7 +9,16 @@
     </div>
 
     <!-- Top 4 Cards (Visible in both views, data updates dynamically) -->
-    <div class="grid mb-2">
+    <div *ngIf="loadingStats" class="grid mb-2">
+        <div class="col-12 md:col-6 lg:col-3" *ngFor="let i of [1, 2, 3, 4]">
+            <div class="surface-card bg-white border-1 border-200 border-round-xl p-4 flex flex-column gap-2 hover:shadow-3 transition-all transition-duration-300">
+                <p-skeleton width="60%" height="1.2rem"></p-skeleton>
+                <p-skeleton width="40%" height="2rem"></p-skeleton>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!loadingStats" class="grid mb-2">
         <div class="col-12 md:col-6 lg:col-3">
             <div class="surface-card bg-white border-1 border-200 border-round-xl p-4 flex flex-column gap-2 hover:shadow-3 transition-all transition-duration-300">
                 <span class="text-500 font-medium text-sm">Total Earnings</span>
@@ -47,7 +56,8 @@
                 <div class="surface-card border-1 border-200 border-round-xl p-4 h-full">
                     <div class="text-xl font-bold mb-4">Overall Monthly Earnings</div>
                     <div style="height: 350px;">
-                        <p-chart type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
+                        <p-skeleton *ngIf="loadingStats" width="100%" height="350px"></p-skeleton>
+                        <p-chart *ngIf="!loadingStats" type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
                     </div>
                 </div>
             </div>
@@ -55,7 +65,7 @@
             <!-- Right: Courses Table -->
             <div class="col-12 lg:col-6 xl:col-6">
                 <div class="surface-card border-1 border-200 border-round-xl overflow-hidden h-full">
-                    <p-table [value]="courses" [paginator]="true" [rows]="5" styleClass="p-datatable-striped" responsiveLayout="scroll">
+                    <p-table [value]="loadingCourses ? [1,2,3,4,5] : courses" [paginator]="!loadingCourses" [rows]="5" styleClass="p-datatable-striped" responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Course Title</th>
@@ -63,8 +73,12 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-course>
-                            <tr>
-                                <td class="font-medium">{{course?.title.length > 36 ? course?.title.substring(0, 36) + '...' : course?.title}}</td>
+                            <tr *ngIf="loadingCourses">
+                                <td><p-skeleton width="100%"></p-skeleton></td>
+                                <td><p-skeleton width="4rem" height="2rem"></p-skeleton></td>
+                            </tr>
+                            <tr *ngIf="!loadingCourses">
+                                <td class="font-medium">{{course?.title?.length > 36 ? course?.title.substring(0, 36) + '...' : course?.title}}</td>
                                 <td>
                                     <p-button label="View" icon="pi pi-chart-line" styleClass="p-button-outlined p-button-sm" (onClick)="viewCourseAnalytics(course)"></p-button>
                                 </td>
@@ -89,7 +103,8 @@
                 <div class="surface-card border-1 border-200 border-round-xl p-4 h-full">
                     <div class="text-xl font-bold mb-4">Monthly Earnings Overview</div>
                     <div style="height: 350px;">
-                        <p-chart type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
+                        <p-skeleton *ngIf="loadingStats" width="100%" height="350px"></p-skeleton>
+                        <p-chart *ngIf="!loadingStats" type="line" [data]="chartData" [options]="chartOptions" height="350px"></p-chart>
                     </div>
                 </div>
             </div>

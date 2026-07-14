@@ -5,11 +5,12 @@ import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DraftCourse } from '../../../models/Course/DraftCourse';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-earnings-reports',
   standalone: true,
-  imports: [CommonModule, ChartModule, TableModule, ButtonModule],
+  imports: [CommonModule, ChartModule, TableModule, ButtonModule, SkeletonModule],
   templateUrl: './earnings-reports.component.html',
   styleUrls: ['./earnings-reports.component.css']
 })
@@ -30,6 +31,8 @@ export class EarningsReportsComponent implements OnInit {
   public showCourseDetails: boolean = false;
   public selectedCourse: DraftCourse | null = null;
   public loadingData: boolean = false;
+  public loadingStats: boolean = true;
+  public loadingCourses: boolean = true;
 
   public globalStats: any = null;
 
@@ -42,6 +45,7 @@ export class EarningsReportsComponent implements OnInit {
   }
 
   fetchCourses() {
+    this.loadingCourses = true;
     this.draftedCourseService.getTeacherAnalytics().subscribe({
       next: (res) => {
         if (res.success) {
@@ -54,9 +58,11 @@ export class EarningsReportsComponent implements OnInit {
             };
           });
         }
+        this.loadingCourses = false;
       },
       error: (err) => {
         console.error("Error fetching courses", err);
+        this.loadingCourses = false;
       }
     });
   }
@@ -82,6 +88,7 @@ export class EarningsReportsComponent implements OnInit {
   }
 
   fetchData(courseId?: string) {
+    this.loadingStats = true;
     this.draftedCourseService.getEarningsAndReports(courseId).subscribe({
       next: (res) => {
         if (res.success && res.data) {
@@ -106,11 +113,13 @@ export class EarningsReportsComponent implements OnInit {
           }
           this.updateChart(d.monthlyEarningsChart || []);
           this.loadingData = false;
+          this.loadingStats = false;
         }
       },
       error: (err) => {
         console.error("Error fetching earnings data", err);
         this.loadingData = false;
+        this.loadingStats = false;
       }
     });
   }

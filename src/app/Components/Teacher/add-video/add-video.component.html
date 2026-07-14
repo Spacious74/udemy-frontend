@@ -1,14 +1,16 @@
 <p-toast></p-toast>
-<div class="surface-0 w-full flex justify-content-center">
-    <div class="mt-3 w-full">
+<div class="surface-0 w-full flex justify-content-center h-full">
+    <div class="mt-3 w-full flex flex-column h-full">
         <div class="text-lg mb-2">
             Add videos section wise. First create a section then add videos inside it.
         </div>
-        <p-button label="Add Section" icon="pi pi-plus" [outlined]="true" (onClick)="toggleSection()"  />
+        <div>
+            <p-button label="Add Section" icon="pi pi-plus" [outlined]="true" (onClick)="toggleSection()"  />
+        </div>
         
         @if(totalSection > 0){
 
-            <div class="flex flex-column gap-2 mt-4 overflow-hidden h-25rem overflow-y-auto ">
+            <div class="flex flex-column gap-2 mt-4 overflow-hidden flex-1 overflow-y-auto pb-4">
                 @for (item of sectionList; track $index) {
                     <p-fieldset [toggleable]="true" [collapsed]="true" >
                         <ng-template pTemplate="expandicon">

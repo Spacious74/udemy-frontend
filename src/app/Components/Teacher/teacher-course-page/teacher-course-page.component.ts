@@ -11,11 +11,12 @@ import { Store } from '@ngrx/store';
 import { UserList } from '../../../models/UserList';
 import { ToastMessageService } from '../../../baseSettings/services/toastMessage.service';
 import { DraftCourse } from '../../../models/Course/DraftCourse';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-teacher-course-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, TabViewModule, ConfirmDialogModule],
+  imports: [CommonModule, FormsModule, ButtonModule, TabViewModule, ConfirmDialogModule, SkeletonModule],
   providers: [ToastMessageService, ConfirmationService],
   templateUrl: './teacher-course-page.component.html',
   styleUrl: './teacher-course.css'
@@ -27,6 +28,8 @@ export class TeacherCoursePageComponent implements OnInit {
   public draftedCourseList: DraftCourse[] = [];
   public error: string;
   public totalDraftedCourses: number = 0;
+  public isLoadingReleased: boolean = true;
+  public isLoadingDrafted: boolean = true;
 
   constructor(
     private draftedCourseService: DraftedCourseService,
@@ -50,10 +53,13 @@ export class TeacherCoursePageComponent implements OnInit {
   }
 
   fetchReleasedCourses() {
+    this.isLoadingReleased = true;
     this.draftedCourseService.getReleasedCourses(this.userDetails._id).subscribe((res) => {
       this.releasedCourses = res.data;
       this.error = "";
+      this.isLoadingReleased = false;
     }, (err) => {
+      this.isLoadingReleased = false;
       if (err) {
         this.error = err.message;
       }
@@ -61,11 +67,14 @@ export class TeacherCoursePageComponent implements OnInit {
   }
 
   fetchDraftedCourses() {
+    this.isLoadingDrafted = true;
     this.draftedCourseService.getAllDraftedCourseById(this.userDetails._id).subscribe((res) => {
       this.draftedCourseList = res.data.filter((course: any) => course.isReleased === false);
       this.totalDraftedCourses = this.draftedCourseList.length;
+      this.isLoadingDrafted = false;
     },
       (error) => {
+        this.isLoadingDrafted = false;
         this.toastMsgService.showError("Error", error.error.message);
       })
   }
