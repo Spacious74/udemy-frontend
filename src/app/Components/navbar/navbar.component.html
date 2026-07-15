@@ -26,12 +26,17 @@
                     (keydown.enter)="searchIt()" />
                 <i class="pi pi-search" (click)="searchIt()"></i>
 
-                <div class="suggestions-dropdown shadow-2 border-round bg-white absolute w-full z-5" *ngIf="showSuggestions && searchSuggestions.length > 0" style="top: 110%; max-height: 300px; overflow-y: auto;">
-                    <ul class="m-0 p-0 list-none">
+                <div class="suggestions-dropdown shadow-2 border-round bg-white absolute w-full z-5" *ngIf="showSuggestions" style="top: 110%; max-height: 300px; overflow-y: auto;">
+                    <ul class="m-0 p-0 list-none" *ngIf="!isFetchingSuggestions && searchSuggestions.length > 0">
                         <li *ngFor="let course of searchSuggestions" 
                             class="p-3 cursor-pointer hover:surface-100 border-bottom-1 border-300 text-sm text-gray-800"
                             (click)="selectSuggestion(course)">
                             {{ course.title }}
+                        </li>
+                    </ul>
+                    <ul class="m-0 p-0 list-none" *ngIf="isFetchingSuggestions">
+                        <li *ngFor="let i of [1,2,3]" class="p-3 border-bottom-1 border-300">
+                            <p-skeleton width="80%" height="1.5rem"></p-skeleton>
                         </li>
                     </ul>
                 </div>
@@ -117,12 +122,17 @@
                 (keydown.enter)="searchIt()" />
             <i class="pi pi-search" (click)="searchIt()"></i>
             
-            <div class="suggestions-dropdown shadow-2 border-round bg-white absolute w-full z-5 text-left" *ngIf="showSuggestions && searchSuggestions.length > 0" style="top: 110%; max-height: 300px; overflow-y: auto;">
-                <ul class="m-0 p-0 list-none">
+            <div class="suggestions-dropdown shadow-2 border-round bg-white absolute w-full z-5 text-left" *ngIf="showSuggestions" style="top: 110%; max-height: 300px; overflow-y: auto;">
+                <ul class="m-0 p-0 list-none" *ngIf="!isFetchingSuggestions && searchSuggestions.length > 0">
                     <li *ngFor="let course of searchSuggestions" 
                         class="p-3 cursor-pointer hover:surface-100 border-bottom-1 border-300 text-sm text-gray-800"
                         (click)="selectSuggestion(course)">
                         {{ course.title }}
+                    </li>
+                </ul>
+                <ul class="m-0 p-0 list-none" *ngIf="isFetchingSuggestions">
+                    <li *ngFor="let i of [1,2,3]" class="p-3 border-bottom-1 border-300">
+                        <p-skeleton width="80%" height="1.5rem"></p-skeleton>
                     </li>
                 </ul>
             </div>

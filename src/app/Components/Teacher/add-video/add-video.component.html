@@ -8,7 +8,14 @@
             <p-button label="Add Section" icon="pi pi-plus" [outlined]="true" (onClick)="toggleSection()"  />
         </div>
         
-        @if(totalSection > 0){
+        @if(loading) {
+            <div class="flex flex-column gap-3 mt-4 w-full">
+                <p-skeleton width="100%" height="4rem" styleClass="border-round-lg"></p-skeleton>
+                <p-skeleton width="100%" height="4rem" styleClass="border-round-lg"></p-skeleton>
+                <p-skeleton width="100%" height="4rem" styleClass="border-round-lg"></p-skeleton>
+            </div>
+        } @else {
+            @if(totalSection > 0){
 
             <div class="flex flex-column gap-2 mt-4 overflow-hidden flex-1 overflow-y-auto pb-4">
                 @for (item of sectionList; track $index) {
@@ -51,6 +58,9 @@
                                     <div class="name flex align-items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M15.414 10.941c.781.462.781 1.656 0 2.118l-4.72 2.787C9.934 16.294 9 15.71 9 14.786V9.214c0-.924.934-1.507 1.694-1.059z"/></g></svg>
                                         Lecture {{idx+1}}.&nbsp; {{vid.name}}
+                                        @if (vid.isFree) {
+                                            <p-tag severity="success" value="Free" [rounded]="true"></p-tag>
+                                        }
                                         <div class="vid-editDeleteIcons">
                                             <span class="icon-btn text-200" (click)="toggleVideo($event,item?._id, vid.name, vid?._id, vid.isFree)"  >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0z"/><path fill="currentColor" d="m5 16l-1 4l4-1L18 9l-3-3z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 6l3 3m-5 11h8"/></g></svg>
@@ -82,6 +92,7 @@
                     </p-fieldset>
                 }
             </div>
+        }
         }
     </div>
 </div>

@@ -25,6 +25,9 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
   messages: ChatMessage[] = [];
   userInput = '';
   isLoading = false;
+  isTyping = false;
+  private typingTimeout: any;
+  private apiSub: Subscription | null = null;
 
   isLoggedIn = false;
   userName: string | null = null;
@@ -175,7 +178,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.userInput = '';
     this.isLoading = true;
 
-    this.aiService.sendMessage(userMessage).subscribe({
+    this.apiSub = this.aiService.sendMessage(userMessage).subscribe({
       next: (res: any) => {
         if (res.success) {
           this.isLoading = false;
@@ -184,6 +187,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
         } else {
           this.isLoading = false;
         }
+        this.apiSub = null;
       },
       error: (err) => {
         console.error('Chat error:', err);
@@ -194,6 +198,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages.push({ role: 'model', content: `Error: ${errorMsg}` });
         this.isLoading = false;
         this.scrollToBottom();
+        this.apiSub = null;
       }
     });
   }
@@ -232,6 +237,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   simulateTyping(fullText: string) {
+    this.isTyping = true;
     const newMessage: ChatMessage = { role: 'model', content: '' };
     this.messages.push(newMessage);
     
@@ -243,7 +249,11 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
     let charIndex = 0;
 
     const typeNext = () => {
-      if (tokenIndex >= tokens.length) return;
+      if (!this.isTyping) return;
+      if (tokenIndex >= tokens.length) {
+        this.isTyping = false;
+        return;
+      }
       
       const currentToken = tokens[tokenIndex];
       
@@ -258,7 +268,7 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
           newMessage.content += currentToken.charAt(charIndex);
           charIndex++;
           this.scrollToBottom();
-          setTimeout(typeNext, 20);
+          this.typingTimeout = setTimeout(typeNext, 20);
         } else {
           tokenIndex++;
           charIndex = 0;
@@ -268,5 +278,17 @@ export class AiTutorComponent implements OnInit, OnDestroy, AfterViewChecked {
     };
     
     typeNext();
+  }
+
+  stopResponding() {
+    this.isTyping = false;
+    this.isLoading = false;
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+    }
+    if (this.apiSub) {
+      this.apiSub.unsubscribe();
+      this.apiSub = null;
+    }
   }
 }

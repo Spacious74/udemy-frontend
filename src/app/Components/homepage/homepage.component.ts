@@ -7,6 +7,7 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
 import { CarouselModule } from 'primeng/carousel';
+import { SkeletonModule } from 'primeng/skeleton';
 import { CommonModule } from '@angular/common';
 import { articles } from '../../data/article';
 import { Router, RouterLink } from '@angular/router';
@@ -29,7 +30,7 @@ import { Blog } from '../../models/Blog';
   standalone: true,
   imports: [
     CardModule, FormsModule, ButtonModule, CommonModule, CarouselModule, BadgeModule,
-    TooltipModule, RouterLink, FooterComponent, ToastModule, DialogModule
+    TooltipModule, RouterLink, FooterComponent, ToastModule, DialogModule, SkeletonModule
   ],
   providers: [ToastMessageService],
   templateUrl: './homepage.component.html',
@@ -45,6 +46,8 @@ export class HomepageComponent implements OnInit {
   public userId: string;
   public userRole: string = 'student';
   public dbArticles: Blog[] = [];
+  public loadingCourses: boolean = true;
+  public loadingBlogs: boolean = true;
 
 
   constructor(
@@ -122,12 +125,14 @@ export class HomepageComponent implements OnInit {
         return res;
       })
     ).subscribe((res) => {
+      this.loadingCourses = false;
       if (res.success) {
         this.data = res.data;
       } else {
         this.toastMsgService.showError("Error", "Unable to fetch data from server!");
       }
     }, (err) => {
+      this.loadingCourses = false;
       if (err) {
         this.toastMsgService.showError("Error", err.message);
       }
@@ -137,11 +142,15 @@ export class HomepageComponent implements OnInit {
   fetchBlogs() {
     this.blogService.getLatestBlogs().subscribe({
       next: (res) => {
+        this.loadingBlogs = false;
         if (res.success) {
           this.dbArticles = res.blogs;
         }
       },
-      error: (err) => console.error("Failed to load blogs on homepage", err)
+      error: (err) => {
+        this.loadingBlogs = false;
+        console.error("Failed to load blogs on homepage", err)
+      }
     });
   }
 

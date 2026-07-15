@@ -9,12 +9,14 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FieldsetModule } from 'primeng/fieldset';
+import { TagModule } from 'primeng/tag';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-add-video',
   standalone: true,
   imports: [ ToastModule, CommonModule, ButtonModule, DialogModule, 
-  InputTextModule, FormsModule, FieldsetModule ],
+  InputTextModule, FormsModule, FieldsetModule, TagModule, SkeletonModule ],
   templateUrl: './add-video.component.html',
   styleUrl: './add-video.css'
 })
@@ -30,7 +32,7 @@ export class AddVideoComponent implements OnInit {
   public isFree: boolean = false;
   public sectionId: string;
   public videoId: string;
-  public loading: boolean = false;
+  public loading: boolean = true;
   public updateVideoMode: boolean = false;
 
   public showSection: boolean = false;
@@ -68,7 +70,9 @@ export class AddVideoComponent implements OnInit {
         multiple: false,  //restrict upload to a single file
         folder: "SkillUp_Videos", //upload files to the specified folders
         clientAllowedFormats: ['mp4', 'mov', 'avi'], //restrict uploading to image files only
-        maxDuration: 3900
+        maxDuration: 3900,
+        maxFileSize: 10485760, // 10MB
+        sources: ['local'] // disable other options
       },
       (error: any, result: any) => {
         if (!error && result && result.event === "success") {

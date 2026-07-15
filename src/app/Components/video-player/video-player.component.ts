@@ -30,12 +30,14 @@ import { filter, switchMap, take, tap } from 'rxjs';
 import { CertificateService } from '../../Services/certificate.service';
 import { AiTutorService } from '../../Services/ai-tutor.service';
 
+import { SkeletonModule } from 'primeng/skeleton';
+
 @Component({
   selector: 'app-video-player',
   standalone: true,
   imports: [
     CommonModule, AccordionModule, CheckboxModule, TabViewModule, OverviewComponent, QueAnsComponent, RateReviewComponent,
-    CertificateComponent, FormsModule, TooltipModule, ToastModule, ProgressBarModule, TagModule
+    CertificateComponent, FormsModule, TooltipModule, ToastModule, ProgressBarModule, TagModule, SkeletonModule
   ],
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.css',
@@ -65,6 +67,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   public completionStatus: boolean = false;
   public currentSectionIndex: string = null;
   public certificateLoadingState: boolean = false;
+  public isVideoLoading: boolean = true;
 
   @ViewChild(RateReviewComponent) reviewComp!: RateReviewComponent;
 
@@ -104,9 +107,11 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: () => {
         this.aiTutorService.setCourseMode(true, this.courseId);
+        this.isVideoLoading = false;
       },
       error: (error) => {
         this.toastMsgService.showError('Error', error.error?.message);
+        this.isVideoLoading = false;
       }
     });
     this.checkScreen();
@@ -197,6 +202,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   }
 
   getReqVideo(reqVideoId: string) {
+    this.isVideoLoading = true;
     this.userProgressService.getVideoDirectly(this.userId, this.courseId,
       this.currentWatchingVideo.videoId, reqVideoId, this.currentWatchingPercentage
     ).subscribe((res) => {
@@ -209,9 +215,11 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       let value = this.findSectionAndVideoIndex(this.sectionList, this.currentVideoId);
       this.currentSectionIndex = String(value + 1);
       if (!this.activeIndex.includes(value)) this.activeIndex = [...this.activeIndex, value];
+      this.isVideoLoading = false;
     },
       (error) => {
         this.toastMsgService.showError("Error", error.error.message);
+        this.isVideoLoading = false;
       })
   }
 

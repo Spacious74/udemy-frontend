@@ -3,29 +3,39 @@
     <div class="videoPlayerContainer px-3">
 
         <div class="video_and_title mt-3">
-            <div class="video flex align-items-center justify-content-center focus:outline-none" style="width: 100%;">
-                <button *ngIf="currentWatchingVideo?.globalVideoIdx != 0" (click)="fetchPreviousVideo()"
-                    class="prev vid-btn" pTooltip="Previous Lecture" tooltipPosition="right">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="m8.5 12.8l5.7 5.6c.4.4 1 .4 1.4 0s.4-1 0-1.4l-4.9-5l4.9-5c.4-.4.4-1 0-1.4c-.2-.2-.4-.3-.7-.3s-.5.1-.7.3l-5.7 5.6c-.4.5-.4 1.1 0 1.6q0-.15 0 0" />
-                    </svg>
-                </button>
-                <button *ngIf="currentWatchingVideo?.globalVideoIdx != selectedCourse?.totalLectures-1"
-                    (click)="fetchNextVideo()" class="next vid-btn" pTooltip="Next Lecture" tooltipPosition="left">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M15.54 11.29L9.88 5.64a1 1 0 0 0-1.42 0a1 1 0 0 0 0 1.41l4.95 5L8.46 17a1 1 0 0 0 0 1.41a1 1 0 0 0 .71.3a1 1 0 0 0 .71-.3l5.66-5.65a1 1 0 0 0 0-1.47" />
-                    </svg>
-                </button>
-                <video #videoPlayer class="videoPlayer" [src]="currentUrl" controls disablePictureInPicture
-                    controlsList="nodownload noplaybackrate" oncontextmenu="return false;"
-                    (ended)="onVideoEnded()"></video>
-            </div>
-            <div class="video_title flex justify-content-between align-items-start gap-2">
-                <span>Lecture {{currentWatchingVideo?.globalVideoIdx+1}}. {{currentWatchingVideo?.videoTitle}}</span>
-                <span class="tag tab-label">Sec. {{currentSectionIndex}}</span>
-            </div>
+            @if(isVideoLoading) {
+                <div class="video flex align-items-center justify-content-center focus:outline-none" style="width: 100%;">
+                    <p-skeleton width="100%" height="450px" styleClass="border-round-lg"></p-skeleton>
+                </div>
+                <div class="video_title flex justify-content-between align-items-start gap-2 mt-2">
+                    <p-skeleton width="60%" height="1.5rem"></p-skeleton>
+                    <p-skeleton width="10%" height="1.5rem"></p-skeleton>
+                </div>
+            } @else {
+                <div class="video flex align-items-center justify-content-center focus:outline-none" style="width: 100%;">
+                    <button *ngIf="currentWatchingVideo?.globalVideoIdx != 0" (click)="fetchPreviousVideo()"
+                        class="prev vid-btn" pTooltip="Previous Lecture" tooltipPosition="right">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="m8.5 12.8l5.7 5.6c.4.4 1 .4 1.4 0s.4-1 0-1.4l-4.9-5l4.9-5c.4-.4.4-1 0-1.4c-.2-.2-.4-.3-.7-.3s-.5.1-.7.3l-5.7 5.6c-.4.5-.4 1.1 0 1.6q0-.15 0 0" />
+                        </svg>
+                    </button>
+                    <button *ngIf="currentWatchingVideo?.globalVideoIdx != selectedCourse?.totalLectures-1"
+                        (click)="fetchNextVideo()" class="next vid-btn" pTooltip="Next Lecture" tooltipPosition="left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M15.54 11.29L9.88 5.64a1 1 0 0 0-1.42 0a1 1 0 0 0 0 1.41l4.95 5L8.46 17a1 1 0 0 0 0 1.41a1 1 0 0 0 .71.3a1 1 0 0 0 .71-.3l5.66-5.65a1 1 0 0 0 0-1.47" />
+                        </svg>
+                    </button>
+                    <video #videoPlayer class="videoPlayer" [src]="currentUrl" controls disablePictureInPicture
+                        controlsList="nodownload noplaybackrate" oncontextmenu="return false;"
+                        (ended)="onVideoEnded()"></video>
+                </div>
+                <div class="video_title flex justify-content-between align-items-start gap-2">
+                    <span>Lecture {{currentWatchingVideo?.globalVideoIdx+1}}. {{currentWatchingVideo?.videoTitle}}</span>
+                    <span class="tag tab-label">Sec. {{currentSectionIndex}}</span>
+                </div>
+            }
         </div>
 
         <div class="rest">

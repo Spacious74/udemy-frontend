@@ -122,7 +122,9 @@
                                     <p-button icon="pi pi-pencil" styleClass="p-button-sm p-button-outlined" (onClick)="navigateToEditCourse(item?._id)"></p-button>
                                     <p-button icon="pi pi-trash" [outlined]="true" severity="danger" styleClass="p-button-sm"
                                         (onClick)="deleteConfirmation($event, item?._id)"></p-button>
-                                    <p-button label="Release" icon="fa-solid fa-rocket" severity="help" styleClass="p-button-sm flex-1"
+                                    <p-button [label]="releasingCourseId === item?._id ? 'Releasing your course to the students...' : 'Release'" 
+                                        [icon]="releasingCourseId === item?._id ? 'pi pi-spin pi-spinner' : 'fa-solid fa-rocket'" severity="help" styleClass="p-button-sm flex-1"
+                                        [disabled]="releasingCourseId === item?._id"
                                         (onClick)="confirmRelease($event, item?._id)"></p-button>
                                 </div>
                             </div>

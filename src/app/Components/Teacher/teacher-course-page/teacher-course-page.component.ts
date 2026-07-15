@@ -30,6 +30,7 @@ export class TeacherCoursePageComponent implements OnInit {
   public totalDraftedCourses: number = 0;
   public isLoadingReleased: boolean = true;
   public isLoadingDrafted: boolean = true;
+  public releasingCourseId: string | null = null;
 
   constructor(
     private draftedCourseService: DraftedCourseService,
@@ -95,7 +96,9 @@ export class TeacherCoursePageComponent implements OnInit {
   }
 
   releaseCourse(courseId: string) {
+    this.releasingCourseId = courseId;
     this.draftedCourseService.releaseCourse(courseId).subscribe((res) => {
+      this.releasingCourseId = null;
       if (res.success) {
         this.fetchDraftedCourses();
         this.fetchReleasedCourses(); // Refresh both lists
@@ -105,6 +108,7 @@ export class TeacherCoursePageComponent implements OnInit {
       }
     },
       (error) => {
+        this.releasingCourseId = null;
         this.toastMsgService.showError("Error", error.error.message);
       });
   }

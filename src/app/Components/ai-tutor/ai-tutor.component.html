@@ -61,9 +61,14 @@
       </div>
     </div>
 
-    <div class="ai-footer">
-      <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Ask a question..." [disabled]="isLoading" />
-      <button (click)="sendMessage()" [disabled]="isLoading || !userInput.trim()">Send</button>
+    <div class="ai-footer" style="display: flex; gap: 8px;">
+      <input style="flex-grow: 1;" type="text" [(ngModel)]="userInput" (keyup.enter)="!isLoading && !isTyping ? sendMessage() : null" placeholder="Ask a question..." [disabled]="isLoading || isTyping" />
+      <button *ngIf="!isLoading && !isTyping" (click)="sendMessage()" [disabled]="!userInput.trim()">Send</button>
+      <button *ngIf="isLoading || isTyping" (click)="stopResponding()" title="Stop responding" style="background-color: #ef4444; border: none; padding: 0 16px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="6" y="6" width="12" height="12"/>
+        </svg>
+      </button>
     </div>
   </div>
 

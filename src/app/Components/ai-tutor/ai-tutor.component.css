@@ -49,6 +49,7 @@
 
 .ai-chat-window.expanded {
   width: 600px;
+  height: 650px;
 }
 
 .ai-header {

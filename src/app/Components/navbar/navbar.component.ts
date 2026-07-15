@@ -25,12 +25,14 @@ import { Observable } from 'rxjs';
 import { CategoryService } from '../../Services/category.service';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
 
+import { SkeletonModule } from 'primeng/skeleton';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     FormsModule, TieredMenuModule, InputTextModule, ButtonModule, RouterLink, RouterLinkActive, CommonModule,
-    OverlayPanelModule, TooltipModule, ToastModule, DialogModule, BadgeModule, SidebarModule 
+    OverlayPanelModule, TooltipModule, ToastModule, DialogModule, BadgeModule, SidebarModule, SkeletonModule 
   ],
   providers: [MessageService, ToastMessageService],
   templateUrl: './navbar.component.html',
@@ -53,6 +55,7 @@ export class NavbarComponent implements OnInit {
   public searchSuggestions: any[] = [];
   public showSuggestions: boolean = false;
   private searchTimeout: any;
+  public isFetchingSuggestions: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -128,15 +131,21 @@ export class NavbarComponent implements OnInit {
     if (!this.searchText || this.searchText.trim() === '') {
       this.searchSuggestions = [];
       this.showSuggestions = false;
+      this.isFetchingSuggestions = false;
       return;
     }
+
+    this.isFetchingSuggestions = true;
+    this.showSuggestions = true;
 
     this.searchTimeout = setTimeout(() => {
       this.draftedCourseService.getSearchSuggestions(this.searchText.trim()).subscribe(res => {
         if (res.success) {
           this.searchSuggestions = res.data;
-          this.showSuggestions = true;
         }
+        this.isFetchingSuggestions = false;
+      }, err => {
+        this.isFetchingSuggestions = false;
       });
     }, 300);
   }

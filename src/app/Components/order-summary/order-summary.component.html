@@ -67,7 +67,7 @@
                 <span>₹ {{discountedPrice}}</span>
             </div>
 
-            <p-button class="w-full mt-3" label="Make Payment" (onClick)="checkOutHandler()"></p-button>
+            <p-button class="w-full mt-3" [label]="isProcessingPayment ? 'Processing...' : 'Make Payment'" [icon]="isProcessingPayment ? 'pi pi-spin pi-spinner' : ''" (onClick)="checkOutHandler()" [disabled]="isProcessingPayment"></p-button>
 
         </div>
 

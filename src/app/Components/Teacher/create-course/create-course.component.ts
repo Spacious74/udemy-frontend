@@ -20,12 +20,14 @@ import { Store } from '@ngrx/store';
 import { EditorModule } from 'primeng/editor';
 import { CategoryService } from '../../../Services/category.service';
 
+import { SkeletonModule } from 'primeng/skeleton';
+
 @Component({
   selector: 'app-create-course',
   standalone: true,
   imports: [
     StepperModule, ButtonModule, FormsModule, InputTextModule, InputTextareaModule,
-    DropdownModule, InputNumberModule, FileUploadModule, CommonModule, ToastModule, AddVideoComponent, EditorModule
+    DropdownModule, InputNumberModule, FileUploadModule, CommonModule, ToastModule, AddVideoComponent, EditorModule, SkeletonModule
   ],
   providers: [ToastMessageService],
   templateUrl: './create-course.component.html',
@@ -47,6 +49,7 @@ export class CreateCourseComponent implements OnInit {
   public errorFlag: boolean = false;
   public loading: boolean = false;
   public editMode: boolean = false;
+  public fetchingCourseDetails: boolean = false;
 
   public selectedCategory: any;
   public categories: any[] = [];
@@ -165,12 +168,15 @@ export class CreateCourseComponent implements OnInit {
   }
 
   fetchCourseByEdAndCourseId() {
+    this.fetchingCourseDetails = true;
     this.draftedCourseService.getCourseByCourseAndEducatorId(this.courseId, this.userDetails._id).subscribe((res) => {
+        this.fetchingCourseDetails = false;
         if (res.success) {
           this.draftedCourseDetails = res.data;
           this.initializeCourseDetails();
         }
       }, (err) => {
+        this.fetchingCourseDetails = false;
         this.toastmsgService.showError("Error", err.error.message);
         this.errorFlag = true;
         this.loading = false;

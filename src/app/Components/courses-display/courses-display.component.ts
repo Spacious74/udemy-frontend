@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
 
+import { SkeletonModule } from 'primeng/skeleton';
+
 @Component({
   selector: 'app-courses-display',
   standalone: true,
@@ -20,7 +22,8 @@ import { DraftedCourseService } from '../../Services/draftedCourse.service';
     RadioButtonModule,
     DataViewModule,
     PaginatorModule,
-    ButtonModule
+    ButtonModule,
+    SkeletonModule
   ],
   templateUrl: './courses-display.component.html',
   styleUrl: './courses-display.component.css',
@@ -36,6 +39,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   public categoryName: string = "";
   public searchText: string = "";
   public error: string = "";
+  public isLoading: boolean = true;
 
   public first: number = 0;
   public page: number = 1; // backend expects 1-based
@@ -87,6 +91,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   }
 
   fetchData() {
+    this.isLoading = true;
     const query = {
       page: this.page,
       sortOrder: this.sort,
@@ -108,11 +113,13 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
           this.error = "Unable to fetch data from server!";
           this.toastMsgService.showError("Error", this.error);
         }
+        this.isLoading = false;
       },
       error: (err) => {
         this.totalRecords = 0;
         this.error = err.message;
         this.toastMsgService.showError("Error", err.message);
+        this.isLoading = false;
       }
     });
 
@@ -147,6 +154,15 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
     }
     this.page = 1; // reset pagination
     this.fetchData();
+  }
+
+  clearAllFilters() {
+    this.sort = '';
+    this.price = '';
+    this.lang = '';
+    this.level = '';
+    this.page = 1;
+    this.router.navigate(['/courses']);
   }
 
   navigateToCourseDetails(courseId: any) {

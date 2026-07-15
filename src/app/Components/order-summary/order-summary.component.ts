@@ -33,6 +33,7 @@ export class OrderSummaryComponent implements OnInit {
   public discountedPrice: number = 0;
   public discountPercentage: number = 10;
   public cartItemsLength: number = 0;
+  public isProcessingPayment: boolean = false;
 
   constructor(
     private courseService: DraftedCourseService,
@@ -129,6 +130,7 @@ export class OrderSummaryComponent implements OnInit {
 
 
   checkOutHandler() {
+    this.isProcessingPayment = true;
 
     if (this.isCart) {
       let courseIds = this.cartData.map((dt) => dt.courseId);
@@ -153,10 +155,12 @@ export class OrderSummaryComponent implements OnInit {
         this.openRazorpayCheckout(res.orderId, res.amount);
         this.toastMsgService.showSuccess("Success", "Order created successfully.");
       } else {
+        this.isProcessingPayment = false;
         this.toastMsgService.showInfo("Info", "Something went wrong, please try again later.");
       }
 
     }, (err) => {
+      this.isProcessingPayment = false;
       this.toastMsgService.showError("Error", err.error.message);
 
     });
@@ -168,9 +172,11 @@ export class OrderSummaryComponent implements OnInit {
         this.openRazorpayCheckout(res.orderId, res.amount, courseIds);
         this.toastMsgService.showSuccess("Success", "Order created successfully.");
       } else {
+        this.isProcessingPayment = false;
         this.toastMsgService.showInfo("Info", "Something went wrong, please try again later.");
       }
     }, (err) => {
+      this.isProcessingPayment = false;
       this.toastMsgService.showError("Error", err.error.message);
     })
   }
@@ -197,7 +203,12 @@ export class OrderSummaryComponent implements OnInit {
         name: this.userDetails.username,
         email: this.userDetails.email,
       },
-      theme: { color: '#1A241B' }
+      theme: { color: '#1A241B' },
+      modal: {
+        ondismiss: () => {
+          this.isProcessingPayment = false;
+        }
+      }
     };
 
     const rzp = new Razorpay(options);
