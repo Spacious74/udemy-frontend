@@ -4,11 +4,14 @@
         <div class="logo">Skill Up.</div>
     </div>
 </div>
-<div class="login-container">
+<div class="login-container relative">
+    <!-- Back Button -->
+    <div class="absolute" style="top: 15px; left: 15px; z-index: 10;">
+        <p-button icon="pi pi-arrow-left" label="Back" [text]="true" severity="secondary" routerLink="/"></p-button>
+    </div>
 
     <div class="left">
         <form #loginForm="ngForm" (ngSubmit)="formSubmission(loginForm)">
-
             <div class="text-2xl font-semibold head text-center mb-5">Login to your account</div>
 
             <div class="google-btn-wrapper flex justify-content-center">

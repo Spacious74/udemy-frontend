@@ -121,7 +121,8 @@
   .login-container {
     flex-direction: column;
     justify-content: center;
-    padding: 20px;
+    padding: 60px 30px;
+    min-height: 85vh;
   }
 
   .left {
@@ -147,7 +148,8 @@
 @media (max-width: 480px) {
 
   .login-container {
-    padding: 15px;
+    padding: 50px 25px;
+    min-height: 85vh;
   }
 
   .right {

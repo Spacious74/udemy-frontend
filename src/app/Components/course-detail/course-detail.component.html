@@ -4,6 +4,38 @@
     <div class="container mx-auto px-4 pt-4 pb-8" style="max-width: 1200px;">
         
         <div class="grid pt-4" *ngIf="!isFetchingCourse">
+            <!-- Mobile Only Pricing Card (hidden on desktop) -->
+            <div class="col-12 block lg:hidden pb-4">
+                <div class="card-premium p-4">
+                    <img [src]="selectedCourse?.coursePoster?.url || 'assets/placeholder.jpg'" class="course-poster w-full mb-3 shadow-1" />
+                    
+                    <div class="flex align-items-center gap-2 mb-2">
+                        <span class="text-3xl font-bold text-900">₹{{selectedCourse?.price}}</span>
+                        <span class="text-lg text-400 line-through">₹{{selectedCourse?.price * 1.5}}</span>
+                    </div>
+                    <div class="text-xs text-600 mb-4 line-height-3">
+                        One-time payment<br>
+                        <span class="text-primary font-semibold bg-green-50 px-2 py-1 border-round mt-2 inline-block"><i class="pi pi-check-circle mr-1"></i> Lifetime access</span>
+                    </div>
+                    
+                    <div *ngIf="!isEnrolled" class="flex flex-column gap-3 mb-4">
+                        <p-button label="Enroll Now" (onClick)="goToOrderSummaryPage()" class="w-full" styleClass="w-full py-2 text-base font-bold"></p-button>
+                        <p-button label="Add to Cart" [icon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-cart-plus'" [outlined]="true"  (onClick)="!existInCart ? addToCart() : null" [label]="existInCart ? 'In Cart' : 'Add to Cart'" class="w-full" styleClass="w-full py-2 text-base font-bold shadow-2"></p-button>
+                    </div>
+                    <div *ngIf="isEnrolled" class="flex flex-column gap-3 mb-4">
+                        <p-button label="Go to Learning" icon="pi pi-check" (onClick)="navigateToPlayer()" class="w-full" styleClass="w-full py-2 text-base font-bold shadow-2"></p-button>
+                    </div>
+
+                    <div class="font-bold text-900 mb-3 text-base">What You'll Get</div>
+                    <ul class="list-none p-0 m-0 flex flex-column gap-3 text-xs text-700 mb-4 font-medium">
+                        <li class="flex align-items-center gap-2"><i class="pi pi-play-circle text-primary text-lg"></i> Lifetime access to {{selectedCourse?.totalLectures || 0}} lectures</li>
+                        <li class="flex align-items-center gap-2"><i class="pi pi-file text-primary text-lg"></i> Assignments & downloadable resources</li>
+                        <li class="flex align-items-center gap-2"><i class="pi pi-users text-primary text-lg"></i> Peer learning group access</li>
+                        <li class="flex align-items-center gap-2"><i class="pi pi-id-card text-primary text-lg"></i> Certificate of completion</li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Left Column -->
             <div class="col-12 lg:col-8 pr-0 lg:pr-6">
                 
@@ -124,8 +156,8 @@
             <div class="col-12 lg:col-4 relative mt-4 lg:mt-0">
                 <div class="sticky flex flex-column gap-4" style="top: 5rem;">
                     
-                    <!-- Pricing Card -->
-                    <div class="card-premium p-4">
+                    <!-- Pricing Card (Hidden on Mobile) -->
+                    <div class="card-premium p-4 hidden lg:block">
                         <img [src]="selectedCourse?.coursePoster?.url || 'assets/placeholder.jpg'" class="course-poster w-full mb-3 shadow-1" />
                         
                         <div class="flex align-items-center gap-2 mb-2">
@@ -178,6 +210,11 @@
         </div>
 
         <div class="grid pt-4" *ngIf="isFetchingCourse">
+            <!-- Skeleton Mobile Pricing Card -->
+            <div class="col-12 block lg:hidden pb-4">
+                <p-skeleton width="100%" height="30rem" styleClass="border-round-xl"></p-skeleton>
+            </div>
+
             <!-- Skeleton Left Column -->
             <div class="col-12 lg:col-8 pr-0 lg:pr-6">
                 <!-- Breadcrumbs -->
@@ -218,8 +255,10 @@
             <!-- Skeleton Right Column -->
             <div class="col-12 lg:col-4 relative mt-4 lg:mt-0">
                 <div class="sticky flex flex-column gap-4" style="top: 5rem;">
-                    <!-- Pricing Card -->
-                    <p-skeleton width="100%" height="30rem" styleClass="border-round-xl"></p-skeleton>
+                    <!-- Pricing Card (Hidden on Mobile) -->
+                    <div class="hidden lg:block">
+                        <p-skeleton width="100%" height="30rem" styleClass="border-round-xl"></p-skeleton>
+                    </div>
 
                     <!-- Instructor Card -->
                     <p-skeleton width="100%" height="15rem" styleClass="border-round-xl"></p-skeleton>

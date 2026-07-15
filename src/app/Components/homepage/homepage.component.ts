@@ -102,6 +102,11 @@ export class HomepageComponent implements OnInit {
   }
 
   togglePopup() {
+    if (!this.userDetails || !this.userDetails._id) {
+      this.toastMsgService.showError("Login Required", "Please login to become an educator.");
+      this.routerService.navigate(['/login']);
+      return;
+    }
     this.showPopUp = !this.showPopUp;
   }
 
@@ -155,6 +160,13 @@ export class HomepageComponent implements OnInit {
   }
 
   updateUserRole() {
+    if (!this.userDetails || !this.userDetails._id) {
+      this.toastMsgService.showError("Login Required", "Please login to become an educator.");
+      this.routerService.navigate(['/login']);
+      this.showPopUp = false;
+      return;
+    }
+
     this.authService.updateUser({ userId: this.userDetails._id, role: "teacher" }).subscribe((res) => {
       if (res.success) {
         if (res.token) {

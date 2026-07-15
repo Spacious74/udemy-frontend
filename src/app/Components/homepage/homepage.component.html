@@ -62,7 +62,7 @@
                 </svg>
             </div>
         </div>
-        <div class="cards-grid">
+        <div class="cards-grid courses-slider">
             @if (loadingCourses) {
                 @for (i of [1,2,3,4]; track $index) {
                 <div class="course-card">
@@ -303,12 +303,12 @@
         </div>
     </div>
 
-    <div *ngIf="userRole && userRole == 'student'"
-        class="teacher-card flex m-auto container py-2 mb-7 align-items-center justify-content-center">
-        <div class="imgcont text-center w-5">
-            <img src="/assets/images/teacher2.png" alt="teacher">
+    <div *ngIf="!userRole || userRole === 'student'"
+        class="teacher-card flex flex-column md:flex-row m-auto container py-4 md:py-2 mb-7 align-items-center justify-content-center gap-4 md:gap-0">
+        <div class="imgcont text-center w-full md:w-5">
+            <img src="/assets/images/teacher2.png" alt="teacher" style="max-width: 80%;">
         </div>
-        <div class="textsection w-6 flex flex-column gap-3 ">
+        <div class="textsection w-full md:w-6 flex flex-column gap-3 px-3 md:px-0 text-center md:text-left align-items-center md:align-items-start">
             <div class="flex flex-column gap-3">
                 <div class="heading head">
                     Became an Educator at Skill Up.

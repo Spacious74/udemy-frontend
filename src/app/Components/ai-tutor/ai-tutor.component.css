@@ -60,6 +60,11 @@
   align-items: center;
 }
 
+.header-info {
+  flex: 1;
+  min-width: 0;
+}
+
 .header-info h3 {
   margin: 0;
   font-size: 16px;
@@ -83,6 +88,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .expand-btn {
@@ -243,8 +249,8 @@
 
 @media (max-width: 768px) {
   .ai-widget-container {
-    bottom: 15px;
-    right: 15px;
+    bottom: 50px;
+    right: 20px;
   }
 
   .ai-chat-window {
@@ -255,7 +261,7 @@
   }
 
   .ai-chat-window.expanded {
-    width: 95vw;
+    width: 90vw;
     height: 85vh;
   }
 

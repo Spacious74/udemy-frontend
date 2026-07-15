@@ -248,6 +248,7 @@
     flex-direction: column-reverse;
     text-align: center;
     padding: 30px;
+    max-height: none;
   }
 
   .topsect .left,
@@ -289,6 +290,16 @@
 
 @media (max-width: 768px) {
 
+  .homepage-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .topsect {
+    margin-left: 1.8rem;
+    margin-right: 1.8rem;
+  }
+
   .explore-more-mobile{
     display: block;
     margin: auto;
@@ -320,8 +331,83 @@
     max-width: 320px;
   }
 
-  .cate-img{
-    width: 160px;
+  .category-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .categ {
+    padding: 1rem !important;
+  }
+
+  .cate-img {
+    width: 100%;
+    max-width: 120px;
+  }
+
+  .category-text {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+
+  .courses-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 15px;
+    padding-bottom: 8px;
+    grid-template-columns: none;
+  }
+
+  .courses-slider::-webkit-scrollbar {
+    height: 3px;
+  }
+  .courses-slider::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .courses-slider::-webkit-scrollbar-thumb {
+    background: #d1d1d1;
+    border-radius: 4px;
+  }
+
+  .courses-slider .course-card {
+    flex: 0 0 calc(50% - 7.5px);
+    scroll-snap-align: start;
+    min-width: 140px;
+  }
+
+  .courses-slider .course-card .imgcont img,
+  .courses-slider .course-card .imgcont ::ng-deep .p-skeleton {
+    height: 6rem !important;
+  }
+
+  .courses-slider .course-card .card-content {
+    padding: 0.5rem !important;
+    gap: 0.3rem !important;
+  }
+
+  .courses-slider .course-title {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .courses-slider .course-card .text-sm {
+    font-size: 0.7rem !important;
+  }
+
+  .courses-slider .course-price {
+    font-size: 0.85rem;
+  }
+
+  .courses-slider .course-badge {
+    font-size: 0.65rem;
+    padding: 2px 5px;
+    left: 4px;
+    top: 4px;
   }
 
 }

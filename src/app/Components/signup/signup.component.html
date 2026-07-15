@@ -4,7 +4,11 @@
         <div class="logo">Skill Up.</div>
     </div>
 </div>
-<div class="login-container">
+<div class="login-container relative">
+    <!-- Back Button -->
+    <div class="absolute" style="top: 15px; left: 15px; z-index: 10;">
+        <p-button icon="pi pi-arrow-left" label="Back" [text]="true" severity="secondary" routerLink="/"></p-button>
+    </div>
 
     <div class="left">
 
@@ -26,7 +30,6 @@
         </div>
 
         <form *ngIf="!isRegistered" #registerForm="ngForm" (ngSubmit)="formSubmission(registerForm)">
-
             <div class="text-2xl head font-semibold text-center mb-5">Create your new account</div>
 
             <div class="google-btn-wrapper flex justify-content-center w-full">

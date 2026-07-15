@@ -120,8 +120,9 @@
 
 /* Mobile Elements Hidden by Default */
 .nav-left-mobile,
-.mobile-search {
-  display: none;
+.mobile-search,
+.mobile-only-btn {
+  display: none !important;
 }
 
 /* ========================= */
@@ -130,12 +131,17 @@
 
 @media (max-width: 768px) {
 
-  .nav-left-desktop {
-    display: none;
+  .nav-left-desktop,
+  .desktop-only-btn {
+    display: none !important;
+  }
+
+  .mobile-only-btn {
+    display: inline-block !important;
   }
 
   .nav-left-mobile {
-    display: block;
+    display: block !important;
   }
 
   .navbar {
@@ -143,7 +149,7 @@
   }
 
   .mobile-search {
-    display: flex;
+    display: flex !important;
     padding: 0.5rem 1rem;
     gap: 10px;
     border-top: 1px solid #eee;
@@ -169,6 +175,9 @@
   }
   .cart-label{
     display: none;
+  }
+  .mobile-search .category-dropdown {
+    display: none !important;
   }
 
 }
