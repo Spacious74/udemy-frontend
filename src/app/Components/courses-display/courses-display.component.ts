@@ -9,6 +9,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { ToastMessageService } from '../../baseSettings/services/toastMessage.service';
 import { DraftedCourseService } from '../../Services/draftedCourse.service';
+import { SidebarModule } from 'primeng/sidebar';
 
 import { SkeletonModule } from 'primeng/skeleton';
 
@@ -23,7 +24,8 @@ import { SkeletonModule } from 'primeng/skeleton';
     DataViewModule,
     PaginatorModule,
     ButtonModule,
-    SkeletonModule
+    SkeletonModule,
+    SidebarModule
   ],
   templateUrl: './courses-display.component.html',
   styleUrl: './courses-display.component.css',
@@ -36,10 +38,12 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   public level!: string;
   public sort: string = '';
   public subCategoryId: string = "";
+  public parentCategoryId: string = "";
   public categoryName: string = "";
   public searchText: string = "";
   public error: string = "";
   public isLoading: boolean = true;
+  public filterSidebarVisible: boolean = false;
 
   public first: number = 0;
   public page: number = 1; // backend expects 1-based
@@ -80,6 +84,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.paramsObs = this.activatedRoute.queryParams.subscribe(params => {
       this.subCategoryId = params['subCategoryId'] || "";
+      this.parentCategoryId = params['parentCategoryId'] || "";
       this.categoryName = params['category'] || "";
       this.searchText = params['q'] || "";
       this.fetchData();
@@ -97,6 +102,7 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
       sortOrder: this.sort,
       language: this.lang,
       subCategoryId: this.subCategoryId,
+      parentCategoryId: this.parentCategoryId,
       categoryName: this.categoryName,
       searchText: this.searchText,
       level: this.level,
@@ -162,7 +168,15 @@ export class CoursesDisplayComponent implements OnInit, OnDestroy {
     this.lang = '';
     this.level = '';
     this.page = 1;
-    this.router.navigate(['/courses']);
+    this.router.navigate(['/courses']).then(navigated => {
+      if (!navigated) {
+        this.subCategoryId = '';
+        this.parentCategoryId = '';
+        this.categoryName = '';
+        this.searchText = '';
+        this.fetchData();
+      }
+    });
   }
 
   navigateToCourseDetails(courseId: any) {

@@ -173,18 +173,13 @@
     background-color: #fff;
     padding-left: 2px;
   }
-  .cart-label{
+  .cart-text {
+    display: none;
+  }
+  .course-label {
     display: none;
   }
   .mobile-search .category-dropdown {
     display: none !important;
-  }
-
-}
-
-
-@media (max-width : 400px) {
-  .course-label{
-    display: none;
   }
 }

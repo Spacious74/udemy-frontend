@@ -44,6 +44,39 @@
         </div>
     </div>
 
+    <!-- Mobile Categories Section -->
+    <div class="mobile-categories-section container m-auto pt-4 pb-1 block md:hidden">
+        <div class="heading head mb-3 text-xl font-bold">
+            Find from Categories
+        </div>
+        <div class="mb-3">
+            <p-dropdown [options]="categories" [(ngModel)]="selectedMobileCategory" optionLabel="name" 
+                (ngModelChange)="onMobileCategoryChange($event)" placeholder="Select a Category" styleClass="w-full border-round-xl"></p-dropdown>
+        </div>
+        <div class="sub-categories-wrapper overflow-x-auto pb-2 hide-scrollbar" style="-webkit-overflow-scrolling: touch;">
+            <div class="flex flex-column gap-2" style="width: max-content;">
+                <!-- Row 1 -->
+                <div class="flex gap-2">
+                    <ng-container *ngFor="let sub of mobileSubCategories; let i = index">
+                        <div *ngIf="i % 2 === 0" (click)="navigateWithSubCategory(sub)" 
+                            class="border-1 border-gray-400 border-round-3xl px-3 py-2 text-sm text-gray-700 cursor-pointer hover:surface-200 hover:border-gray-800 transition-colors transition-duration-200">
+                            {{sub.name}}
+                        </div>
+                    </ng-container>
+                </div>
+                <!-- Row 2 -->
+                <div class="flex gap-2">
+                    <ng-container *ngFor="let sub of mobileSubCategories; let i = index">
+                        <div *ngIf="i % 2 !== 0" (click)="navigateWithSubCategory(sub)" 
+                            class="border-1 border-gray-400 border-round-3xl px-3 py-2 text-sm text-gray-700 cursor-pointer hover:surface-200 hover:border-gray-800 transition-colors transition-duration-200">
+                            {{sub.name}}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Courses display -->
     <div class="container m-auto py-8 ">
         <div class="flex justify-content-between align-items-center ">
@@ -108,7 +141,7 @@
         </div>
         <div class="category-cards-grid">
             <ng-container *ngFor="let cat of categories">
-                <div (click)="navigateWithCategory(cat.query)"
+                <div (click)="navigateWithCategory(cat)"
                     class="categ flex flex-column justify-content-between align-items-center p-4">
                     <div class="cate-img pb-2">
                         <img class="w-full" [src]="cat.url" [alt]="cat.name">

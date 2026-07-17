@@ -1,6 +1,6 @@
 <div class="container courses-page">
 
-    <div class="status-bar mb-4 flex justify-content-between align-items-center">
+    <div class="status-bar mb-4 flex justify-content-between align-items-center flex-wrap gap-2">
         <!-- RESULTS -->
         <div class="status font-semibold text-xl text-gray-800">
             Showing "{{totalRecords}}" results
@@ -8,19 +8,26 @@
             <ng-container *ngIf="categoryName"> "{{categoryName}}"</ng-container>
             <ng-container *ngIf="searchText"> "{{searchText}}"</ng-container>
         </div>
-        <p-button *ngIf="categoryName || searchText || sort || price || lang || level || subCategoryId" 
-        label="Back to all courses" 
-        size="small" 
-        icon="pi pi-arrow-left" 
-        [outlined]="true" 
-        severity="secondary" 
-        (onClick)="clearAllFilters()"></p-button>
+        
+        <div class="flex gap-2 align-items-center">
+            <!-- Mobile Filter Button -->
+            <p-button icon="pi pi-filter" size="small" [outlined]="true" severity="secondary" class="md:hidden" (onClick)="filterSidebarVisible = true"></p-button>
+            <p-button *ngIf="sort || price || lang || level" label="Clear Filters" size="small" icon="pi pi-filter-slash" [outlined]="true" severity="danger" class="md:hidden" (onClick)="clearFilter('')"></p-button>
+
+            <p-button *ngIf="categoryName || searchText || sort || price || lang || level || subCategoryId" 
+            label="Back to all courses" 
+            size="small" 
+            icon="pi pi-arrow-left" 
+            [outlined]="true" 
+            severity="secondary" 
+            (onClick)="clearAllFilters()"></p-button>
+        </div>
     </div>
 
     <div class="page-layout flex flex-column md:flex-row gap-4">
         
-        <!-- LEFT SIDE FILTERS -->
-        <div class="sidebar-filters flex flex-column gap-4">
+        <!-- LEFT SIDE FILTERS (Desktop) -->
+        <div class="sidebar-filters hidden md:flex flex-column gap-4">
             <div class="flex justify-content-between align-items-center border-bottom-1 border-gray-200 pb-2">
                 <h3 class="m-0 text-xl text-gray-800 font-bold">Filters</h3>
                 <p-button *ngIf="sort || price || lang || level" label="Clear" size="small" icon="pi pi-filter-slash" (onClick)="clearFilter('')" [text]="true" severity="danger" class="p-0"> </p-button>
@@ -130,7 +137,7 @@
             </div>
 
             <!-- PAGINATION -->
-            <div class="paginator p-fluid mt-4" *ngIf="totalRecords > 0">
+            <div class="paginator p-fluid mt-4 mb-8 md:mb-0" *ngIf="totalRecords > 0">
                 <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" 
                     [totalRecords]="totalRecords" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}" 
                     class="w-full">
@@ -141,3 +148,40 @@
     </div>
 
 </div>
+
+<!-- Mobile Filters Sidebar -->
+<p-sidebar [(visible)]="filterSidebarVisible" position="right" [baseZIndex]="10000" styleClass="w-full sm:w-20rem">
+    <ng-template pTemplate="header">
+        <h3 class="m-0 text-xl text-gray-800 font-bold">Filters</h3>
+    </ng-template>
+    
+    <div class="flex flex-column gap-4 mt-2">
+        <!-- SORT -->
+        <div class="filter-group">
+            <label class="block text-sm font-semibold mb-2 text-gray-700">Sort By</label>
+            <p-dropdown [options]="sortOptions" [(ngModel)]="sort" placeholder="Sort" optionLabel="label" optionValue="value" 
+                (onChange)="fetchData(); filterSidebarVisible = false" styleClass="w-full"> </p-dropdown>
+        </div>
+
+        <!-- PRICE -->
+        <div class="filter-group">
+            <label class="block text-sm font-semibold mb-2 text-gray-700">Price</label>
+            <p-dropdown [options]="priceOptions" [(ngModel)]="price" placeholder="Price" optionLabel="label" optionValue="value"
+                (onChange)="fetchData(); filterSidebarVisible = false" styleClass="w-full"> </p-dropdown>
+        </div>
+
+        <!-- LANGUAGE -->
+        <div class="filter-group">
+            <label class="block text-sm font-semibold mb-2 text-gray-700">Language</label>
+            <p-dropdown [options]="languageOptions" [(ngModel)]="lang" placeholder="Language" optionLabel="label" optionValue="value"
+                (onChange)="fetchData(); filterSidebarVisible = false" styleClass="w-full"> </p-dropdown>
+        </div>
+
+        <!-- LEVEL -->
+        <div class="filter-group">
+            <label class="block text-sm font-semibold mb-2 text-gray-700">Level</label>
+            <p-dropdown [options]="levelOptions" [(ngModel)]="level" placeholder="Level" optionLabel="label" optionValue="value"
+                (onChange)="fetchData(); filterSidebarVisible = false" styleClass="w-full"> </p-dropdown>
+        </div>
+    </div>
+</p-sidebar>

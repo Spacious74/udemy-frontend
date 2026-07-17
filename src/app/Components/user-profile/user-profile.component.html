@@ -1,11 +1,11 @@
 <p-toast></p-toast>
-<div class="container flex flex-column justify-content-center align-items-center">
-    <div class="userinfo w-9 mt-3">
+<div class="container flex flex-column justify-content-center align-items-center ">
+    <div class="userinfo w-full md:w-9 p-0 m-0">
         <p-tabView (onChange)="onTabChange($event)">
             <p-tabPanel header="Profile Settings">
                 <div class="tab-container">
 
-                    <div class="profile-img p-3 py-2 mb-2 flex justify-content-left 
+                    <div class="profile-img p-3 py-2 mb-2 flex flex-column md:flex-row justify-content-left 
                     align-items-center gap-3 w-full border-1 border-300 border-round-2xl">
 
                         <img *ngIf="formData.profileImage == '' && !imagePreview" class="previewImg mr-4"
@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="flex flex-column gap-1">
-                            <div class="flex gap-2">
+                            <div class="flex align-items-center gap-2">
                                 <p-fileUpload #fileUpload mode="basic" *ngIf="!uploading"
                                     [chooseLabel]="formData.profileImage != '' ? 'Update Photo' : 'Choose Photo'"
                                     chooseIcon="pi pi-upload" [customUpload]="true" (uploadHandler)="uploadFile($event)"
@@ -42,7 +42,6 @@
                                 <p-button *ngIf="formData.profileImage != '' && !imagePreview" severity="danger"
                                     size="small" (onClick)="deleteFile()" class="cursor-pointer" [outlined]="true"
                                     [disabled]="deleting" [icon]="deleting ? 'pi pi-spin pi-spinner' : 'pi pi-trash'"
-                                    [label]="deleting ? 'Removing...' : 'Remove Photo'"
                                     [disabled]="uploading"></p-button>
                             </div>
                             <span *ngIf="imagePreview"
@@ -67,42 +66,42 @@
                         <div class="absolute right-0 top-0 p-3 ">
                             <p-tag *ngIf="isChanged" value="Unsaved" [rounded]="true" severity="info" />
                         </div>
-                        <div class="flex mb-3 align-items-end gap-3">
-                            <div class="w-4 flex flex-column gap-2">
+                        <div class="flex flex-column md:flex-row mb-3 md:align-items-end gap-3">
+                            <div class="w-full md:w-6 flex flex-column gap-2">
                                 <label for="username" class="text-600">Full Name</label>
-                                <input pInputText id="username" class="text-900 font-bold"
+                                <input pInputText id="username" class="text-900 font-bold w-full"
                                     [(ngModel)]="formData.username" (ngModelChange)="onInputChange()"
                                     aria-describedby="username-help" />
                             </div>
-                            <div class="w-6 flex flex-column gap-2">
+                            <div class="w-full md:w-6 flex flex-column gap-2">
                                 <label for="email" class="text-600">Email</label>
-                                <input pInputText id="email" class="text-900 font-bold" [(ngModel)]="formData.email"
+                                <input pInputText id="email" class="text-900 font-bold w-full" [(ngModel)]="formData.email"
                                     (ngModelChange)="onInputChange()" aria-describedby="email-help" />
                             </div>
                         </div>
                         <div class="w-full flex flex-column gap-2 mb-3">
                             <label for="introduction" class="text-600">Introduction</label>
-                            <textarea rows="5" cols="30" class="text-900 font-bold" pInputTextarea
+                            <textarea rows="5" cols="30" class="text-900 font-bold w-full" pInputTextarea
                                 (ngModelChange)="onInputChange()" placeholder="Write about yourself..."
                                 [(ngModel)]="formData.bio"></textarea>
                         </div>
 
                         <div class="social flex flex-column gap-3">
-                            <div class="w-6 flex flex-column gap-2">
+                            <div class="w-full md:w-6 flex flex-column gap-2">
                                 <label for="portfolio" class="text-600">Portfolio</label>
-                                <input pInputText id="portfolio" class="text-900 font-bold" name="portfolio"
+                                <input pInputText id="portfolio" class="text-900 font-bold w-full" name="portfolio"
                                     placeholder="www.myportfolio.com" (ngModelChange)="onInputChange()"
                                     [(ngModel)]="formData.socialLinks.portfolio" />
                             </div>
-                            <div class="w-6 flex flex-column gap-2">
+                            <div class="w-full md:w-6 flex flex-column gap-2">
                                 <label for="linkedIn" class="text-600">LinkedIn</label>
-                                <input pInputText id="linkedIn" class="text-900 font-bold" name="linkedIn"
+                                <input pInputText id="linkedIn" class="text-900 font-bold w-full" name="linkedIn"
                                     placeholder="www.linkedin.com/my-profile" (ngModelChange)="onInputChange()"
                                     [(ngModel)]="formData.socialLinks.linkedin" />
                             </div>
-                            <div class="w-6 flex flex-column gap-2">
+                            <div class="w-full md:w-6 flex flex-column gap-2">
                                 <label for="github" class="text-600">GitHub</label>
-                                <input pInputText id="github" class="text-900 font-bold" name="github"
+                                <input pInputText id="github" class="text-900 font-bold w-full" name="github"
                                     placeholder="https://github.com/my-profile" (ngModelChange)="onInputChange()"
                                     [(ngModel)]="formData.socialLinks.github" />
                             </div>

@@ -8,6 +8,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
 import { CarouselModule } from 'primeng/carousel';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { articles } from '../../data/article';
 import { Router, RouterLink } from '@angular/router';
@@ -24,13 +25,14 @@ import { DraftedCourseService } from '../../Services/draftedCourse.service';
 import { map } from 'rxjs';
 import { BlogService } from '../../Services/blog.service';
 import { Blog } from '../../models/Blog';
+import { CategoryService } from '../../Services/category.service';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [
     CardModule, FormsModule, ButtonModule, CommonModule, CarouselModule, BadgeModule,
-    TooltipModule, RouterLink, FooterComponent, ToastModule, DialogModule, SkeletonModule
+    TooltipModule, RouterLink, FooterComponent, ToastModule, DialogModule, SkeletonModule, DropdownModule
   ],
   providers: [ToastMessageService],
   templateUrl: './homepage.component.html',
@@ -48,6 +50,9 @@ export class HomepageComponent implements OnInit {
   public dbArticles: Blog[] = [];
   public loadingCourses: boolean = true;
   public loadingBlogs: boolean = true;
+  
+  public selectedMobileCategory: any = null;
+  public mobileSubCategories: any[] = [];
 
 
   constructor(
@@ -57,7 +62,8 @@ export class HomepageComponent implements OnInit {
     private draftedCourseService: DraftedCourseService,
     private cookieService: CookieService,
     private store: Store<{ userInfo: UserList }>,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit(): void {
@@ -70,35 +76,42 @@ export class HomepageComponent implements OnInit {
     this.fetchData();
     this.fetchBlogs();
 
-    this.categories = [
-      {
-        name: 'Web Development',
-        url: '/assets/images/development.png',
-        query: 'Development'
-      },
-      {
-        name: 'Business',
-        url: '/assets/images/business.png',
-        query: 'Business'
-      },
-      {
-        name: 'IT & Software',
-        url: '/assets/images/itsoftware.png',
-        query: 'IT & Software'
-      },
-      {
-        name: 'Programming',
-        url: '/assets/images/programming.png',
-        query: 'Programming Languages'
-      },
-      {
-        name: 'Design',
-        url: '/assets/images/designing.png',
-        query: 'Design'
-      },
-    ];
+    this.fetchCategories();
 
     this.articles = articles;
+  }
+
+  fetchCategories() {
+    this.categoryService.getAllCategories().subscribe(res => {
+      if (res.success) {
+        const allCats = res.data;
+        const parentCats = allCats.filter((c: any) => !c.parentId);
+        
+        this.categories = parentCats.map((parent: any) => {
+          const subCats = allCats.filter((c: any) => c.parentId === parent._id);
+          let url = '/assets/images/development.png';
+          if (parent.name.includes('Business')) url = '/assets/images/business.png';
+          else if (parent.name.includes('IT')) url = '/assets/images/itsoftware.png';
+          else if (parent.name.includes('Programming')) url = '/assets/images/programming.png';
+          else if (parent.name.includes('Design')) url = '/assets/images/designing.png';
+          else if (parent.name.includes('AI & Data Science')) url = '/assets/images/ai.png';
+          else if (parent.name.includes('Marketing')) url = '/assets/images/marketing.png';
+
+          return {
+            _id: parent._id,
+            name: parent.name,
+            url: url,
+            query: parent.name,
+            subCategories: subCats
+          };
+        });
+
+        if (this.categories.length > 0) {
+          this.selectedMobileCategory = this.categories[0];
+          this.mobileSubCategories = this.categories[0].subCategories || [];
+        }
+      }
+    });
   }
 
   togglePopup() {
@@ -110,8 +123,18 @@ export class HomepageComponent implements OnInit {
     this.showPopUp = !this.showPopUp;
   }
 
-  navigateWithCategory(query: string) {
-    this.routerService.navigate(['/courses/' + query]);
+  navigateWithCategory(category: any) {
+    this.routerService.navigate(['/courses'], { queryParams: { category: category.name, parentCategoryId: category._id } });
+  }
+
+  onMobileCategoryChange(event: any) {
+    this.selectedMobileCategory = event;
+    this.mobileSubCategories = event.subCategories || [];
+  }
+
+  navigateWithSubCategory(subCategory: any) {
+    // Navigating to CoursesDisplayComponent with query params
+    this.routerService.navigate(['/courses'], { queryParams: { category: subCategory.name, subCategoryId: subCategory._id } });
   }
 
   fetchData() {

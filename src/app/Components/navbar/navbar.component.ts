@@ -93,9 +93,9 @@ export class NavbarComponent implements OnInit {
         label: parent.name,
         items: subCats.length ? subCats.map(sub => ({
           label: sub.name,
-          command: () => this.display(sub.name)
+          command: () => this.display(sub.name, sub._id)
         })) : undefined,
-        command: subCats.length ? undefined : () => this.display(parent.name)
+        command: subCats.length ? undefined : () => this.display(parent.name, parent._id)
       };
     });
   }
@@ -115,11 +115,11 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  display(categoryName: string) {
+  display(categoryName: string, subCategoryId?: string) {
     if (!categoryName) {
       this.router.navigate(['/courses'])
     } else {
-      this.router.navigate(['/courses'], { queryParams: { category: categoryName } });
+      this.router.navigate(['/courses'], { queryParams: { category: categoryName, subCategoryId: subCategoryId } });
     }
   }
 
