@@ -19,7 +19,14 @@
 .vid-btn {
   cursor: pointer;
   position: absolute;
-  display: none;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
   z-index: 10;
   padding: 8px 2px;
   border: solid 1px #2cc592;
@@ -38,10 +45,10 @@
   margin-left: 5px;
 }
 
-.video:hover>.vid-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.video:hover .vid-btn:not([hidden]),
+::ng-deep .plyr:hover .vid-btn:not([hidden]) {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .video_title {
@@ -160,4 +167,14 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+}
+
+:host ::ng-deep {
+  --plyr-color-main: var(--primary-color, #10b981);
+  /* --plyr-video-controls-background: rgba(17, 24, 39, 0.85); */
+      .plyr--video .plyr__controls {
+        background: #00000031;
+        padding-top: 12px;
+        backdrop-filter: blur(10px);
+    }
 }

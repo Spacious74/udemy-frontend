@@ -1,6 +1,8 @@
 var window: Window;
 import { Component, ElementRef, HostListener, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+// @ts-ignore
+import Plyr from 'plyr';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -119,6 +121,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.aiTutorService.setCourseMode(false);
+    this.destroyPlyr();
   }
 
   @HostListener('window:resize')
@@ -171,7 +174,64 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     this.activeIndex = this.activeIndex.filter(i => i !== event.index);
   }
 
-  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
+  private _videoPlayer!: ElementRef<HTMLVideoElement>;
+  public plyrInstance: any;
+
+  @ViewChild('videoPlayer') set videoPlayerRef(el: ElementRef<HTMLVideoElement>) {
+    if (el) {
+      this._videoPlayer = el;
+      setTimeout(() => {
+        this.initPlyr();
+      }, 0);
+    } else {
+      this.destroyPlyr();
+    }
+  }
+
+  get videoPlayer(): ElementRef<HTMLVideoElement> {
+    return this._videoPlayer;
+  }
+
+  initPlyr() {
+    this.destroyPlyr();
+    if (this._videoPlayer && this._videoPlayer.nativeElement) {
+      this.plyrInstance = new Plyr(this._videoPlayer.nativeElement, {
+        controls: [
+          'play-large', 'play', 'progress', 'current-time', 'duration',
+          'mute', 'volume', 'settings', 'pip', 'fullscreen'
+        ],
+        settings: ['speed'],
+        speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
+      });
+      
+      this.plyrInstance.on('ready', () => {
+        const plyrContainer = this.plyrInstance.elements.container;
+        const videoWrapper = document.querySelector('.video');
+        if (videoWrapper && plyrContainer) {
+          const prevBtn = videoWrapper.querySelector('.prev');
+          const nextBtn = videoWrapper.querySelector('.next');
+          if (prevBtn) plyrContainer.appendChild(prevBtn);
+          if (nextBtn) plyrContainer.appendChild(nextBtn);
+        }
+      });
+    }
+  }
+
+  destroyPlyr() {
+    if (this.plyrInstance) {
+      const plyrContainer = this.plyrInstance.elements.container;
+      const videoWrapper = document.querySelector('.video');
+      if (plyrContainer && videoWrapper) {
+        const prevBtn = plyrContainer.querySelector('.prev');
+        const nextBtn = plyrContainer.querySelector('.next');
+        if (prevBtn) videoWrapper.appendChild(prevBtn);
+        if (nextBtn) videoWrapper.appendChild(nextBtn);
+      }
+      this.plyrInstance.destroy();
+      this.plyrInstance = null;
+    }
+  }
+
   onVideoEnded() {
     const video = this.videoPlayer.nativeElement;
     const watchedPercent = (video.currentTime / video.duration) * 100;
